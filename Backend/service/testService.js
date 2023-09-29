@@ -3,7 +3,20 @@ const model = require("../model");
 
 module.exports = {
 	createTest: async function (obj, t) {
-		return await model.test.create(obj, { transaction: t });
+		if (obj.id === 0) {
+			// Create a new test
+			return await model.test.create(obj, { transaction: t });
+		} else {
+			// Update an existing test
+			const testId = obj.id;
+			console.log(obj);
+			delete obj.id; // Remove the id to prevent it from being updated
+			await model.test.update(obj, {
+				where: { id: testId },
+				transaction: t,
+			});
+			return model.test.findByPk(testId);
+		}
 	},
 	getMyTest: async function (offset, limit, filter) {
 		return await model.test.findAll({

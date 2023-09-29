@@ -20,8 +20,7 @@ function CategoriesStep(props) {
     noOfQuestions: null,
     categoryName: ""
   })
-
-
+  
   useEffect(() => {
     if (Object.keys(props.obj.categoryStore).length > 0) {
       setCategoryHaveData(true);

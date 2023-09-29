@@ -1,11 +1,10 @@
-import React, { Component, useEffect, useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import "../../style.css";
 import { apiCall } from "../../../../../apiCalls/apiCalls";
 import { logoUploader } from "../../../../../apiCalls/apiRoutes";
 import { toast } from "react-toastify";
+import { serverImageUrl } from "../../../../../apiCalls/apiRoutes";
 
-import { environment } from "../../../../../apiCalls/apiRoutes";
 function TestLayout(props) {
   const [textLayout, setTextLayout] = useState({
     answerColor: "",
@@ -16,7 +15,23 @@ function TestLayout(props) {
     textColor: "",
   });
 
-const showToastMessage = (text, color, notify) => {
+  useEffect(() => {
+    if (props.obj.mainObj?.layout && props.obj.mainObj?.layout != {
+      answerColor: "",
+      backgroundColor: "",
+      imageUrl: "",
+      questionBackgroundColor: "",
+      questionTextColor: "",
+      textColor: "",
+    }) {
+      setTextLayout((prevTextLayout) => ({
+        ...prevTextLayout, 
+        ...props.obj.mainObj?.layout,
+      }));
+    }
+  }, [props.obj.mainObj?.layout]);
+
+  const showToastMessage = (text, color, notify) => {
     if (notify == 1) {
       toast.success(text, {
         position: toast.POSITION.TOP_RIGHT,
@@ -67,6 +82,7 @@ const showToastMessage = (text, color, notify) => {
     [handleRend]
   );
   const handleFileSelect = (event) => {
+    console.log(event.target.files[0]);
     setSelectedFile(event.target.files[0]);
     setHandleRend(handleRend + 1);
   };
@@ -80,7 +96,7 @@ const showToastMessage = (text, color, notify) => {
             style={{
               backgroundColor: textLayout.backgroundColor,
               color: textLayout.textColor,
-              textAlign:"start"
+              textAlign: "start"
             }}
           >
             <h3 className="p-5">#4 - My Questionaire</h3>
@@ -128,14 +144,19 @@ const showToastMessage = (text, color, notify) => {
         <div className="w-25">
           <label className="form-label">Please select your logo</label>
           <input
-            value={textLayout.imageUrl}
             onChange={(e) => {
               handleFileSelect(e);
             }}
             type="file"
             className="form-control mb-3 pt-3 pb-3"
-            placeholder="choose a dile"
+            placeholder="choose a file"
           />
+          {textLayout.imageUrl ? (
+            <img src={`${serverImageUrl}${textLayout.imageUrl}`} alt="Selected Logo" />
+          ) : (
+            <p>No file chosen</p>
+          )}
+
 
           <label className="form-label">Choose Background Color</label>
           <input

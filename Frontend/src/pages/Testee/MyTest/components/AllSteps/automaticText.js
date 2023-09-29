@@ -117,7 +117,7 @@ function AutomaticText(props) {
   return (
     <div
       className="automatic-text-content"
-      hidden={props.obj.tabSelected == "AUTOMATIC TEXT" ? false : true}
+      hidden={props.obj.tabSelected === "AUTOMATIC TEXT" ? false : true}
       style={{ textAlign: "start" }}
     >
       <div>
@@ -129,18 +129,152 @@ function AutomaticText(props) {
           className="formClass"
         >
           <h3>#6 - AUTOMATIC TEXT</h3>
-          <button onClick={addAutomatictextRule}>+</button>
+          {Object?.keys(props.obj?.mainObj?.automaticText || {})?.map((key) => {
+          const condition = props.obj?.mainObj?.automaticText[key];
+          return (
+            <div key={key}>
+              <div className="questionSetter">
+                <select
+                  id={key}
+                  className="automatic-text-select-cat"
+                  onChange={(e) => AutomaticTextAdder(e, "category")}
+                  value={condition.category}
+                >
+                  <option>Select Category</option>
+                  {Object.keys(props.obj.categoryStore).map((ele) => {
+                    return (
+                      <option
+                        key={ele}
+                        value={props.obj.categoryStore[ele].categoryName}
+                      >
+                        {props.obj.categoryStore[ele].categoryName}
+                      </option>
+                    );
+                  })}
+                </select>
 
+                <label className="form-label">Minimum Value</label>
+                <input
+                  id={key}
+                  type="number"
+                  name="min"
+                  onChange={(e) => AutomaticTextAdder(e, "min")}
+                  placeholder="Min Value"
+                  className="form-control mb-3 pt-3 pb-3"
+                  required
+                  value={condition.min}
+                />
+                <label className="form-label">Maximum Value</label>
+                <input
+                  id={key}
+                  type="number"
+                  name="max"
+                  onChange={(e) => AutomaticTextAdder(e, "max")}
+                  placeholder="Max Value"
+                  className="form-control mb-3 pt-3 pb-3"
+                  required
+                  value={condition.max}
+                />
+                <label className="form-label">Text for the range</label>
+                <input
+                  id={key}
+                  type="text"
+                  name="text"
+                  onChange={(e) => AutomaticTextAdder(e, "text")}
+                  placeholder="Enter text"
+                  className="form-control mb-3 pt-3 pb-3"
+                  required
+                  value={condition.text}
+                />
+                {/* <Editor
+
+                  onEditorStateChange={setBeforeTextState}
+                  id="beforeTestText"
+                  wrapperClassName="wrapper-class"
+                  editorClassName="editor-class"
+                  toolbarClassName="toolbar-class"
+                /> */}
+                <br />
+              </div>
+            </div>
+          );
+        })}
+          <button onClick={addAutomatictextRule}>+</button>
           {Object.keys(html).map(function (key, i) {
-            <button>Add New Condition</button>;
-            return html[key];
+            return (
+              <div key={key}>
+                <div className="questionSetter">
+                  <select
+                    id={key}
+                    className="automatic-text-select-cat"
+                    onChange={(e) => AutomaticTextAdder(e, "category")}
+                    // value={condition.category}
+                  >
+                    <option>Select Category</option>
+                    {Object.keys(props.obj.categoryStore).map((ele) => {
+                      return (
+                        <option
+                          key={ele}
+                          value={props.obj.categoryStore[ele].categoryName}
+                        >
+                          {props.obj.categoryStore[ele].categoryName}
+                        </option>
+                      );
+                    })}
+                  </select>
+
+                  <label className="form-label">Minimum Value</label>
+                  <input
+                    id={key}
+                    type="number"
+                    name="min"
+                    onChange={(e) => AutomaticTextAdder(e, "min")}
+                    placeholder="Min Value"
+                    className="form-control mb-3 pt-3 pb-3"
+                    required
+                    // value={condition.min}
+                  />
+                  <label className="form-label">Maximum Value</label>
+                  <input
+                    id={key}
+                    type="number"
+                    name="max"
+                    onChange={(e) => AutomaticTextAdder(e, "max")}
+                    placeholder="Max Value"
+                    className="form-control mb-3 pt-3 pb-3"
+                    required
+                    // value={condition.max}
+                  />
+                  <label className="form-label">Text for the range</label>
+                  <input
+                    id={key}
+                    type="text"
+                    name="text"
+                    onChange={(e) => AutomaticTextAdder(e, "text")}
+                    placeholder="Enter text"
+                    className="form-control mb-3 pt-3 pb-3"
+                    required
+                    // value={condition.text}
+                  />
+                  {/* <Editor
+
+                    onEditorStateChange={setBeforeTextState}
+                    id="beforeTestText"
+                    wrapperClassName="wrapper-class"
+                    editorClassName="editor-class"
+                    toolbarClassName="toolbar-class"
+                  /> */}
+                  <br />
+                </div>
+              </div>
+            );
           })}
           <button style={showSubmit ? { display: "block" } : { display: 'none' }} type="submit">Save Test & Close </button>
         </form>
 
+       
       </div>
     </div>
   );
 }
-
 export default AutomaticText;

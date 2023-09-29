@@ -20,7 +20,10 @@ function QuestionStep(props) {
     props.obj.mainObjectAdder(e, "questions", e.target.id, name);
     return 0;
   };
-
+  console.log('html')
+  console.log(html);
+  console.log('htlm answer')
+  console.log(htmlAnswer);
   // function handleCategoryChange(e) {
   //     setSelectedCategory(e.target.value)
   // }

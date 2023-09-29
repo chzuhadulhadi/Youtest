@@ -1,29 +1,25 @@
 import React, { Component, useEffect, useState } from 'react';
-// import MSFHeader from './header';
-// import Properties from './properties';
-// import Structure from './structure';
-// import Categories from './categories';
 import '../../style.css'
-import { EditorState } from 'draft-js';
+import { EditorState,ContentState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { convertToHTML } from 'draft-convert';
+import htmlToDraft from 'html-to-draftjs';
+import draftToHtml from 'draftjs-to-html';
 
 function PropertiesStep(props) {
-    console.log(props.obj.mainObj);
     const [timeLimited, setTimeLimited] = useState(props.obj.mainObj?.timeLimit?.length>0)
-    const [beforeTextState, setBeforeTextState] = React.useState(
-        () => EditorState.createEmpty())
-    const [afterTextState, setAfterTextSatet] = React.useState(
-        () => EditorState.createEmpty())
-    const [beforeTestTextHtml, setBeforeTestTextHtml] = useState()
-    const [afterTestTextHtml, setAfterTestTextHtml] = useState()
+    const [beforeTextState, setBeforeTextState] = useState(() => 
+         EditorState.createEmpty());
+    const [afterTextState, setAfterTextState] = useState(() => 
+    EditorState.createEmpty());
     useEffect(() => {
-        let html = convertToHTML(beforeTextState.getCurrentContent());
-        setBeforeTestTextHtml(html)
-        props.obj.mainObjectAdderForProperties(beforeTestTextHtml, "beforeTestText")
+        const isEmpty = beforeTextState.getCurrentContent().hasText() === false;
+        if (!isEmpty) {
+            // console.log("beforeTextState",beforeTextState)
+        let html = draftToHtml(convertToRaw(beforeTextState.getCurrentContent()));
+        props.obj.mainObjectAdderForProperties(html, "beforeTestText")
+        }
     }, [beforeTextState])
-
     useEffect(() => {
         document.querySelectorAll('.rdw-option-wrapper')?.forEach((ele, index) => {
             if (index == '3' || index == '4' || index == '5' || index == '6 ' || index == '15' || index == '18' || index == '21' || index == '27' || index == '28' || index == '29' || index == '30 ' || index == '39' || index == '42' || index == '45') {
@@ -33,12 +29,31 @@ function PropertiesStep(props) {
         document.querySelectorAll('.rdw-block-wrapper').forEach((ele) => {
             ele.style.display = "none"
         })
-    }, [])
-
+    }, []);
     useEffect(() => {
-        let html = convertToHTML(afterTextState.getCurrentContent());
-        setAfterTestTextHtml(html)
-        props.obj.mainObjectAdderForProperties(afterTestTextHtml, "afterTestText")
+        const isEmpty = beforeTextState.getCurrentContent().hasText() === false;
+        if (isEmpty && props?.obj.mainObj?.beforeTestText?.length > 0) {
+            setBeforeTextState(EditorState.createWithContent(
+                ContentState.createFromBlockArray(htmlToDraft(props?.obj.mainObj?.beforeTestText))
+            ));
+        }
+        const isafterEmpty = afterTextState.getCurrentContent().hasText() === false;
+        if(isafterEmpty && props?.obj.mainObj?.afterTestText?.length > 0)
+        {
+            setAfterTextState(EditorState.createWithContent(
+                ContentState.createFromBlockArray(htmlToDraft(props?.obj.mainObj?.afterTestText))
+            ));
+        }
+
+    }, [props.obj.mainObj?.beforeTestText,props.obj.mainObj?.afterTestText]);
+    
+    useEffect(() => {
+        const isEmpty = afterTextState.getCurrentContent().hasText() === false;
+        if (!isEmpty) {
+            // console.log("afterTextState",afterTextState)
+        let html = draftToHtml(convertToRaw(afterTextState.getCurrentContent()));
+        props.obj.mainObjectAdderForProperties(html, "afterTestText")
+        }
     }, [afterTextState])
 
     return (
@@ -109,7 +124,7 @@ function PropertiesStep(props) {
                     </select>
 
 
-                    <input type="checkbox" onClick={(e) => { (e.target.checked) ? setTimeLimited(true) : setTimeLimited(false) }} checked={timeLimited} />
+                    <input type="checkbox" onClick={(e) => { (e.target.checked) ? setTimeLimited(true) : setTimeLimited(false) }} value={true} />
                     <label> Time Limited Test </label> <br />
                     <div style={timeLimited ? { display: "block" } : { display: 'none' }}>
                         <label className="form-label"> How long the test is going to be in minutes </label>
@@ -143,7 +158,7 @@ function PropertiesStep(props) {
                     </label>
                     <Editor
                         editorState={afterTextState}
-                        onEditorStateChange={setAfterTextSatet}
+                        onEditorStateChange={setAfterTextState}
                         id="afterTestText"
                         wrapperClassName="wrapper-class"
                         editorClassName="editor-class"

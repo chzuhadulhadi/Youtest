@@ -7,6 +7,7 @@ export const frontEndPath = "http://18.140.56.176/"
 
 export const local = "http://localhost:4000/"
 export const serverUrl = "http://localhost:4000/"
+export const serverImageUrl = "http://localhost:4000"
 
 export const signup = local + 'api/user/signUp'
 export const login = local + 'api/user/login'

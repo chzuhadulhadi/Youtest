@@ -123,6 +123,7 @@ module.exports = {
 			});
 	},
 	sendTestInitiateEmail: async function (to, name, link, language, testNo) {
+		console.log('sendtestinitialemail');
 		var data;
 		if (language == 'hebrew') {
 			data = JSON.stringify({

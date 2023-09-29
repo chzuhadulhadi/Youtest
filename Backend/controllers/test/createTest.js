@@ -3,10 +3,11 @@ const Joi = require('joi');
 const translation = require("../../translation.json");
 
 const schema = Joi.object().keys({
+	id: Joi.number().integer().allow(""),
 	name: Joi.string().required(),
 	orientation: Joi.number().integer().min(0).max(2).required(),
-	beforeTestText: Joi.string().required(),
-	afterTestText: Joi.string().required(),
+	beforeTestText: Joi.string(),
+	afterTestText: Joi.string(),
 	scoringType: Joi.number().integer().min(0).max(2).required(),
 	randomOrder: Joi.number().integer().min(0).max(1).required(),
 	questions: Joi.object().required(),

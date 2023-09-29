@@ -17,22 +17,22 @@ import { createMyTest, getMyTest, getMySingleTest } from '../../../apiCalls/apiR
 import { toast } from "react-toastify";
 
 
-var mainObj = {
-  orientation: 0,
-  scoringType: 0,
-  randomOrder: 0,
-  timeLimit: "",
-  questions: {},
-  resultStructure: {
-    tableSummary: false,
-    graph: false
+// var mainObj = {
+//   orientation: 0,
+//   scoringType: 0,
+//   randomOrder: 0,
+//   timeLimit: "",
+//   questions: {},
+//   resultStructure: {
+//     tableSummary: false,
+//     graph: false
 
-  },
-  automaticText: {
+//   },
+//   automaticText: {
 
-  },
-  freeText: {}
-};
+//   },
+//   freeText: {}
+// };
 
 
 const showToastMessage = (text, color, notify) => {
@@ -93,10 +93,10 @@ const showToastMessage = (text, color, notify) => {
 
 
 function EditTest(props) {
-  console.log(props);
+  // console.log(props);
   var queryParameters = new URLSearchParams(window.location.search);
   var testId = queryParameters.get("id");
-  console.log(testId);
+  // console.log(testId);
   const [newCategoryCreated, setNewCategoryCreated] = useState(0)
   const navigate = useNavigate()
   const [dto, setDto] = useState({
@@ -117,7 +117,9 @@ function EditTest(props) {
       },
       automaticText: {
       },
-      freeText: {}
+      freeText: {},
+      afterTestText:'',
+      beforeTestText:'',
     });
   useEffect(() => {
     getTestData();
@@ -133,8 +135,25 @@ function EditTest(props) {
           // ...response?.data?.data?.rows[0],
           // ...converted
           // };
-          setMainObj(response?.data?.data);
-          console.log(response?.data?.data);
+          const data = response?.data?.data;
+           setMainObj({
+            id: data.obj.id,
+            orientation: data.orientation,
+            scoringType: data.scoringType,
+            randomOrder: data.randomOrder,
+            timeLimit: data.timeLimit,
+            questions: data.questions,
+            resultStructure: data.resultStructure,
+            automaticText: data.automaticText,
+            freeText: data.freeText,
+            beforeTestText: data.beforeTestText,
+            afterTestText: data.afterTestText,
+            name: data.name,
+            categoryStore: data.categoryStore,
+            layout: data.layout,
+          });
+          setCategoryStore(response?.data?.data?.categoryStore);
+          // console.log(response?.data?.data);
           // return response?.data?.data?.rows[0];
           // setData(response?.data?.data?.rows);
           // setShowTable(true);
@@ -151,7 +170,8 @@ function EditTest(props) {
   };
 
   function apiCallToCreateTest(draft) {
-    apiCall('post', createMyTest, mainObj)
+    console.log(mainObj);
+    apiCall('post', createMyTest, {...mainObj})
       .then((res) => {
         showToastMessage("Test created Successfully ", "green", 1);
         navigate('/dashboard/mytest')
@@ -185,7 +205,7 @@ function EditTest(props) {
       ...mainObj,
       categoryStore
     }
-    console.log("main", mainObj)
+    // console.log("main", mainObj)
     setMainObj(main);
   }
 
@@ -220,6 +240,8 @@ function EditTest(props) {
         [name]: value
       }
     }
+    console.log('main');
+    console.log(main);
     setMainObj(main);
     // console.log("main", mainObj)
   }
@@ -246,7 +268,7 @@ function EditTest(props) {
       }
     }
     setMainObj(main);
-    console.log("main", mainObj)
+    // console.log("main", mainObj)
   }
 
   function getMainObj() {
@@ -254,7 +276,7 @@ function EditTest(props) {
   }
 
   function handleSaveTest(e) {
-    console.log("called")
+    // console.log("called")
     e.preventDefault();
     navigate('/dashboard/mytest')
 
@@ -268,9 +290,9 @@ function EditTest(props) {
       <PropertiesStep obj={{ mainObjectAdderForProperties, showTab, tabSelected, mainObj, handleSaveTest, apiCallToCreateTest,mainObj }} />
       <CategoriesStep obj={{ mainObjectAdder, showTab, tabSelected, setCategoryStore, categoryStore, addCategoryStoreToMain, setNewCategoryCreated, mainObj }} />
       <QuestionStep obj={{ mainObjectAdder, showTab, tabSelected, setCategoryStore, categoryStore, mainObj, mainObjectAdder, getMainObj, newCategoryCreated }} />
-      <TestLayout obj={{ mainObjectAdder, showTab, tabSelected, mainObjectAdderForLayout }} />
-      <ResultStructureStep obj={{ showTab, tabSelected, mainObjectAdderForResultStructure }} />
-      <AutomaticText obj={{ mainObjectAdderForAutomaticText, showTab, tabSelected, categoryStore, apiCallToCreateTest }} />
+      <TestLayout obj={{ mainObjectAdder, showTab, tabSelected, mainObjectAdderForLayout,mainObj }} />
+      <ResultStructureStep obj={{ showTab, tabSelected, mainObjectAdderForResultStructure,mainObj }} />
+      <AutomaticText obj={{ mainObjectAdderForAutomaticText, showTab, tabSelected, categoryStore, apiCallToCreateTest,mainObj }} />
 
     </div>
   </>
