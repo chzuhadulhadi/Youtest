@@ -1,0 +1,34 @@
+{
+    "welcomeMessage": {
+        "english": {
+            "welcome": "Congratulations on your registration on the TestFactory website"
+        },
+        "hebrew": {
+            "welcome": "ברכות על הרשמתך לאתר TestFactory"
+        }
+    },
+    "createTest": {
+        "english": {
+            "successMessage": "Test Created",
+            "errorMessage": "Some Error Occured"
+        }
+    },
+    "getMyTest": {
+        "english": {
+            "successMessage": "Successfully retrieved data",
+            "errorMessage": "Some Error Occured"
+        }
+    },
+    "startTest": {
+        "english": {
+            "successMessage": "Test Started",
+            "errorMessage": "Some Error Occured"
+        }
+    },
+    "deleteMailingList": {
+        "english": {
+            "successMessage": "User Deleted",
+            "errorMessage": "Some Error Occured"
+        }
+    }
+}
