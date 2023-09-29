@@ -18,6 +18,7 @@ import SendTestFunctionality from './pages/questionaire/sendTestFunctionality';
 import MailingPageUI from './pages/mailingList/components/mailingList';
 import LandingPages from './pages/mailingList/components/mailingList';
 import EditLandingPage from './pages/mailingList/editLandingPage';
+import EditTest from './pages/Testee/MyTest/editTest';
 export default function Router() {
   const routes = useRoutes([
     {
@@ -49,6 +50,7 @@ export default function Router() {
       path: '/addusersinlisting',
       element: <AddUserInList />,
     },
+ 
     {
       path: '/newquestion',
       element: <MultiStepForm />,
@@ -84,6 +86,10 @@ export default function Router() {
     {
       path: '/dashboard/mytest/createtest',
       element: <CreateTest />
+    },
+    {
+      path:'/dashboard/mytest/edittest/:id?',
+      element:<EditTest/>
     },
 
     {

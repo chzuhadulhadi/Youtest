@@ -83,8 +83,8 @@ function MyQuestionaire() {
   const navigate = useNavigate();
 
   const sendTestButtonCapture = () => {
-sendButtonDisable ? alert("Please select at least one Test List") : 
-    setSendTest(true);
+    sendButtonDisable ? alert("Please select at least one Test List") :
+      setSendTest(true);
   };
 
   function searchParam(e) {
@@ -110,7 +110,7 @@ sendButtonDisable ? alert("Please select at least one Test List") :
   }
 
   function questionCount(ele) {
-    console.log("data received",ele)
+    console.log("data received", ele)
     var total = 0;
     Object.keys(ele.testObj).map(function (key, i) {
       Object.keys(ele.testObj[key]).map(function (questions, i) {
@@ -127,20 +127,20 @@ sendButtonDisable ? alert("Please select at least one Test List") :
       id: data?.id,
       nameOfTest: data?.name,
       timeLimit: data?.timeLimit,
-      
+
     };
     if (e.target.checked) {
-      obj = {...obj,NoOfQuestions: questionCount(data)}
+      obj = { ...obj, NoOfQuestions: questionCount(data) }
       // console.log("userDataToDisplay",data)
 
       // console.log("userDataToDisplay",obj)
-      const newobj = {...obj}
-          testArray.push(newobj);  
-          setUserDataArray(oldArray => [...oldArray, testArray]);
-          // console.log("newobj",newobj)
+      const newobj = { ...obj }
+      testArray.push(newobj);
+      setUserDataArray(oldArray => [...oldArray, testArray]);
+      // console.log("newobj",newobj)
     } else {
 
-      const indexx =  testArray.indexOf(userDataToDisplay)
+      const indexx = testArray.indexOf(userDataToDisplay)
       testArray.splice(indexx, 1)
     }
     setArrayLenght(testArray.length)
@@ -180,6 +180,7 @@ sendButtonDisable ? alert("Please select at least one Test List") :
                     <th>name</th>
                     <th>No of questions</th>
                     <th>Time in Mins</th>
+                    <th>Change</th>
 
 
                     {/* <th>orientation</th>
@@ -207,31 +208,40 @@ sendButtonDisable ? alert("Please select at least one Test List") :
                         <td>{ele.scoringType == 0 ? "Answers could be only totally right or totally wrong" : "Answers could be right, wrong and the shades that in between"}</td>
                         <td>{ele.randomOrder == 0 ? "Random" : "Sequence"}</td>
                         <td>{ele.timeLimit}</td> */}
-                          <td>
-                            <input
-                              type="checkbox"
-                              onChange={(e) => {
-                                checkboxFunctionality(ele, e);
-                              }}
-                            />
-                          </td>
-                          <td>{index + 1}</td>
-                          <td>{ele.name}</td>
-                          <td>{questionCount(ele)}</td>
-                          <td>{ele.timeLimit}</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                  <button
-                   
-                    onClick={(e) => {
-                      sendTestButtonCapture()
-                    }}
-                  >
-                    Send Test
-                  </button>
-                </table>
+                        <td>
+                          <input
+                            type="checkbox"
+                            onChange={(e) => {
+                              checkboxFunctionality(ele, e);
+                            }}
+                          />
+                        </td>
+                        <td>{index + 1}</td>
+                        <td>{ele.name}</td>
+                        <td>{questionCount(ele)}</td>
+                        <td>{ele.timeLimit}</td>
+                        <td> <Button
+                          variant="primary"
+                          onClick={() => {
+                            navigate(`/dashboard/mytest/edittest/?id=${ele?.id}`);
+                          }}
+                        >
+                          Edit Test
+                        </Button></td>
+
+                      </tr>
+                    );
+                  })}
+                </tbody>
+                <button
+
+                  onClick={(e) => {
+                    sendTestButtonCapture()
+                  }}
+                >
+                  Send Test
+                </button>
+              </table>
             </>
           </div>
         </div>

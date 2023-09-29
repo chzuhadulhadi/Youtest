@@ -13,7 +13,7 @@ function PropertiesStep(props) {
     console.log(props.obj.mainObj);
     const [timeLimited, setTimeLimited] = useState(props.obj.mainObj?.timeLimit?.length>0)
     const [beforeTextState, setBeforeTextState] = React.useState(
-        () => EditorState.)
+        () => EditorState.createEmpty())
     const [afterTextState, setAfterTextSatet] = React.useState(
         () => EditorState.createEmpty())
     const [beforeTestTextHtml, setBeforeTestTextHtml] = useState()

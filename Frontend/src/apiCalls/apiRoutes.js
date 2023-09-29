@@ -20,6 +20,8 @@ export const updateLandingPageInResult = local + 'api/userTest/submitLandingPage
 // test apis
 export const getMyTest = local + 'api/test/getMyTest'
 export const createMyTest = local + 'api/test/createTest'
+export const getMySingleTest = local + 'api/test/getSingleTest'
+
 
 //file upload
 

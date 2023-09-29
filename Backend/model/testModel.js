@@ -7,12 +7,14 @@ module.exports = {
 		return await testService.createTest({ testObj, ...obj });
 	},
 	getMyTestSingle: async function (obj) {
+		console.log('getmysingletest');
 		// const rows = await testService.getAllTest({ where: { id: obj.id } });
 		const getobj = await testService.getMyTestSingle({ where: { id: obj.id } });
 		// console.log(getobj);
+		// return getobj;
 		const qobj = await testService.makeEditTestObj(getobj.dataValues);
 		// console.log(qobj);
-		return { ...qobj, getobj }
+		return {  obj,...qobj }
 		// return { rows }
 	},
 	getMyTest: async function (obj) {

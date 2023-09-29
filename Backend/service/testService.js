@@ -104,23 +104,33 @@ module.exports = {
 		// Process questions
 		if (dbObject.testObj) {
 			for (const categoryName in dbObject.testObj) {
+				console.log('categoryName');
+				console.log(categoryName);
 				if (dbObject.testObj.hasOwnProperty(categoryName)) {
 					const category = dbObject.testObj[categoryName];
-
+					if(category.freeText==1)
+					{
+						// console.log('category');
+						// console.log(category);
+						editObj.freeText[categoryName]=category;
+					}
 					for (const questionKey in category) {
 						if (category.hasOwnProperty(questionKey)) {
 							const questionData = category[questionKey];
 
 							// Check if the key includes "answer"
+							// console.log('questoin data');
+							// console.log(questionData);
+
 							if (Object.keys(questionData).some(key => key.includes('answer'))) {
 								if (!editObj.questions[questionKey]) {
 									editObj.questions[questionKey] = {
 										categoryName: categoryName,
 									};
 								}
-
 								// Add answers to the question
 								for (const answerKey in questionData) {
+									// console.log(answerKey.freeText);
 									if (questionData.hasOwnProperty(answerKey)) {
 										if (answerKey.includes('answer')) {
 											editObj.questions[questionKey + '-' + answerKey] = {

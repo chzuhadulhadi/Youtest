@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import './style.css'
 
+
 import StepsHeader from './components/StepsHeader';
 import PropertiesStep from './components/AllSteps/PropertiesStep';
 import CategoriesStep from './components/AllSteps/CategoriesStep';
@@ -12,7 +13,7 @@ import TestLayout from './components/AllSteps/layout';
 import ResultStructureStep from './components/AllSteps/ResultStructureStep';
 import SideBar from '../../mainComponent/SideBar';
 import { apiCall } from '../../../apiCalls/apiCalls';
-import { createMyTest } from '../../../apiCalls/apiRoutes';
+import { createMyTest, getMyTest, getMySingleTest } from '../../../apiCalls/apiRoutes';
 import { toast } from "react-toastify";
 
 
@@ -48,22 +49,106 @@ const showToastMessage = (text, color, notify) => {
   }
 };
 
-function CreateTest() {
-  useEffect(() => {
-    console.log("called")
-    console.log("mainObj", mainObj)
-  }, [mainObj]);
+// function convertData(retObj) {
+//   const obj = {
+//     questions: {}
+//   };
+
+//   // Iterate through the categories and questions in retObj
+//   for (const category in retObj) {
+//     if (typeof retObj[category] === 'object') {
+//       for (const questionId in retObj[category]) {
+//         if (typeof retObj[category][questionId] === 'object') {
+//           // Check if it's a free text question
+//           if (retObj[category][questionId].freeText === 1) {
+//             obj.questions[questionId] = {
+//               question: retObj[questionId]?.question
+//             };
+//           } else {
+//             // It's a category with multiple choice questions
+//             obj.questions[questionId] = {
+//               categoryName: category
+//             };
+//           }
+
+//           // Iterate through the answer keys
+//           for (const answerKey in retObj[category][questionId]) {
+//             if (answerKey !== 'question' && answerKey !== 'category') {
+//               const answerObj = retObj[category][questionId][answerKey];
+//               const answerId = `${questionId}-answer-${answerKey}`;
+//               obj.questions[answerId] = {
+//                 answer: answerObj.answer,
+//                 point: answerObj.points
+//               };
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+
+//   return obj;
+// }
+
+
+
+function EditTest(props) {
+  console.log(props);
+  var queryParameters = new URLSearchParams(window.location.search);
+  var testId = queryParameters.get("id");
+  console.log(testId);
   const [newCategoryCreated, setNewCategoryCreated] = useState(0)
   const navigate = useNavigate()
-
+  const [dto, setDto] = useState({
+    id: testId
+  });
   const [tabSelected, setTabSelected] = useState("PROPERTIES");
   const [categoryStore, setCategoryStore] = useState({});
-  // const [mainObj, setMainObj] = useState({
-  //   orientation: 0,
-  //   scoringType: 0,
-  //   randomOrder: 0,
-  //   questions: {}
-  // });
+  const [mainObj, setMainObj] = useState(
+    {
+      orientation: 0,
+      scoringType: 0,
+      randomOrder: 0,
+      timeLimit: "",
+      questions: {},
+      resultStructure: {
+        tableSummary: false,
+        graph: false
+      },
+      automaticText: {
+      },
+      freeText: {}
+    });
+  useEffect(() => {
+    getTestData();
+  }, []);
+  const getTestData = () => {
+    apiCall("post", getMySingleTest, { id: testId })
+      .then((response) => {
+        if (response.status == 200) {
+          // console.log(response?.data?.data?.rows[0]);
+          // const converted = convertData(response?.data?.data?.rows[0]);
+          // console.log(converted);
+          // mainObj = {
+          // ...response?.data?.data?.rows[0],
+          // ...converted
+          // };
+          setMainObj(response?.data?.data);
+          console.log(response?.data?.data);
+          // return response?.data?.data?.rows[0];
+          // setData(response?.data?.data?.rows);
+          // setShowTable(true);
+          // setTotalDataLenght(response?.data?.data?.count);
+        } else {
+          // setShowTable(false);
+          return {};
+        }
+      })
+      .catch((err) => {
+        // setShowTable(false);
+        console.log(err);
+      });
+  };
 
   function apiCallToCreateTest(draft) {
     apiCall('post', createMyTest, mainObj)
@@ -81,7 +166,7 @@ function CreateTest() {
   }
   function mainObjectAdder(e, property, questionNo, type) {
     // console.log("mainObj[property]", mainObj[property], "type", type)
-    mainObj = {
+    let main = {
       ...mainObj,
       [property]: {
         ...mainObj[property],
@@ -91,61 +176,66 @@ function CreateTest() {
         }
       }
     }
-    console.log("main", mainObj)
+    setMainObj(main);
+    // console.log("main", mainObj)
   }
 
   function addCategoryStoreToMain() {
-    mainObj = {
+    let main = {
       ...mainObj,
       categoryStore
     }
     console.log("main", mainObj)
-
+    setMainObj(main);
   }
 
 
   function mainObjectAdderForProperties(e, property) {
     // console.log("mainObj[property]", mainObj[property], "type", type)
     if (property == 'beforeTestText' || property == 'afterTestText') {
-      mainObj = {
+      let main = {
         ...mainObj,
         [property]: e
       }
+      setMainObj(main);
     }
     else {
-      mainObj = {
+      let main = {
         ...mainObj,
         [property]: e.target.value
       }
+      setMainObj(main);
     }
 
-    console.log("main", mainObj)
+    // console.log("main", mainObj)
   }
 
   function mainObjectAdderForLayout(e, property, name, value) {
     // console.log("mainObj[property]", mainObj[property], "type", type)
-    console.log(e, property, name, value)
-    mainObj = {
+    // console.log(e, property, name, value)
+    let main = {
       ...mainObj,
       [property]: {
         ...mainObj[property],
         [name]: value
       }
     }
-    console.log("main", mainObj)
+    setMainObj(main);
+    // console.log("main", mainObj)
   }
   function mainObjectAdderForResultStructure(e, property, name) {
-    mainObj = {
+    let main = {
       ...mainObj,
       [property]: {
         ...mainObj[property],
         [name]: e.target.checked
       }
     }
-    console.log("main", mainObj)
+    setMainObj(main);
+    // console.log("main", mainObj)
   }
   function mainObjectAdderForAutomaticText(e, property, name) {
-    mainObj = {
+    let main = {
       ...mainObj,
       [property]: {
         ...mainObj[property],
@@ -155,6 +245,7 @@ function CreateTest() {
         }
       }
     }
+    setMainObj(main);
     console.log("main", mainObj)
   }
 
@@ -174,7 +265,7 @@ function CreateTest() {
     <div className='dashboard-content'>
 
       <StepsHeader obj={{ setTabSelected, tabSelected, showTab, mainObjectAdder }} />
-      <PropertiesStep obj={{ mainObjectAdderForProperties, showTab, tabSelected, mainObj, handleSaveTest, apiCallToCreateTest }} />
+      <PropertiesStep obj={{ mainObjectAdderForProperties, showTab, tabSelected, mainObj, handleSaveTest, apiCallToCreateTest,mainObj }} />
       <CategoriesStep obj={{ mainObjectAdder, showTab, tabSelected, setCategoryStore, categoryStore, addCategoryStoreToMain, setNewCategoryCreated, mainObj }} />
       <QuestionStep obj={{ mainObjectAdder, showTab, tabSelected, setCategoryStore, categoryStore, mainObj, mainObjectAdder, getMainObj, newCategoryCreated }} />
       <TestLayout obj={{ mainObjectAdder, showTab, tabSelected, mainObjectAdderForLayout }} />
@@ -187,4 +278,4 @@ function CreateTest() {
   )
 }
 
-export default CreateTest;
+export default EditTest;
