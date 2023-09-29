@@ -10,11 +10,12 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { convertToHTML } from 'draft-convert';
 
 function PropertiesStep(props) {
-    const [timeLimited, setTimeLimited] = useState(false)
+    console.log(props.obj.mainObj);
+    const [timeLimited, setTimeLimited] = useState(props.obj.mainObj?.timeLimit?.length>0)
     const [beforeTextState, setBeforeTextState] = React.useState(
-        () => EditorState.createEmpty(),)
+        () => EditorState.)
     const [afterTextState, setAfterTextSatet] = React.useState(
-        () => EditorState.createEmpty(),)
+        () => EditorState.createEmpty())
     const [beforeTestTextHtml, setBeforeTestTextHtml] = useState()
     const [afterTestTextHtml, setAfterTestTextHtml] = useState()
     useEffect(() => {
@@ -60,6 +61,7 @@ function PropertiesStep(props) {
                         type="text"
                         className="form-control mb-3 pt-3 pb-3"
                         placeholder="Enter here the name of the test"
+                        value={props.obj.mainObj?.name}
                         onChange={(e) => props.obj.mainObjectAdderForProperties(e, "name")}
                         required
                     />
@@ -67,6 +69,7 @@ function PropertiesStep(props) {
                     <label className="form-label">Test structure</label>
                     <select
                         id="orientation"
+                        value={props.obj.mainObj?.orientation}
                         onChange={(e) => props.obj.mainObjectAdderForProperties(e, "orientation")}
                         className="form-select mb-3 pt-3 pb-3"
                         required
@@ -78,6 +81,7 @@ function PropertiesStep(props) {
                     <label className="form-label">Scoring type</label>
                     <select
                         id="scoringType"
+                        value={props.obj.mainObj?.scoringType}
                         onChange={(e) => props.obj.mainObjectAdderForProperties(e, "scoringType")}
                         className="form-select mb-3 pt-3 pb-3"
                         required
@@ -93,6 +97,7 @@ function PropertiesStep(props) {
                     <label className="form-label">Questions order</label>
                     <select
                         id="randomOrder"
+                        value={props.obj.mainObj?.randomOrder}
                         onChange={(e) => props.obj.mainObjectAdderForProperties(e, "randomOrder")}
                         className="form-select mb-3 pt-3 pb-3"
                         required
@@ -104,7 +109,7 @@ function PropertiesStep(props) {
                     </select>
 
 
-                    <input type="checkbox" onClick={(e) => { (e.target.checked) ? setTimeLimited(true) : setTimeLimited(false) }} />
+                    <input type="checkbox" onClick={(e) => { (e.target.checked) ? setTimeLimited(true) : setTimeLimited(false) }} checked={timeLimited} />
                     <label> Time Limited Test </label> <br />
                     <div style={timeLimited ? { display: "block" } : { display: 'none' }}>
                         <label className="form-label"> How long the test is going to be in minutes </label>
@@ -116,6 +121,7 @@ function PropertiesStep(props) {
                             name='timeLimit'
                             className="form-control mb-3 pt-3 pb-3"
                             placeholder="mins"
+                            value={props.obj.mainObj?.timeLimit}
                             onChange={(e) => props.obj.mainObjectAdderForProperties(e, "timeLimit")}
                         />
                     </div>
