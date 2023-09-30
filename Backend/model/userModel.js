@@ -8,6 +8,52 @@ const Sequelize = require("../common/databaseConnection");
 
 
 module.exports = {
+	updateUser: async function (obj) {
+		try {
+			await userService.updateAgent(obj, obj.id);
+		} catch (e) {
+			throw new Error(e);
+		}
+	},
+	deleteUser: async function (id) {
+		try {
+			await userService.deleteUser(id);
+		} catch (e) {
+			throw new Error(e);
+		}
+	},
+
+	adminLogin: async function (email, password) {
+		try {
+			const filter = await userService.loginFilter(0, 1, email);
+			// filter.where.role=1;
+			// console.log(filter);
+			// console.log(filter);
+			// await userService.updateAgent({emailVerified:1},10);
+			var userLogin = await userService.getUsers(filter);
+			// console.log(userLogin);
+			if (!userLogin.length) {
+				throw new Error('Not registered');
+			}
+			const hash = await bcrypt.compareSync(password, userLogin[0].password);
+			if (hash == false) {
+				throw new Error('Invalid Credentials');
+			}
+			let token = jwt.sign(
+				{
+					id: userLogin[0].id,
+				},
+				config.jwt.secret,
+				{ expiresIn: '12D' }
+			);
+
+			return {
+				token,
+			};
+		} catch (e) {
+			throw new Error(e);
+		}
+	},
 	login: async function (email, password) {
 		try {
 			const filter = await userService.loginFilter(0, 1, email);
@@ -40,7 +86,6 @@ module.exports = {
 		var t = await Sequelize.transaction();
 		try {
 			const filter = await userService.loginFilter(0, 1, obj.email);
-
 			var userLogin = await userService.getUsers(filter);
 			if (userLogin.length) {
 				throw new Error('already registered');
@@ -121,7 +166,6 @@ module.exports = {
 
 		return await userService.sendOtp(otp, email);
 	},
-
 	resetPassword: async function (obj) {
 		var user = await userService.getuserByAny(obj.email);
 		if (!user) {
@@ -132,9 +176,17 @@ module.exports = {
 	},
 	verifyEmail: async function (token) {
 		try {
-			return await userService.verifyEmail(token);
+			await userService.updateAgentBytoken({ emailVerified: 1 }, token);
 		} catch (e) {
 			throw new Error(e);
 		}
 	},
+	getUsers: async function () {
+		try {
+			return await userService.getUsers();
+		} catch (e) {
+			throw new Error(e);
+		}
+	},
+
 };

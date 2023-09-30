@@ -1,14 +1,19 @@
 const router = require('express').Router();
-const { verifyPermissions, verifyJwt } = require("./common/authentication")
+const { verifyPermissions, verifyJwt } = require("./common/authentication");
+const getusers = require('./controllers/admin/getusers');
 //user
 const {
     login,
+    adminLogin,
     signUp,
     resetPassword,
     checkOtp,
     sendOtp,
     createTest,
     getSingleTest,
+    getUsers,
+    updateUsers,
+    deleteUser,
 
     getMyTest,
     startTest,
@@ -37,7 +42,6 @@ const {
     deleteLandingPage,
     submitLandingPageDetails,
     getAttachedTest,
-
     getUserTestHistory,
     deleteUserTestHistory
 
@@ -45,6 +49,11 @@ const {
 
 
 //admin
+router.post('/api/admin/login', adminLogin);
+router.post('/api/admin/getUsers', verifyJwt,getUsers);
+router.post('/api/admin/updateUser', verifyJwt, updateUsers);
+router.post('/api/admin/deleteUser', verifyJwt, deleteUser);
+//user
 router.post('/api/user/login', login);
 router.post('/api/user/signUp', signUp);
 router.post('/api/user/verifyemail', verifyEmail);
@@ -64,8 +73,6 @@ router.post('/api/userTest/submitLandingPageDetails', submitLandingPageDetails);
 router.post('/api/userTest/startTest', startTest);
 router.post('/api/userTest/endUserTest', endUserTest);
 router.post('/api/userTest/attachLandingPagetoTest', attachLandingPagetoTest);
-
-
 
 router.post('/api/userTest/initiateTestForUser', verifyJwt, initiateTestForUser);
 router.post('/api/userTest/getUserTestDetails', getUserTestDetails);

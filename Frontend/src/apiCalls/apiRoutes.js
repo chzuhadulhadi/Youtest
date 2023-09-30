@@ -54,3 +54,11 @@ export const sendMailingList = local + "api/userTest/initiateTestForUser"
 //send test history
 
 export const getQuestionaireHistoryList = local + "api/userTest/getUserTestHistory"
+
+
+//admin login
+export const adminlogin = local + "api/admin/login";
+export const getUsers=local+"api/admin/getUsers";
+export const updateUser=local+"api/admin/updateUser";
+export const deleteUser=local+"api/admin/deleteUser";
+export const deleteTest=local+"api/admin/deleteTest";

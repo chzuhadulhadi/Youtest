@@ -19,6 +19,10 @@ import MailingPageUI from './pages/mailingList/components/mailingList';
 import LandingPages from './pages/mailingList/components/mailingList';
 import EditLandingPage from './pages/mailingList/editLandingPage';
 import EditTest from './pages/Testee/MyTest/editTest';
+import AdminLogin from './pages/admin/adminLogin';
+import AdminDashboard from './pages/admin/admindashboard';
+import Users from './pages/admin/users';
+
 export default function Router() {
   const routes = useRoutes([
     {
@@ -64,6 +68,10 @@ export default function Router() {
       element: <Login />,
     },
     {
+      path: '/admin/login/:email?',
+      element: <AdminLogin />,
+    },
+    {
       path: '/signup',
       element: <SignUp />,
     },
@@ -82,6 +90,18 @@ export default function Router() {
     {
       path: '/temp/*',
       element: <Temp />,
+    },
+    {
+      path: '/admin/dashboard',
+      element: <AdminDashboard/>,
+      children: [
+        { element: <Navigate to="/dashboard" />, index: true },
+        { path: 'users', element: <Users /> },
+        // { path: 'questionaire-history', element: <MainQuestionaire /> },
+        // { path: 'landing-pages', element: <LandingPages /> },
+        // { path: 'my-landing-pages', element: <MainQuestionaire /> },
+        // { path: 'my-mailing-list', element: <MainQuestionaire /> },
+      ],
     },
     {
       path: '/dashboard/mytest/createtest',

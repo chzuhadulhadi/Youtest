@@ -1,5 +1,11 @@
 try {
 	module.exports = {
+		//admin
+
+		adminLogin: require('./admin/login'),
+		getUsers:require('./admin/getusers'),
+		updateUsers:require('./admin/updateusers'),
+		deleteUser:require('./admin/deleteusers'),
 		//user
 		login: require('./user/login'),
 		verifyEmail: require('./user/verifyEmail'),
@@ -10,6 +16,7 @@ try {
 		createTest: require('./test/createTest'),
 		getMyTest: require('./test/getMyTest'),
 		getSingleTest: require('./test/getSingleTest'),
+		
 
 		startTest: require('./userTest/startTest'),
 		endUserTest: require('./userTest/endUserTest'),

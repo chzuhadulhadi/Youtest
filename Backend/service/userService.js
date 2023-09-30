@@ -26,7 +26,7 @@ module.exports = {
 		if (!user) {
 			throw new Error("Invalid Token");
 		}
-		await model.user.update({ verificationToken: null, verifyEmail: 1 }, {
+		await model.user.updateAgent({ verificationToken: null, verifyEmail: 1 }, {
 			where: {
 				id: user.id,
 			},
@@ -42,19 +42,27 @@ module.exports = {
 		return {
 			limit,
 			offset: offset,
-			emailVerified: 1,
 			attributes: ['id', 'email', 'password'],
 			where: {
+				emailVerified: 1,
 				email,
 				deletedAt: null,
 			},
 		};
 	},
+	deleteUser: async function (id) {
+		return await model.user.destroy({
+			where: {
+				id: id,
+			},
+			truncate: false,
+		});
+	},
 	addAgent: async function (obj, t) {
-		return await model.agent.create(obj, { transaction: t });
+		return await model.user.create(obj, { transaction: t });
 	},
 	getAllAgent: async function (offset, limit, filter) {
-		var response = await model.agent.findAll({
+		var response = await model.user.findAll({
 			limit,
 			offset: offset,
 			where: { ...filter, deletedAt: null, deletedBy: null },
@@ -129,7 +137,7 @@ module.exports = {
 		return response;
 	},
 	getSingleAgent: async function (filter) {
-		var response = await model.agent.findOne({
+		var response = await model.user.findOne({
 			where: { ...filter, deletedAt: null, deletedBy: null },
 			include: [
 				{
@@ -202,13 +210,13 @@ module.exports = {
 		return response;
 	},
 	getAgent: async function (filter) {
-		var response = await model.agent.findOne({
+		var response = await model.user.findOne({
 			where: { ...filter, deletedAt: null, deletedBy: null },
 		});
 		return response;
 	},
 	getAgents: async function (offset, limit, filter) {
-		var response = await model.agent.findAll({
+		var response = await model.user.findAll({
 			limit,
 			offset: offset,
 			where: {
@@ -220,7 +228,7 @@ module.exports = {
 		return response;
 	},
 	// getAgentSuggestion: async function (limit, offset, name) {
-	//   return await model.agent.findAll({
+	//   return await model.user.findAll({
 	//     limit,
 	//     offset: offset,
 	//     attributes: ["companyName", "id"],
@@ -231,7 +239,7 @@ module.exports = {
 	//   });
 	// },
 	getAgentCount: async function (filter) {
-		return await model.agent.count({
+		return await model.user.count({
 			where: { ...filter, deletedAt: null, deletedBy: null },
 		});
 	},
@@ -255,7 +263,7 @@ module.exports = {
 	},
 	updateAgentInfo: async function (obj, t) {
 		if (obj.hash !== null) {
-			var userid = await model.agent.findOne({
+			var userid = await model.user.findOne({
 				attributes: ['userId'],
 				where: {
 					id: obj.id,
@@ -271,7 +279,7 @@ module.exports = {
 				},
 				{ transaction: t }
 			);
-			await model.agent.update(
+			await model.user.update(
 				obj,
 				{
 					where: {
@@ -284,14 +292,14 @@ module.exports = {
 			return userid['dataValues'].userId;
 		}
 
-		var userid = await model.agent.findOne({
+		var userid = await model.user.findOne({
 			attributes: ['userId'],
 			where: {
 				id: obj.id,
 			},
 		});
 
-		await model.agent.update(
+		await model.user.update(
 			obj,
 			{
 				where: {
@@ -303,22 +311,32 @@ module.exports = {
 		return userid['dataValues'].userId;
 	},
 	getAgentById: async function (id) {
-		return await model.agent.findOne({
+		return await model.user.findOne({
 			where: {
 				id: id,
 			},
 		});
 	},
-
+	updateAgentBytoken: async function (obj, token) {
+		console.log(obj, id);
+		const data=await model.user.update(obj, {
+			where: {
+				verificationToken:token,
+			},
+		});
+		console.log(data);
+	},
 	updateAgent: async function (obj, id) {
-		await model.agent.update(obj, {
+		console.log(obj, id);
+		const data=await model.user.update(obj, {
 			where: {
 				id,
 			},
 		});
+		console.log(data);
 	},
 	updateAgentByIds: async function (obj, ids) {
-		await model.agent.update(obj, {
+		await model.user.update(obj, {
 			where: {
 				id: {
 					[Op.in]: ids,
