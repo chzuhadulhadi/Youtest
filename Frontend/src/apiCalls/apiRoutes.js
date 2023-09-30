@@ -59,6 +59,9 @@ export const getQuestionaireHistoryList = local + "api/userTest/getUserTestHisto
 //admin login
 export const adminlogin = local + "api/admin/login";
 export const getUsers=local+"api/admin/getUsers";
+export const getTests=local+"api/admin/getTests";
 export const updateUser=local+"api/admin/updateUser";
+export const updateTest=local+"api/admin/updateTest";
 export const deleteUser=local+"api/admin/deleteUser";
 export const deleteTest=local+"api/admin/deleteTest";
+export const getResults=local+"api/admin/getResults";

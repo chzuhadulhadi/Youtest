@@ -18,11 +18,14 @@ function AdminSideBar(props) {
             <a id="0">Questionnaire </a>
           </li> */}
 
-                <li id="2" onClick={() => { navigate("/dashboard/mytest") }}>
+                <li id="2" onClick={() => { navigate("/admin/dashboard/users") }}>
                     <a id="1">Users </a>
                 </li>
-                <li id="3" onClick={() => { navigate("/dashboard/my-mailing-list") }}>
+                <li id="3" onClick={() => { navigate("/admin/dashboard/tests") }}>
                     <a id="2">Tests</a>
+                </li>
+                <li id="3" onClick={() => { navigate("/admin/dashboard/results") }}>
+                    <a id="2">Results</a>
                 </li>
                 {/* <li id="4" onClick={() => { navigate("/dashboard/questionaire-history") }}>
                     <a id="3">Questionnaire History </a>

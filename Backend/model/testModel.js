@@ -6,6 +6,9 @@ module.exports = {
 		const testObj = await testService.makeCreateTestObj(obj)
 		return await testService.createTest({ testObj, ...obj });
 	},
+	deleteTest: async function (obj) {
+		return await testService.deleteTest(obj);
+	},
 	getMyTestSingle: async function (obj) {
 		console.log('getmysingletest');
 		// const rows = await testService.getAllTest({ where: { id: obj.id } });
@@ -24,6 +27,14 @@ module.exports = {
 		const count = await testService.getMyTestCount({ where: { createdById: obj.userId } });
 
 		return { rows, count }
+	},
+	getTests:async function (obj) {
+		// const offset = obj.page * obj.limit - obj.limit;
+
+		const rows = await testService.getTests();
+		// const count = await testService.getTestsCount();
+
+		return { rows}
 	},
 
 	uploadFile: async function (fl) {

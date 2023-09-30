@@ -4,8 +4,12 @@ try {
 
 		adminLogin: require('./admin/login'),
 		getUsers:require('./admin/getusers'),
+		getTests:require('./admin/gettests'),
 		updateUsers:require('./admin/updateusers'),
 		deleteUser:require('./admin/deleteusers'),
+		updateTests:require('./admin/updatetests'),
+		deleteTests:require('./admin/deletetests'),
+		getResults:require('./admin/getresults'),
 		//user
 		login: require('./user/login'),
 		verifyEmail: require('./user/verifyEmail'),

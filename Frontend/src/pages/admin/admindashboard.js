@@ -8,8 +8,11 @@ import AddUserInList from "../listings/addUserInListing";
 import Paper from "../questionaire/questionpaper";
 import MyQuestionaire from "../questionaire/myquestionaire";
 import Users from "./users";
+import Tests from "./tests";
 import { useEffect, useState } from "react";
 import AdminSideBar from './sidebar';
+import AdminEditTest from "./editTest";
+import Results from "./results";
 
 
 function AdminDashboard(params) {
@@ -17,6 +20,7 @@ function AdminDashboard(params) {
   const navigate = useNavigate()
   const location = window.location.pathname
   const [newlocation, setNewLocation] = useState('');
+  console.log(/^\/\d+/.test(newlocation) );
   useEffect(() => {
     if (location) {
       let tmp = location.slice(location.lastIndexOf("/"), location.length);
@@ -63,10 +67,9 @@ function AdminDashboard(params) {
           </div>
         </nav>
         {(newlocation == '/users') && <Users />}
-        {(newlocation == '/my-mailing-list') && <AddUserInList />}
-        {(newlocation == '/questionaire-history') && <QuestionaireHistory />}
-        {(newlocation == '/landing-pages') && <Paper />}
-        {(newlocation == '/my-landing-pages') && <Paper />}
+        {(newlocation == '/tests') && <Tests />}
+        {(newlocation == '/results') && <Results />}
+        {/^\/\d+/.test(newlocation) && <AdminEditTest />}
       </div>
     </div>
   )

@@ -2,24 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, Checkbox, TextField } from '@mui/material'; // Import only the necessary components
 import { apiCall } from '../../apiCalls/apiCalls';
 import { useNavigate } from 'react-router-dom';
-import { deleteTest, updateTest, getTests } from '../../apiCalls/apiRoutes';
+import { deleteTest, updateTest, getResults } from '../../apiCalls/apiRoutes';
 
-function Tests() {
-    const [tests, setTests] = useState([]);
+function Results() {
+    const [results, setResults] = useState([]);
     const [editTestDialogOpen, setEditTestDialogOpen] = useState(false);
     const [selectedTest, setSelectedTest] = useState(null);
     const [searchText, setSearchText] = useState('');
-    const [selectedTests, setSelectedTests] = useState([]);
+    const [selectedResults, setSelectedResults] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
-        loadTests();
+        loadResults();
     }, []);
 
-    const loadTests = () => {
-        apiCall("post", getTests)
+    const loadResults = () => {
+        apiCall("post", getResults)
             .then((res) => {
                 if (res.status === 200) {
-                    setTests(res.data.data.rows);
+                    setResults(res.data.data);
                 }
             })
             .catch((err) => {
@@ -28,7 +28,7 @@ function Tests() {
     };
 
     const handleEditTest = (test) => {
-        navigate(`/admin/dashboard/tests/${test.id}`);
+        // navigate(`/admin/dashboard/results/${test.id}`);
         setSelectedTest({ ...test });
         setEditTestDialogOpen(true);
     };
@@ -36,7 +36,7 @@ function Tests() {
         apiCall("post", deleteTest, { id: testId })
             .then((res) => {
                 if (res.status === 200) {
-                    loadTests();
+                    loadResults();
                 }
             })
             .catch((err) => {
@@ -49,12 +49,12 @@ function Tests() {
     };
 
     const handleToggleSelect = (testId) => {
-        if (selectedTests.includes(testId)) {
+        if (selectedResults.includes(testId)) {
             // If the test is already selected, remove it from the selection
-            setSelectedTests(selectedTests.filter(id => id !== testId));
+            setSelectedResults(selectedResults.filter(id => id !== testId));
         } else {
             // If the test is not selected, add it to the selection
-            setSelectedTests([...selectedTests, testId]);
+            setSelectedResults([...selectedResults, testId]);
         }
     };
 
@@ -62,7 +62,7 @@ function Tests() {
         apiCall("post", updateTest, selectedTest)
             .then((res) => {
                 if (res.status === 200) {
-                    loadTests();
+                    loadResults();
                 }
             }).catch((err) => {
                 console.error(err);
@@ -77,11 +77,11 @@ function Tests() {
         setSearchText(e.target.value);
     };
 
-    const filteredTests = tests.filter((test) => {
-        return (
-            test.name.toLowerCase().includes(searchText.toLowerCase())
-        );
-    });
+    // const filteredResults = results?.filter((test) => {
+    //     return (
+    //         results.name.toLowerCase().includes(searchText.toLowerCase())
+    //     );
+    // });
 
     return (
         <div>
@@ -92,45 +92,55 @@ function Tests() {
                 value={searchText}
                 onChange={handleSearch}
             />
-            <h1>Test List</h1>
+            <h1>Result List</h1>
 
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell>Select</TableCell>
+                        {/* <TableCell>Select</TableCell> */}
                         <TableCell>Sr No.</TableCell>
                         <TableCell>Name</TableCell>
-                        <TableCell>Time in Mins</TableCell>
+                        <TableCell>total Question</TableCell>
+                        <TableCell>total Answer</TableCell>
+                        <TableCell>time Taken For Test</TableCell>
+                        <TableCell>total Percentage</TableCell>
+                        <TableCell>total Categories</TableCell>
                         <TableCell>Actions</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {filteredTests.map((test, index) => (
+                    {results?.map((test, index) => (
                         <TableRow key={test.id}>
-                            <TableCell>
+                            {/* <TableCell>
                                 <Checkbox
-                                    checked={selectedTests.includes(test.id)}
+                                    checked={selectedResults.includes(test.id)}
                                     onChange={() => handleToggleSelect(test.id)}
                                 />
-                            </TableCell>
+                            </TableCell> */}
                             <TableCell>{index + 1}</TableCell>
                             <TableCell>{test.name}</TableCell>
-                            <TableCell>{test.timeLimit}</TableCell>
+                            <TableCell>{test.resultStats.totalQuestion}</TableCell>
+                            <TableCell>{test.resultStats.totalAnswer}</TableCell>
+                            <TableCell>{test.resultStats.timeTakenForTest}</TableCell>
+                            <TableCell>{test.resultStats.totalPercentage}</TableCell>
+                            <TableCell>{test.resultStats.totalCategories}</TableCell>
                             <TableCell>
-                                <Button
-                                    variant="outlined"
-                                    color="primary"
-                                    onClick={() => handleEditTest(test)}
-                                >
-                                    Edit
-                                </Button>
-                                <Button
-                                    variant="outlined"
-                                    color="secondary"
-                                    onClick={() => handleDeleteTest(test.id)}
-                                >
-                                    Delete
-                                </Button>
+                                <Table>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell>Category</TableCell>
+                                            <TableCell>Percentage</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {test.result.map((resultItem, resultIndex) => (
+                                            <TableRow key={resultIndex}>
+                                                <TableCell>{resultItem.category}</TableCell>
+                                                <TableCell>{resultItem.percentage}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
                             </TableCell>
                         </TableRow>
                     ))}
@@ -140,4 +150,4 @@ function Tests() {
     );
 }
 
-export default Tests;
+export default Results;

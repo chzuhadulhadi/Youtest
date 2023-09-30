@@ -234,6 +234,34 @@ module.exports = {
 
 		return { rows, count };
 	},
+	getResults:async function () {
+		try {
+		  // Fetch all relevant test objects from your data source (e.g., database)
+		  const allTestObjects = await model.userTest.findAll();
+			console.log(allTestObjects);
+		  const results = await Promise.all(
+			allTestObjects.map(async (testObject) => {
+			  try {
+				// Process each test object using getResult function
+				const result = await this.getResult(testObject);
+				return result;
+			  } catch (error) {
+				// Handle errors for individual test objects
+				console.error(`Error processing result for test ID ${testObject.id}:`, error.message);
+				return null; // You can choose to return a default value or handle the error as needed
+			  }
+			})
+		  );
+	  
+		  // Filter out any null results if you chose to handle errors within the map function
+		  const validResults = results.filter((result) => result !== null);
+	  
+		  return validResults;
+		} catch (error) {
+		  console.error('Error fetching test objects:', error.message);
+		  throw error;
+		}
+	  },
 	getResult: async function (obj) {
 		// try {
 		var testDetails = await userTestService.getUserTest(0, 1, {

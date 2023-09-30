@@ -22,6 +22,9 @@ import EditTest from './pages/Testee/MyTest/editTest';
 import AdminLogin from './pages/admin/adminLogin';
 import AdminDashboard from './pages/admin/admindashboard';
 import Users from './pages/admin/users';
+import Tests from './pages/admin/tests';
+import AdminEditTest from './pages/admin/editTest';
+import Results from './pages/admin/results';
 
 export default function Router() {
   const routes = useRoutes([
@@ -35,7 +38,6 @@ export default function Router() {
         { path: 'landing-pages', element: <LandingPages /> },
         { path: 'my-landing-pages', element: <MainQuestionaire /> },
         { path: 'my-mailing-list', element: <MainQuestionaire /> },
-
       ],
     },
     {
@@ -97,6 +99,9 @@ export default function Router() {
       children: [
         { element: <Navigate to="/dashboard" />, index: true },
         { path: 'users', element: <Users /> },
+        { path: 'tests', element: <Tests /> },
+        { path: 'tests/:id?', element: <AdminEditTest /> },
+        { path: 'results', element: <Results /> },
         // { path: 'questionaire-history', element: <MainQuestionaire /> },
         // { path: 'landing-pages', element: <LandingPages /> },
         // { path: 'my-landing-pages', element: <MainQuestionaire /> },

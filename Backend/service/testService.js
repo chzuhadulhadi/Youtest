@@ -30,6 +30,16 @@ module.exports = {
 			...filter
 		});
 	},
+	deleteTest: async function (id) {
+		return await model.test.destroy({
+			where: {
+				id: id,
+			},
+		});
+	},
+	getTests: async function () {
+		return await model.test.findAll();
+	},
 	getMyTestCount: async function (filter) {
 		return await model.test.count(filter);
 	},

@@ -14,6 +14,10 @@ const {
     getUsers,
     updateUsers,
     deleteUser,
+    getTests,
+    updateTests,
+    deleteTests,
+    getResults,
 
     getMyTest,
     startTest,
@@ -51,8 +55,12 @@ const {
 //admin
 router.post('/api/admin/login', adminLogin);
 router.post('/api/admin/getUsers', verifyJwt,getUsers);
+router.post('/api/admin/getTests', verifyJwt,getTests);
 router.post('/api/admin/updateUser', verifyJwt, updateUsers);
 router.post('/api/admin/deleteUser', verifyJwt, deleteUser);
+router.post('/api/admin/updateTest', verifyJwt, updateTests);
+router.post('/api/admin/deleteTest', verifyJwt, deleteTests);
+router.post('/api/admin/getResults', verifyJwt, getResults);
 //user
 router.post('/api/user/login', login);
 router.post('/api/user/signUp', signUp);
