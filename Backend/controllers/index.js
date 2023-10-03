@@ -32,7 +32,7 @@ try {
 		submitLandingPageDetails: require('./userTest/submitLandingPageDetail'),
 		getUserTestHistory: require('./userTest/getUserTestHistory'),
 		deleteUserTestHistory: require('./userTest/deleteUserTestHistory'),
-		attachLandingPagetoTest: require('./userTest/attachLandingPagetoTest'),
+		// attachLandingPagetoTest: require('./landingPage/attachLandingPagetoTest'),
 
 		uploadFile: require('./test/uploadFile'),
 		getMailingList: require('./mailingList/getMailingList'),
@@ -45,6 +45,7 @@ try {
 		deleteMailingListUser: require('./mailingListUser/deleteMailingListUser'),
 
 		getLandingPage: require('./landingPage/getLandingPage'),
+		getSingleLandingPage: require('./landingPage/getSingleLandingPage'),
 		addLandingPage: require('./landingPage/addLandingPage'),
 		updateLandingPage: require('./landingPage/updateLandingPage'),
 		deleteLandingPage: require('./landingPage/deleteLandingPage'),

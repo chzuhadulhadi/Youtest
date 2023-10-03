@@ -9,6 +9,7 @@ function Verify() {
   useEffect(() => {
     const queryParameters = new URLSearchParams(window.location.search);
     const token = queryParameters.get('token');
+    console.log('token',token);
     if (!token || token == 'undefined') {
       showToastMessage('Could not verify mail.', "red", 2);
     }

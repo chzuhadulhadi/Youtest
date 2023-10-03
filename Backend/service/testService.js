@@ -3,13 +3,15 @@ const model = require("../model");
 
 module.exports = {
 	createTest: async function (obj, t) {
-		if (obj.id === 0) {
+		// console.log("obj", !!obj.id);
+		if (obj?.id === 0 ||  obj.id === undefined) {
+			console.log(" creating obj", obj.id);
 			// Create a new test
 			return await model.test.create(obj, { transaction: t });
 		} else {
 			// Update an existing test
 			const testId = obj.id;
-			console.log(obj);
+			console.log('updating test');
 			delete obj.id; // Remove the id to prevent it from being updated
 			await model.test.update(obj, {
 				where: { id: testId },

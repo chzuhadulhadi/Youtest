@@ -11,7 +11,11 @@ module.exports = (sequelize, DataTypes) => {
       html: {
         type: DataTypes.TEXT,
         allowNull: false,
-      }
+      },
+      testId: {
+        type: DataTypes.UUID,
+        allowNull: true,
+      },
     },
     {
       tableName: "landingpage",

@@ -10,6 +10,7 @@ export const serverUrl = "http://localhost:4000/"
 export const serverImageUrl = "http://localhost:4000"
 
 export const signup = local + 'api/user/signUp'
+export const verifyEmail = local + 'api/user/verifyemail'
 export const login = local + 'api/user/login'
 export const userTestDetails = local + 'api/userTest/getUserTestDetails'
 export const startUserTest = local + 'api/userTest/startTest'
@@ -42,9 +43,10 @@ export const editUserOfMailingList = local +'api/mailingListUser/updateMailingLi
 //landing pages
 export const addLandingPage = local + 'api/landingPage/addLandingPage'
 export const getLandingPage = local + 'api/landingPage/getLandingPage'
+export const getSingleLandingPage = local + 'api/landingPage/getSingleLandingPage'
 export const deleteLandingPage = local + 'api/landingPage/deleteLandingPage'
 export const updateLandingPage = local + 'api/landingPage/updateLandingPage'
-export const linkTest = local +'api/userTest/attachLandingPagetoTest'
+export const linkTest = local +'api/landingPage/updateLandingPage'
 export const viewAttachedTests = local + 'api/landingPage/getAttachedTest'
 export const pathToViewTest = frontEndPath + 'filltest'
 //send mailign list

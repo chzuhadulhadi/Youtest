@@ -1,76 +1,87 @@
 // Name testfactory
 //Key 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
-
+require('dotenv').config();
 const axios = require('axios');
 const model = require('../model');
+const nodemailer = require('nodemailer');
 
-let creds = {
-	method: 'post',
-	maxBodyLength: Infinity,
-	url: 'https://api.sendinblue.com/v3/smtp/email',
-	headers: {
-		'Content-Type': 'application/json',
-		Accept: 'application/json',
-		'api-key':
-			'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',
-		Cookie:
-			'__cf_bm=vGKToEbO1004MQe.yy0HOG5bssMdE8tlkdnPawh563o-1680021111-0-AaCeT65i06iL5Jq+jSofrIkLAQDd47/KgPOL6CkTjMq3WpjeaCQ+4tnaznClaMcL3LDCIf0Gp9WB1yngiUWyt1s=',
-	},
-};
-const sender = {
-	name: 'Test Factory',
-	email: 'Service@TestFactory.online',
-};
+const transporter = nodemailer.createTransport({
+	// host: 'smtp.mail.yahoo.com',
+	// port: 465, // Yahoo SMTP server port
+	// secure: true, // Use SSL/TLS
+	service: process.env.EMAIL_SERVICE,
+	auth: {
+		user: process.env.EMAIL_USER,
+		pass: process.env.EMAIL_PASS
+	}
+});
+// console.log('transporter',transporter);
+// let creds = {
+// 	method: 'post',
+// 	maxBodyLength: Infinity,
+// 	url: 'https://api.sendinblue.com/v3/smtp/email',
+// 	headers: {
+// 		'Content-Type': 'application/json',
+// 		Accept: 'application/json',
+// 		'api-key':
+// 			'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',
+// 		Cookie:
+// 			'__cf_bm=vGKToEbO1004MQe.yy0HOG5bssMdE8tlkdnPawh563o-1680021111-0-AaCeT65i06iL5Jq+jSofrIkLAQDd47/KgPOL6CkTjMq3WpjeaCQ+4tnaznClaMcL3LDCIf0Gp9WB1yngiUWyt1s=',
+// 	},
+// };
+// const sender = {
+// 	name: 'Test Factory',
+// 	email: 'Service@TestFactory.online',
+// };
 
 module.exports = {
 	sendVerificationToken: async function (obj, VerificationToken, language = 'english') {
 		var data;
 		if (language == 'hebrew') {
-			data = JSON.stringify({
-				sender,
-				to: [
-					{
-						email: to,
-						name: name,
-					},
-				],
-				htmlContent:
-					"ברכות על הרשמתך לאתר YouTest <br> <a href= ' " +
-					link +
-					"'לחץ כאן על מנת לאמת את תיבת המייל שלך </a>",
-				subject: 'Registered Successfully',
-			});
-		} else {
-			data = JSON.stringify({
-				sender: sender,
-				to: [
-					{
-						email: obj.email,
-						name: obj.name,
-					},
-				],
-				htmlContent: `
+			data = {
+				from: process.env.EMAIL_USER,
+				to: obj.email,
+				html: `
 				  Congratulations on your registration on the Test Factory website!<br>
 				  <a href="http://localhost:3000/verify?token=${VerificationToken}">
 					Click here to verify your email
 				  </a>
 				`,
 				subject: 'Click to verify your email',
-			});
-
+			};
+		} else {
+			data = {
+				from: process.env.EMAIL_USER,
+				to: obj.email,
+				html: `
+				  Congratulations on your registration on the Test Factory website!<br>
+				  <a href="http://localhost:3000/verify?token=${VerificationToken}">
+					Click here to verify your email
+				  </a>
+				`,
+				subject: 'Click to verify your email',
+			};
 		}
-		var config = {
-			...creds,
-			data: data,
-		};
-		axios
-			.request(config)
-			.then((response) => {
-				console.log(JSON.stringify(response.data));
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+
+		transporter.sendMail(data, function (error, info) {
+			if (error) {
+				console.error('Error sending email: ' + error);
+			} else {
+				console.log('Email sent: ' + info.response);
+			}
+		});
+		// var config = {
+		// 	...creds,
+		// 	data: data,
+		// };
+		// axios
+		// 	.request(config)
+		// 	.then((response) => {
+		// 		console.log(JSON.stringify(response.data));
+		// 	})
+		// 	.catch((error) => {
+		// 		console.log(error);
+		// 	});
 	},
 	// UserActivation: async function (VerificationToken) {
 
@@ -79,146 +90,97 @@ module.exports = {
 	sendRegisterEmail: async function (to, name, link, language) {
 		var data;
 		if (language == 'hebrew') {
-			data = JSON.stringify({
-				sender,
-				to: [
-					{
-						email: to,
-						name: name,
-					},
-				],
-				htmlContent:
+			data = {
+				to: to,
+				from: process.env.EMAIL_USER,
+				html:
 					"ברכות על הרשמתך לאתר YouTest <br> <a href= ' " +
 					link +
 					"'לחץ כאן על מנת לאמת את תיבת המייל שלך </a>",
 				subject: 'Registered Successfully',
-			});
+			};
 		} else {
-			data = JSON.stringify({
-				sender: sender,
-				to: [
-					{
-						email: to,
-						name: name,
-					},
-				],
-				htmlContent:
+			data = {
+				to: to,
+				from: process.env.EMAIL_USER,
+				html:
 					"Congratulations on your registration on the Test Factory website, <br> <a href= ' " +
 					link +
 					"'</a>",
 				subject: 'Registered Successfully',
-			});
+			};
 		}
-		var config = {
-			...creds,
-			data: data,
-		};
-		axios
-			.request(config)
-			.then((response) => {
-				console.log(JSON.stringify(response.data));
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		transporter.sendMail(data, function (error, info) {
+			if (error) {
+				console.error('Error sending email: ' + error);
+			} else {
+				console.log('Email sent: ' + info.response);
+			}
+		});
 	},
 	sendTestInitiateEmail: async function (to, name, link, language, testNo) {
 		console.log('sendtestinitialemail');
 		var data;
 		if (language == 'hebrew') {
-			data = JSON.stringify({
-				sender,
-				to: [
-					{
-						email: to,
-						name: name,
-					},
-				],
-				htmlContent:
+			data = {
+				to: to,
+				from: process.env.EMAIL_USER,
+				html:
 					"ברכות על הרשמתך לאתר YouTest <br> <a href= ' " +
 					link +
 					"'לחץ כאן על מנת לאמת את תיבת המייל שלך </a>",
 				subject: 'Registered Successfully',
-			});
+			};
 		} else {
-			data = JSON.stringify({
-				sender: sender,
-				to: [
-					{
-						email: to,
-						name: name,
-					},
-				],
-				htmlContent:
+			data = {
+				to: to,
+				from: process.env.EMAIL_USER,
+				html:
 					"<table style='width: 100%;text-align: center;'> <tr style='background-color: #FF9000;color: white;'><td style='border: 1px solid black'>Link to the test</td></tr> <tr style='height: 100px;'><td><h2>Congratulations, you have received an invitation for the test, click <a href= ' " +
 					link +
 					"'>here</a> to start </h2></td></tr> <tr style='background-color: #FF9000;color: white;'><td style='border: 1px solid black'>Youtest.online © 2018</td></tr> </table>",
 				subject: 'Test No ' + testNo,
-			});
+			};
 		}
-		var config = {
-			...creds,
-			data: data,
-		};
-		axios
-			.request(config)
-			.then((response) => {
-				console.log(JSON.stringify(response.data));
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		transporter.sendMail(data, function (error, info) {
+			if (error) {
+				console.error('Error sending email: ' + error);
+			} else {
+				console.log('Email sent: ' + info.response);
+			}
+		});
 	},
 	sendTestResultEmail: async function (emailObj) {
-		try {
-			var data;
-			emailObj = emailObj.toJSON();
-			const htmlContent = await this.testResultFormat(emailObj);
-			console.log('emailObj', emailObj);
-			var language = 'english';
-			if (language == 'hebrew') {
-				data = JSON.stringify({
-					sender,
-					to: [
-						{
-							email: to,
-							name: emailObj.body.additionalDetails.name,
-						},
-					],
-					htmlContent:
-						"ברכות על הרשמתך לאתר YouTest <br> <a href= ' " +
-						link +
-						"'לחץ כאן על מנת לאמת את תיבת המייל שלך </a>",
-					subject: 'Registered Successfully',
-				});
-			} else {
-				data = JSON.stringify({
-					sender: sender,
-					to: [
-						{
-							email: emailObj.to,
-							name: emailObj.body.additionalDetails.name,
-						},
-					],
-					htmlContent,
-					subject: 'Test No ' + emailObj.id + ' is complete',
-				});
-			}
-			var config = {
-				...creds,
-				data: data,
+		var data;
+		emailObj = emailObj.toJSON();
+		const htmlContent = await this.testResultFormat(emailObj);
+		console.log(htmlContent);
+		console.log('emailObj', emailObj);
+		var language = 'english';
+		if (language == 'hebrew') {
+			data =
+			{
+				to: emailObj.to,
+				from: process.env.EMAIL_USER,
+				html: htmlContent,
+				subject: 'Test No ' + emailObj.id + ' is complete',
 			};
-			axios
-				.request(config)
-				.then((response) => {
-					console.log(JSON.stringify(response.data));
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		} catch (e) {
-			console.log('e', e);
+		} else {
+			data =
+			{
+				to: emailObj.to,
+				from: process.env.EMAIL_USER,
+				html: htmlContent,
+				subject: 'Test No ' + emailObj.id + ' is complete',
+			};
 		}
+		transporter.sendMail(data, function (error, info) {
+			if (error) {
+				console.error('Error sending email: ' + error);
+			} else {
+				console.log('Email sent: ' + info.response);
+			}
+		});
 	},
 	testResultFormat: function (emailObj) {
 		var html = `<div>
@@ -350,6 +312,7 @@ module.exports = {
             </tbody>
         </table>
     </div>`;
+		// console.log(html);
 		return html;
 	},
 	create: async function (obj, t) {

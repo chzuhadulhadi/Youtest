@@ -98,6 +98,11 @@ function MailingPageUI(params) {
         newimg.id = selectedDiv + "img" + Math.random(1000);
         newimg.onclick = editImageFunctionality;
         var appendTo = document.getElementById(selectedDiv);
+        console.log(appendTo);
+        var sectionNameElement = appendTo.querySelector('h6.section-name');
+        if (sectionNameElement) {
+          sectionNameElement.parentNode.removeChild(sectionNameElement);
+        }
         appendTo.appendChild(newimg);
         setShowPicAdder(false);
         showToastMessage("Logo uploaded Successfully ", "green", 1);
@@ -158,20 +163,26 @@ function MailingPageUI(params) {
   })
 
   const savePageFunctionality = () => {
-    const fullhtml = document.querySelector('.sectionToGet')
-   const convertedHtml = fullhtml.toString()
-    apiCall('post', addLandingPage, {html: convertedHtml} , true)
-      .then((res) => {
-        if (res.status == 200) {
-          showToastMessage("Landing Page added Successfully ", "green", 1);
-          // navigate('/dashboard/landing-pages')
-        
-        }
-      }).catch((err) => {
-        showToastMessage(err?.response?.data?.message, "red", 2);
+    const fullhtml = document.querySelector('.sectionToGet');
+    
+    if (fullhtml) {
+      const convertedHtml = fullhtml.innerHTML.toString();
       
-                   })
-  }
+      apiCall('post', addLandingPage, { html: convertedHtml }, true)
+        .then((res) => {
+          if (res.status === 200) {
+            showToastMessage("Landing Page added Successfully", "green", 1);
+            // You can add code here to navigate to the dashboard if needed.
+          }
+        })
+        .catch((err) => {
+          showToastMessage(err?.response?.data?.message || "An error occurred", "red", 2);
+        });
+    } else {
+      showToastMessage("Element with class 'sectionToGet' not found", "red", 2);
+    }
+  };
+  
 
   return (
     <div className="fullWidth">
@@ -192,7 +203,7 @@ function MailingPageUI(params) {
 
         <h5 onClick={hideFunctionality}>Close sidear</h5>
       </div>
-      <div className="pageSection">
+      <div className="pageSection" style={{ width: "100%" }}>
         <div className="sectionToGet">
           <div className="textEditorClass"
             style={showTextEditor ? { display: "block" } : { display: "none" }}
@@ -265,10 +276,10 @@ function MailingPageUI(params) {
             }}
             className="parallax-section"
           >
-            <div className="container">
+            {/* <div className="container"> */}
               <div className="row">
                 <div
-                  className="col-md-offset-1 col-md-10 col-sm-12"
+                  className="col-md-offset-1 col-md-12 col-sm-12 text-center"
                   id="mainNav1"
                 >
                   {/* <h1 className="wow fadeInUp" data-wow-delay="1.6s">
@@ -278,7 +289,7 @@ function MailingPageUI(params) {
 
                 </div>
               </div>
-            </div>
+            {/* </div> */}
           </section>
           {showBox && (
             <div
@@ -292,10 +303,10 @@ function MailingPageUI(params) {
             </div>
           )}
           <section id="overview" className="parallax-section mt-5">
-            <div className="container">
+            {/* <div className="container"> */}
               <div className="row">
                 <div
-                  className="col-md-5 col-sm-12"
+                  className="col-md-6 col-sm-12 text-md-end"
                   id="mainNav2"
                   onClick={() => {
                     addNewElement("mainNav2");
@@ -304,7 +315,7 @@ function MailingPageUI(params) {
                   <h6 class="section-name">Section 2</h6>
                 </div>
                 <div
-                  className="wow fadeInUp col-md-5 col-sm-12"
+                  className="wow fadeInUp col-md-6 col-sm-12 text-md-start"
                   data-wow-delay="1s"
                   id="mainNav3"
                   onClick={() => {
@@ -316,7 +327,7 @@ function MailingPageUI(params) {
                   </div>
                 </div>
               </div>
-            </div>
+            {/* </div> */}
           </section>
 
           <section id="blog" className="parallax-section mt-5">
@@ -411,10 +422,10 @@ function MailingPageUI(params) {
           </section>
 
           <section id="price" className="parallax-section mt-5 mb-5">
-            <div className="container">
+            {/* <div className="container"> */}
               <div className="row">
                 <div
-                  className="wow fadeInUp col-md-6 col-sm-12"
+                  className="wow fadeInUp col-md-6 col-sm-12 text-md-end"
                   data-wow-delay="0.9s"
                   id="mainNav4"
                   onClick={() => {
@@ -426,7 +437,7 @@ function MailingPageUI(params) {
                   </div>
                 </div>
                 <div
-                  className="wow fadeInUp col-md-6 col-sm-12"
+                  className="wow fadeInUp col-md-6 col-sm-12 text-md-start"
                   data-wow-delay="1.6s"
                   id="mainNav5"
                   onClick={() => {
@@ -438,7 +449,7 @@ function MailingPageUI(params) {
                   </div>
                 </div>
               </div>
-            </div>
+            {/* </div> */}
           </section>
         </div>
         <button className="btn btn-primary" onClick={() => { savePageFunctionality() }}>Save Landing page</button>

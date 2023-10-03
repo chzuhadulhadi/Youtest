@@ -27,7 +27,8 @@ const {
     getUserTestDetails,
     saveUserTest,
     endUserTest,
-    attachLandingPagetoTest,
+    getSingleLandingPage,
+    // attachLandingPagetoTest,
 
     getResult,
     uploadFile,
@@ -75,16 +76,15 @@ router.post('/api/test/getSingleTest', verifyJwt, getSingleTest);
 router.post('/api/test/getMyTest', verifyJwt, getMyTest);
 router.post('/api/test/uploadFile', uploadFile);
 
-
 //userTest
 router.post('/api/userTest/submitLandingPageDetails', submitLandingPageDetails);
 router.post('/api/userTest/startTest', startTest);
 router.post('/api/userTest/endUserTest', endUserTest);
-router.post('/api/userTest/attachLandingPagetoTest', attachLandingPagetoTest);
+// router.post('/api/userTest/attachLandingPagetoTest', attachLandingPagetoTest);
 
 router.post('/api/userTest/initiateTestForUser', verifyJwt, initiateTestForUser);
 router.post('/api/userTest/getUserTestDetails', getUserTestDetails);
-router.post('/api/userTest/saveuserTest', verifyJwt, saveUserTest);
+router.post('/api/userTest/saveuserTest', saveUserTest);
 router.post('/api/userTest/getResult', getResult);
 router.post('/api/userTest/getUserTestHistory', verifyJwt, getUserTestHistory);
 router.post('/api/userTest/deleteUserTestHistory', verifyJwt, deleteUserTestHistory);
@@ -103,10 +103,12 @@ router.post('/api/mailingListUser/updateMailingListUser', verifyJwt, updateMaili
 
 //Landing Pages
 router.post('/api/landingPage/getLandingPage', verifyJwt, getLandingPage);
+router.post('/api/landingPage/getSingleLandingPage', verifyJwt, getSingleLandingPage);
 router.post('/api/landingPage/addLandingPage', verifyJwt, addLandingPage);
 router.post('/api/landingPage/updateLandingPage', verifyJwt, updateLandingPage);
 router.post('/api/landingPage/deleteLandingPage', verifyJwt, deleteLandingPage);
 router.post('/api/landingPage/getAttachedTest', verifyJwt, getAttachedTest);
+// router.post('/api/landingPage/getAttachedTest', verifyJwt, g);
 
 
 module.exports = router;

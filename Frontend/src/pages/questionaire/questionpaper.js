@@ -215,8 +215,11 @@ const showAttachedTestModal = () =>{
            if (array == []){
             showToastMessage("Please select one Test", "red", 2);
            }
+           else if(array.length > 1){
+            showToastMessage("Please select only one Test", "red", 2);
+           }
            else{
-            apiCall('post',linkTest, {id : array ,landingPageId : 1},true)
+            apiCall('post',linkTest, {testId : array[0] ,id : elementId},true)
             .then((res)=>{
               showToastMessage("Linked Successfully", "green", 1);
             })
@@ -328,6 +331,8 @@ const showAttachedTestModal = () =>{
                   <span onClick={()=>{
                     setModalHandler("linkModal");
                     setShow(true);
+                    setElementId(ele.id);
+                    setModalTitle("Link Test");
                   }}>
                    Link Tests
                    
@@ -350,7 +355,14 @@ const showAttachedTestModal = () =>{
                   >
                     Edit
                   </span>
-                  | <span 
+                  |  <span
+                    onClick={() => {
+                      navigate(`/landingpage/?id=${ele?.id}`);
+                    }}
+                  >
+                    View
+                  </span>
+                  |<span 
                   onClick={()=>{
                     setModalHandler("showAttachedTestModal");
                     setShow(true);

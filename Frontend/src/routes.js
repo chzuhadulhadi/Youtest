@@ -17,6 +17,7 @@ import MailingPageIndex from './pages/mailingList/mailingListPage';
 import SendTestFunctionality from './pages/questionaire/sendTestFunctionality';
 import MailingPageUI from './pages/mailingList/components/mailingList';
 import LandingPages from './pages/mailingList/components/mailingList';
+import LandingPage from './pages/LandingPage/landingpage';
 import EditLandingPage from './pages/mailingList/editLandingPage';
 import EditTest from './pages/Testee/MyTest/editTest';
 import AdminLogin from './pages/admin/adminLogin';
@@ -25,6 +26,7 @@ import Users from './pages/admin/users';
 import Tests from './pages/admin/tests';
 import AdminEditTest from './pages/admin/editTest';
 import Results from './pages/admin/results';
+import Verify from './pages/LoginPages/verify';
 
 export default function Router() {
   const routes = useRoutes([
@@ -90,6 +92,10 @@ export default function Router() {
       element: <FillTest />,
     },
     {
+      path:'/landingpage/:id?',
+      element:<LandingPage/>
+    },
+    {
       path: '/temp/*',
       element: <Temp />,
     },
@@ -124,6 +130,10 @@ export default function Router() {
     {
       path: '/dashboard/editLandingPage/:id?',
       element: <EditLandingPage />
+    },
+    {
+      path:'/verify/:token?',
+      element:<Verify/>
     }
   ]);
   return routes;

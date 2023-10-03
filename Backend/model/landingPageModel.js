@@ -2,7 +2,9 @@ const landingPageService = require('../service/landingPageService');
 const model = require("../model");
 
 module.exports = {
-
+	getSinglelandingPage: async function (obj) {
+		return await landingPageService.getSingleLandingPage(obj)
+	},
 	getLandingPage: async function (obj) {
 		const offset = obj.page * obj.limit - obj.limit;
 		const count = await landingPageService.getLandingPageCount();
@@ -38,12 +40,18 @@ module.exports = {
 	},
 
 	addLandingPage: async function (obj) {
+		console.log(obj);
 		return await landingPageService.addLandingPage(obj)
+	},
+	attachLandingPagetoTest: async function (obj) {
+		console.log(obj);
+		return await landingPageService.attachLandingPagetoTest(obj)
 	},
 	deleteLandingPage: async function (obj) {
 		return await landingPageService.deleteLandingPage(obj)
 	},
 	updateLandingPage: async function (obj) {
+		console.log(obj.testId);
 		return await landingPageService.updateLandingPage(obj, { where: { id: obj.id } })
 	},
 };

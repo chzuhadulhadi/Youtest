@@ -318,7 +318,7 @@ module.exports = {
 		});
 	},
 	updateAgentBytoken: async function (obj, token) {
-		console.log(obj, id);
+		console.log(obj, token);
 		const data=await model.user.update(obj, {
 			where: {
 				verificationToken:token,

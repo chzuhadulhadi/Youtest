@@ -4,9 +4,8 @@ const landingPageModel = require('../../model/landingPageModel');
 
 const schema = Joi.object().keys({
 	id: Joi.number().integer().min(0).required(),
-	html: Joi.string().required(),
+	html: Joi.string(),
 	testId: Joi.number().integer().min(0),
-
 });
 
 const {
@@ -17,7 +16,7 @@ const {
 } = require('http-status-codes');
 module.exports = async function updateLandingPage(req, res) {
 	language = req.headers.language ? req.headers.language : "english";
-
+	console.log('updating');
 	try {
 		const validate = await schema.validateAsync(req.body, {
 			abortEarly: false,
