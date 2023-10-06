@@ -42,6 +42,7 @@ export const editUserOfMailingList = local +'api/mailingListUser/updateMailingLi
 
 //landing pages
 export const addLandingPage = local + 'api/landingPage/addLandingPage'
+export const sendUserInfo=local+'api/landingPage/UserInfo';
 export const getLandingPage = local + 'api/landingPage/getLandingPage'
 export const getSingleLandingPage = local + 'api/landingPage/getSingleLandingPage'
 export const deleteLandingPage = local + 'api/landingPage/deleteLandingPage'
@@ -67,3 +68,5 @@ export const updateTest=local+"api/admin/updateTest";
 export const deleteUser=local+"api/admin/deleteUser";
 export const deleteTest=local+"api/admin/deleteTest";
 export const getResults=local+"api/admin/getResults";
+
+//send info to user

@@ -1,7 +1,30 @@
 const landingPageService = require('../service/landingPageService');
+const testService=require('../service/testService');
+const userTestService=require('../service/userTestService');
+const mailService = require('../service/mailService');
+const userService = require('../service/userService');
 const model = require("../model");
+const { Op } = require("sequelize");
 
 module.exports = {
+	sendUserInfo:async function(obj)
+	{
+		// console.log(obj.testId);
+		const test=await testService.getMyTest(0,1,{where:{id:obj.testId}});
+		// console.log(test[0].dataValues.createdById);
+		
+		const ownerId=test[0].dataValues.createdById;
+		const testname=test[0].dataValues.name;
+		// console.log(ownerId);
+		const user=await userService.getuserById(ownerId);
+		// console.log(user.dataValues.email);
+		const email=user.dataValues.email;
+		const data=await mailService.sendUserInfo(email,testname,obj);
+		// const data=await testService.sendMail(allTest[0],obj);
+		// console.log(data);
+		// console.log(obj);
+	},
+
 	getSinglelandingPage: async function (obj) {
 		return await landingPageService.getSingleLandingPage(obj)
 	},

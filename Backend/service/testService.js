@@ -65,11 +65,12 @@ module.exports = {
 					question: "",
 					category: "",
 					freeText: 0,
-					question: ""
 				}
 				retObj[obj.questions[key].categoryName][key]["question"] = obj.questions[key]["question"];
 				retObj[obj.questions[key].categoryName][key]["category"] = obj.questions[key]["categoryName"];
-
+				if(obj.freeText.hasOwnProperty(key) && obj.freeText[key]?.freeText == 1) {
+					retObj[obj.questions[key].categoryName][key]["freeText"] = 1;
+				}
 			} else if (!key.includes("answer") && !obj.questions[key].categoryName) {
 
 				retObj[key] = {
@@ -77,7 +78,6 @@ module.exports = {
 					freeText: 1,
 				}
 			}
-
 		})
 		Object.keys(obj.questions).map(function (key, i) {
 			console.log("obj.questions", obj.questions[key])

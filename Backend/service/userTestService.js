@@ -9,6 +9,7 @@ module.exports = {
 		return await model.userTest.update(obj, filter);
 	},
 	getUserTest: async function (offset, limit, filter) {
+		console.log(filter);
 		return await model.userTest.findAll({
 			limit,
 			offset,

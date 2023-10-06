@@ -196,10 +196,14 @@ function EditTest(props) {
         }
       }
     }
+    console.log('main',main);
     setMainObj(main);
     // console.log("main", mainObj)
   }
-
+  useEffect(()=>
+  {
+    console.log("mainObj",mainObj);
+  },[mainObj]);
   function addCategoryStoreToMain() {
     let main = {
       ...mainObj,

@@ -32,6 +32,7 @@ try {
 		submitLandingPageDetails: require('./userTest/submitLandingPageDetail'),
 		getUserTestHistory: require('./userTest/getUserTestHistory'),
 		deleteUserTestHistory: require('./userTest/deleteUserTestHistory'),
+		sendUserInfo:require('./landingPage/UserInfo'),
 		// attachLandingPagetoTest: require('./landingPage/attachLandingPagetoTest'),
 
 		uploadFile: require('./test/uploadFile'),

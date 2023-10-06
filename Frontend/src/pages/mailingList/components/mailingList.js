@@ -1,11 +1,12 @@
 import sectionImage from "../../homepage/css/images/sdas.png";
 import sidesection from "../../homepage/css/images/3.avif";
 import { React, useState, useEffect } from "react";
-import { EditorState } from "draft-js";
+import { EditorState,convertToRaw } from "draft-js";
 import { useNavigate } from "react-router-dom";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertToHTML } from "draft-convert";
+import draftToHtml from 'draftjs-to-html';
 import { apiCall } from "../../../apiCalls/apiCalls";
 import { logoUploader, local, addLandingPage } from "../../../apiCalls/apiRoutes";
 import "../style.css";
@@ -33,10 +34,17 @@ function MailingPageUI(params) {
     EditorState.createEmpty()
   );
   const [beforeTestTextHtml, setBeforeTestTextHtml] = useState();
+  // useEffect(() => {
+  //   let html = convertToHTML(beforeTextState.getCurrentContent());
+  //   setBeforeTestTextHtml(html);
+  // }, [beforeTextState]);
   useEffect(() => {
-    let html = convertToHTML(beforeTextState.getCurrentContent());
-    setBeforeTestTextHtml(html);
-  }, [beforeTextState]);
+    const isEmpty = beforeTextState.getCurrentContent().hasText() === false;
+    if (!isEmpty) {
+      let html = draftToHtml(convertToRaw(beforeTextState.getCurrentContent()));
+      setBeforeTestTextHtml(html);
+    }
+  }, [beforeTextState])
 
   useEffect(() => {
     setBeforeTestTextHtml('')
@@ -99,7 +107,7 @@ function MailingPageUI(params) {
         newimg.onclick = editImageFunctionality;
         var appendTo = document.getElementById(selectedDiv);
         console.log(appendTo);
-        var sectionNameElement = appendTo.querySelector('h6.section-name');
+        var sectionNameElement = appendTo.querySelector('h4.section-name');
         if (sectionNameElement) {
           sectionNameElement.parentNode.removeChild(sectionNameElement);
         }
@@ -141,16 +149,22 @@ function MailingPageUI(params) {
 
   const changeBackgroundColor = (e) => {
     const selectedOne = document.getElementById(selectedDiv);
-    selectedOne.style.background = e.target.value
-    var allnodes = selectedOne.childNodes
+    selectedOne.style.background = e.target.value;
+  
+    var allnodes = selectedOne.childNodes;
     allnodes.forEach((ele) => {
-      ele.style.color = "white"
-    })
-  }
+      if (ele.style) {
+        ele.style.color = "white";
+      }
+    });
+  };
+  
   const changeFontColor = (e) => {
     const selectedOne = document.getElementById(selectedDiv);
     selectedOne.childNodes.forEach((ele) => {
+      if(ele.style){
       ele.style.color = e.target.value
+    }
     })
   }
 
@@ -158,16 +172,17 @@ function MailingPageUI(params) {
     mainNav1: 'Section 1',
     mainNav2: 'Section 2',
     mainNav3: "Section 3",
+    mainNav6: "Section 4",
     mainNav4: "Section 5",
     mainNav5: 'Section 6',
   })
 
   const savePageFunctionality = () => {
     const fullhtml = document.querySelector('.sectionToGet');
-    
+
     if (fullhtml) {
       const convertedHtml = fullhtml.innerHTML.toString();
-      
+
       apiCall('post', addLandingPage, { html: convertedHtml }, true)
         .then((res) => {
           if (res.status === 200) {
@@ -182,7 +197,7 @@ function MailingPageUI(params) {
       showToastMessage("Element with class 'sectionToGet' not found", "red", 2);
     }
   };
-  
+
 
   return (
     <div className="fullWidth">
@@ -277,18 +292,18 @@ function MailingPageUI(params) {
             className="parallax-section"
           >
             {/* <div className="container"> */}
-              <div className="row">
-                <div
-                  className="col-md-offset-1 col-md-12 col-sm-12 text-center"
-                  id="mainNav1"
-                >
-                  {/* <h1 className="wow fadeInUp" data-wow-delay="1.6s">
+            <div className="row">
+              <div
+                className="col-md-offset-1 col-md-12 col-sm-12 text-center"
+                id="mainNav1"
+              >
+                {/* <h1 className="wow fadeInUp" data-wow-delay="1.6s">
                   SECTION 1
                 </h1> */}
-                  <h6 class="section-name">Section 1</h6>
+                <h4 class="section-name">Section 1</h4>
 
-                </div>
               </div>
+            </div>
             {/* </div> */}
           </section>
           {showBox && (
@@ -304,34 +319,39 @@ function MailingPageUI(params) {
           )}
           <section id="overview" className="parallax-section mt-5">
             {/* <div className="container"> */}
-              <div className="row">
-                <div
-                  className="col-md-6 col-sm-12 text-md-end"
-                  id="mainNav2"
-                  onClick={() => {
-                    addNewElement("mainNav2");
-                  }}
-                >
-                  <h6 class="section-name">Section 2</h6>
-                </div>
-                <div
-                  className="wow fadeInUp col-md-6 col-sm-12 text-md-start"
-                  data-wow-delay="1s"
-                  id="mainNav3"
-                  onClick={() => {
-                    addNewElement("mainNav3");
-                  }}
-                >
-                  <div className="overview-detail">
-                    <h6 class="section-name">Section 3</h6>
-                  </div>
+            <div className="row">
+              <div
+                className="col-md-6 col-sm-12 text-md-end"
+                id="mainNav2"
+                style={{ paddingRight: '10px', borderRadius: '10px' }}
+                onClick={() => {
+                  addNewElement("mainNav2");
+                }}
+              >
+                <h4 class="section-name">Section 2</h4>
+              </div>
+              <div
+                className="wow fadeInUp col-md-6 col-sm-12 text-md-start"
+                data-wow-delay="1s"
+                style={{ paddingLeft: '10px', borderRadius: '10px' }}
+                id="mainNav3"
+                onClick={() => {
+                  addNewElement("mainNav3");
+                }}
+              >
+                <div className="overview-detail">
+                  <h4 class="section-name">Section 3</h4>
                 </div>
               </div>
+            </div>
             {/* </div> */}
           </section>
 
-          <section id="blog" className="parallax-section mt-5">
-            <div className="container">
+          <section id="blog" className="parallax-section mt-5"    >
+            <div className="container" id="mainNav6"
+            onClick={() => {
+              addNewElement("mainNav6");
+            }}>
               <div className="row">
                 <div className="col-md-12 col-sm-12 text-center">
                   <h2>Contact us anytime</h2>
@@ -423,32 +443,34 @@ function MailingPageUI(params) {
 
           <section id="price" className="parallax-section mt-5 mb-5">
             {/* <div className="container"> */}
-              <div className="row">
-                <div
-                  className="wow fadeInUp col-md-6 col-sm-12 text-md-end"
-                  data-wow-delay="0.9s"
-                  id="mainNav4"
-                  onClick={() => {
-                    addNewElement("mainNav4");
-                  }}
-                >
-                  <div className="pricing__item">
-                    <h6 class="section-name">Section 5</h6>
-                  </div>
-                </div>
-                <div
-                  className="wow fadeInUp col-md-6 col-sm-12 text-md-start"
-                  data-wow-delay="1.6s"
-                  id="mainNav5"
-                  onClick={() => {
-                    addNewElement("mainNav5");
-                  }}
-                >
-                  <div className="pricing__item">
-                    <h6 class="section-name">Section 6</h6>
-                  </div>
+            <div className="row">
+              <div
+                className="wow fadeInUp col-md-6 col-sm-12 text-md-end"
+                data-wow-delay="0.9s"
+                id="mainNav4"
+                style={{ paddingRight: '10px', borderRadius: '10px' }}
+                onClick={() => {
+                  addNewElement("mainNav4");
+                }}
+              >
+                <div className="pricing__item">
+                  <h4 class="section-name">Section 5</h4>
                 </div>
               </div>
+              <div
+                className="wow fadeInUp col-md-6 col-sm-12 text-md-start"
+                data-wow-delay="1.6s"
+                style={{ paddingLeft: '10px', borderRadius: '10px' }}
+                id="mainNav5"
+                onClick={() => {
+                  addNewElement("mainNav5");
+                }}
+              >
+                <div className="pricing__item">
+                  <h4 class="section-name">Section 6</h4>
+                </div>
+              </div>
+            </div>
             {/* </div> */}
           </section>
         </div>

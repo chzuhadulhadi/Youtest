@@ -7,6 +7,8 @@ import htmlToDraft from 'html-to-draftjs';
 import draftToHtml from 'draftjs-to-html';
 
 function PropertiesStep(props) {
+    // console.log(props.obj.mainObj?.orientation);
+
     const [timeLimited, setTimeLimited] = useState(props.obj.mainObj?.timeLimit?.length>0)
     const [beforeTextState, setBeforeTextState] = useState(() => 
          EditorState.createEmpty());
@@ -84,7 +86,7 @@ function PropertiesStep(props) {
                     <label className="form-label">Test structure</label>
                     <select
                         id="orientation"
-                        value={props.obj.mainObj?.orientation}
+                        // value={orientation}
                         onChange={(e) => props.obj.mainObjectAdderForProperties(e, "orientation")}
                         className="form-select mb-3 pt-3 pb-3"
                         required
@@ -96,7 +98,7 @@ function PropertiesStep(props) {
                     <label className="form-label">Scoring type</label>
                     <select
                         id="scoringType"
-                        value={props.obj.mainObj?.scoringType}
+                        // value={props.obj.mainObj?.scoringType }
                         onChange={(e) => props.obj.mainObjectAdderForProperties(e, "scoringType")}
                         className="form-select mb-3 pt-3 pb-3"
                         required
@@ -112,7 +114,7 @@ function PropertiesStep(props) {
                     <label className="form-label">Questions order</label>
                     <select
                         id="randomOrder"
-                        value={props.obj.mainObj?.randomOrder}
+                        // value={props.obj.mainObj?.randomOrder}
                         onChange={(e) => props.obj.mainObjectAdderForProperties(e, "randomOrder")}
                         className="form-select mb-3 pt-3 pb-3"
                         required

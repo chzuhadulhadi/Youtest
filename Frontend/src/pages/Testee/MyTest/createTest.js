@@ -64,6 +64,10 @@ function CreateTest() {
   //   randomOrder: 0,
   //   questions: {}
   // });
+  useEffect(()=>
+  {
+    console.log("mainObj",mainObj);
+  },[mainObj]);
 
   function apiCallToCreateTest(draft) {
     apiCall('post', createMyTest, mainObj)
@@ -80,7 +84,7 @@ function CreateTest() {
     setTabSelected(tab)
   }
   function mainObjectAdder(e, property, questionNo, type) {
-    // console.log("mainObj[property]", mainObj[property], "type", type)
+    console.log("mainObj[property]", mainObj[property], "type", type)
     mainObj = {
       ...mainObj,
       [property]: {
@@ -91,6 +95,7 @@ function CreateTest() {
         }
       }
     }
+
     console.log("main", mainObj)
   }
 

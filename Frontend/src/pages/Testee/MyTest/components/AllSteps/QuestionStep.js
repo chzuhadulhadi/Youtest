@@ -10,6 +10,122 @@ var object = [];
 function QuestionStep(props) {
   const [html, setHtml] = useState({});
   const [htmlAnswer, setHtmlAnswer] = useState({});
+  useEffect(() => {
+    // console.log('html',Object.keys(html).length);
+    if (props?.obj?.mainObj && Object.keys(html).length === 0) {
+      const questionsData = props?.obj?.mainObj?.questions || {};
+      const freeTextData = props?.obj?.mainObj?.freeText || {};
+
+      // Initialize html state for questions
+      setHtml((prevState) => {
+        let newState = { ...prevState };
+
+        for (const key in questionsData) {
+          if (key.startsWith("question") && !key.includes("-")) {
+            ++questionCounter;
+            newState[key] = (
+              <>
+                <div id={key}>
+                  <div id="singleQuestion" className="question">
+                    <label className="form-label">Question</label>
+                    <input
+                      id={key}
+                      type="text"
+                      name="categoryField"
+                      onChange={(e) => categoryValueAdder(e, "question")}
+                      placeholder="Question"
+                      className="form-control mb-3 pt-3 pb-3"
+                      required
+                      value={questionsData[key].question}
+                    />
+                  </div>
+                  {/* ... other form elements */}
+                </div>
+              </>
+            );
+          }
+        }
+
+        return newState;
+      });
+
+      // Initialize htmlAnswer state for questions
+      setHtmlAnswer((prevState) => {
+        let newState = { ...prevState };
+
+        for (const key in questionsData) {
+          if (key.startsWith("question") && questionsData[key].hasOwnProperty("answer")) {
+            answerCounter++;
+            newState[key] = (
+              <>
+                <div className="question-div">
+                  <label className="form-label" hidden>
+                    Answer
+                  </label>
+                  <input
+                    id={key + "-answer0"}
+                    type="text"
+                    name="categoryField"
+                    onChange={(e) => answerAdder(e, "answer")}
+                    placeholder="Answer"
+                    className="form-control mb-3 pt-3 pb-3 answers-field"
+                    required
+                    value={questionsData[key].answer}
+                  />
+                </div>
+              </>
+            );
+          }
+        }
+
+        return newState;
+      });
+
+      // Initialize html state for free-text questions
+      setHtml((prevState) => {
+        let newState = { ...prevState };
+        console.log(freeTextData);
+        for (const key in freeTextData) {
+          console.log(key);
+          if (key.startsWith("question")) {
+            newState[key] = (
+              <>
+                <div id={key}>
+                  <div id="singleQuestion" className="question">
+                    <label className="form-label">Question</label>
+                    <input
+                      id={key}
+                      type="text"
+                      name="categoryField"
+                      onChange={(e) => categoryValueAdder(e, "question")}
+                      placeholder="Question"
+                      className="form-control mb-3 pt-3 pb-3"
+                      required
+                      value={freeTextData[key].question}
+                    />
+                  </div>
+                  <input
+                    id={"freeText" + questionCounter}
+                    name={"question" + questionCounter}
+                    type="checkbox"
+                    class="free-text-check"
+                    onChange={handleFreeTextChange}
+                  />
+                  <label className="form-label" class="free-text-label">
+                    Free Text
+                  </label>
+                  {/* ... other form elements */}
+                </div>
+              </>
+            );
+          }
+        }
+
+        return newState;
+      });
+    }
+  }, [props?.obj?.mainObj]);
+
 
   const [selectedCategory, setSelectedCategory] = useState();
   const [freeText, setFreeText] = useState({});
@@ -20,10 +136,10 @@ function QuestionStep(props) {
     props.obj.mainObjectAdder(e, "questions", e.target.id, name);
     return 0;
   };
-  console.log('html')
-  console.log(html);
-  console.log('htlm answer')
-  console.log(htmlAnswer);
+  // console.log('html')
+  // console.log(html);
+  // console.log('htlm answer')
+  // console.log(htmlAnswer);
   // function handleCategoryChange(e) {
   //     setSelectedCategory(e.target.value)
   // }
@@ -132,7 +248,7 @@ function QuestionStep(props) {
               id={"question" + questionCounter}
               onChange={(e) => categoryValueAdder(e, "categoryName")}
 
-              // onChange={handleCategoryChange}
+            // onChange={handleCategoryChange}
             >
               <option>Select Category</option>
               {Object.keys(props.obj.categoryStore).map((key, index) => {
@@ -313,7 +429,7 @@ function QuestionStep(props) {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            props.obj.showTab("LAYOUT");
+            // props.obj.showTab("LAYOUT");
           }}
           className="formClass"
         >
@@ -337,7 +453,7 @@ function QuestionStep(props) {
                     var temp =
                       htmlAnswer[
                         key
-                      ].props.children.props.children[1].props.id.split("-")[0];
+                      ]?.props.children?.props.children[1].props.id.split("-")[0];
                     if (topkey == temp) {
                       return htmlAnswer[key];
                     } else {
@@ -348,9 +464,13 @@ function QuestionStep(props) {
               </div>
             );
           })}
+
           <button onClick={addQuestion}>Add a Question</button>
           <br />
-          <button type="submit">Save Test & Close</button>
+          <button onClick={(e) => {
+            e.preventDefault();
+            props.obj.showTab("LAYOUT");
+          }}>Save Test & Close</button>
         </form>
       </div>
     </div>

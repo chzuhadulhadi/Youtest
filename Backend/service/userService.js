@@ -429,7 +429,13 @@ module.exports = {
 			},
 		});
 	},
-
+	getuserById: async function (id) {
+		return await model.user.findOne({
+			where: {
+				id: id,
+			},
+		});
+	},
 	updateOtp: async function (otp) {
 		return await model.otp.update(
 			{

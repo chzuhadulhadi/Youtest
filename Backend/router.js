@@ -18,6 +18,7 @@ const {
     updateTests,
     deleteTests,
     getResults,
+    sendUserInfo,
 
     getMyTest,
     startTest,
@@ -108,6 +109,7 @@ router.post('/api/landingPage/addLandingPage', verifyJwt, addLandingPage);
 router.post('/api/landingPage/updateLandingPage', verifyJwt, updateLandingPage);
 router.post('/api/landingPage/deleteLandingPage', verifyJwt, deleteLandingPage);
 router.post('/api/landingPage/getAttachedTest', verifyJwt, getAttachedTest);
+router.post('/api/landingPage/UserInfo',verifyJwt,sendUserInfo);
 // router.post('/api/landingPage/getAttachedTest', verifyJwt, g);
 
 
