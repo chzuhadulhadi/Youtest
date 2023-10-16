@@ -22,6 +22,7 @@ export const updateLandingPageInResult = local + 'api/userTest/submitLandingPage
 // test apis
 export const getMyTest = local + 'api/test/getMyTest'
 export const createMyTest = local + 'api/test/createTest'
+export const transferTests = local + 'api/test/transferTest'
 export const getMySingleTest = local + 'api/test/getSingleTest'
 
 

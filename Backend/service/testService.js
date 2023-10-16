@@ -20,6 +20,14 @@ module.exports = {
 			return model.test.findByPk(testId);
 		}
 	},
+	updateTest: async function (user,ids) {
+		await model.test.update(
+			{ createdById: user }, 
+			{ where: { id: { [Op.in]: ids } } }
+		);
+		return model.test.findByPk(ids[0]);
+	},
+
 	getMyTest: async function (offset, limit, filter) {
 		return await model.test.findAll({
 			offset,
@@ -40,7 +48,18 @@ module.exports = {
 		});
 	},
 	getTests: async function () {
-		return await model.test.findAll();
+		const tests= await model.test.findAll();
+		//embed owner email from user table as createdById
+		const users = await model.user.findAll();
+		const usersMap = {};
+		users.forEach(user => {
+			usersMap[user.id] = user.email;
+		});
+		tests.forEach(test => {
+			test.dataValues.createdByEmail = usersMap[test.dataValues.createdById];
+		});
+		return tests;
+
 	},
 	getMyTestCount: async function (filter) {
 		return await model.test.count(filter);

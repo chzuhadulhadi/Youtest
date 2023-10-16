@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Table, TableBody, TableCell, TableHead, TableRow, Checkbox, TextField } from '@mui/material'; // Import only the necessary components
+import { Button, Table, TableBody, TableCell, TableHead, TableRow, Checkbox, TextField, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material'; // Import only the necessary components
 import { apiCall } from '../../apiCalls/apiCalls';
 import { useNavigate } from 'react-router-dom';
-import { deleteTest, updateTest, getTests } from '../../apiCalls/apiRoutes';
+import { deleteTest, updateTest, getTests,transferTests } from '../../apiCalls/apiRoutes';
 
 function Tests() {
     const [tests, setTests] = useState([]);
@@ -10,6 +10,9 @@ function Tests() {
     const [selectedTest, setSelectedTest] = useState(null);
     const [searchText, setSearchText] = useState('');
     const [selectedTests, setSelectedTests] = useState([]);
+    const [email, setEmail] = useState('');
+    const [open, setOpen] = useState(false);
+
     const navigate = useNavigate();
     useEffect(() => {
         loadTests();
@@ -72,7 +75,17 @@ function Tests() {
         // Close the edit dialog
         handleCloseEditTestDialog();
     };
-
+    const TransferTest = () => {
+        console.log('here');
+        apiCall("post", transferTests, {ids:selectedTests,email:email})
+            .then((res) => {
+                if (res.status === 200) {
+                    loadTests();
+                }
+            }).catch((err) => {
+                console.error(err);
+            });
+    };
     const handleSearch = (e) => {
         setSearchText(e.target.value);
     };
@@ -85,6 +98,24 @@ function Tests() {
 
     return (
         <div>
+            <Dialog open={open}>
+                <DialogTitle id="form-dialog-title">Transfer To:</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        onChange={(e)=>setEmail(e.target.value)}
+                        autoFocus
+                        margin="dense"
+                        id="email"
+                        label="Email Address"
+                        type="email"
+                        fullWidth
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => {setOpen(false)}}>Cancel</Button>
+                    <Button onClick={TransferTest}>Save</Button>
+                </DialogActions>
+            </Dialog>
             <TextField
                 label="Search"
                 variant="outlined"
@@ -93,14 +124,22 @@ function Tests() {
                 onChange={handleSearch}
             />
             <h1>Test List</h1>
-
-            <Table>
-                <TableHead>
+            <Button onClick={()=>setOpen(!open)}>Transfer Tests</Button>
+            <Table my={2} sx={{ position: 'relative', borderCollapse: 'collapse' }}>
+                <TableHead sx={{
+                    position: 'sticky',
+                    top: 0,
+                }}>
                     <TableRow>
                         <TableCell>Select</TableCell>
                         <TableCell>Sr No.</TableCell>
                         <TableCell>Name</TableCell>
+                        <TableCell>Before Test Text</TableCell>
+                        <TableCell>After Test Text</TableCell>
+                        <TableCell>Order</TableCell>
                         <TableCell>Time in Mins</TableCell>
+                        <TableCell>Created At</TableCell>
+                        <TableCell>Owner</TableCell>
                         <TableCell>Actions</TableCell>
                     </TableRow>
                 </TableHead>
@@ -115,7 +154,12 @@ function Tests() {
                             </TableCell>
                             <TableCell>{index + 1}</TableCell>
                             <TableCell>{test.name}</TableCell>
+                            <TableCell dangerouslySetInnerHTML={{ __html: test.beforeTestText }}></TableCell>
+                            <TableCell dangerouslySetInnerHTML={{ __html: test.afterTestText }}></TableCell>
+                            <TableCell>{test.randomOrder=='0' ? 'Sequence':'Random'}</TableCell>
                             <TableCell>{test.timeLimit}</TableCell>
+                            <TableCell>{test.createdAt}</TableCell>
+                            <TableCell>{test.createdByEmail}</TableCell>
                             <TableCell>
                                 <Button
                                     variant="outlined"

@@ -27,6 +27,7 @@ try {
 		initiateTestForUser: require('./userTest/initiateTestForUser'),
 		getUserTestDetails: require('./userTest/getUserTestDetails'),
 		saveUserTest: require('./userTest/saveUserTest'),
+		transferTest: require('./userTest/transferTest'),
 		getResult: require('./userTest/getResult'),
 
 		submitLandingPageDetails: require('./userTest/submitLandingPageDetail'),

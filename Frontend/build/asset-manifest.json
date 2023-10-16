@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.a14c9913.css",
-    "main.js": "/static/js/main.5cbe7555.js",
+    "main.css": "/static/css/main.38fa10fd.css",
+    "main.js": "/static/js/main.e5c933c0.js",
     "static/media/ourservicesback.png": "/static/media/ourservicesback.547f3fa77fa0dabc9270.png",
     "static/media/sdas.png": "/static/media/sdas.dffed0116dc6de563b11.png",
     "static/media/pngtree-concept-of-online-exam-on-internet-png-image_6060987.png": "/static/media/pngtree-concept-of-online-exam-on-internet-png-image_6060987.4347b2cb48f2634a4b53.png",
@@ -13,11 +13,11 @@
     "static/media/Development-bg.jpg": "/static/media/Development-bg.f9f89bcb9e7005c1f2a5.jpg",
     "static/media/3.avif": "/static/media/3.d0374e14cfa98555e06b.avif",
     "index.html": "/index.html",
-    "main.a14c9913.css.map": "/static/css/main.a14c9913.css.map",
-    "main.5cbe7555.js.map": "/static/js/main.5cbe7555.js.map"
+    "main.38fa10fd.css.map": "/static/css/main.38fa10fd.css.map",
+    "main.e5c933c0.js.map": "/static/js/main.e5c933c0.js.map"
   },
   "entrypoints": [
-    "static/css/main.a14c9913.css",
-    "static/js/main.5cbe7555.js"
+    "static/css/main.38fa10fd.css",
+    "static/js/main.e5c933c0.js"
   ]
 }

@@ -11,6 +11,20 @@ const model = require('../model');
 const mailingListUserService = require('../service/mailingListUserService');
 
 module.exports = {
+	transferTest: async function (obj) {
+		console.log(obj);
+		const user=await userService.getuserByAny(obj.email);
+		if(!user){
+			throw new Error('User is not valid');
+		}
+		console.log(user.id);
+		//update multiple tests where tests Id is in obj.ids
+		// var t = await Sequelize.transaction();
+
+		const updated = await testService.updateTest(user.id, obj.ids);
+		console.log(updated);
+		return updated;
+	},
 	startTest: async function (obj) {
 		const start = userTestService.updateUserTest(
 			{ testStart: new Date() },

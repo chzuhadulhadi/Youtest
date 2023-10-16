@@ -94,8 +94,11 @@ function Results() {
             />
             <h1>Result List</h1>
 
-            <Table>
-                <TableHead>
+            <Table my={2} sx={{ position: 'relative', borderCollapse: 'collapse' }}>
+                <TableHead sx={{
+                    position: 'sticky',
+                    top: 0,
+                }}>
                     <TableRow>
                         {/* <TableCell>Select</TableCell> */}
                         <TableCell>Sr No.</TableCell>

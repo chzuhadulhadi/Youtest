@@ -1,6 +1,18 @@
 .App {
   text-align: center;
 }
+/* Define a container for the table to enable scrolling */
+.TableContainer {
+  max-height: 400px; /* Set a maximum height for the container */
+  overflow: auto; /* Enable scrolling */
+}
+
+/* Style the header row to make it fixed at the top */
+.TableHead > tr {
+  position: sticky;
+  top: 0;
+  background-color: #f5f5f5; /* Add your preferred background color */
+}
 
 .App-logo {
   height: 40vmin;

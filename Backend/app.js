@@ -74,7 +74,7 @@ async function sendMail() {
 		setTimeout(sendMail, 5000);
 	}
 }
-sendMail();
+// sendMail();
 
 // error handler
 app.use(function (err, req, res, next) {

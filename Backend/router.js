@@ -23,6 +23,7 @@ const {
     getMyTest,
     startTest,
     verifyEmail,
+    transferTest,
 
     initiateTestForUser,
     getUserTestDetails,
@@ -76,6 +77,7 @@ router.post('/api/test/createTest', verifyJwt, createTest);
 router.post('/api/test/getSingleTest', verifyJwt, getSingleTest);
 router.post('/api/test/getMyTest', verifyJwt, getMyTest);
 router.post('/api/test/uploadFile', uploadFile);
+router.post('/api/test/transferTest', verifyJwt, transferTest);
 
 //userTest
 router.post('/api/userTest/submitLandingPageDetails', submitLandingPageDetails);
