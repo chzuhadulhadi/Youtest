@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, Checkbox, TextField } from '@mui/material'; // Import only the necessary components
 import { apiCall } from '../../apiCalls/apiCalls';
-import { useNavigate } from 'react-router-dom';
-import { deleteTest, updateTest, getResults } from '../../apiCalls/apiRoutes';
+import { Link, useNavigate } from 'react-router-dom';
+import { deleteTest, updateTest, getResults,frontEndPath } from '../../apiCalls/apiRoutes';
 
 function Results() {
     const [results, setResults] = useState([]);
@@ -103,31 +103,26 @@ function Results() {
                         {/* <TableCell>Select</TableCell> */}
                         <TableCell>Sr No.</TableCell>
                         <TableCell>Name</TableCell>
+                        <TableCell>Test Owner</TableCell>
                         <TableCell>total Question</TableCell>
                         <TableCell>total Answer</TableCell>
-                        <TableCell>time Taken For Test</TableCell>
-                        <TableCell>total Percentage</TableCell>
-                        <TableCell>total Categories</TableCell>
-                        <TableCell>Actions</TableCell>
+                        <TableCell>Examinee</TableCell>
+                        <TableCell>Date of Test</TableCell>
+                        <TableCell>status</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {results?.map((test, index) => (
+                    {results?.map((test, index) => (        //resultpage
                         <TableRow key={test.id}>
-                            {/* <TableCell>
-                                <Checkbox
-                                    checked={selectedResults.includes(test.id)}
-                                    onChange={() => handleToggleSelect(test.id)}
-                                />
-                            </TableCell> */}
                             <TableCell>{index + 1}</TableCell>
                             <TableCell>{test.name}</TableCell>
+                            <TableCell>{test.ownerId}</TableCell>
                             <TableCell>{test.resultStats.totalQuestion}</TableCell>
                             <TableCell>{test.resultStats.totalAnswer}</TableCell>
-                            <TableCell>{test.resultStats.timeTakenForTest}</TableCell>
-                            <TableCell>{test.resultStats.totalPercentage}</TableCell>
-                            <TableCell>{test.resultStats.totalCategories}</TableCell>
-                            <TableCell>
+                            <TableCell>{test.userEmail}</TableCell>
+                            <TableCell>{test.updatedAt}</TableCell>
+                            <TableCell><a href={frontEndPath+'resultpage/'+test.id}>show</a></TableCell>
+                            {/* <TableCell>
                                 <Table>
                                     <TableHead>
                                         <TableRow>
@@ -144,7 +139,7 @@ function Results() {
                                         ))}
                                     </TableBody>
                                 </Table>
-                            </TableCell>
+                            </TableCell> */}
                         </TableRow>
                     ))}
                 </TableBody>

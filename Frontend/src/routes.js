@@ -7,7 +7,7 @@ import Dashboard from './pages/dashboard/dashboard';
 import MultiStepForm from './pages/questionaire/multistepForm/newQuestionaire';
 import ResultPage from './pages/resultpage.js/resultpage';
 import Login from './pages/LoginPages/login';
-import SignUp from './pages/LoginPages/signup';
+import SignUp from './pages/LoginPages/signUp';
 import MSFDemo from './pages/questionaire/multistepForm/multistepform';
 import FormHandler from './pages/questionaire/multistepForm/newformhandler';
 import FillTest from './pages/tester/filltest';
