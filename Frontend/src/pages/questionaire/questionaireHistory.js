@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { getQuestionaireHistoryList, getResult } from "../../apiCalls/apiRoutes";
 import { apiCall } from "../../apiCalls/apiCalls";
+import { frontEndPath } from "../../apiCalls/apiRoutes";
 function QuestionaireHistory() {
   const [currentPage, setCurrentPage] = useState(1);
   var [postsPerPage, setPostPerPage] = useState(10);
@@ -76,10 +77,10 @@ function QuestionaireHistory() {
             const data = res.data.data;
 
             if (data.id && data.resultStats) {
-              console.log("data.resultStats", data.resultStats)
+              // console.log("data.resultStats", data.resultStats)
               setResultsWithIds(prevState => {
                 let name = Object.assign({}, prevState);  // creating copy of state variable jasper
-                name[singleRow.id] = (data.resultStats?.totalPercentage / data.resultStats?.totalQuestion).toFixed(1);
+                name[singleRow.id] = (data.resultStats?.totalPercentage / data.resultStats?.totalCategories).toFixed(1);
 
                 return name;                                 // return new object jasper object
               })
@@ -115,6 +116,7 @@ function QuestionaireHistory() {
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">created</th>
+            <th scope="col">Test Link</th>
             <th scope="col">Time Taken</th>
             <th scope="col">status</th>
             <th scope="col">Score</th>
@@ -131,24 +133,25 @@ function QuestionaireHistory() {
               return (
 
                 <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{ele.name}</td>
-                  <td>{ele.userEmail}</td>
-                  <td>{ele.createdAt}</td>
-                  <td>{((Math.abs(new Date(ele.testEnd) - new Date(ele.testStart))) / 1000 / 60).toFixed(2)} Min</td>
+                  <td style={{fontSize:'14px'}}>{index + 1}</td>
+                  <td style={{fontSize:'14px'}}>{ele.name}</td>
+                  <td style={{fontSize:'14px'}}>{ele.userEmail}</td>
+                  <td style={{fontSize:'14px'}}>{ele.createdAt}</td>
+                  <td style={{fontSize:'14px'}}><a target="blank" style={{ textDecoration: "underline" }} href={frontEndPath+"filltest/" + ele.id}>Test Link</a></td>
+                  <td style={{fontSize:'14px'}}>{((Math.abs(new Date(ele.testEnd) - new Date(ele.testStart))) / 1000 / 60).toFixed(2)} Min</td>
                   {/* {console.log("getResultScore(ele.id) ", getResultScore(ele.id))}
                   {console.log("getTestStatus(ele)(ele.id) ", getTestStatus(ele))} */}
 
-                  <td>{getTestStatus(ele)}</td>
-                  <td>{resultsWithIds[ele.id]} %</td>
+                  <td style={{fontSize:'14px'}}>{getTestStatus(ele)}</td>
+                  <td style={{fontSize:'14px'}}>{resultsWithIds[ele.id]} %</td>
 
 
 
-                  {/* <td>{ele.orientation}</td> */}
-                  {/* <td>{ele.timeLimit}</td> */}
-                  {/* <td>View | Edit | Delete</td>
+                  {/* <td style={{fontSize:'14px'}}>{ele.orientation}</td> */}
+                  {/* <td style={{fontSize:'14px'}}>{ele.timeLimit}</td> */}
+                  {/* <td style={{fontSize:'14px'}}>View | Edit | Delete</td>
                    */}
-                  <td ><a target="blank" style={{ textDecoration: "underline" }} href={"/resultpage/" + ele.id}>See Result</a></td>
+                  <td style={{fontSize:'14px'}}><a target="blank" style={{ textDecoration: "underline" }} href={"/resultpage/" + ele.id}>See Result</a></td>
 
                 </tr>
               )

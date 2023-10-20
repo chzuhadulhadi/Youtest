@@ -11,7 +11,7 @@ var questionCount = 1;
 function FillQuestion(questionData) {
 console.log("questionData",questionData)
     const divStyle = {
-        textColor: { color: questionData.questionData.layout.textColor },
+        textColor: { color: questionData.questionData.layout.textColor, background: questionData.questionData.layout.backgroundColor },
         answerColor: { color: questionData.questionData.layout.answerColor },
         logoBackgroundColor: { backgroundColor: questionData.questionData.layout.backgroundColor },
         question: { color: questionData.questionData.layout.questionTextColor, background: questionData.questionData.layout.questionBackgroundColor },

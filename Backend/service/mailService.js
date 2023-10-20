@@ -43,7 +43,7 @@ module.exports = {
 				to: obj.email,
 				html: `
 				  Congratulations on your registration on the Test Factory website!<br>
-				  <a href="http://18.140.56.176/verify?token=${VerificationToken}">
+				  <a href="http://13.51.56.246/verify?token=${VerificationToken}">
 					Click here to verify your email
 				  </a>
 				`,
@@ -55,7 +55,7 @@ module.exports = {
 				to: obj.email,
 				html: `
 				  Congratulations on your registration on the Test Factory website!<br>
-				  <a href="http://18.140.56.176/verify?token=${VerificationToken}">
+				  <a href="http://13.51.56.246/verify?token=${VerificationToken}">
 					Click here to verify your email
 				  </a>
 				`,
@@ -83,26 +83,25 @@ module.exports = {
 		// 		console.log(error);
 		// 	});
 	},
-	sendUserInfo:async function (email,testname,obj)
-	{
-			const data = {
-				to: email,
-				from: process.env.EMAIL_USER,
-				html:"A user contacted you on your Landing Page for TEST :"+testname+", <br> "+
-				"<p>First Name : "+obj.firstName+"</p>"+
-				"<p>Last Name : "+obj.lastName+"</p>"+
-				"<p>Email : "+obj.email+"</p>"+
-				"<p>Phone Number : "+obj.phoneNumber+"</p>"+
-				"<p>Term And Condition : "+obj.termAndCondition+"</p>",
-				subject: 'User Contacted you',
-			};
-			transporter.sendMail(data, function (error, info) {
-				if (error) {
-					console.error('Error sending email: ' + error);
-				} else {
-					console.log('Email sent: ' + info.response);
-				}
-			});
+	sendUserInfo: async function (email, testname, obj) {
+		const data = {
+			to: email,
+			from: process.env.EMAIL_USER,
+			html: "A user contacted you on your Landing Page for TEST :" + testname + ", <br> " +
+				"<p>First Name : " + obj.firstName + "</p>" +
+				"<p>Last Name : " + obj.lastName + "</p>" +
+				"<p>Email : " + obj.email + "</p>" +
+				"<p>Phone Number : " + obj.phoneNumber + "</p>" +
+				"<p>Term And Condition : " + obj.termAndCondition + "</p>",
+			subject: 'User Contacted you',
+		};
+		transporter.sendMail(data, function (error, info) {
+			if (error) {
+				console.error('Error sending email: ' + error);
+			} else {
+				console.log('Email sent: ' + info.response);
+			}
+		});
 	},
 
 	sendRegisterEmail: async function (to, name, link, language) {
@@ -181,7 +180,7 @@ module.exports = {
 				to: emailObj.to,
 				from: process.env.EMAIL_USER,
 				html: htmlContent,
-				subject: 'Test No ' + emailObj.id + ' is complete',
+				subject: 'Test No ' + emailObj.body.testId + ' is complete',
 			};
 		} else {
 			data =
@@ -189,7 +188,7 @@ module.exports = {
 				to: emailObj.to,
 				from: process.env.EMAIL_USER,
 				html: htmlContent,
-				subject: 'Test No ' + emailObj.id + ' is complete',
+				subject: 'Test No ' + emailObj.body.testId  + ' is complete',
 			};
 		}
 		transporter.sendMail(data, function (error, info) {
@@ -208,7 +207,7 @@ module.exports = {
 		var html = `<div>
         <div style="direction:rtl;text-align:center;text-align:left;direction:ltr"><img style="height:80px;width:200px"
                 src="https://ci4.googleusercontent.com/proxy/fI11_M8pgArxrER6Uu2pbxBIjtzcGjTzuJ5ZfS_sntyjeFW8L781HYutoY90f2EDytwTOeYIX7DO=s0-d-e1-ft#https://youtest.online/images/logo.png"><br><br>
-            <a href="mailto:${emailObj.to}" target="_blank">${emailObj.to}</a> finished answering the questions and below are his results:
+            <a href="mailto:${emailObj.to}" target="_blank">${emailObj.body.email}</a> finished answering the questions and below are his results:
         </div><br>
         <table width="60%" align="center" border="1" cellspacing="0" cellpadding="10"
             style="font-family:Arial,Helvetica,sans-serif;text-align:left;direction:ltr">
@@ -216,8 +215,8 @@ module.exports = {
                 <tr>
                     <td colspan="3">
                         <div align="center" style="direction:rtl;text-align:left;direction:ltr"> Name:
-                        ${emailObj.body.additionalDetails.name}<br>Email: <a href="mailto:${emailObj.to}"
-                                target="_blank">${emailObj.to}</a></div>
+                        ${emailObj.body.additionalDetails.name}<br>Email: <a href="mailto:${emailObj.body.email}"
+                                target="_blank">${emailObj.body.email}</a></div>
                     </td>
                 </tr>
                 <tr bgcolor="#114e8e">
@@ -277,32 +276,32 @@ module.exports = {
                             Testee's Comments</div>
                     </td>
                 </tr>`;
-				html+=`<tr cellpadding="10">
+		html += `<tr cellpadding="10">
 				<td colspan="3" style="direction:rtl;padding:10px">`;
-				for (let category in emailObj.body.testObj) {
-					html += `
+		for (let category in emailObj.body.testObj) {
+			html += `
 					  <p style="text-align:left; direction:ltr">
 						<b>${category}</b><br>
 					  </p>`;
-					
-					// Loop through the questions in the current category
-					for (let questionKey in emailObj.body.testObj[category]) {
-					  const question = emailObj.body.testObj[category][questionKey];
-				  
-					  // Check if freeText is 1
-					  if (question.freeText === 1) {
-						// Include the question and answer in the HTML
-						html += `
+
+			// Loop through the questions in the current category
+			for (let questionKey in emailObj.body.testObj[category]) {
+				const question = emailObj.body.testObj[category][questionKey];
+
+				// Check if freeText is 1
+				if (question.freeText === 1) {
+					// Include the question and answer in the HTML
+					html += `
 						  <p style="text-align:left; direction:ltr">
 							<b>${question.question}</b><br>
 							Answer: ${question.selectAnswer}
 						  </p>`;
-					  }
-					}
-				  }
-                    html+=`</td></tr>`;
+				}
+			}
+		}
+		html += `</td></tr>`;
 
-                html+=`<tr bgcolor="#114e8e">
+		html += `<tr bgcolor="#114e8e">
                     <td colspan="3">
                         <div align="center" style="color:#fff;direction:rtl;text-align:left;direction:ltr">
                             graph</div>
@@ -310,7 +309,7 @@ module.exports = {
                 </tr>
                 <tr>
                     <td colspan="3" style="direction:rtl"><br> <a
-                            href="http://18.140.56.176/resultpage/${emailObj.body.id
+                            href="http://13.51.56.246/resultpage/${emailObj.body.id
 			}"
                             target="_blank">Click here to get the results in a graph</a> <br></td>
                 </tr>
@@ -331,18 +330,18 @@ module.exports = {
 			singleKey.text ? (html += `${singleKey.text}<br/>`) : '';
 		}
 
-	// 	<tr bgcolor="#114e8e">
-	// 	<td colspan="3">
-	// 		<div align="center" style="color:#fff;text-align:left;direction:ltr"> Answer Report
-	// 			for Admin</div>
-	// 	</td>
-	// </tr>
+		// 	<tr bgcolor="#114e8e">
+		// 	<td colspan="3">
+		// 		<div align="center" style="color:#fff;text-align:left;direction:ltr"> Answer Report
+		// 			for Admin</div>
+		// 	</td>
+		// </tr>
 		html += `</td></tr>
                
                 <tr>
                     <td colspan="3" bgcolor="#114e8e">
                         <div align="center" style="color:#fff;text-align:left;direction:ltr"> <a
-                                href="http://18.140.56.176" style="color:#fff"
+                                href="http://13.51.56.246" style="color:#fff"
                                 target="_blank">Terms of use and service</a></div>
                     </td>
                 </tr>

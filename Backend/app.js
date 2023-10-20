@@ -45,7 +45,7 @@ const mailService = require('./service/mailService');
 
 async function sendMail() {
 	const email = await model.email.findOne({ where: { status: 0 } });
-
+	console.log('email', email);
 	try {
 		if (email) {
 			console.log('email inside', email.type);
@@ -74,7 +74,7 @@ async function sendMail() {
 		setTimeout(sendMail, 5000);
 	}
 }
-// sendMail();
+sendMail();
 
 // error handler
 app.use(function (err, req, res, next) {

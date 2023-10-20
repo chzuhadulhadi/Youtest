@@ -1,25 +1,29 @@
 import React, { Component, useEffect, useState } from 'react';
 import '../../style.css'
-import { EditorState,ContentState, convertToRaw } from 'draft-js';
+import { EditorState, ContentState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import htmlToDraft from 'html-to-draftjs';
 import draftToHtml from 'draftjs-to-html';
 
 function PropertiesStep(props) {
-    // console.log(props.obj.mainObj?.orientation);
+    const [timeLimited, setTimeLimited] = useState(false);
+    useEffect(() => {
+        if (props.obj.mainObj?.timeLimit) {
+            setTimeLimited(true)
+        }
+    }, [props.obj.mainObj?.timeLimit])
 
-    const [timeLimited, setTimeLimited] = useState(props.obj.mainObj?.timeLimit?.length>0)
-    const [beforeTextState, setBeforeTextState] = useState(() => 
-         EditorState.createEmpty());
-    const [afterTextState, setAfterTextState] = useState(() => 
-    EditorState.createEmpty());
+    const [beforeTextState, setBeforeTextState] = useState(() =>
+        EditorState.createEmpty());
+    const [afterTextState, setAfterTextState] = useState(() =>
+        EditorState.createEmpty());
     useEffect(() => {
         const isEmpty = beforeTextState.getCurrentContent().hasText() === false;
         if (!isEmpty) {
             // console.log("beforeTextState",beforeTextState)
-        let html = draftToHtml(convertToRaw(beforeTextState.getCurrentContent()));
-        props.obj.mainObjectAdderForProperties(html, "beforeTestText")
+            let html = draftToHtml(convertToRaw(beforeTextState.getCurrentContent()));
+            props.obj.mainObjectAdderForProperties(html, "beforeTestText")
         }
     }, [beforeTextState])
     useEffect(() => {
@@ -40,21 +44,20 @@ function PropertiesStep(props) {
             ));
         }
         const isafterEmpty = afterTextState.getCurrentContent().hasText() === false;
-        if(isafterEmpty && props?.obj.mainObj?.afterTestText?.length > 0)
-        {
+        if (isafterEmpty && props?.obj.mainObj?.afterTestText?.length > 0) {
             setAfterTextState(EditorState.createWithContent(
                 ContentState.createFromBlockArray(htmlToDraft(props?.obj.mainObj?.afterTestText))
             ));
         }
 
-    }, [props.obj.mainObj?.beforeTestText,props.obj.mainObj?.afterTestText]);
-    
+    }, [props.obj.mainObj?.beforeTestText, props.obj.mainObj?.afterTestText]);
+
     useEffect(() => {
         const isEmpty = afterTextState.getCurrentContent().hasText() === false;
         if (!isEmpty) {
             // console.log("afterTextState",afterTextState)
-        let html = draftToHtml(convertToRaw(afterTextState.getCurrentContent()));
-        props.obj.mainObjectAdderForProperties(html, "afterTestText")
+            let html = draftToHtml(convertToRaw(afterTextState.getCurrentContent()));
+            props.obj.mainObjectAdderForProperties(html, "afterTestText")
         }
     }, [afterTextState])
 
@@ -126,7 +129,7 @@ function PropertiesStep(props) {
                     </select>
 
 
-                    <input type="checkbox" onClick={(e) => { (e.target.checked) ? setTimeLimited(true) : setTimeLimited(false) }} value={true} />
+                    <input type="checkbox" onClick={(e) => { (e.target.checked) ? setTimeLimited(true) : setTimeLimited(false) }} checked={timeLimited} />
                     <label> Time Limited Test </label> <br />
                     <div style={timeLimited ? { display: "block" } : { display: 'none' }}>
                         <label className="form-label"> How long the test is going to be in minutes </label>

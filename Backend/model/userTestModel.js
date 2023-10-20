@@ -69,7 +69,7 @@ module.exports = {
 			body: {
 				firstName: '',
 				surName: '',
-				email: '',
+				email: res.userEmail,
 				phoneNo: '',
 				...res,
 			},
@@ -80,7 +80,7 @@ module.exports = {
 			body: {
 				firstName: '',
 				surName: '',
-				email: '',
+				email: res.userEmail,
 				phoneNo: '',
 				...res,
 			},
@@ -315,13 +315,15 @@ module.exports = {
 						testObj[categories][questions].freeText == 0
 					) {
 						categoryQuestion += 10;
+						// console.log(testObj[categories][questions][selectedAnswer]);
 						if (selectedAnswer) {
 							totalStats.totalAnswer += 1;
 							categoryAnswer += parseInt(
-								testObj[categories][questions][selectedAnswer]['points']
+								testObj[categories][questions][selectedAnswer]['points'] || 0
 							);
 						}
 					}
+
 				});
 				categoryResult.percentage =
 					(categoryAnswer / categoryQuestion) * 100

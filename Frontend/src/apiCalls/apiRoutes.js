@@ -1,9 +1,9 @@
 export const environment = "C://Users/user/Downloads/";
 
-// export const local = "http://18.140.56.176:4000/"
-// export const serverUrl = "http://18.140.56.176:4000/"
+// export const local = "http://13.51.56.246:4000/"
+// export const serverUrl = "http://13.51.56.246:4000/"
 
-export const frontEndPath = "http://18.140.56.176/"
+export const frontEndPath = "http://13.51.56.246/"
 
 export const local = "http://localhost:4000/"
 export const serverUrl = "http://localhost:4000/"
@@ -39,16 +39,16 @@ export const updateMailingList = local + 'api/mailingList/updateMailingList'
 export const deleteMailingList = local + 'api/mailingList/deleteMailingList'
 export const getMailingListUser = local + 'api/mailingListUser/getMailingListUser'
 export const deleteUserInMailingListApi = local + "api/mailingListUser/deleteMailingListUser"
-export const editUserOfMailingList = local +'api/mailingListUser/updateMailingListUser'
+export const editUserOfMailingList = local + 'api/mailingListUser/updateMailingListUser'
 
 //landing pages
 export const addLandingPage = local + 'api/landingPage/addLandingPage'
-export const sendUserInfo=local+'api/landingPage/UserInfo';
+export const sendUserInfo = local + 'api/landingPage/UserInfo';
 export const getLandingPage = local + 'api/landingPage/getLandingPage'
 export const getSingleLandingPage = local + 'api/landingPage/getSingleLandingPage'
 export const deleteLandingPage = local + 'api/landingPage/deleteLandingPage'
 export const updateLandingPage = local + 'api/landingPage/updateLandingPage'
-export const linkTest = local +'api/landingPage/updateLandingPage'
+export const linkTest = local + 'api/landingPage/updateLandingPage'
 export const viewAttachedTests = local + 'api/landingPage/getAttachedTest'
 export const pathToViewTest = frontEndPath + 'filltest'
 //send mailign list
@@ -62,12 +62,12 @@ export const getQuestionaireHistoryList = local + "api/userTest/getUserTestHisto
 
 //admin login
 export const adminlogin = local + "api/admin/login";
-export const getUsers=local+"api/admin/getUsers";
-export const getTests=local+"api/admin/getTests";
-export const updateUser=local+"api/admin/updateUser";
-export const updateTest=local+"api/admin/updateTest";
-export const deleteUser=local+"api/admin/deleteUser";
-export const deleteTest=local+"api/admin/deleteTest";
-export const getResults=local+"api/admin/getResults";
+export const getUsers = local + "api/admin/getUsers";
+export const getTests = local + "api/admin/getTests";
+export const updateUser = local + "api/admin/updateUser";
+export const updateTest = local + "api/admin/updateTest";
+export const deleteUser = local + "api/admin/deleteUser";
+export const deleteTest = local + "api/admin/deleteTest";
+export const getResults = local + "api/admin/getResults";
 
 //send info to user
