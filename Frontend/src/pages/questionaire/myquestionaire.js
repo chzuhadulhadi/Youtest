@@ -120,6 +120,31 @@ function MyQuestionaire() {
     });
     return total;
   }
+  function sendTestAndCheckboxFunctionality(data, e) {
+    const name = data?.name;
+    var obj = {
+      id: data?.id,
+      nameOfTest: data?.name,
+      timeLimit: data?.timeLimit,
+
+    };
+    // alert(e.target.checked)
+    if (e.target.checked) {
+      obj = { ...obj, NoOfQuestions: questionCount(data) }
+      // console.log("userDataToDisplay",data)
+
+      // console.log("userDataToDisplay",obj)
+      const newobj = { ...obj }
+      testArray.push(newobj);
+      setUserDataArray(oldArray => [...oldArray, testArray]);
+      setSendTest(true);
+    } else {
+
+      const indexx = testArray.indexOf(userDataToDisplay)
+      testArray.splice(indexx, 1)
+    }
+    setArrayLenght(testArray.length)
+  }
 
   function checkboxFunctionality(data, e) {
     const name = data?.name;
@@ -129,6 +154,7 @@ function MyQuestionaire() {
       timeLimit: data?.timeLimit,
 
     };
+    // alert(e.target.checked)
     if (e.target.checked) {
       obj = { ...obj, NoOfQuestions: questionCount(data) }
       // console.log("userDataToDisplay",data)
@@ -155,7 +181,7 @@ function MyQuestionaire() {
       {sendTest === false ? (
         <div className="myquestionairemain">
           <div className="questionaireTable">
-            <h1>Tests List</h1>
+            <h1 style={{padding:0}}>Tests List</h1>
             <Button
               variant="primary"
               onClick={() => {
@@ -193,21 +219,9 @@ function MyQuestionaire() {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.length > 0 && data?.map((ele, index) => {
+                  {data.length > 0 && data.map((ele, index) => {
                     return (
                       <tr key={index}>
-                        {/* <td>{ele.name}</td>
-                        <td>{ele.orientation == 0 ? "Single" : "One By One"}</td>
-                        <td
-                          dangerouslySetInnerHTML={{ __html: ele.beforeTestText }}
-                        >
-                        </td>
-                        <td
-                          dangerouslySetInnerHTML={{ __html: ele.afterTestText }}
-                        ></td>
-                        <td>{ele.scoringType == 0 ? "Answers could be only totally right or totally wrong" : "Answers could be right, wrong and the shades that in between"}</td>
-                        <td>{ele.randomOrder == 0 ? "Random" : "Sequence"}</td>
-                        <td>{ele.timeLimit}</td> */}
                         <td>
                           <input
                             type="checkbox"
@@ -220,21 +234,23 @@ function MyQuestionaire() {
                         <td>{ele.name}</td>
                         <td>{questionCount(ele)}</td>
                         <td>{ele.timeLimit}</td>
-                        <td> <Button
-                          variant="primary"
-                          onClick={() => {
-                            navigate(`/dashboard/mytest/edittest/?id=${ele?.id}`);
-                          }}
-                        >
-                          Edit Test
-                        </Button></td>
-
+                        <td>
+                          <a href={`/dashboard/mytest/edittest/?id=${ele?.id}`}>Edit Test</a>
+                           |
+                          <h5
+                            style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
+                            onClick={() => {
+                              sendTestAndCheckboxFunctionality(ele, { target: { checked: true } });
+                            }}
+                          >
+                            Send This Test
+                          </h5>
+                        </td>
                       </tr>
                     );
                   })}
                 </tbody>
                 <button
-
                   onClick={(e) => {
                     sendTestButtonCapture()
                   }}

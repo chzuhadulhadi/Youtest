@@ -79,7 +79,22 @@ console.log("questionData",questionData)
     // useEffect(() => {
     //     setIsLoaded(true);
     // }, []);
-
+    useEffect(() => {
+        let questionCount = 0;
+        Object.keys(categoryData).map(function (key) {
+            {
+                if (!categoryData[key]["freeText"] && !categoryData[key]["freeText"] == 1) {
+                    Object.keys(categoryData[key]).map(function (questionKey) {
+                        {
+                            ++questionCount;
+                        }
+                    })
+                }
+            }
+        }
+        )
+        setTotalQUestion(questionCount)
+    }, [questionData.questionData.testObj]);
     // useEffect(() => {
     //     if (isLoaded) {
     //         setIsPageLoaded(true);
@@ -127,6 +142,10 @@ console.log("questionData",questionData)
                                 {Object.keys(categoryData[key]).map(function (questionKey) {
 
                                     {
+                                        console.log("questionKey", questionKey)
+                                        console.log("categoryData[key][questionKey]", categoryData[key][questionKey])
+                                        console.log('counr',count)
+                                        console.log('showDiv',showDiv)
                                         ++count;
                                     }
                                     return (
@@ -137,7 +156,7 @@ console.log("questionData",questionData)
 
                                                 <div style={divStyle.question} className='question'>
                                                     <h4>
-                                                        Question:
+                                                        Question:{count}
                                                         {
                                                             categoryData[key][questionKey]["question"]
                                                         }
@@ -164,10 +183,9 @@ console.log("questionData",questionData)
                                                     ) : <textarea className='text-answer' onChange={(e) => categoryData[key][questionKey]["selectAnswer"] = e.target.value}></textarea>
                                                 }
                                                 <div className="prev-next">
-                                                    {(totalQuestion - showDiv) != 0 && <button onClick={prev}>Prev</button>}
-                                                    {(showDiv) <= totalQuestion + 1 && <button id="nextButton" onClick={next}>Next</button>}
+                                                    {(1 - showDiv) != 0 && <button onClick={prev}>Prev</button>}
+                                                    {showDiv < totalQuestion && <button id="nextButton" onClick={next}>Next</button>}
                                                 </div>
-
                                             </div>}
 
                                             {/* single case */}

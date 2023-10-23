@@ -190,7 +190,8 @@ function CategoriesStep(props) {
                     })
                     } */}
           <br />
-          <button>Save Test & Close</button>
+          <button type="submit" onClick={(e) => { props.obj.apiCallToCreateTest(e) }}> Save Test & Close </button>
+          <button className='next-button' type="submit" > Next </button>
         </form>
       </div >
 

@@ -63,18 +63,23 @@ module.exports = {
 		let res = await this.getResult(obj);
 		let usermail = await userService.getUsers({ where: { id: res.ownerId } });
 		console.log('usermail', usermail[0].email);
-		// console.log('res', res);
-		var emailObj = {
-			to: res.userEmail,
-			body: {
-				firstName: '',
-				surName: '',
-				email: res.userEmail,
-				phoneNo: '',
-				...res,
-			},
-			type: 'testResult',
-		};
+		console.log('res', res);
+		if(res.sendAll)
+		{
+			var emailObj = {
+				to: res.userEmail,
+				body: {
+					firstName: '',
+					surName: '',
+					email: res.userEmail,
+					phoneNo: '',
+					...res,
+				},
+				type: 'testResult',
+			};
+		mailService.create(emailObj);
+
+		}
 		var owneremailObj = {
 			to: usermail[0].email,
 			body: {
@@ -86,7 +91,6 @@ module.exports = {
 			},
 			type: 'testResult',
 		};
-		mailService.create(emailObj);
 		mailService.create(owneremailObj);
 		if (!start) throw new Error('Test is not valid');
 		else {
@@ -161,6 +165,7 @@ module.exports = {
 					userTestArray.push({
 						userEmail: single.email,
 						name: testDetails.name,
+						sendAll:testDetails.sendAll,
 						orientation: testDetails.orientation,
 						beforeTestText: testDetails.beforeTestText,
 						afterTestText: testDetails.afterTestText,

@@ -165,9 +165,7 @@ function MainQuestionaire() {
 
   return (
     <div className="filltest" >
-      <h3 onClick={() => { navigate('/') }}><span style={{ color: 'black' }}>TEST</span>FACTORY</h3>
-
-
+      <h3 style={{marginTop:'0',marginBottom:'0',paddingTop:'0',paddingBottom:'0'}} onClick={() => { navigate('/') }}><span style={{ color: 'black' }}>TEST</span>FACTORY</h3>
       {//Landing page
         (!displayTest == 1 && invalidTest != 1 && !testCompleted && landingPage == 1) &&
         <div className="testStartClass">
@@ -202,7 +200,7 @@ function MainQuestionaire() {
         (!displayTest == 1 && invalidTest != 1 && !testCompleted && landingPage == 0) &&
         <div className="testStartClass">
           {/* <img className="test-start-img" src={serverUrl + formObj?.layout?.imageUrl} /> */}
-          <h2 className="test-title">{formObj?.name}</h2>
+          <h2 className="test-title">{formObj?.additionalDetails?.note}</h2>
           <br />
           <div
             dangerouslySetInnerHTML={{ __html: formObj.beforeTestText }}

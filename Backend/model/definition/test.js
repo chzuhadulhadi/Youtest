@@ -35,6 +35,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         Comment: "0-false /n 1-true",
       },
+      sendAll: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+        Comment: "0-false /n 1-true",
+      },
       testObj: {
         type: DataTypes.JSON,
         allowNull: false,

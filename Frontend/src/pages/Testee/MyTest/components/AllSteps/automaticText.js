@@ -269,10 +269,9 @@ function AutomaticText(props) {
               </div>
             );
           })}
-          <button style={showSubmit ? { display: "block" } : { display: 'none' }} type="submit">Save Test & Close </button>
+          {/* <button style={showSubmit ? { display: "block" } : { display: 'none' }} type="submit">Save Test & Close </button> */}
+          <button type="submit">Save Test & Close </button>
         </form>
-
-       
       </div>
     </div>
   );

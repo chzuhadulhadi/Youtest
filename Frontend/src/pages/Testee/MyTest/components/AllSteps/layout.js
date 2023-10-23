@@ -25,7 +25,7 @@ function TestLayout(props) {
       textColor: "",
     }) {
       setTextLayout((prevTextLayout) => ({
-        ...prevTextLayout, 
+        ...prevTextLayout,
         ...props.obj.mainObj?.layout,
       }));
     }
@@ -140,7 +140,10 @@ function TestLayout(props) {
             </div>
 
           </div>
+          <button type="submit" onClick={(e) => { props.obj.apiCallToCreateTest(e) }}> Save Test & Close </button>
+          <button type="submit">Next</button>
         </div>
+
         <div className="w-25">
           <label className="form-label">Please select your logo</label>
           <input
@@ -198,7 +201,7 @@ function TestLayout(props) {
             type="color"
             className="form-control form-control-color"
           />
-          <button type="submit">Save Test & Close</button>
+
         </div>
 
       </div>

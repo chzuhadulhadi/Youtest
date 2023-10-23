@@ -15,7 +15,7 @@ function ResultStructureStep(props) {
 
     return (
         <div className='result-structure-content' hidden={props.obj.tabSelected == "RESULT STRUCTURE" ? false : true}
-        style={{textAlign:"initial"}}>
+            style={{ textAlign: "initial" }}>
             <h3>#5 - Result Structure</h3>
             <form onSubmit={(e) => { e.preventDefault(); props.obj.showTab("AUTOMATIC TEXT"); }}>
 
@@ -27,13 +27,13 @@ function ResultStructureStep(props) {
                 <br />
 
                 <label className="form-label m-2 fw-bold" style={{ fontSize: "1.6rem" }}>Show Result in Graph  <input type="checkbox" id="showResultInGraph"
-                    onChange={(e) => handleTickChange(e, "graph")}  checked={props.obj.mainObj?.resultStructure.graph}
+                    onChange={(e) => handleTickChange(e, "graph")} checked={props.obj.mainObj?.resultStructure.graph}
                 /></label>
 
                 <img style={{ width: "20%" }} src={showResultInGraphImg} />
                 <br />
-
-                <button type="submit">Save Test & Close</button>
+                <button type="submit" onClick={(e) => { props.obj.apiCallToCreateTest(e) }}> Save Test & Close </button>
+                <button type="submit">Next</button>
             </form>
         </div>
     )

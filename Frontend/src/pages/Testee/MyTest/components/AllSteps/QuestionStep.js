@@ -39,7 +39,23 @@ function QuestionStep(props) {
                       value={questionsData[key].question}
                     />
                   </div>
-                  {/* ... other form elements */}
+                  <select
+                    name="selectCategory"
+                    className="select-category"
+                    id={"question" + questionCounter}
+                    value={props.obj.mainObj["questions"][`question${questionCounter}`]?.categoryName}
+                    onChange={(e) => categoryValueAdder(e, "categoryName")}
+                  // onChange={handleCategoryChange}
+                  >
+                    <option>Select Category</option>
+                    {Object.keys(props.obj.categoryStore).map((key, index) => {
+                      return (
+                        <option value={props.obj.categoryStore[key]["categoryName"]}>
+                          {props.obj.categoryStore[key]["categoryName"]}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
               </>
             );
@@ -467,10 +483,11 @@ function QuestionStep(props) {
 
           <button onClick={addQuestion}>Add a Question</button>
           <br />
+          <button type="submit" onClick={(e) => { props.obj.apiCallToCreateTest(e) }}> Save Test & Close </button>
           <button onClick={(e) => {
             e.preventDefault();
             props.obj.showTab("LAYOUT");
-          }}>Save Test & Close</button>
+          }}>Next</button>
         </form>
       </div>
     </div>

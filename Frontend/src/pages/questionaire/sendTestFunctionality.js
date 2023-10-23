@@ -54,13 +54,26 @@ function SendTestFunctionality({ testId }) {
   });
   console.log(testId, "testid(((())))");
   const sendMailFunction = async () => {
+
     if (mailingUserArray.length > 0 || mailingListArray.length > 0) {
       try {
         setShowEditModal(true);
       } catch (err) {
         showToastMessage(err.message, "red", 2);
       }
-    } else {
+    } else if(formDataForMailingIndividual.email.includes('@'))
+    {
+      setShowTable(false);
+      let temp = { ...formDataForMailingIndividual };
+      mailingUserArray.push(temp);
+      setTimeout(() => {
+        setShowTable(true);
+      }, 1);
+      setFormDataForMailingIndividual({
+        email: "",
+      });
+      setShowEditModal(true);
+    }else {
       showToastMessage(
         "Please Select a mailing List or add participants",
         "red",

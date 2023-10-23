@@ -120,7 +120,7 @@ function ResultPage() {
           {/* Automatic text ends */}
 
 
-          <div className='chart'>
+          <div className='chart' >
             <Charts dataRecieved={formObj.result} />
           </div>
 

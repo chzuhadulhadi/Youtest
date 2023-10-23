@@ -8,11 +8,20 @@ import draftToHtml from 'draftjs-to-html';
 
 function PropertiesStep(props) {
     const [timeLimited, setTimeLimited] = useState(false);
+    const [sendAll, setsendAll] = useState(false);
     useEffect(() => {
         if (props.obj.mainObj?.timeLimit) {
             setTimeLimited(true)
         }
     }, [props.obj.mainObj?.timeLimit])
+    console.log(props.obj.mainObj);
+
+    useEffect(() => {
+        if (props.obj.mainObj?.sendAll) {
+            setsendAll(props.obj.mainObj?.sendAll)
+        }
+    }, [props.obj.mainObj?.sendAll]);
+
 
     const [beforeTextState, setBeforeTextState] = useState(() =>
         EditorState.createEmpty());
@@ -127,8 +136,9 @@ function PropertiesStep(props) {
                         <option value="1">Random</option>
 
                     </select>
-
-
+                    <input type="checkbox" onClick={(e) => { props.obj.mainObjectAdderForProperties(e.target.checked, "sendAll") ; (e.target.checked) ? setsendAll(true) : setsendAll(false) }} checked={sendAll} />
+                    <label>Also send results to Testee</label>
+                    <br /><br />
                     <input type="checkbox" onClick={(e) => { (e.target.checked) ? setTimeLimited(true) : setTimeLimited(false) }} checked={timeLimited} />
                     <label> Time Limited Test </label> <br />
                     <div style={timeLimited ? { display: "block" } : { display: 'none' }}>
@@ -169,12 +179,8 @@ function PropertiesStep(props) {
                         editorClassName="editor-class"
                         toolbarClassName="toolbar-class"
                     />
-
-
-
                     <button type="submit" onClick={(e) => { props.obj.apiCallToCreateTest(e) }}> Save Test & Close </button>
                     <button className='next-button' type="submit" > Next </button>
-
                 </form>
                 <br />
                 <br />

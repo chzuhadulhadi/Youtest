@@ -131,12 +131,14 @@ module.exports = {
 				graph: dbObject.resultStructure?.graph || false
 			},
 			automaticText: {},
+			sendAll: dbObject.sendAll || 0,
 			freeText: {},
 			beforeTestText: dbObject.beforeTestText || '',
 			afterTestText: dbObject.afterTestText || '',
 			name: dbObject.name || '',
 			categoryStore: {},
 			layout: {
+				imageUrl: dbObject.layout?.imageUrl || '',
 				questionTextColor: dbObject.layout?.questionTextColor || '',
 				textColor: dbObject.layout?.textColor || '',
 				backgroundColor: dbObject.layout?.backgroundColor || '',

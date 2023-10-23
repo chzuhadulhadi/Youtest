@@ -79,6 +79,9 @@ input.invalid {
 .myquestionairemain rightHalf {
   width: 48%;
 }
+td{
+font-size: 14px;
+}
 
 .free-text-div textarea {
   width: 100%;
