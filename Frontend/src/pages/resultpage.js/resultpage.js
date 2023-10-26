@@ -47,7 +47,6 @@ function ResultPage() {
   }, [])
 
   function getTestStatus(testObj) {
-    console.log("testObj", testObj)
     var status = "";
     if (testObj.testStart == null) {
       status = "The Test has Not started"
@@ -60,38 +59,38 @@ function ResultPage() {
     }
     return status;
   }
-
+  console.log('formob', formObj);
   return (
     <div className='resultpage'>
       {(!invalidResult && formObj && formObj.id) && (
         <div>
           <div className='result-header'>
-            <h1 style={{ textAlign: 'center' }}>
-              {formObj.userEmail}
-            </h1>
-            <h5>{getTestStatus(formObj)}</h5>
-            <h5>
-              The Examinee answered {' '}
-              {formObj.resultStats.totalAnswer} {' '}
+            <h3 style={{ textAlign: 'center' }}>
+              Results for {formObj?.additionalDetails?.name && formObj?.additionalDetails?.name != '' ? formObj.additionalDetails.name : formObj.userEmail}
+            </h3>
+            {getTestStatus(formObj) == "The Test is complete" ? (
+              <h5>
+                The Examinee answered {' '}
+                {formObj.resultStats.totalAnswer} {' '}
 
-              questions out of {formObj.resultStats.totalQuestion}
-              {''} Duration : {''} {formObj.resultStats.timeTakenForTest} {' Mins'}
-            </h5>
+                questions out of {formObj.resultStats.totalQuestion}
+                {''} Duration : {''} {formObj.resultStats.timeTakenForTest} {' Mins'}
+              </h5>) : getTestStatus(formObj)
+            }
           </div>
-          <table class="table result-table">
+          <table class="table result-table" style={{ margin: '0 auto', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
-                <th scope="col">Category</th>
-                <th scope="col">Percentage</th>
-                {/* <th scope="col">Remarks</th> */}
-
+                <th style={{ textAlign: 'center', paddingLeft: '200px' }}>Category</th>
+                <th style={{ textAlign: 'center', paddingRight: '200px' }}>Percentage</th>
               </tr>
             </thead>
 
             <TableRows data={formObj} />
             <tbody>
-              <tr style={{ "background-color": "yellow" }}><td>Total</td>
-                <td> {(formObj.resultStats.totalPercentage / formObj.resultStats.totalCategories) ? (formObj.resultStats.totalPercentage / formObj.resultStats.totalCategories) : 0}
+              <tr style={{ "background-color": "yellow" }}>
+                <td style={{ textAlign: 'center', paddingLeft: '200px' }}>Total</td>
+                <td style={{ textAlign: 'center', paddingRight: '200px' }}> {(formObj.resultStats.totalPercentage / formObj.resultStats.totalCategories) ? (formObj.resultStats.totalPercentage / formObj.resultStats.totalCategories) : 0}
                   {" "}%
                 </td>
               </tr>
@@ -102,7 +101,7 @@ function ResultPage() {
           {/* Automatic text */}
           <div className='automatic-text'>
             <h6>
-              Examinee Comments
+              Additional Comments
             </h6>
           </div>
 
@@ -135,14 +134,14 @@ function ResultPage() {
                       return (
                         <>{categoryData[key][questionKey]["freeText"] == 1 && (
                           <>
-                            {categoryData[key][questionKey]["question"]}
+                            <b> {categoryData[key][questionKey]["question"]}</b>
                             <br />
                             {categoryData[key][questionKey]["selectAnswer"]}
+                            <hr />
                           </>
                         )
                         }
                         </>
-
                       )
                     })}
                   </div>
@@ -159,19 +158,16 @@ function ResultPage() {
           No result available
         </div>
       }
-
       <div className='terms-of-use'>
         <h6>
           Terms of Use
         </h6>
       </div>
-
       <div className='copyright'>
         <h6>
           TestFactory.online@2023
         </h6>
       </div>
-
     </div >
   )
 }

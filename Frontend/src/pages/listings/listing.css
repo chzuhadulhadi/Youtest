@@ -47,7 +47,7 @@
 }
 
 th {
-    text-align: left !important;
+    text-align: left;
     font-weight: 700;
     background-color: #FF9000 !important;
     color: white;
@@ -65,5 +65,5 @@ button {
 }
 
 .table tbody tr td {
-    text-align: left !important;
+    text-align: left ;
 }

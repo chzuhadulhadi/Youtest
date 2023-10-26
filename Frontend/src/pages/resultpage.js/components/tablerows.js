@@ -10,11 +10,11 @@ function TableRows(data) {
             <tbody>
                 {data.data.result &&
                     data.data.result.map(function (categories) {
-                        { console.log(categories) }
+                        // { console.log(categories) }
                         return (
-                            <tr>
-                                <td>{categories.category}</td>
-                                <td>{categories.percentage} %</td>
+                            <tr style={{textAlign:'center'}}>
+                                <td style={{textAlign:'center',paddingLeft:'200px'}}>{categories.category}</td>
+                                <td style={{textAlign:'center',paddingRight:'200px'}}>{categories.percentage} %</td>
                                 {/* <td>{categories.text}</td> */}
 
                             </tr>

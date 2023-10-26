@@ -52,9 +52,10 @@ const LandingPage = () => {
         const resp = await apiCall("post", sendMailingList,dto, true);
         if (resp.status === 200) {
           showToastMessage("Test send successfully on your mail", "green", 1);
-          // setShowEditModal(false)
-          //  window.location.reload()
-          navigate('/');
+          if(resp.data.data[0].testUrl)
+                window.location.href=resp.data.data[0].testUrl;
+        else
+            navigate("/");
         } 
         else {
           showToastMessage(

@@ -1,13 +1,14 @@
 .resultpage {
     text-align: center;
     margin: auto;
-    width: 90%;
+    width: 60%;
+    border: 1px solid black;
 }
 
 .chart {
 
     margin: auto;
-    width: 90%;
+    width: 70%;
     margin-top: 50px !important;
 }
 
@@ -15,21 +16,24 @@
     background-color: rgb(17, 78, 142) !important;
     color: white;
     padding: 10px;
+    /* width: 80% ; */
+    margin:0 auto;
+    text-align: center !important;
     padding-bottom: 30px;
-}
+}   
 
 .result-table {
     padding: 10px;
     margin-top: 30px !important;
     text-align: center !important;
-    width: 80% !important;
+    /* width: 80% !important; */
     margin: auto;
 
 }
 
 .result-table th,
 td {
-    text-align: center !important;
+    text-align: center ;
 
 }
 
@@ -39,7 +43,7 @@ td {
 }
 
 .examinee-comments {
-    width: 80%;
+    /* width: 80%; */
     margin: auto;
     margin-top: 25px;
 }
@@ -52,15 +56,15 @@ td {
 
 .examinee-comments-box {
     text-align: left !important;
-    padding: 5px;
-    padding-top: 0px
+    /* padding: 5px; */
+    padding-top: 0px;
         /* font-size: 15px; */
 }
 
 .terms-of-use {
     background-color: rgb(17, 78, 142);
     color: white;
-    width: 80% !important;
+    /* width: 80% !important; */
     margin: auto;
     padding: 4px;
 
@@ -70,7 +74,7 @@ td {
     margin-top: 10px !important;
     background-color: rgb(17, 78, 142);
     color: white;
-    width: 80% !important;
+    /* width: 80% !important; */
     margin: auto;
     padding: 4px;
 
@@ -80,8 +84,12 @@ td {
     margin-top: 25px !important;
     background-color: rgb(17, 78, 142);
     color: white;
-    width: 80% !important;
+    /* width: 80% !important; */
     margin: auto;
     padding: 4px;
 
+}
+td
+{
+    text-align: center ;
 }

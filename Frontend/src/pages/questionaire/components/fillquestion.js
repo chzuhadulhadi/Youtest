@@ -179,8 +179,8 @@ console.log("questionData",questionData)
                                                                 </div>)
                                                             }
 
-                                                        })
-                                                    ) : <textarea className='text-answer' onChange={(e) => categoryData[key][questionKey]["selectAnswer"] = e.target.value}></textarea>
+                                                        })  
+                                                    ) : <textarea className='text-answer' onChange={(e) => handleChange(key, questionKey, e.target.value, e)}></textarea>
                                                 }
                                                 <div className="prev-next">
                                                     {(1 - showDiv) != 0 && <button onClick={prev}>Prev</button>}
@@ -218,7 +218,7 @@ console.log("questionData",questionData)
                                                                 }
 
                                                             })
-                                                        ) : <textarea className='text-answer' onChange={(e) => categoryData[key][questionKey]["selectAnswer"] = e.target.value}></textarea>
+                                                        ) : <textarea className='text-answer' onChange={(e) => handleChange(key, questionKey, e.target.value, e)}></textarea>
                                                     }
                                                 </div>
                                             </div >}

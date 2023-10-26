@@ -136,7 +136,7 @@ function QuestionaireHistory() {
                   <td style={{fontSize:'14px'}}>{index + 1}</td>
                   <td style={{fontSize:'14px'}}>{ele.name}</td>
                   <td style={{fontSize:'14px'}}>{ele.userEmail}</td>
-                  <td style={{fontSize:'14px'}}>{ele.createdAt}</td>
+                  <td style={{fontSize:'14px'}}>{new Date(ele.createdAt).toLocaleDateString().padStart(10, '0')}</td>
                   <td style={{fontSize:'14px'}}><a target="blank" style={{ textDecoration: "underline" }} href={frontEndPath+"filltest/" + ele.id}>Test Link</a></td>
                   <td style={{fontSize:'14px'}}>{((Math.abs(new Date(ele.testEnd) - new Date(ele.testStart))) / 1000 / 60).toFixed(2)} Min</td>
                   {/* {console.log("getResultScore(ele.id) ", getResultScore(ele.id))}
