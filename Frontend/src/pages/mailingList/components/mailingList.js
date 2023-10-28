@@ -1,7 +1,7 @@
 import sectionImage from "../../homepage/css/images/sdas.png";
 import sidesection from "../../homepage/css/images/3.avif";
 import { React, useState, useEffect } from "react";
-import { EditorState,convertToRaw } from "draft-js";
+import { EditorState, convertToRaw } from "draft-js";
 import { useNavigate } from "react-router-dom";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -148,9 +148,12 @@ function MailingPageUI(params) {
   };
 
   const changeBackgroundColor = (e) => {
-    const selectedOne = document.getElementById(selectedDiv);
+    let selectedOne = document.getElementById(selectedDiv);
+    if (selectedDiv === 'mainNav6') {
+      selectedOne = document.getElementById('mmainNav6');
+    }
     selectedOne.style.background = e.target.value;
-  
+
     var allnodes = selectedOne.childNodes;
     allnodes.forEach((ele) => {
       if (ele.style) {
@@ -158,13 +161,13 @@ function MailingPageUI(params) {
       }
     });
   };
-  
+
   const changeFontColor = (e) => {
     const selectedOne = document.getElementById(selectedDiv);
     selectedOne.childNodes.forEach((ele) => {
-      if(ele.style){
-      ele.style.color = e.target.value
-    }
+      if (ele.style) {
+        ele.style.color = e.target.value
+      }
     })
   }
 
@@ -317,13 +320,13 @@ function MailingPageUI(params) {
             >
             </div>
           )}
-          <section id="overview" className="parallax-section mt-5">
+          <section id="overview" className="parallax-section mt-5 container">
             {/* <div className="container"> */}
-            <div className="row">
+            <div className="row justify-content-center">
               <div
-                className="col-md-6 col-sm-12 text-md-end"
+                className="col-md-5 col-sm-12 text-md-end"
                 id="mainNav2"
-                style={{ paddingRight: '10px', borderRadius: '10px' }}
+                style={{ paddingRight: '10px', borderRadius: '10px', margin: '10px' }}
                 onClick={() => {
                   addNewElement("mainNav2");
                 }}
@@ -331,9 +334,9 @@ function MailingPageUI(params) {
                 <h4 class="section-name">Section 2</h4>
               </div>
               <div
-                className="wow fadeInUp col-md-6 col-sm-12 text-md-start"
+                className="wow fadeInUp col-md-5 col-sm-12 text-md-start"
                 data-wow-delay="1s"
-                style={{ paddingLeft: '10px', borderRadius: '10px' }}
+                style={{ paddingLeft: '10px', borderRadius: '10px', margin: '10px' }}
                 id="mainNav3"
                 onClick={() => {
                   addNewElement("mainNav3");
@@ -347,20 +350,18 @@ function MailingPageUI(params) {
             {/* </div> */}
           </section>
 
-          <section id="blog" className="parallax-section mt-5"    >
-            <div className="container" id="mainNav6"
-            onClick={() => {
-              addNewElement("mainNav6");
-            }}>
+          <section id="blog" className="parallax-section mt-5" style={{ padding: 0 }}>
+            <div className="container" id="mmainNav6" >
               <div className="row">
-                <div className="col-md-12 col-sm-12 text-center">
-                  <h2>Contact us anytime</h2>
-                  <p>
+                <div className="col-md-12 col-sm-12 text-center container m-auto" id="mainNav6"
+                  onClick={() => {
+                    addNewElement("mainNav6");
+                  }}>
+                  <h4>
                     Enter the details here and we will contact you with the
                     results.
-                  </p>
+                  </h4>
                 </div>
-
                 <div
                   className="wow fadeInUp col-md-12 col-sm-12 w-50 m-auto"
                   data-wow-delay="0.9s"
@@ -441,14 +442,14 @@ function MailingPageUI(params) {
             </div>
           </section>
 
-          <section id="price" className="parallax-section mt-5 mb-5">
+          <section id="price" className="parallax-section mt-5 mb-5 container">
             {/* <div className="container"> */}
-            <div className="row">
+            <div className="row justify-content-center">
               <div
-                className="wow fadeInUp col-md-6 col-sm-12 text-md-end"
+                className="wow fadeInUp col-md-5 col-sm-12 text-md-end"
                 data-wow-delay="0.9s"
                 id="mainNav4"
-                style={{ paddingRight: '10px', borderRadius: '10px' }}
+                style={{ paddingRight: '10px', borderRadius: '10px', margin: '10px' }}
                 onClick={() => {
                   addNewElement("mainNav4");
                 }}
@@ -458,9 +459,9 @@ function MailingPageUI(params) {
                 </div>
               </div>
               <div
-                className="wow fadeInUp col-md-6 col-sm-12 text-md-start"
+                className="wow fadeInUp col-md-5 col-sm-12 text-md-start"
                 data-wow-delay="1.6s"
-                style={{ paddingLeft: '10px', borderRadius: '10px' }}
+                style={{ paddingLeft: '10px', borderRadius: '10px', margin: '10px' }}
                 id="mainNav5"
                 onClick={() => {
                   addNewElement("mainNav5");

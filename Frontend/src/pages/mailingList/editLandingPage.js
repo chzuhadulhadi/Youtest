@@ -11,12 +11,14 @@ import "./style.css";
 import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import { json } from "react-router-dom";
+import { convertToRaw } from "draft-js";
+import draftToHtml from "draftjs-to-html";
 import { formToJSON } from "axios";
 function EditLandingPage(params) {
-  const [id, setId]= useState(0)
+  const [id, setId] = useState(0)
   var queryParameters = new URLSearchParams(window.location.search);
   var emailToDeal = queryParameters.get("id");
-  
+
   const navigate = useNavigate()
   const [showBox, setShowBox] = useState(false);
   const [selectedDiv, setSelectedDiv] = useState();
@@ -37,9 +39,12 @@ function EditLandingPage(params) {
   );
   const [beforeTestTextHtml, setBeforeTestTextHtml] = useState();
   useEffect(() => {
-    let html = convertToHTML(beforeTextState.getCurrentContent());
-    setBeforeTestTextHtml(html);
-  }, [beforeTextState]);
+    const isEmpty = beforeTextState.getCurrentContent().hasText() === false;
+    if (!isEmpty) {
+      let html = draftToHtml(convertToRaw(beforeTextState.getCurrentContent()));
+      setBeforeTestTextHtml(html);
+    }
+  }, [beforeTextState])
 
   useEffect(() => {
     setBeforeTestTextHtml('')
@@ -47,15 +52,46 @@ function EditLandingPage(params) {
       EditorState.createEmpty())
   }, [showTextEditor])
 
-useEffect(()=>{
-apiCall('post', getLandingPage, {limit: 2, page: 1 , id:emailToDeal})
-.then((res)=>{
-document.getElementById('appendData').innerHTML = res?.data?.data?.rows[0]?.html
-console.log('res?.data?.data?.rows[0]?.html',res?.data?.data?.rows[0]?.html)
-}).catch((err)=>{
-  console.log(err)
-})
-})
+  useEffect(() => {
+    apiCall('post', getLandingPage, { limit: 2, page: 1, id: emailToDeal })
+      .then((res) => {
+        document.getElementById('appendData').innerHTML = res?.data?.data?.rows[0]?.html
+        // console.log('res?.data?.data?.rows[0]?.html', res?.data?.data?.rows[0]?.html)
+        setTimeout(() => {
+          const nav1 = document.querySelector('#mainNav1')
+          nav1.addEventListener('click', (e) => {
+            addNewElement('mainNav1')
+          })
+          const nav2 = document.querySelector('#mainNav2')
+          nav2.addEventListener('click', (e) => {
+            addNewElement('mainNav2')
+          }
+          )
+          const nav3 = document.querySelector('#mainNav3')
+          nav3.addEventListener('click', (e) => {
+            addNewElement('mainNav3')
+          }
+          )
+          const nav4 = document.querySelector('#mainNav4')
+          nav4.addEventListener('click', (e) => {
+            addNewElement('mainNav4')
+          }
+          )
+          const nav5 = document.querySelector('#mainNav5')
+          nav5.addEventListener('click', (e) => {
+            addNewElement('mainNav5')
+          }
+          )
+          const nav6 = document.querySelector('#mainNav6')
+          nav6.addEventListener('click', (e) => {
+            addNewElement('mainNav6')
+          }
+          )
+        }, 300);
+      }).catch((err) => {
+        console.log(err)
+      })
+  }, [])
 
   const editTextEditorFunction = (e) => {
     console.log("texteditorfunction");
@@ -75,6 +111,7 @@ console.log('res?.data?.data?.rows[0]?.html',res?.data?.data?.rows[0]?.html)
     }
   };
   function addNewElement(nav) {
+    console.log("addnewelement", nav);
     setItemShowSelect("elements");
     setSelectedDiv(nav);
     setShowBox(true);
@@ -82,18 +119,13 @@ console.log('res?.data?.data?.rows[0]?.html',res?.data?.data?.rows[0]?.html)
     document.querySelector(".dashboard").style.display = "block";
     document.querySelector(".pageSection").style.width = "60%";
   }
+  // useEffect(() => {
 
-  window.addEventListener("load", (event) => {
-    setTimeout(() => {
-      const nav1 = document.querySelector('#mainNav1')
-nav1.addEventListener('click',(e)=>{
-  addNewElement('p')
-})
-    }, 300);
+  // }, []);
 
-  });
 
   function adderFunction(params) {
+    console.log("adderfunction");
     setItemShowSelect("attribute");
     setShowBox(false);
     setShowPicAdder(true);
@@ -106,7 +138,7 @@ nav1.addEventListener('click',(e)=>{
   };
 
   const [selectedFile, setSelectedFile] = useState(null);
- 
+
   const imageUploaderFunction = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -156,13 +188,19 @@ nav1.addEventListener('click',(e)=>{
   };
 
   const changeBackgroundColor = (e) => {
-    const selectedOne = document.getElementById(selectedDiv);
-    selectedOne.style.background = e.target.value
-    var allnodes = selectedOne.childNodes
+    let selectedOne = document.getElementById(selectedDiv);
+    if (selectedDiv === 'mainNav6') {
+      selectedOne = document.getElementById('mmainNav6');
+    }
+    selectedOne.style.background = e.target.value;
+
+    var allnodes = selectedOne.childNodes;
     allnodes.forEach((ele) => {
-      ele.style.color = "white"
-    })
-  }
+      if (ele.style) {
+        ele.style.color = "white";
+      }
+    });
+  };
   const changeFontColor = (e) => {
     const selectedOne = document.getElementById(selectedDiv);
     selectedOne.childNodes.forEach((ele) => {
@@ -174,6 +212,7 @@ nav1.addEventListener('click',(e)=>{
     mainNav1: 'Section 1',
     mainNav2: 'Section 2',
     mainNav3: "Section 3",
+    mainNav6: "Section 4",
     mainNav4: "Section 5",
     mainNav5: 'Section 6',
   })
@@ -280,7 +319,6 @@ nav1.addEventListener('click',(e)=>{
               <button onClick={() => { setShowChangeColor(false) }}> Save </button>
             </div>
           </div>
-         
           {showBox && (
             <div
               style={{
@@ -292,11 +330,7 @@ nav1.addEventListener('click',(e)=>{
             >
             </div>
           )}
-          
-              <section id="appendData" ></section>
-          
-
-          
+          <section id="appendData" ></section>
         </div>
         <button className="btn btn-primary" onClick={() => { savePageFunctionality() }}>Save Landing page</button>
       </div>

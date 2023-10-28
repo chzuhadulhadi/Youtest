@@ -99,7 +99,9 @@ const LandingPage = () => {
 
     return (
         <>
+            <div className='container'>
             <div id="l-page">
+            </div>
             </div>
         </>
     )
