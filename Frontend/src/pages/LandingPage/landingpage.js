@@ -8,13 +8,13 @@ const LandingPage = () => {
     const navigate=useNavigate();
     var queryParameters = new URLSearchParams(window.location.search);
     var id = queryParameters.get("id");
-    console.log(id);
     const [landingPage, setLandingPage] = useState();
     const [testId, setTestId] = useState();
     // const [allLandingPages, setAllLandingPages] = useState([]);
     useEffect(() => {
         getPage();
     }, []);
+    
     useEffect(() => {
         if (landingPage) {
             document.getElementById("l-page").innerHTML = landingPage;

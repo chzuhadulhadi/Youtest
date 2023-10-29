@@ -6,9 +6,11 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertToHTML } from "draft-convert";
 import { apiCall } from "../../apiCalls/apiCalls";
-import { logoUploader, local, addLandingPage, getLandingPage } from "../../apiCalls/apiRoutes";
+import { logoUploader, local, addLandingPage, getLandingPage, updateLandingPage } from "../../apiCalls/apiRoutes";
 import "./style.css";
 import { toast } from "react-toastify";
+import htmlToDraft from "html-to-draftjs";
+import { ContentState } from "draft-js";
 import ReactPaginate from "react-paginate";
 import { json } from "react-router-dom";
 import { convertToRaw } from "draft-js";
@@ -26,6 +28,7 @@ function EditLandingPage(params) {
   const [showChangeColor, setShowChangeColor] = useState(false);
   const [showPicEditor, setShowPicEditor] = useState(false);
   const [showTextEditor, setShowTextEditor] = useState(false);
+  const [attachedTest, setAttachedTest] = useState([]);
   const [imageId, setImageId] = useState('');
   const [showPicAdder, setShowPicAdder] = useState(false);
   const [elementAttribute, setElementAttributes] = useState({
@@ -46,16 +49,17 @@ function EditLandingPage(params) {
     }
   }, [beforeTextState])
 
-  useEffect(() => {
-    setBeforeTestTextHtml('')
-    setBeforeTextState(() =>
-      EditorState.createEmpty())
-  }, [showTextEditor])
+  // useEffect(() => {
+  //   setBeforeTestTextHtml('')
+  //   setBeforeTextState(() =>
+  //     EditorState.createEmpty())
+  // }, [showTextEditor])
 
   useEffect(() => {
     apiCall('post', getLandingPage, { limit: 2, page: 1, id: emailToDeal })
       .then((res) => {
         document.getElementById('appendData').innerHTML = res?.data?.data?.rows[0]?.html
+
         // console.log('res?.data?.data?.rows[0]?.html', res?.data?.data?.rows[0]?.html)
         setTimeout(() => {
           const nav1 = document.querySelector('#mainNav1')
@@ -88,6 +92,7 @@ function EditLandingPage(params) {
           }
           )
         }, 300);
+        setAttachedTest(res?.data?.data?.rows[0]?.testId);
       }).catch((err) => {
         console.log(err)
       })
@@ -119,10 +124,27 @@ function EditLandingPage(params) {
     document.querySelector(".dashboard").style.display = "block";
     document.querySelector(".pageSection").style.width = "60%";
   }
-  // useEffect(() => {
-
-  // }, []);
-
+  useEffect(() => {
+    //add the html of selected seciton into the editorstate
+    const selectedOne = document.getElementById(selectedDiv);
+    if (selectedDiv === 'mmainNav6') {
+      selectedOne = document?.getElementById('mainNav6');
+    }
+    if (selectedOne) {
+      const html = selectedOne?.innerHTML;
+      let contentBlock = htmlToDraft(html);
+      if (contentBlock) {
+        let contentState = ContentState.createFromBlockArray(
+          contentBlock.contentBlocks
+        );
+        let editorState = EditorState.createWithContent(contentState);
+        setBeforeTextState(editorState);
+      }
+    }
+    setBeforeTestTextHtml('')
+    // setBeforeTextState(() =>
+    //   EditorState.createEmpty())
+  }, [showTextEditor])
 
   function adderFunction(params) {
     console.log("adderfunction");
@@ -195,7 +217,7 @@ function EditLandingPage(params) {
     selectedOne.style.background = e.target.value;
 
     var allnodes = selectedOne.childNodes;
-    allnodes.forEach((ele) => {
+    allnodes.forEach((ele) => { 
       if (ele.style) {
         ele.style.color = "white";
       }
@@ -220,8 +242,10 @@ function EditLandingPage(params) {
   const savePageFunctionality = () => {
     const fullhtml = document.querySelector('.sectionToGet').innerHTML
     console.log(fullhtml)
-    apiCall('post', addLandingPage, {
-      html: fullhtml
+    apiCall('post', updateLandingPage, {
+      html: fullhtml,
+      id: emailToDeal,
+      testId: attachedTest,
     })
       .then((res) => {
         if (res.status == 200) {

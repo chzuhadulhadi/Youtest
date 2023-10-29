@@ -13,11 +13,11 @@ module.exports = {
 		console.log('getmysingletest');
 		// const rows = await testService.getAllTest({ where: { id: obj.id } });
 		const getobj = await testService.getMyTestSingle({ where: { id: obj.id } });
-		// console.log(getobj);
+		console.log('getobj', getobj.testObj);
 		// return getobj;
 		const qobj = await testService.makeEditTestObj(getobj.dataValues);
 		// console.log(qobj);
-		return {  obj,...qobj }
+		return { obj, ...qobj }
 		// return { rows }
 	},
 	getMyTest: async function (obj) {
@@ -28,13 +28,13 @@ module.exports = {
 
 		return { rows, count }
 	},
-	getTests:async function (obj) {
+	getTests: async function (obj) {
 		// const offset = obj.page * obj.limit - obj.limit;
 
 		const rows = await testService.getTests();
 		// const count = await testService.getTestsCount();
 
-		return { rows}
+		return { rows }
 	},
 
 	uploadFile: async function (fl) {

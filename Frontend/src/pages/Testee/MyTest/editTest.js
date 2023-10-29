@@ -1,9 +1,6 @@
 import React, { Component, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
-
 import './style.css'
-
-
 import StepsHeader from './components/StepsHeader';
 import PropertiesStep from './components/AllSteps/PropertiesStep';
 import CategoriesStep from './components/AllSteps/CategoriesStep';
@@ -187,23 +184,22 @@ function EditTest(props) {
   }
   function mainObjectAdder(e, property, questionNo, type) {
     // console.log("mainObj[property]", mainObj[property], "type", type)
-    let main = {
-      ...mainObj,
+    console.log("mainObj", mainObj)
+
+    setMainObj(prevMainObj => ({
+      ...prevMainObj,
       [property]: {
-        ...mainObj[property],
+        ...prevMainObj[property],
         [questionNo]: {
-          ...mainObj[property][questionNo],
+          ...prevMainObj[property][questionNo],
           [type]: e.target.value
         }
       }
-    }
-    console.log('main', main);
-    setMainObj(main);
-    // console.log("main", mainObj)
+    }));
   }
-  useEffect(() => {
-    console.log("mainObj", mainObj);
-  }, [mainObj]);
+  // useEffect(() => {
+  // console.log("mainObj", mainObj);
+  // }, [mainObj]);
   function addCategoryStoreToMain() {
     let main = {
       ...mainObj,
@@ -294,9 +290,9 @@ function EditTest(props) {
       <PropertiesStep obj={{ mainObjectAdderForProperties, showTab, tabSelected, mainObj, handleSaveTest, apiCallToCreateTest }} />
       <CategoriesStep obj={{ mainObjectAdder, showTab, tabSelected, setCategoryStore, categoryStore, apiCallToCreateTest, addCategoryStoreToMain, setNewCategoryCreated, mainObj }} />
       <QuestionStep obj={{ mainObjectAdder, showTab, tabSelected, setCategoryStore, categoryStore, mainObj, apiCallToCreateTest, mainObjectAdder, getMainObj, newCategoryCreated }} />
-      <TestLayout obj={{ mainObjectAdder, showTab, tabSelected, mainObjectAdderForLayout,mainObj, apiCallToCreateTest }} />
-      <ResultStructureStep obj={{ showTab, tabSelected, mainObjectAdderForResultStructure,mainObj, apiCallToCreateTest }} />
-      <AutomaticText obj={{ mainObjectAdderForAutomaticText, showTab, tabSelected, categoryStore,mainObj, apiCallToCreateTest }} />
+      <TestLayout obj={{ mainObjectAdder, showTab, tabSelected, mainObjectAdderForLayout, mainObj, apiCallToCreateTest }} />
+      <ResultStructureStep obj={{ showTab, tabSelected, mainObjectAdderForResultStructure, mainObj, apiCallToCreateTest }} />
+      <AutomaticText obj={{ mainObjectAdderForAutomaticText, showTab, tabSelected, categoryStore, mainObj, apiCallToCreateTest }} />
 
     </div>
   </>

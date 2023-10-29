@@ -4,7 +4,7 @@ const model = require("../model");
 module.exports = {
 	createTest: async function (obj, t) {
 		// console.log("obj", !!obj.id);
-		if (obj?.id === 0 ||  obj.id === undefined) {
+		if (obj?.id === 0 || obj.id === undefined) {
 			console.log(" creating obj", obj.id);
 			// Create a new test
 			return await model.test.create(obj, { transaction: t });
@@ -20,9 +20,9 @@ module.exports = {
 			return model.test.findByPk(testId);
 		}
 	},
-	updateTest: async function (user,ids) {
+	updateTest: async function (user, ids) {
 		await model.test.update(
-			{ createdById: user }, 
+			{ createdById: user },
 			{ where: { id: { [Op.in]: ids } } }
 		);
 		return model.test.findByPk(ids[0]);
@@ -48,7 +48,7 @@ module.exports = {
 		});
 	},
 	getTests: async function () {
-		const tests= await model.test.findAll();
+		const tests = await model.test.findAll();
 		//embed owner email from user table as createdById
 		const users = await model.user.findAll();
 		const usersMap = {};
@@ -85,9 +85,13 @@ module.exports = {
 					category: "",
 					freeText: 0,
 				}
+				// console.log("obj.freetext", obj.freeText);
 				retObj[obj.questions[key].categoryName][key]["question"] = obj.questions[key]["question"];
 				retObj[obj.questions[key].categoryName][key]["category"] = obj.questions[key]["categoryName"];
-				if(obj.freeText.hasOwnProperty(key) && obj.freeText[key]?.freeText == 1) {
+				console.log("obj.freeText", obj.freeText);
+				console.log('obj.freeText.hasOwnProperty(key)', obj.freeText.hasOwnProperty(key));
+				console.log('obj.freeText[key]?.freeText == 1', obj.freeText[key]?.freeText == 1);
+				if (obj.freeText.hasOwnProperty(key) && obj.freeText[key]?.freeText == 1) {
 					retObj[obj.questions[key].categoryName][key]["freeText"] = 1;
 				}
 			} else if (!key.includes("answer") && !obj.questions[key].categoryName) {
@@ -154,11 +158,10 @@ module.exports = {
 				console.log(categoryName);
 				if (dbObject.testObj.hasOwnProperty(categoryName)) {
 					const category = dbObject.testObj[categoryName];
-					if(category.freeText==1)
-					{
+					if (category.freeText == 1) {
 						// console.log('category');
 						// console.log(category);
-						editObj.freeText[categoryName]=category;
+						editObj.freeText[categoryName] = category;
 					}
 					for (const questionKey in category) {
 						if (category.hasOwnProperty(questionKey)) {
@@ -216,7 +219,8 @@ module.exports = {
 				};
 			}
 		}
-
+		console.log('dbObject.testObj');
+		console.log(dbObject.testObj);
 		// Process freeText
 		for (const key in dbObject.freeText) {
 			if (dbObject.freeText.hasOwnProperty(key)) {

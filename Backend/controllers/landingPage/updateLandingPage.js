@@ -5,7 +5,7 @@ const landingPageModel = require('../../model/landingPageModel');
 const schema = Joi.object().keys({
 	id: Joi.number().integer().min(0).required(),
 	html: Joi.string(),
-	testId: Joi.number().integer().min(0),
+	testId: Joi.number().integer().allow(null),
 });
 
 const {

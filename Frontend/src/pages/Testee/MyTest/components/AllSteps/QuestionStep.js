@@ -5,7 +5,7 @@ import "./steps.css";
 
 var questionCounter = 0;
 var answerCounter = 0;
-var object = [];
+// var object = [];
 
 function QuestionStep(props) {
   const [html, setHtml] = useState({});
@@ -22,7 +22,6 @@ function QuestionStep(props) {
 
         for (const key in questionsData) {
           if (key.startsWith("question") && !key.includes("-")) {
-            ++questionCounter;
             newState[key] = (
               <>
                 <div id={key}>
@@ -36,14 +35,14 @@ function QuestionStep(props) {
                       placeholder="Question"
                       className="form-control mb-3 pt-3 pb-3"
                       required
-                      value={questionsData[key].question}
+                      defaultValue={questionsData[key].question}
                     />
                   </div>
                   <select
                     name="selectCategory"
                     className="select-category"
                     id={"question" + questionCounter}
-                    value={props.obj.mainObj["questions"][`question${questionCounter}`]?.categoryName}
+                    defaultValue={props.obj.mainObj["questions"][`question${questionCounter}`]?.categoryName}
                     onChange={(e) => categoryValueAdder(e, "categoryName")}
                   // onChange={handleCategoryChange}
                   >
@@ -56,9 +55,31 @@ function QuestionStep(props) {
                       );
                     })}
                   </select>
+                  <input
+                    id={"freeText" + questionCounter}
+                    name={"question" + questionCounter}
+                    type="checkbox"
+                    class="free-text-check"
+                    onChange={handleFreeTextChange}
+                    checked={questionsData[key].freeText}
+                  />
+                  <label className="form-label" class="free-text-label">
+                    Free Text
+                  </label>
+
+                  <button
+                    className="add-answer-text"
+                    id={"answer" + answerCounter}
+                    name={"question" + questionCounter}
+                    onClick={(e) => addHtmlAnswer(e)}
+                  >
+                    Add Answer
+                  </button>
+
                 </div>
               </>
             );
+            ++questionCounter;
           }
         }
 
@@ -79,15 +100,48 @@ function QuestionStep(props) {
                     Answer
                   </label>
                   <input
-                    id={key + "-answer0"}
+                    id={key}
                     type="text"
                     name="categoryField"
                     onChange={(e) => answerAdder(e, "answer")}
                     placeholder="Answer"
                     className="form-control mb-3 pt-3 pb-3 answers-field"
                     required
-                    value={questionsData[key].answer}
+                    defaultValue={questionsData[key].answer}
                   />
+                  {props.obj.getMainObj().scoringType == 1 ? (
+                    <>
+                      <label className="form-label" hidden>
+                        Points
+                      </label>
+                      <input
+                        id={key}
+                        type="number"
+                        onChange={(e) => answerAdder(e, "point")}
+                        placeholder="points"
+                        min="0"
+                        max="10"
+                        defaultValue={questionsData[key].point}
+                        className="form-control mb-3 pt-3 pb-3 answers-field-points"
+                        required
+                      ></input>
+                    </>
+                  ) : (
+                    <>
+                      <label className="form-label" hidden>
+                        Type
+                      </label>
+                      <select
+                        className="form-control mb-3 pt-3 pb-3 answers-field-points"
+                        id={key}
+                        defaultValue={questionsData[key].point}
+                        onChange={(e) => answerAdder(e, "point")}
+                      >
+                        <option value={0}>False</option>
+                        <option value={10}>True</option>
+                      </select>
+                    </>
+                  )}
                 </div>
               </>
             );
@@ -98,47 +152,48 @@ function QuestionStep(props) {
       });
 
       // Initialize html state for free-text questions
-      setHtml((prevState) => {
-        let newState = { ...prevState };
-        console.log(freeTextData);
-        for (const key in freeTextData) {
-          console.log(key);
-          if (key.startsWith("question")) {
-            newState[key] = (
-              <>
-                <div id={key}>
-                  <div id="singleQuestion" className="question">
-                    <label className="form-label">Question</label>
-                    <input
-                      id={key}
-                      type="text"
-                      name="categoryField"
-                      onChange={(e) => categoryValueAdder(e, "question")}
-                      placeholder="Question"
-                      className="form-control mb-3 pt-3 pb-3"
-                      required
-                      value={freeTextData[key].question}
-                    />
-                  </div>
-                  <input
-                    id={"freeText" + questionCounter}
-                    name={"question" + questionCounter}
-                    type="checkbox"
-                    class="free-text-check"
-                    onChange={handleFreeTextChange}
-                  />
-                  <label className="form-label" class="free-text-label">
-                    Free Text
-                  </label>
-                  {/* ... other form elements */}
-                </div>
-              </>
-            );
-          }
-        }
+      // setHtml((prevState) => {
+      //   let newState = { ...prevState };
+      //   console.log(freeTextData);
+      //   for (const key in freeTextData) {
+      //     console.log(key);
+      //     if (key.startsWith("question")) {
+      //       newState[key] = (
+      //         <>
+      //           <div id={key}>
+      //             <div id="singleQuestion" className="question">
+      //               <label className="form-label">Question</label>
+      //               <input
+      //                 id={key}
+      //                 type="text"
+      //                 name="categoryField"
+      //                 onChange={(e) => categoryValueAdder(e, "question")}
+      //                 placeholder="Question"
+      //                 className="form-control mb-3 pt-3 pb-3"
+      //                 required
+      //                 defaultValue={freeTextData[key].question}
+      //               />
+      //             </div>
+      //             <input
+      //               id={"freeText" + questionCounter}
+      //               name={"question" + questionCounter}
+      //               type="checkbox"
+      //               class="free-text-check"
+      //               onChange={handleFreeTextChange}
+      //               defaultValue={freeTextData[key].freeText}
+      //             />
+      //             <label className="form-label" class="free-text-label">
+      //               Free Textsss
+      //             </label>
+      //             {/* ... other form elements */}
+      //           </div>
+      //         </>
+      //       );
+      //     }
+      //   }
 
-        return newState;
-      });
+      //   return newState;
+      // });
     }
   }, [props?.obj?.mainObj]);
 
@@ -149,6 +204,7 @@ function QuestionStep(props) {
   const [lenght, setLength] = useState(null);
 
   const categoryValueAdder = (e, name) => {
+    console.log('questions', e.target.id, name);
     props.obj.mainObjectAdder(e, "questions", e.target.id, name);
     return 0;
   };
@@ -168,8 +224,8 @@ function QuestionStep(props) {
     // })
     var str = e.target.id.split("freeText");
     e.target.checked == true
-      ? document.getElementById("answer" + str[1]).setAttribute("hidden", true)
-      : document.getElementById("answer" + str[1]).removeAttribute("hidden");
+      ? document.getElementById("answer" + str[1])?.setAttribute("hidden", true)
+      : document.getElementById("answer" + str[1])?.removeAttribute("hidden");
     var temp = e;
     temp.target.value = e.target.checked == true ? 1 : 0;
     // e.target.value == 0 ? document.getElementById("freeTextField" + str[1]).setAttribute("hidden", true) :
@@ -389,6 +445,7 @@ function QuestionStep(props) {
     });
   }
   function answerAdder(e, property) {
+    console.log('answer', e.target.id, property);
     props.obj.mainObjectAdder(e, "questions", e.target.id, property);
   }
 

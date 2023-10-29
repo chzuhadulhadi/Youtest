@@ -13,6 +13,8 @@ import "../style.css";
 import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import { json } from "react-router-dom";
+import htmlToDraft from "html-to-draftjs";
+import { ContentState } from "draft-js";
 import { formToJSON } from "axios";
 function MailingPageUI(params) {
   const navigate = useNavigate()
@@ -55,7 +57,27 @@ function MailingPageUI(params) {
   const editTextEditorFunction = (e) => {
     console.log("texteditorfunction");
   };
-
+  useEffect(() => {
+    //add the html of selected seciton into the editorstate
+    const selectedOne = document.getElementById(selectedDiv);
+    if (selectedDiv === 'mmainNav6') {
+      selectedOne = document?.getElementById('mainNav6');
+    }
+    if (selectedOne) {
+      const html = selectedOne?.innerHTML;
+      let contentBlock = htmlToDraft(html);
+      if (contentBlock) {
+        let contentState = ContentState.createFromBlockArray(
+          contentBlock.contentBlocks
+        );
+        let editorState = EditorState.createWithContent(contentState);
+        setBeforeTextState(editorState);
+      }
+    }
+    setBeforeTestTextHtml('')
+    // setBeforeTextState(() =>
+    //   EditorState.createEmpty())
+  }, [showTextEditor])
   const showToastMessage = (text, color, notify) => {
     if (notify == 1) {
       toast.success(text, {
@@ -232,7 +254,8 @@ function MailingPageUI(params) {
               onEditorStateChange={setBeforeTextState}
               id="afterTestText"
               wrapperClassName="wrapper-class"
-              editorClassName="editor-class"
+              // editorClassName="editor-class"
+              editorStyle={{ backgroundColor: document.getElementById(selectedDiv)?.style?.background }}
               toolbarClassName="toolbar-class"
             />
             <button

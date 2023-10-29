@@ -204,7 +204,8 @@ function Paper() {
             console.log(res);
             return (
               <>
-                <label>{res?.name} <input type="checkbox" onChange={checkboxFunctionality} id={res.id} /></label>
+                <label><input type="checkbox" onChange={checkboxFunctionality} id={res.id} />{res?.name} </label>
+                <br />
               </>)
           })
         ) : (
@@ -219,6 +220,7 @@ function Paper() {
               showToastMessage("Please select only one Test", "red", 2);
             }
             else {
+              setShow(false);
               apiCall('post', linkTest, { testId: array[0], id: elementId }, true)
                 .then((res) => {
                   showToastMessage("Linked Successfully", "green", 1);
@@ -243,7 +245,7 @@ function Paper() {
   }
 
   const editLandingPage = () => {
-    apiCall("post", editLandingPage, { id: elementId }, true)
+    apiCall("post", updateLandingPage, { id: elementId, }, true)
       .then((res) => {
         console.log(res);
         showToastMessage("Landing page updated Successfully ", "green", 1);
@@ -305,7 +307,7 @@ function Paper() {
         {modalHandler == "showAttachedTestModal" && showAttachedTestModal()}
       </Modal>
       <div>
-        <table className="table" style={{ borderSpacing: '0 15px',borderCollapse:'separate' }}>
+        <table className="table" style={{ borderSpacing: '0 15px', borderCollapse: 'separate' }}>
           <thead>
             <tr>
               <th style={{ textAlign: 'center' }} scope="col">No</th>
@@ -317,7 +319,7 @@ function Paper() {
           {allLandingPages.map((ele, index) => {
             var tempElement = document.createElement('div');
             tempElement.innerHTML = ele?.html;
-            var firstText = tempElement.querySelector('#mainNav1').textContent.trim();
+            var firstText = tempElement.querySelector('#mainNav1')?.textContent?.trim();
             return (
               <tr key={index} >
                 <td style={{ fontSize: '16px' }}>{index + 1}</td>
@@ -330,7 +332,7 @@ function Paper() {
                       setModalHandler("linkModal");
                       setShow(true);
                       setElementId(ele.id);
-                      setModalTitle("Link Test");
+                      setModalTitle("Link the landing page to a test");
                     }}>
                     Link
                   </span> <span style={{ background: '#FF9000', margin: '5px', cursor: 'pointer', color: 'white' }}
