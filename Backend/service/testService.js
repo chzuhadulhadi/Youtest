@@ -134,7 +134,7 @@ module.exports = {
 				tableSummary: dbObject.resultStructure?.tableSummary || false,
 				graph: dbObject.resultStructure?.graph || false
 			},
-			automaticText: {},
+			automaticText: dbObject?.automaticText,
 			sendAll: dbObject.sendAll || 0,
 			freeText: {},
 			beforeTestText: dbObject.beforeTestText || '',
@@ -208,17 +208,17 @@ module.exports = {
 			}
 		}
 		// Process automaticText
-		for (const key in dbObject.automaticText) {
-			if (dbObject.automaticText.hasOwnProperty(key)) {
-				const textData = dbObject.automaticText[key];
-				editObj.automaticText[key] = {
-					min: textData.min,
-					max: textData.max,
-					text: textData.text,
-					category: textData.category
-				};
-			}
-		}
+		// for (const key in dbObject.automaticText) {
+		// 	if (dbObject.automaticText.hasOwnProperty(key)) {
+		// 		const textData = dbObject.automaticText[key];
+		// 		editObj.automaticText[key] = {
+		// 			min: textData.min,
+		// 			max: textData.max,
+		// 			text: textData.text,
+		// 			category: textData.category
+		// 		};
+		// 	}
+		// }
 		console.log('dbObject.testObj');
 		console.log(dbObject.testObj);
 		// Process freeText

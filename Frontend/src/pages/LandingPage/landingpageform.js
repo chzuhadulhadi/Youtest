@@ -4,7 +4,7 @@ import { getSingleLandingPage,sendMailingList,sendUserInfo } from '../../apiCall
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 
-const LandingPage = () => {
+const LandingPageForm = () => {
     const navigate=useNavigate();
     var queryParameters = new URLSearchParams(window.location.search);
     var id = queryParameters.get("id");
@@ -17,7 +17,10 @@ const LandingPage = () => {
     
     useEffect(() => {
         if (landingPage) {
-            document.getElementById("l-page").innerHTML = landingPage;
+            //extract only mainNav4
+            console.log(landingPage);
+            const mainNav4 = landingPage.split('<form id="submissionForm">')[1].split('</form>')[0];
+            document.getElementById("l-page").innerHTML = '<form id="submissionForm">'+mainNav4+'</form>';
             const sections = document.querySelectorAll("#l-page section");
             sections.forEach((section) => {
                 section.style.border = "none";
@@ -47,8 +50,8 @@ const LandingPage = () => {
         const firstName=formData.get("firstName");
         const phoneNumber=formData.get('phoneNumber');
         const termAndCondition=!!formData.get('termAndCondition');
-        const dto={emails:[{email:email,name:firstName}],id:[testId],mailingList:[],note:'Test',LandingPageId:id,LandingPageData:{email,lastName,firstName,phoneNumber,termAndCondition,testId}}
-        // apiCall('post',sendUserInfo,{email,lastName,firstName,phoneNumber,termAndCondition,testId});
+        const dto={emails:[{email:email,name:firstName}],id:[testId],mailingList:[],note:'Test',LandingPageId:id}
+        apiCall('post',sendUserInfo,{email,lastName,firstName,phoneNumber,termAndCondition,testId});
         const resp = await apiCall("post", sendMailingList,dto, true);
         if (resp.status === 200) {
           showToastMessage("Test send successfully on your mail", "green", 1);
@@ -99,12 +102,10 @@ const LandingPage = () => {
 
     return (
         <>
-            <div className='container'>
             <div id="l-page">
-            </div>
             </div>
         </>
     )
 }
 
-export default LandingPage
+export default LandingPageForm

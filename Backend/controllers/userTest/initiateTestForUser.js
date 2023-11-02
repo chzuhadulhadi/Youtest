@@ -6,9 +6,9 @@ const schema = Joi.object().keys({
 	id: Joi.array().required(),//test id
 	emails: Joi.array(),
 	mailingList: Joi.array(),
-	note: Joi.string()
-
-
+	note: Joi.string(),
+	LandingPageId: Joi.number(),
+	LandingPageData: Joi.object(),
 });
 
 const {

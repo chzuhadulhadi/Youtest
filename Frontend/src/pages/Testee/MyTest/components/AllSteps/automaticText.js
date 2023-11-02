@@ -20,7 +20,6 @@ function AutomaticText(props) {
   useEffect(() => {
 
     let html = convertToHTML(beforeTextState.getCurrentContent());
-    console.log("🚀 ~ file: automaticText.js:23 ~ useEffect ~ html:", html)
     setBeforeTestTextHtml(html)
   }, [beforeTextState])
 
@@ -66,7 +65,6 @@ function AutomaticText(props) {
                 );
               })}
             </select>
-
             <label className="form-label">Minimum Value</label>
             <input
               id={"condition" + conditionCounter}
@@ -114,6 +112,45 @@ function AutomaticText(props) {
     });
   }
 
+  function addQuestiontextRule() {
+    setShowSubmit(true)
+    setHtml((prevState) => {
+      let name = Object.assign({}, prevState);
+      name["qcondition" + conditionCounter] = (
+        <>
+          <div className="questionSetter">
+            <select
+              id={"qcondition" + conditionCounter}
+              className="automatic-text-select-cat"
+              onChange={(e) => AutomaticTextAdder(e, "questionAnswer")}
+            >
+              <option>Select Question</option>
+              {Object.keys(props.obj.categoryStore).map((ele) => {
+                return (
+                  <option value={props.obj.categoryStore[ele].categoryName}>
+                    {props.obj.categoryStore[ele].categoryName}
+                  </option>
+                );
+              })}
+            </select>
+            <label className="form-label">Text for the range</label>
+            <input
+              id={"qcondition" + conditionCounter}
+              type="text"
+              name="text"
+              onChange={(e) => AutomaticTextAdder(e, "text")}
+              placeholder="Enter text"
+              className="form-control mb-3 pt-3 pb-3"
+              required
+            />
+            <br />
+          </div>
+        </>
+      );
+      ++conditionCounter;
+      return name; // return new object jasper object
+    });
+  }
   return (
     <div
       className="automatic-text-content"
@@ -129,86 +166,72 @@ function AutomaticText(props) {
           className="formClass"
         >
           <h3>#6 - AUTOMATIC TEXT</h3>
-          {Object?.keys(props.obj?.mainObj?.automaticText || {})?.map((key) => {
-          const condition = props.obj?.mainObj?.automaticText[key];
-          return (
-            <div key={key}>
-              <div className="questionSetter">
-                <select
-                  id={key}
-                  className="automatic-text-select-cat"
-                  onChange={(e) => AutomaticTextAdder(e, "category")}
-                  value={condition.category}
-                >
-                  <option>Select Category</option>
-                  {Object.keys(props.obj.categoryStore).map((ele) => {
-                    return (
-                      <option
-                        key={ele}
-                        value={props.obj.categoryStore[ele].categoryName}
-                      >
-                        {props.obj.categoryStore[ele].categoryName}
-                      </option>
-                    );
-                  })}
-                </select>
+          {Object?.keys(props.obj?.mainObj?.automaticText || {})?.map((key,index) => {
+            //check if html is an empty object
+            if(html[key])
+            {
+              return ;
+            }
+            const condition = props.obj?.mainObj?.automaticText[key];
+            return key.startsWith("qcondition") ?
+              <div key={key}>
+                <div className="questionSetter">
+                  <select
+                    id={key}
+                    className="automatic-text-select-cat"
+                    onChange={(e) => AutomaticTextAdder(e, "questionAnswer")}
+                    value={props.obj?.mainObj?.automaticText[key].questionAnswer}
+                  >
+                    <option>Select Question/Answer</option>
+                    {Object.keys(props.obj.mainObj.questions).map((ele) => {
+                      if (ele.startsWith("question")) {
+                        const question = props.obj.mainObj.questions[ele].question;
+                        console.log(question);
+                        if (question) {
+                          const answers = Object.keys(props.obj.mainObj.questions)
 
-                <label className="form-label">Minimum Value</label>
-                <input
-                  id={key}
-                  type="number"
-                  name="min"
-                  onChange={(e) => AutomaticTextAdder(e, "min")}
-                  placeholder="Min Value"
-                  className="form-control mb-3 pt-3 pb-3"
-                  required
-                  value={condition.min}
-                />
-                <label className="form-label">Maximum Value</label>
-                <input
-                  id={key}
-                  type="number"
-                  name="max"
-                  onChange={(e) => AutomaticTextAdder(e, "max")}
-                  placeholder="Max Value"
-                  className="form-control mb-3 pt-3 pb-3"
-                  required
-                  value={condition.max}
-                />
-                <label className="form-label">Text for the range</label>
-                <input
-                  id={key}
-                  type="text"
-                  name="text"
-                  onChange={(e) => AutomaticTextAdder(e, "text")}
-                  placeholder="Enter text"
-                  className="form-control mb-3 pt-3 pb-3"
-                  required
-                  value={condition.text}
-                />
-                {/* <Editor
+                            .filter((ansEle) => ansEle.startsWith(ele + "-answer"))
+                            .map((ansEle) => {
+                              const answer = props.obj.mainObj.questions[ansEle].answer;
+                              return (
+                                <option key={ansEle} value={answer}>
+                                  {answer}
+                                </option>
+                              );
+                            });
+                          return (
+                            <optgroup key={ele} label={question}>
+                              {answers}
+                            </optgroup>
+                          );
+                        }
+                      }
+                    })}
+                  </select>
 
-                  onEditorStateChange={setBeforeTextState}
-                  id="beforeTestText"
-                  wrapperClassName="wrapper-class"
-                  editorClassName="editor-class"
-                  toolbarClassName="toolbar-class"
-                /> */}
-                <br />
+                  <label className="form-label">Text for the range</label>
+                  <input
+
+                    id={key}
+                    type="text"
+                    name="text"
+                    onChange={(e) => AutomaticTextAdder(e, "text")}
+                    placeholder="Enter text"
+                    className="form-control mb-3 pt-3 pb-3"
+                    required
+                    value={props.obj?.mainObj?.automaticText[key].text}
+                  />
+                  <br />
+                </div>
               </div>
-            </div>
-          );
-        })}
-          <button onClick={addAutomatictextRule}>+</button>
-          {Object.keys(html).map(function (key, i) {
-            return (
+              :
               <div key={key}>
                 <div className="questionSetter">
                   <select
                     id={key}
                     className="automatic-text-select-cat"
                     onChange={(e) => AutomaticTextAdder(e, "category")}
-                    // value={condition.category}
+                    value={condition.category}
                   >
                     <option>Select Category</option>
                     {Object.keys(props.obj.categoryStore).map((ele) => {
@@ -222,7 +245,6 @@ function AutomaticText(props) {
                       );
                     })}
                   </select>
-
                   <label className="form-label">Minimum Value</label>
                   <input
                     id={key}
@@ -232,7 +254,7 @@ function AutomaticText(props) {
                     placeholder="Min Value"
                     className="form-control mb-3 pt-3 pb-3"
                     required
-                    // value={condition.min}
+                    value={condition.min}
                   />
                   <label className="form-label">Maximum Value</label>
                   <input
@@ -243,7 +265,7 @@ function AutomaticText(props) {
                     placeholder="Max Value"
                     className="form-control mb-3 pt-3 pb-3"
                     required
-                    // value={condition.max}
+                    value={condition.max}
                   />
                   <label className="form-label">Text for the range</label>
                   <input
@@ -254,9 +276,148 @@ function AutomaticText(props) {
                     placeholder="Enter text"
                     className="form-control mb-3 pt-3 pb-3"
                     required
-                    // value={condition.text}
+                    value={condition.text}
+                  />
+                  <br />
+                </div>
+              </div>
+          })}
+
+          {Object.keys(html).map(function (key, i) {
+            return (
+              key.startsWith("qcondition") ? <div key={key}>
+                <div className="questionSetter">
+                  <select
+                    id={key}
+                    className="automatic-text-select-cat"
+                    onChange={(e) => AutomaticTextAdder(e, "questionAnswer")}
+                  >
+                    <option>Select Question/Answer</option>
+                    {Object.keys(props.obj.mainObj.questions).map((ele) => {
+                      if (ele.startsWith("question")) {
+                        const question = props.obj.mainObj.questions[ele].question;
+                        console.log(question);
+                        if (question) {
+                          const answers = Object.keys(props.obj.mainObj.questions)
+                            .filter((ansEle) => ansEle.startsWith(ele + "-answer"))
+                            .map((ansEle) => {
+                              const answer = props.obj.mainObj.questions[ansEle].answer;
+                              return (
+                                <option key={ansEle} value={answer}>
+                                  {answer}
+                                </option>
+                              );
+                            });
+                          return (
+                            <optgroup key={ele} label={question}>
+                              {answers}
+                            </optgroup>
+                          );
+                        }
+                      }
+                    })}
+                  </select>
+
+                  {/* <label className="form-label">Minimum Value</label>
+                  <input
+                    id={key}
+                    type="number"
+                    name="min"
+                    onChange={(e) => AutomaticTextAdder(e, "min")}
+                    placeholder="Min Value"
+                    className="form-control mb-3 pt-3 pb-3"
+                    required
+                  // value={condition.min}
+                  />
+                  <label className="form-label">Maximum Value</label>
+                  <input
+                    id={key}
+                    type="number"
+                    name="max"
+                    onChange={(e) => AutomaticTextAdder(e, "max")}
+                    placeholder="Max Value"
+                    className="form-control mb-3 pt-3 pb-3"
+                    required
+                  // value={condition.max}
+                  /> */}
+                  <label className="form-label">Text for the range</label>
+                  <input
+                    id={key}
+                    type="text"
+                    name="text"
+                    onChange={(e) => AutomaticTextAdder(e, "text")}
+                    placeholder="Enter text"
+                    className="form-control mb-3 pt-3 pb-3"
+                    required
+                  // value={condition.text}
                   />
                   {/* <Editor
+
+                onEditorStateChange={setBeforeTextState}
+                id="beforeTestText"
+                wrapperClassName="wrapper-class"
+                editorClassName="editor-class"
+                toolbarClassName="toolbar-class"
+              /> */}
+                  <br />
+                </div>
+              </div>
+                :
+                <div key={key}>
+                  <div className="questionSetter">
+                    <select
+                      id={key}
+                      className="automatic-text-select-cat"
+                      onChange={(e) => AutomaticTextAdder(e, "category")}
+                    // value={condition.category}
+                    >
+                      <option>Select Category</option>
+                      {Object.keys(props.obj.categoryStore).map((ele) => {
+                        return (
+                          <option
+                            key={ele}
+                            value={props.obj.categoryStore[ele].categoryName}
+                          >
+                            {props.obj.categoryStore[ele].categoryName}
+                          </option>
+                        );
+                      })}
+                    </select>
+
+                    <label className="form-label">Minimum Value</label>
+                    <input
+                      id={key}
+                      type="number"
+                      name="min"
+                      onChange={(e) => AutomaticTextAdder(e, "min")}
+                      placeholder="Min Value"
+                      className="form-control mb-3 pt-3 pb-3"
+                      required
+                    // value={condition.min}
+                    />
+                    <label className="form-label">Maximum Value</label>
+                    <input
+                      id={key}
+                      type="number"
+                      name="max"
+                      onChange={(e) => AutomaticTextAdder(e, "max")}
+                      placeholder="Max Value"
+                      className="form-control mb-3 pt-3 pb-3"
+                      required
+                    // value={condition.max}
+                    />
+                    <label className="form-label">Text for the range</label>
+                    <input
+                      id={key}
+                      type="text"
+                      name="text"
+                      onChange={(e) => AutomaticTextAdder(e, "text")}
+                      placeholder="Enter text"
+                      className="form-control mb-3 pt-3 pb-3"
+                      required
+                    // value={condition.text}
+                    />
+                    {/* <Editor
 
                     onEditorStateChange={setBeforeTextState}
                     id="beforeTestText"
@@ -264,12 +425,13 @@ function AutomaticText(props) {
                     editorClassName="editor-class"
                     toolbarClassName="toolbar-class"
                   /> */}
-                  <br />
+                    <br />
+                  </div>
                 </div>
-              </div>
             );
           })}
-          {/* <button style={showSubmit ? { display: "block" } : { display: 'none' }} type="submit">Save Test & Close </button> */}
+          <button onClick={addAutomatictextRule}>Add Text For Category</button>
+          <button type='button' onClick={addQuestiontextRule}>Add Text For Question</button>
           <button type="submit">Save Test & Close </button>
         </form>
       </div>

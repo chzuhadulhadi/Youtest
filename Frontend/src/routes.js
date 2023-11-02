@@ -27,6 +27,8 @@ import Tests from './pages/admin/tests';
 import AdminEditTest from './pages/admin/editTest';
 import Results from './pages/admin/results';
 import Verify from './pages/LoginPages/verify';
+import LandingPageForm from './pages/LandingPage/landingpageform';
+import LandingPageData from './pages/LandingPage/landingpagedata';
 
 export default function Router() {
   const routes = useRoutes([
@@ -37,7 +39,7 @@ export default function Router() {
         { element: <Navigate to="/dashboard" />, index: true },
         { path: 'mytest', element: <MainQuestionaire /> },
         { path: 'questionaire-history', element: <MainQuestionaire /> },
-        { path: 'landing-pages', element: <LandingPages /> },
+        { path: 'landing-pages', element: <LandingPageData /> },
         { path: 'my-landing-pages', element: <MainQuestionaire /> },
         { path: 'my-mailing-list', element: <MainQuestionaire /> },
       ],
@@ -94,6 +96,10 @@ export default function Router() {
     {
       path:'/landingpage/:id?',
       element:<LandingPage/>
+    },
+    {
+      path: '/landingpageform/:id?',
+      element:<LandingPageForm/>,
     },
     {
       path: '/temp/*',

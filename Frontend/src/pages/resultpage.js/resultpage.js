@@ -16,6 +16,7 @@ function ResultPage() {
   const [invalidResult, setInvalidResult] = useState(0);
   const [formObj, setFormObj] = useState({});
   const [categoryData, setCategoryData] = useState({});
+  const [autoText, setAutoText] = useState({});
 
   useEffect(() => {
     const url = window.location.href.split("/");
@@ -45,6 +46,43 @@ function ResultPage() {
       })
 
   }, [])
+  useEffect(() => {
+    if (!formObj) {
+      return; // Handle the case where formObj is not defined or is falsy.
+    }
+    else {
+      const selectedAnswers = [];
+      const selectAnswer = [];
+
+      for (const key in formObj.testObj) {
+        for (const questionKey in formObj.testObj[key]) {
+          const answer = formObj?.testObj[key][questionKey][formObj?.testObj[key][questionKey]["selectAnswer"]]["answer"];
+          selectedAnswers.push(answer);
+        }
+      }
+      // console.log( formObj.automaticText);
+      for (const key in formObj.automaticText) {
+        // console.log('key', key);
+        if (key.includes('qcondition')) {
+
+          const questionAnswer = formObj.automaticText[key]?.questionAnswer;
+          // console.log('jete')
+
+          if (selectedAnswers.includes(questionAnswer)) {
+            const text = formObj.automaticText[key]?.text;
+            selectAnswer.push(text);
+          }
+        }
+      }
+
+      // console.log(selectAnswer);
+      setAutoText(selectAnswer);
+    }
+
+  }, [formObj]);
+
+
+
 
   function getTestStatus(testObj) {
     var status = "";
@@ -59,7 +97,7 @@ function ResultPage() {
     }
     return status;
   }
-  console.log('formob', formObj);
+  // console.log('formob', formObj);
   return (
     <div className='resultpage'>
       {(!invalidResult && formObj && formObj.id) && (
@@ -115,6 +153,16 @@ function ResultPage() {
                 )
               })
             }
+            {
+              autoText.map(function (text) {
+                return (
+                  <div>
+                    {text}
+                  </div>
+                )
+              }
+              )
+            }
           </div>
           {/* Automatic text ends */}
 
@@ -126,7 +174,6 @@ function ResultPage() {
           <div class="examinee-comments">
             <h5>Examinee Comments</h5>
             {
-
               Object.keys(categoryData).map(function (key) {
                 return (
                   <div className='examinee-comments-box'>

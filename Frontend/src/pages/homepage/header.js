@@ -1,16 +1,17 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Typography, Menu, MenuItem, Popper, Paper, Grow,MenuList } from "@mui/material";
+import { Typography, Menu, MenuItem, Popper, Paper, Grow, MenuList } from "@mui/material";
 
 import "./css/media.css";
 import "./css/theme.css";
 import "./header.css";
 import { Dropdown } from "react-bootstrap";
+import { frontEndPath } from "../../apiCalls/apiRoutes";
 const menuStyle = {
   backgroundColor: '#696969', // Set the background color to gray
-  fontSize: '1.2em', 
+  fontSize: '1.2em',
   // margin:'10px',     // Increase font size slightly
-  padding: '10px 20px'   ,      // Add padding
+  padding: '10px 20px',      // Add padding
 };
 function Header({ setLoginCheck }) {
 
@@ -47,6 +48,7 @@ function Header({ setLoginCheck }) {
   const logoutHandler = () => {
     localStorage.removeItem("token");
     navigate("/");
+    window.location.reload();
   };
 
   function handleListKeyDown(event) {
@@ -83,35 +85,22 @@ function Header({ setLoginCheck }) {
           <li>
             <Typography sx={{ minWidth: 100 }}><a href="#contact">Contact</a></Typography>
           </li>
-          {token && (
-            <li ref={menuRef} >
-              <Typography sx={{ minWidth: 100 }} onClick={(e) => setAnchorEl(e.currentTarget)}>
-                <a style={{ color: "white" }} > User </a>
-              </Typography>
-              <Popper open={open} anchorEl={anchorEl} transition disablePortal >  
-                {({ TransitionProps, placement }) => (
-                  <Grow
-                    {...TransitionProps}
-                  style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-                  >
-                      <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                        <MenuItem style={menuStyle} onClick={() => navigate("/dashboard/mytest")}>Dashboard</MenuItem>
-                        <MenuItem style={menuStyle} onClick={logoutHandler}>Logout</MenuItem>
-                      </MenuList>
-                  </Grow>
-                )}
-              </Popper>
+          {token ?
+            <> <li>
+              <Typography sx={{ minWidth: 100 }}><a href="/dashboard/mytest">Dashboard</a></Typography>
             </li>
-          )}
-
-          {!token && (
-            <li onClick={() => setLoginCheck(true)}>
+              <li><Typography sx={{ minWidth: 100 }}><a href="/" onClick={logoutHandler}>Logout</a></Typography></li></>
+            : <> <li onClick={() => setLoginCheck(true)}>
               <a style={{ color: "white" }} href="#login">
                 Login
               </a>
               <span className="menu-item-bg"></span>
-            </li>
-          )}
+            </li><li onClick={() => setLoginCheck(true)}>
+                <a style={{ color: "white" }} href={frontEndPath + 'signup'}>
+                  Signup
+                </a>
+                <span className="menu-item-bg"></span>
+              </li></>}
         </ul>
       </nav>
       <div className="menu-toggle" onClick={() => setIsMobileMenuOpen(true)}>

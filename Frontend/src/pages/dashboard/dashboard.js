@@ -9,6 +9,7 @@ import Paper from "../questionaire/questionpaper";
 import MyQuestionaire from "../questionaire/myquestionaire";
 import { useEffect, useState } from "react";
 import SideBar from '../mainComponent/SideBar';
+import LandingPageData from "../LandingPage/landingpagedata";
 
 
 function Dashboard(params) {
@@ -63,7 +64,7 @@ function Dashboard(params) {
         {(newlocation == '/mytest') && <MyQuestionaire />}
         {(newlocation == '/my-mailing-list') && <AddUserInList />}
         {(newlocation == '/questionaire-history') && <QuestionaireHistory />}
-        {(newlocation == '/landing-pages') && <Paper />}
+        {(newlocation == '/landing-pages') && <LandingPageData />}
         {(newlocation == '/my-landing-pages') && <Paper />}
       </div>
     </div>

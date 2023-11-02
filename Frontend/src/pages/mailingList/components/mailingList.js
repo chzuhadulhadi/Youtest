@@ -453,7 +453,7 @@ function MailingPageUI(params) {
                         placeholder="First Name..."
                       />
                       <label className="form-check-label" htmlFor="exampleCheck1">
-                        I accept the terms and conditions
+                        I agree to be sent promotional material from time to time. This registration can be removed at any time.
                       </label>
                     </div>
                     <button type="submit" className="btn btn-primary">

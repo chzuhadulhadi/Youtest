@@ -2,6 +2,8 @@ const testService = require('../service/testService');
 const userTestService = require('../service/userTestService');
 const mailService = require('../service/mailService');
 const userService = require('../service/userService');
+const landingPageService = require('../service/landingPageService');
+
 
 const { Op } = require('sequelize');
 const config = require('../config.json');
@@ -161,11 +163,20 @@ module.exports = {
 							);
 						}
 					});
+					//IF LNDINGPAGEiD THEN ADD IT TO LANDINGPAGEDATA
+					let landingPage=obj.LandingPageData;
+					if (obj.LandingPageId) {
+						var landingPageData = await landingPageService.getSingleLandingPage(
+							{ id: obj.LandingPageId }
+						);
+						landingPage = { ...landingPageData, ...landingPage };
+					}
 
 					userTestArray.push({
 						userEmail: single.email,
 						name: testDetails.name,
 						sendAll:testDetails.sendAll,
+						landingPageData: landingPage,
 						orientation: testDetails.orientation,
 						beforeTestText: testDetails.beforeTestText,
 						afterTestText: testDetails.afterTestText,
@@ -183,6 +194,7 @@ module.exports = {
 					});
 				}
 			}
+			// console.log(userTestArray);
 			var bulkTests = await userTestService.initiateBulkTest(userTestArray, t);
 			const testUrls = [];
 			for (let test of bulkTests) {

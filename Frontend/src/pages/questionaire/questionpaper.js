@@ -9,7 +9,8 @@ import {
   getMyTest,
   linkTest,
   viewAttachedTests,
-  pathToViewTest
+  pathToViewTest,
+  frontEndPath
 } from "../../apiCalls/apiRoutes";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -314,6 +315,8 @@ function Paper() {
               <th style={{ textAlign: 'center' }} scope="col">Name</th>
               <th style={{ textAlign: 'center' }} scope="col">Test Actions</th>
               <th style={{ textAlign: 'center' }} scope="col">Landing Page Actions</th>
+              <th style={{ textAlign: 'center' }} scope="col">Landing Page Link</th>
+              <th style={{ textAlign: 'center' }} scope="col">Landing Page Form</th>
             </tr>
           </thead>
           {allLandingPages.map((ele, index) => {
@@ -364,13 +367,39 @@ function Paper() {
                   >
                     Edit
                   </span>
-                  <span style={{ background: '#FF9000', margin: '10px', cursor: 'pointer', color: 'white' }}
+                  {/* <span style={{ background: '#FF9000', margin: '10px', cursor: 'pointer', color: 'white' }}
                     onClick={() => {
                       navigate(`/landingpage/?id=${ele?.id}`);
                     }}
                   >
                     View
+                  </span> */}
+                </td>
+                <td>
+                      {frontEndPath}landingpage/?id={ele?.id} 
+                      <span style={{ background: '#FF9000', margin: '10px', cursor: 'pointer', color: 'white' }}
+                    onClick={() => {
+                      navigator.clipboard.writeText(`${frontEndPath}landingpage/?id=${ele?.id}`)
+                      showToastMessage("Copied Successfully", "green", 1);
+                    }
+                    }
+                  >
+                    Copy
                   </span>
+
+                </td>
+                <td>
+                      {frontEndPath}landingpageform/?id={ele?.id} 
+                      <span style={{ background: '#FF9000', margin: '10px', cursor: 'pointer', color: 'white' }}
+                    onClick={() => {
+                      navigator.clipboard.writeText(`${frontEndPath}landingpageform/?id=${ele?.id}`)
+                      showToastMessage("Copied Successfully", "green", 1);
+                    }
+                    }
+                  >
+                    Copy
+                  </span>
+
                 </td>
               </tr>
             );

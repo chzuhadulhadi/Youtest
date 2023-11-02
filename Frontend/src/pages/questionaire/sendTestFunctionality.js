@@ -22,6 +22,7 @@ function SendTestFunctionality({ testId }) {
   const [showTable, setShowTable] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [testUrl, setTestUrl] = useState("");
   var emailToDeal = [];
 
   useEffect(() => {
@@ -152,6 +153,33 @@ function SendTestFunctionality({ testId }) {
   const [showMailingLists, setShowMailingLists] = useState(false);
   return (
     <div className="sendTestMain">
+      {/* modal which gives testUrl and a button to copy testUrl a close button also */}
+      <Modal show={testUrl!=''} onHide={() => { }} animation={false}>
+        <Modal.Body className="mt-5" style={{ textAlign: "center" }}>
+          <h5>Test Url</h5>
+          <p><a href={testUrl} target="_blank">{testUrl}</a></p>
+          <button
+
+            onClick={() => {
+              navigator.clipboard.writeText(testUrl)
+              showToastMessage("Test's url copied successfully", "green", 1);
+              setTimeout(() => {
+                window.location.reload();
+              }
+                , 1000);
+            }}
+          >
+            Copy
+          </button>
+          <button
+            onClick={() => {
+              window.location.reload();
+            }}
+          >
+            Close
+          </button>
+        </Modal.Body>
+      </Modal>
       <Modal show={showEditModal} onHide={handleClose} animation={false}>
         <Modal.Body className="mt-5" style={{ textAlign: "center" }}>
           <h5>Name of the Test</h5>
@@ -183,14 +211,12 @@ function SendTestFunctionality({ testId }) {
           />
           <button
             onClick={async () => {
+              setShowEditModal(false);
               const resp = await apiCall("post", sendMailingList, dto, true);
               if (resp.status === 200) {
+                console.log(resp.data.testUrl)
                 showToastMessage("Test's send successfully", "green", 1);
-                // setShowEditModal(false)
-                window.location.reload()
-                // navigate('/dashboard/mytest', { sent: 'true' })
-
-
+                setTestUrl(resp.data.data[0].testUrl);
               } else {
                 showToastMessage(
                   "Server Error Please try again later",
