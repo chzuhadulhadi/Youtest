@@ -7,6 +7,7 @@ import {
   getMailingList,
   getMailingListUser,
   getMyTest,
+  deletemyTest,
 } from "../../apiCalls/apiRoutes";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -171,6 +172,20 @@ function MyQuestionaire() {
     }
     setArrayLenght(testArray.length)
   }
+  const DeleteTest = (id) => {
+    apiCall("post", deletemyTest, {id:id})
+      .then((response) => {
+        if (response.status == 200) {
+          showToastMessage("Test Deleted Successfully", "green", 1);
+          getTestData();
+        } else {
+          showToastMessage("Something went wrong", "red", 2);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     (arrayLenght !== 0) ? setSendButtonDisable(false) : setSendButtonDisable(true)
@@ -207,6 +222,7 @@ function MyQuestionaire() {
                     <th>No of questions</th>
                     <th>Time in Mins</th>
                     <th>Change</th>
+                    <th>Single send</th>
 
 
                     {/* <th>orientation</th>
@@ -235,16 +251,25 @@ function MyQuestionaire() {
                         <td>{questionCount(ele)}</td>
                         <td>{ele.timeLimit}</td>
                         <td>
-                          <a href={`/dashboard/mytest/edittest/?id=${ele?.id}`}>Edit Test</a>
-                           |
-                          <h5
+                          <a href={`/dashboard/mytest/edittest/?id=${ele?.id}`} style={{ color: "blue"}}>Edit Test</a>
+                           | <a
+                            style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
+                            onClick={() => {
+                              DeleteTest(ele.id);
+                            }}
+                          >
+                            Delete Test
+                          </a>
+                           </td>
+                        <td>
+                          <a
                             style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
                             onClick={() => {
                               sendTestAndCheckboxFunctionality(ele, { target: { checked: true } });
                             }}
                           >
                             Send This Test
-                          </h5>
+                          </a>
                         </td>
                       </tr>
                     );

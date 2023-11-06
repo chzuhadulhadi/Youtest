@@ -43,7 +43,7 @@ module.exports = {
 				to: obj.email,
 				html: `
 				  Congratulations on your registration on the Test Factory website!<br>
-				  <a href="http://13.51.56.246/verify?token=${VerificationToken}">
+				  <a href="http://16.171.235.229/verify?token=${VerificationToken}">
 					Click here to verify your email
 				  </a>
 				`,
@@ -55,7 +55,7 @@ module.exports = {
 				to: obj.email,
 				html: `
 				  Congratulations on your registration on the Test Factory website!<br>
-				  <a href="http://13.51.56.246/verify?token=${VerificationToken}">
+				  <a href="http://16.171.235.229/verify?token=${VerificationToken}">
 					Click here to verify your email
 				  </a>
 				`,
@@ -188,7 +188,7 @@ module.exports = {
 				to: emailObj.to,
 				from: process.env.EMAIL_USER,
 				html: htmlContent,
-				subject: 'Test No ' + emailObj.body.testId  + ' is complete',
+				subject: 'Test No ' + emailObj.body.testId + ' is complete',
 			};
 		}
 		transporter.sendMail(data, function (error, info) {
@@ -233,8 +233,6 @@ module.exports = {
                             The name of the test</div>
                     </td>
                 </tr>`;
-		// console.log('11111111111111111111111111111111111111', emailObj.body.result);
-		// Object.keys(emailObj.result).map(function (singleKey) {
 		var totalScore = 0;
 		var totalCat = 0;
 
@@ -279,11 +277,6 @@ module.exports = {
 		html += `<tr cellpadding="10">
 				<td colspan="3" style="direction:rtl;padding:10px">`;
 		for (let category in emailObj.body.testObj) {
-			html += `
-					  <p style="text-align:left; direction:ltr">
-						<b>${category}</b><br>
-					  </p>`;
-
 			// Loop through the questions in the current category
 			for (let questionKey in emailObj.body.testObj[category]) {
 				const question = emailObj.body.testObj[category][questionKey];
@@ -309,14 +302,14 @@ module.exports = {
                 </tr>
                 <tr>
                     <td colspan="3" style="direction:rtl"><br> <a
-                            href="http://13.51.56.246/resultpage/${emailObj.body.id
+                            href="http://16.171.235.229/resultpage/${emailObj.body.id
 			}"
                             target="_blank">Click here to get the results in a graph</a> <br></td>
                 </tr>
                 <tr bgcolor="#114e8e">
                     <td colspan="3">
                         <div align="center" style="color:#fff;direction:rtl;text-align:left;direction:ltr">
-                            examinee's comments </div>
+                            Additional comments </div>
                     </td>
                 </tr>
                 <tr style="direction:rtl">
@@ -329,19 +322,80 @@ module.exports = {
 			singleKey.percentage ? (html += `<b>${singleKey.percentage}%<b/><br/>`) : '';
 			singleKey.text ? (html += `${singleKey.text}<br/>`) : '';
 		}
+		const selectedAnswers = [];
+  
+		for (const key in emailObj.body.testObj) {
+		  for (const questionKey in emailObj.body.testObj[key]) {
+			const answer = emailObj.body?.testObj[key][questionKey][emailObj.body?.testObj[key][questionKey]["selectAnswer"]]?.answer;
+			selectedAnswers.push(answer);
+		  }
+		}
+		// console.log( emailObj.body.automaticText);
+		for (const key in emailObj.body.automaticText) {
+		  // console.log('key', key);
+		  if (key.includes('qcondition')) {
+  
+			const questionAnswer = emailObj.body.automaticText[key]?.questionAnswer;
+			// console.log('jete')
+  
+			if (selectedAnswers.includes(questionAnswer)) {
+			  const text = emailObj.body.automaticText[key]?.text;
+			html += `<b>${text}<b/><br/>`;
+			}
+		  }
+		}
 
+		html += `</td></tr>`;
+		if (emailObj.body.email != emailObj.to) {
+			html +=
+				`
+			<tr >
+				<td colspan="3">
+				 		<div align="center" style="background-color:#114e8e;color:#fff;text-align:left;direction:ltr"> Answer Report
+						for Admin</div>
+				`
+			for (let category in emailObj.body.testObj) {
+				// Loop through the questions in the current category
+				for (let questionKey in emailObj.body.testObj[category]) {
+					const question = emailObj.body.testObj[category][questionKey];
+
+					if (question.freeText === 1) {
+						html += `
+								  <p style="text-align:left; direction:ltr">
+									<b>${question.question}</b><br>
+									Answer: ${question.selectAnswer}
+								  </p>`;
+					}
+					else {
+						let color = 'red';
+						if (question[question.selectAnswer]?.points >= 10) {
+							color = 'green';
+						}
+						else if (question[question.selectAnswer]?.points >= 1) {
+							color = 'yellow';
+						}
+						html += `
+								  <p style="text-align:left; direction:ltr">
+									<b>${question.question}</b><br>
+									<span style="color:${color}">Answer: ${question[question.selectAnswer]?.answer}<span><br>
+								  </p>`;
+					}
+				}
+			}
+			html += `</td></tr>`;
+			
+
+		}
 		// 	<tr bgcolor="#114e8e">
 		// 	<td colspan="3">
 		// 		<div align="center" style="color:#fff;text-align:left;direction:ltr"> Answer Report
 		// 			for Admin</div>
 		// 	</td>
 		// </tr>
-		html += `</td></tr>
-               
-                <tr>
+		html += ` <tr>
                     <td colspan="3" bgcolor="#114e8e">
                         <div align="center" style="color:#fff;text-align:left;direction:ltr"> <a
-                                href="http://13.51.56.246" style="color:#fff"
+                                href="http://16.171.235.229" style="color:#fff"
                                 target="_blank">Terms of use and service</a></div>
                     </td>
                 </tr>

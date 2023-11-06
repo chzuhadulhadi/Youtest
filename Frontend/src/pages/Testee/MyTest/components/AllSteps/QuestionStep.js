@@ -61,7 +61,7 @@ function QuestionStep(props) {
                     type="checkbox"
                     class="free-text-check"
                     onChange={handleFreeTextChange}
-                    checked={questionsData[key].freeText}
+                    defaultChecked={questionsData[key].freeText}
                   />
                   <label className="form-label" class="free-text-label">
                     Free Text

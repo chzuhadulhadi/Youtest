@@ -1,9 +1,9 @@
 export const environment = "C://Users/user/Downloads/";
 
-// export const local = "http://13.51.56.246:4000/"
-// export const serverUrl = "http://13.51.56.246:4000/"
+// export const local = "http://16.171.235.229:4000/"
+// export const serverUrl = "http://16.171.235.229:4000/"
 
-export const frontEndPath = "http://13.51.56.246/"
+export const frontEndPath = "http://16.171.235.229/"
 
 export const local = "http://localhost:4000/"
 export const serverUrl = "http://localhost:4000/"
@@ -17,13 +17,14 @@ export const startUserTest = local + 'api/userTest/startTest'
 export const saveUserTest = local + 'api/userTest/saveUserTest'
 export const endUserTest = local + 'api/userTest/endUserTest'
 export const getResult = local + 'api/userTest/getResult'
-export const updateLandingPageInResult = local + 'api/userTest/submitLandingPageDetails'
+export const updateLandingPageInResult = local + 'api/userTest/s    ubmitLandingPageDetails'
 
 // test apis
 export const getMyTest = local + 'api/test/getMyTest'
 export const createMyTest = local + 'api/test/createTest'
 export const transferTests = local + 'api/test/transferTest'
 export const getMySingleTest = local + 'api/test/getSingleTest'
+export const deletemyTest = local + 'api/test/deleteTest'
 
 
 //file upload
