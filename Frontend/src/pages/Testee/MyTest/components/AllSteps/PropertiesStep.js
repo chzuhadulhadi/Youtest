@@ -164,7 +164,8 @@ function PropertiesStep(props) {
                         onEditorStateChange={setBeforeTextState}
                         id="beforeTestText"
                         wrapperClassName="wrapper-class"
-                        editorClassName="editor-class"
+                        editorStyle={{border:'1px solid black'}}
+                        // editorClassName="editor-class"
                         toolbarClassName="toolbar-class"
                     />
 
@@ -176,7 +177,8 @@ function PropertiesStep(props) {
                         onEditorStateChange={setAfterTextState}
                         id="afterTestText"
                         wrapperClassName="wrapper-class"
-                        editorClassName="editor-class"
+                        editorStyle={{border:'1px solid black'}}
+                        // editorClassName="editor-class"
                         toolbarClassName="toolbar-class"
                     />
                     <button type="submit" onClick={(e) => { props.obj.apiCallToCreateTest(e) }}> Save Test & Close </button>

@@ -56,7 +56,7 @@ function ResultPage() {
 
       for (const key in formObj.testObj) {
         for (const questionKey in formObj.testObj[key]) {
-          const answer = formObj?.testObj[key][questionKey][formObj?.testObj[key][questionKey]["selectAnswer"]]["answer"];
+          const answer = formObj?.testObj[key][questionKey][formObj?.testObj[key][questionKey]["selectAnswer"]]?.answer;
           selectedAnswers.push(answer);
         }
       }

@@ -12,12 +12,12 @@ function CategoriesStep(props) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedCat, setSelectedCat] = useState({
-    noOfQuestions: null,
+    noOfQuestion: null,
     categoryName: ""
   })
 
   const [originalCat, setOriginalCat] = useState({
-    noOfQuestions: null,
+    noOfQuestion: null,
     categoryName: ""
   })
   
@@ -61,18 +61,18 @@ function CategoriesStep(props) {
   const editFunctionality = (e) => {
     setSelectedCategory(e);
     const catName = document.getElementById("categoryName" + e.index)
-    const catQuestionNo = document.getElementById("noOfQuestions" + e.index)
+    const catQuestionNo = document.getElementById("noOfQuestion" + e.index)
 
     const Name = catName?.innerText
     const QsNo = catQuestionNo?.innerText
     setSelectedCat({
       categoryName: Name,
-      noOfQuestions: QsNo
+      noOfQuestion: QsNo
     })
 
     setOriginalCat({
       categoryName: Name,
-      noOfQuestions: QsNo
+      noOfQuestion: QsNo
     })
 
     setShowEditModal(true);
@@ -111,6 +111,7 @@ function CategoriesStep(props) {
         props.obj.mainObj.questions[key].categoryName = selectedCat.categoryName
       }
     })
+    setShowEditModal(false);
 
   }
   return (
@@ -136,10 +137,10 @@ function CategoriesStep(props) {
               />
               <label className="form-label">No of Questions</label>
               <input
-                id="noOfQuestions"
+                id="noOfQuestion"
                 type="number"
-                value={selectedCat?.noOfQuestions}
-                onChange={(e) => editHandler(e, "noOfQuestions")}
+                value={selectedCat?.noOfQuestion}
+                onChange={(e) => editHandler(e, "noOfQuestion")}
                 className="form-control mb-3 pt-3 pb-3"
               ></input>
               <button onClick={handleCategoryEditForm}>Submit</button>
@@ -219,7 +220,7 @@ function CategoriesStep(props) {
                       <td id={"categoryName" + index} name="categoryName">
                         {props.obj.categoryStore[key]["categoryName"]}
                       </td>
-                      <td id={"noOfQuestions" + index} name="noOfQuestions">
+                      <td id={"noOfQuestion" + index} name="noOfQuestion">
                         {props.obj.categoryStore[key]["noOfQuestion"]}
                       </td>
                       <td>
