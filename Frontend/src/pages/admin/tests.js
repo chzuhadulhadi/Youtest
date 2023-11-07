@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Table, TableBody, TableCell, TableHead, TableRow, Checkbox, TextField, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material'; // Import only the necessary components
+import { Button, Table, TableBody, td, TableHead, tr, Checkbox, TextField, Dialog, DialogTitle, DialogContent, DialogActions, Typography } from '@mui/material'; // Import only the necessary components
 import { apiCall } from '../../apiCalls/apiCalls';
 import { useNavigate } from 'react-router-dom';
 import { deleteTest, updateTest, getTests,transferTests } from '../../apiCalls/apiRoutes';
@@ -82,6 +82,7 @@ function Tests() {
                 if (res.status === 200) {
                     loadTests();
                 }
+                setOpen(false)
             }).catch((err) => {
                 console.error(err);
             });
@@ -116,6 +117,8 @@ function Tests() {
                     <Button onClick={TransferTest}>Save</Button>
                 </DialogActions>
             </Dialog>
+            
+            <Typography variant='h2' justifyContent={'center'} display={'flex'}>Test List</Typography>
             <TextField
                 label="Search"
                 variant="outlined"
@@ -123,60 +126,49 @@ function Tests() {
                 value={searchText}
                 onChange={handleSearch}
             />
-            <h1>Test List</h1>
-            <Button onClick={()=>setOpen(!open)}>Transfer Tests</Button>
+            <Button onClick={()=>{selectedTests.length<1  ?alert('select a test first'):setOpen(!open)}}  >Transfer selected test</Button>
             <Table my={2} sx={{ position: 'relative', borderCollapse: 'collapse' }}>
                 <TableHead sx={{
                     position: 'sticky',
                     top: 0,
                 }}>
-                    <TableRow>
-                        <TableCell>Select</TableCell>
-                        <TableCell>Sr No.</TableCell>
-                        <TableCell>Name</TableCell>
-                        <TableCell>Before Test Text</TableCell>
-                        <TableCell>After Test Text</TableCell>
-                        <TableCell>Order</TableCell>
-                        <TableCell>Time in Mins</TableCell>
-                        <TableCell>Created At</TableCell>
-                        <TableCell>Owner</TableCell>
-                        <TableCell>Actions</TableCell>
-                    </TableRow>
+                        <th style={{textAlign:'center'}}>Select</th>
+                        <th style={{textAlign:'center'}}>#</th>
+                        <th style={{textAlign:'center'}}>Name</th>
+                        <th style={{textAlign:'center'}}>Time</th>
+                        <th style={{textAlign:'center'}}>Created At</th>
+                        <th style={{textAlign:'center'}}>Owner</th>
+                        <th style={{textAlign:'center'}}>Actions</th>
                 </TableHead>
                 <TableBody>
                     {filteredTests.map((test, index) => (
-                        <TableRow key={test.id}>
-                            <TableCell>
+                        <tr key={test.id}>
+                            <td>
                                 <Checkbox
                                     checked={selectedTests.includes(test.id)}
                                     onChange={() => handleToggleSelect(test.id)}
                                 />
-                            </TableCell>
-                            <TableCell>{index + 1}</TableCell>
-                            <TableCell>{test.name}</TableCell>
-                            <TableCell dangerouslySetInnerHTML={{ __html: test.beforeTestText }}></TableCell>
-                            <TableCell dangerouslySetInnerHTML={{ __html: test.afterTestText }}></TableCell>
-                            <TableCell>{test.randomOrder=='0' ? 'Sequence':'Random'}</TableCell>
-                            <TableCell>{test.timeLimit}</TableCell>
-                            <TableCell>{test.createdAt}</TableCell>
-                            <TableCell>{test.createdByEmail}</TableCell>
-                            <TableCell>
-                                <Button
-                                    variant="outlined"
-                                    color="primary"
+                            </td>
+                            <td>{index + 1}</td>
+                            <td>{test.name}</td>
+                            <td>{test.timeLimit}</td>
+                            <td>{new Date(test.createdAt).toLocaleDateString()}</td>
+                            <td>{test.createdByEmail}</td>
+                            <td>
+                                <button
+                                    variant="text"
                                     onClick={() => handleEditTest(test)}
                                 >
                                     Edit
-                                </Button>
-                                <Button
-                                    variant="outlined"
-                                    color="secondary"
+                                </button>
+                                <button
+                                    variant="text"
                                     onClick={() => handleDeleteTest(test.id)}
                                 >
                                     Delete
-                                </Button>
-                            </TableCell>
-                        </TableRow>
+                                </button>
+                            </td>
+                        </tr>
                     ))}
                 </TableBody>
             </Table>

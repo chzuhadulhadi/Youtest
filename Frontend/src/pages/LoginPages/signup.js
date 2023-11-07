@@ -2,11 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {signup} from '../../apiCalls/apiRoutes'
 import {apiCall} from '../../apiCalls/apiCalls'
+import countryList from 'react-select-country-list'
 import PhoneInput from 'react-phone-input-2'
 import { toast } from "react-toastify";
 
 function SignUp(params) {
-
+  const [selectedPhoneNumberCode, setSelectedPhoneNumberCode] = useState();
   const showToastMessage = (text, color, notify) => {
     if (notify == 1) {
       toast.success(text, {
@@ -20,19 +21,23 @@ function SignUp(params) {
       });
     }
   };
-   const [value, setValue] = useState()
+  const [value, setValue] = useState();
+
+  useEffect(() => {
+    dataToSend.phoneNumber = selectedPhoneNumberCode + value; // Update phoneNumber in dataToSend
+  }, [selectedPhoneNumberCode, value]);
+
   const [dataToSend, setDataToSend] = useState({
     firstName: "",
     lastName: "",
     phoneNumber: "",
-    phoneNumberCode: "",
+    phoneNumberCode: '+972',
     email: "",
     password: "",
     termsAndService: 1,
     promotions: 1,
     role: 2,
   });
-
   useEffect(()=>{
     dataToSend.phoneNumber = value
   },[value])
@@ -111,21 +116,12 @@ setTimeout(() => {
               class="field"
               required
             />
-            <input
-              type="tel"
-              id="phoneNumberCode"
-              placeholder="NUMBER CODE..."
-              onChange={addValues}
-              class="field"
-              required
-            />
-           
-            <input
+                <input
               type="tel"
               id="phoneNumber"
               placeholder="NUMBER..."
               onChange={addValues}
-              class="field"
+              className="field"
               required
             />
             <input
