@@ -15,8 +15,8 @@ const mailingListUserService = require('../service/mailingListUserService');
 module.exports = {
 	transferTest: async function (obj) {
 		console.log(obj);
-		const user=await userService.getuserByAny(obj.email);
-		if(!user){
+		const user = await userService.getuserByAny(obj.email);
+		if (!user) {
 			throw new Error('User is not valid');
 		}
 		console.log(user.id);
@@ -66,8 +66,7 @@ module.exports = {
 		let usermail = await userService.getUsers({ where: { id: res.ownerId } });
 		console.log('usermail', usermail[0].email);
 		console.log('res', res);
-		if(res.sendAll)
-		{
+		if (res.sendAll) {
 			var emailObj = {
 				to: res.userEmail,
 				body: {
@@ -79,7 +78,7 @@ module.exports = {
 				},
 				type: 'testResult',
 			};
-		mailService.create(emailObj);
+			mailService.create(emailObj);
 
 		}
 		var owneremailObj = {
@@ -164,7 +163,7 @@ module.exports = {
 						}
 					});
 					//IF LNDINGPAGEiD THEN ADD IT TO LANDINGPAGEDATA
-					let landingPage=obj.LandingPageData;
+					let landingPage = obj.LandingPageData;
 					if (obj.LandingPageId) {
 						var landingPageData = await landingPageService.getSingleLandingPage(
 							{ id: obj.LandingPageId }
@@ -175,7 +174,7 @@ module.exports = {
 					userTestArray.push({
 						userEmail: single.email,
 						name: testDetails.name,
-						sendAll:testDetails.sendAll,
+						sendAll: testDetails.sendAll,
 						landingPageData: landingPage,
 						orientation: testDetails.orientation,
 						beforeTestText: testDetails.beforeTestText,
@@ -265,34 +264,34 @@ module.exports = {
 
 		return { rows, count };
 	},
-	getResults:async function () {
+	getResults: async function () {
 		try {
-		  // Fetch all relevant test objects from your data source (e.g., database)
-		  const allTestObjects = await model.userTest.findAll();
+			// Fetch all relevant test objects from your data source (e.g., database)
+			const allTestObjects = await model.userTest.findAll();
 			console.log(allTestObjects);
-		  const results = await Promise.all(
-			allTestObjects.map(async (testObject) => {
-			  try {
-				// Process each test object using getResult function
-				const result = await this.getResult(testObject);
-				return result;
-			  } catch (error) {
-				// Handle errors for individual test objects
-				console.error(`Error processing result for test ID ${testObject.id}:`, error.message);
-				return null; // You can choose to return a default value or handle the error as needed
-			  }
-			})
-		  );
-	  
-		  // Filter out any null results if you chose to handle errors within the map function
-		  const validResults = results.filter((result) => result !== null);
-	  
-		  return validResults;
+			const results = await Promise.all(
+				allTestObjects.map(async (testObject) => {
+					try {
+						// Process each test object using getResult function
+						const result = await this.getResult(testObject);
+						return result;
+					} catch (error) {
+						// Handle errors for individual test objects
+						console.error(`Error processing result for test ID ${testObject.id}:`, error.message);
+						return null; // You can choose to return a default value or handle the error as needed
+					}
+				})
+			);
+
+			// Filter out any null results if you chose to handle errors within the map function
+			const validResults = results.filter((result) => result !== null);
+
+			return validResults;
 		} catch (error) {
-		  console.error('Error fetching test objects:', error.message);
-		  throw error;
+			console.error('Error fetching test objects:', error.message);
+			throw error;
 		}
-	  },
+	},
 	getResult: async function (obj) {
 		// try {
 		var testDetails = await userTestService.getUserTest(0, 1, {
@@ -385,7 +384,7 @@ module.exports = {
 			totalStats.timeTakenForTest = dbObj.timeLimit;
 		}
 		// totalPercentage: 0,
-		// totalCategories: 0
+		// totalCategories: 0	
 		return { ...dbObj, result: resultArray, resultStats: totalStats };
 	},
 	saveUserTest: async function (obj) {

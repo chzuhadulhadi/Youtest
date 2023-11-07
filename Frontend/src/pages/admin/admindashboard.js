@@ -12,7 +12,9 @@ import Tests from "./tests";
 import { useEffect, useState } from "react";
 import AdminSideBar from './sidebar';
 import AdminEditTest from "./editTest";
+import { apiCall } from "../../apiCalls/apiCalls";
 import Results from "./results";
+import { getResults } from "../../apiCalls/apiRoutes";
 
 
 function AdminDashboard(params) {
@@ -35,37 +37,29 @@ function AdminDashboard(params) {
       navigate('/')
     }
   })
+useEffect(() => {
+  //call loadResults and cache results in local storage
+  loadResults();
+}, []);
 
-  // const [idPassed, setIdPassed] = useState(0);
-  // const myfunc = (e) => {
-  //   setIdPassed(e.target.id);
-  //   const name = document.querySelectorAll("li");
-  //   name.forEach((elem) => {
-  //     elem.classList.remove("active");
-  //   });
-  //   name[e.target.id].classList.add("active");
-  //   console.log(e.target.id);
-  // };
+
+
+  const loadResults = () => {
+    apiCall("post", getResults)
+        .then((res) => {
+            if (res.status === 200) {
+                localStorage.setItem('results', JSON.stringify(res.data.data));
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+};
+
   return (
     <div className="wrapper">
       <AdminSideBar />
-
       <div id="content">
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-
-          <div className="container-fluid custom-fluid" style={{ justifyContent: 'flex-end' }}>
-            <p onClick={() => {
-              localStorage.removeItem('token')
-              navigate('/')
-            }}
-              style={{ backgroundColor: '#FF9000', cursor: 'pointer', padding: '3px 6px', color: "white", float: "right" }}> Logout </p>
-            <div
-              className="collapse navbar-collapse"
-              id="navbarSupportedContent"
-            >
-            </div>
-          </div>
-        </nav>
         {(newlocation == '/users') && <Users />}
         {(newlocation == '/tests') && <Tests />}
         {(newlocation == '/results') && <Results />}

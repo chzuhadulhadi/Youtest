@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Table, TableBody, TableCell, TableHead, TableRow, Checkbox, TextField } from '@mui/material'; // Import only the necessary components
+import { Button, Table, TableBody, td, TableHead, TableRow, Checkbox, TextField, Typography } from '@mui/material'; // Import only the necessary components
 import { apiCall } from '../../apiCalls/apiCalls';
 import { Link, useNavigate } from 'react-router-dom';
-import { deleteTest, updateTest, getResults,frontEndPath } from '../../apiCalls/apiRoutes';
+import { deleteTest, updateTest, getResults, frontEndPath, local } from '../../apiCalls/apiRoutes';
 
 function Results() {
     const [results, setResults] = useState([]);
@@ -12,7 +12,14 @@ function Results() {
     const [selectedResults, setSelectedResults] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
-        loadResults();
+        // check from local   Storage is results are already loaded
+        const results = localStorage.getItem('results');
+        if (results) {
+            setResults(JSON.parse(results));
+        } else {
+            //call loadResults and cache results in local storage
+            loadResults();
+        }
     }, []);
 
     const loadResults = () => {
@@ -85,6 +92,8 @@ function Results() {
 
     return (
         <div>
+            <Typography variant='h2' sx={{ textAlign: 'center' }}>Result List</Typography>
+
             <TextField
                 label="Search"
                 variant="outlined"
@@ -92,7 +101,6 @@ function Results() {
                 value={searchText}
                 onChange={handleSearch}
             />
-            <h1>Result List</h1>
 
             <Table my={2} sx={{ position: 'relative', borderCollapse: 'collapse' }}>
                 <TableHead sx={{
@@ -100,46 +108,45 @@ function Results() {
                     top: 0,
                 }}>
                     <TableRow>
-                        {/* <TableCell>Select</TableCell> */}
-                        <TableCell>Sr No.</TableCell>
-                        <TableCell>Name</TableCell>
-                        <TableCell>Test Owner</TableCell>
-                        <TableCell>total Question</TableCell>
-                        <TableCell>total Answer</TableCell>
-                        <TableCell>Examinee</TableCell>
-                        <TableCell>Date of Test</TableCell>
-                        <TableCell>status</TableCell>
+                        <th style={{ textAlign: 'center' }}>Sr No.</th>
+                        <th style={{ textAlign: 'center' }}>Name</th>
+                        <th style={{ textAlign: 'center' }}>Test Owner</th>
+                        <th style={{ textAlign: 'center' }}>total Question</th>
+                        <th style={{ textAlign: 'center' }}>total Answer</th>
+                        <th style={{ textAlign: 'center' }}>Examinee</th>
+                        <th style={{ textAlign: 'center' }}>Date of Test</th>
+                        <th>status</th>
                     </TableRow>
                 </TableHead>
-                <TableBody>
-                    {results?.map((test, index) => (        //resultpage
+                <TableBody >
+                    {results?.map((test, index) => (
                         <TableRow key={test.id}>
-                            <TableCell>{index + 1}</TableCell>
-                            <TableCell>{test.name}</TableCell>
-                            <TableCell>{test.ownerId}</TableCell>
-                            <TableCell>{test.resultStats.totalQuestion}</TableCell>
-                            <TableCell>{test.resultStats.totalAnswer}</TableCell>
-                            <TableCell>{test.userEmail}</TableCell>
-                            <TableCell>{test.updatedAt}</TableCell>
-                            <TableCell><a href={frontEndPath+'resultpage/'+test.id}>show</a></TableCell>
-                            {/* <TableCell>
+                            <td>{index + 1}</td>
+                            <td>{test.name}</td>
+                            <td>{test.ownerId}</td>
+                            <td>{test.resultStats.totalQuestion}</td>
+                            <td>{test.resultStats.totalAnswer}</td>
+                            <td>{test.userEmail}</td>
+                            <td>{new Date(test.updatedAt).toLocaleDateString()}</td>
+                            <td><a href={frontEndPath + 'resultpage/' + test.id}>show</a></td>
+                            {/* <td>
                                 <Table>
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell>Category</TableCell>
-                                            <TableCell>Percentage</TableCell>
+                                            <td>Category</td>
+                                            <td>Percentage</td>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {test.result.map((resultItem, resultIndex) => (
                                             <TableRow key={resultIndex}>
-                                                <TableCell>{resultItem.category}</TableCell>
-                                                <TableCell>{resultItem.percentage}</TableCell>
+                                                <td>{resultItem.category}</td>
+                                                <td>{resultItem.percentage}</td>
                                             </TableRow>
                                         ))}
                                     </TableBody>
                                 </Table>
-                            </TableCell> */}
+                            </td> */}
                         </TableRow>
                     ))}
                 </TableBody>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Table, TableBody, TableCell, TableHead, TableRow,TableContainer, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, InputLabel, Select, FormControl } from '@mui/material';
+import { Button, Table, TableBody, td, TableHead,Typography, TableRow,TableContainer, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, InputLabel, Select, FormControl, Grid } from '@mui/material';
 import { apiCall } from '../../apiCalls/apiCalls';
 import { getUsers, deleteUser, updateUser } from '../../apiCalls/apiRoutes';
 
@@ -89,49 +89,53 @@ function Users() {
                 value={searchText}
                 onChange={handleSearch}
             />
-            <h1>User List</h1>
+            <Typography variant='h2' justifyContent={'center'} display={'flex'}>User List</Typography>
                 <Table my={2} sx={{position:'relative',borderCollapse:'collapse'}}>
                     <TableHead sx={{
                         position:'sticky',
                         top:0,
                     }}>
                         <TableRow sx={{position:'sticky'}}>
-                            <TableCell>ID</TableCell>
-                            <TableCell>Full Name</TableCell>
-                            <TableCell>Email</TableCell>
-                            <TableCell>Phone Number</TableCell>
-                            <TableCell>Role</TableCell>
-                            <TableCell>Terms And Condition</TableCell>
-                            <TableCell>Email Verified</TableCell>
-                            <TableCell>Actions</TableCell>
+                            <th style={{textAlign:'center'}}>#</th>
+                            <th style={{textAlign:'center'}}>Full Name</th>
+                            <th style={{textAlign:'center'}}>Email</th>
+                            <th style={{textAlign:'center'}}>Phone Number</th>
+                            <th style={{textAlign:'center'}}>Role</th>
+                            <th style={{textAlign:'center'}}>Agreed to receive commercials</th>
+                            <th style={{textAlign:'center'}}>Email Verified</th> 
+                            <th style={{textAlign:'center'}}>Actions</th>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {filteredUsers.map((user) => (
                             <TableRow key={user.id}>
-                                <TableCell>{user.id}</TableCell>
-                                <TableCell>{user.fullName}</TableCell>
-                                <TableCell>{user.email}</TableCell>
-                                <TableCell>{user.phoneNumberCode + '-' + user.phoneNumber}</TableCell>
-                                <TableCell>{user.role == 1 ? 'Admin' : 'User'}</TableCell>
-                                <TableCell>{user.termsAndService == 1 ? 'Agree' : 'Disagree'}</TableCell>
-                                <TableCell>{user.emailVerified ? 'Yes' : 'No'}</TableCell>
-                                <TableCell>
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
+                                <td>{user.id}</td>
+                                <td>{user.fullName}</td>
+                                <td>{user.email}</td>
+                                <td>{user.phoneNumberCode + '-' + user.phoneNumber}</td>
+                                <td>{user.role == 1 ? 'Admin' : 'User'}</td>
+                                <td>{user.termsAndService == 1 ? 'Agree' : 'Disagree'}</td>
+                                <td>{user.emailVerified ? 'Yes' : 'No'}</td>
+                                <td>
+                                  <Grid container>
+                                    <Grid item xs={6}>
+                                    <button
+                                        variant="text"
                                         onClick={() => handleEditUser(user)}
                                     >
                                         Edit
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        color="secondary"
+                                    </button>
+                                   </Grid>
+                                      <Grid item xs={6}>
+                                      <button
+                                        variant="text"
                                         onClick={() => handleDeleteUser(user.id)}
                                     >
                                         Delete
-                                    </Button>
-                                </TableCell>
+                                    </button>
+                                    </Grid>
+                                  </Grid>
+                                </td>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -188,7 +192,7 @@ function Users() {
                 </DialogContent>
 
                 <DialogActions>
-                    <Button onClick={handleCloseEditUserDialog} color="primary">
+                    <Button  onClick={handleCloseEditUserDialog} color="primary">
                         Cancel
                     </Button>
                     <Button onClick={handleSaveUser} color="primary">
