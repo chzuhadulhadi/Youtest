@@ -136,7 +136,7 @@ function PropertiesStep(props) {
                         <option value="1">Random</option>
 
                     </select>
-                    <input type="checkbox" onClick={(e) => { props.obj.mainObjectAdderForProperties(e.target.checked, "sendAll") ; (e.target.checked) ? setsendAll(true) : setsendAll(false) }} checked={sendAll} />
+                    <input type="checkbox" onClick={(e) => { props.obj.mainObjectAdderForProperties(e.target.checked, "sendAll"); (e.target.checked) ? setsendAll(true) : setsendAll(false) }} checked={sendAll} />
                     <label>Also send results to Testee</label>
                     <br /><br />
                     <input type="checkbox" onClick={(e) => { (e.target.checked) ? setTimeLimited(true) : setTimeLimited(false) }} checked={timeLimited} />
@@ -151,7 +151,7 @@ function PropertiesStep(props) {
                             name='timeLimit'
                             className="form-control mb-3 pt-3 pb-3"
                             placeholder="mins"
-                            value={props.obj.mainObj?.timeLimit}
+                            defaultValue={props.obj.mainObj?.timeLimit}
                             onChange={(e) => props.obj.mainObjectAdderForProperties(e, "timeLimit")}
                         />
                     </div>
@@ -164,7 +164,7 @@ function PropertiesStep(props) {
                         onEditorStateChange={setBeforeTextState}
                         id="beforeTestText"
                         wrapperClassName="wrapper-class"
-                        editorStyle={{border:'1px solid black'}}
+                        editorStyle={{ border: '1px solid black' }}
                         // editorClassName="editor-class"
                         toolbarClassName="toolbar-class"
                     />
@@ -177,7 +177,7 @@ function PropertiesStep(props) {
                         onEditorStateChange={setAfterTextState}
                         id="afterTestText"
                         wrapperClassName="wrapper-class"
-                        editorStyle={{border:'1px solid black'}}
+                        editorStyle={{ border: '1px solid black' }}
                         // editorClassName="editor-class"
                         toolbarClassName="toolbar-class"
                     />

@@ -43,7 +43,7 @@ function AutomaticText(props) {
     props.obj.mainObjectAdderForAutomaticText(e, "automaticText", name,)
     return 0;
   };
-
+  console.log(props.obj.mainObj)
   function addAutomatictextRule() {
     setShowSubmit(true)
     setHtml((prevState) => {
@@ -166,11 +166,10 @@ function AutomaticText(props) {
           className="formClass"
         >
           <h3>#6 - AUTOMATIC TEXT</h3>
-          {Object?.keys(props.obj?.mainObj?.automaticText || {})?.map((key,index) => {
+          {Object?.keys(props.obj?.mainObj?.automaticText || {})?.map((key, index) => {
             //check if html is an empty object
-            if(html[key])
-            {
-              return ;
+            if (html[key]) {
+              return;
             }
             const condition = props.obj?.mainObj?.automaticText[key];
             return key.startsWith("qcondition") ?
@@ -183,9 +182,9 @@ function AutomaticText(props) {
                     value={props.obj?.mainObj?.automaticText[key].questionAnswer}
                   >
                     <option>Select Question/Answer</option>
-                    {Object.keys(props.obj.mainObj.questions).map((ele) => {
+                    {Object.keys(props.obj.mainObj?.questions).map((ele) => {
                       if (ele.startsWith("question")) {
-                        const question = props.obj.mainObj.questions[ele].question;
+                        const question = props.obj.mainObj?.questions[ele]?.question;
                         console.log(question);
                         if (question) {
                           const answers = Object.keys(props.obj.mainObj.questions)
@@ -293,9 +292,9 @@ function AutomaticText(props) {
                     onChange={(e) => AutomaticTextAdder(e, "questionAnswer")}
                   >
                     <option>Select Question/Answer</option>
-                    {Object.keys(props.obj.mainObj.questions).map((ele) => {
+                    {props.obj.mainObj && Object.keys(props.obj?.mainObj?.questions).map((ele) => {
                       if (ele.startsWith("question")) {
-                        const question = props.obj.mainObj.questions[ele].question;
+                        const question = props.obj.mainObj?.questions[ele].question;
                         console.log(question);
                         if (question) {
                           const answers = Object.keys(props.obj.mainObj.questions)
