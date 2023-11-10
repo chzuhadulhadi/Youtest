@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {signup} from '../../apiCalls/apiRoutes'
-import {apiCall} from '../../apiCalls/apiCalls'
+import { signup } from '../../apiCalls/apiRoutes'
+import { apiCall } from '../../apiCalls/apiCalls'
 import countryList from 'react-select-country-list'
 import PhoneInput from 'react-phone-input-2'
 import { toast } from "react-toastify";
@@ -38,13 +38,13 @@ function SignUp(params) {
     promotions: 1,
     role: 2,
   });
-  useEffect(()=>{
+  useEffect(() => {
     dataToSend.phoneNumber = value
-  },[value])
- 
+  }, [value])
+
 
   const navigate = useNavigate();
-const [confirmationText, setConfirmationText] = useState("")
+  const [confirmationText, setConfirmationText] = useState("")
   const addValues = (e) => {
     setDataToSend((prev) => {
       return { ...prev, [e.target.id]: e.target.value };
@@ -53,32 +53,32 @@ const [confirmationText, setConfirmationText] = useState("")
   };
 
 
-  const routeHandler = (url) =>{
-setTimeout(() => {
-  navigate(url)
-}, 3000);
+  const routeHandler = (url) => {
+    setTimeout(() => {
+      navigate(url)
+    }, 3000);
   }
   const submitHandler = (e) => {
     e.preventDefault();
     setConfirmationText('')
-    apiCall('post', signup , dataToSend)
-    .then((res)=>{
-        if(res.status==200){
+    apiCall('post', signup, dataToSend)
+      .then((res) => {
+        if (res.status == 200) {
           console.log(res?.data?.data?.email)
           const url = "/login/?email=" + res?.data?.data?.email
-            showToastMessage("User added successfully ", "green", 1);
-
-            routeHandler(url)
+          showToastMessage("You signed up successfully ", "green", 1);
+          alert("Verify Email to complete SignUp");
+          routeHandler(url);
         }
-        else{
-          showToastMessage('User already Exist, Try again with different Email' , "green",1)
+        else {
+          showToastMessage('User already Exist, Try again with different Email', "green", 1)
         }
-    })
-    .catch((err)=>{
-      showToastMessage(err?.response?.data?.message, "red", 2);
+      })
+      .catch((err) => {
+        showToastMessage(err?.response?.data?.message, "red", 2);
 
-    })
-    
+      })
+
   };
   return (
     <div class="Get_sec">
@@ -116,7 +116,7 @@ setTimeout(() => {
               class="field"
               required
             />
-                <input
+            <input
               type="tel"
               id="phoneNumber"
               placeholder="NUMBER..."
@@ -136,7 +136,7 @@ setTimeout(() => {
 
             <input type="submit" value="send" class="button" />
           </form>
-          <p style={{color:'red'}}>{confirmationText}</p>
+          <p style={{ color: 'red' }}>{confirmationText}</p>
         </div>
         <div class="Rightside">
           <div class="loginPage">
