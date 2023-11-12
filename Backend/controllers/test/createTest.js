@@ -14,12 +14,10 @@ const schema = Joi.object().keys({
 	questions: Joi.object().required(),
 	resultStructure: Joi.object().required(),
 	automaticText: Joi.object().required(),
-	layout: Joi.object().required(),
+	layout: Joi.object(),
 	freeText: Joi.object().required(),
 	timeLimit: Joi.number().integer().allow(""),
 	categoryStore: Joi.object().required(),
-
-
 });
 
 const {
