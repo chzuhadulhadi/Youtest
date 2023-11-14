@@ -62,14 +62,14 @@ function Charts(dataRecieved) {
               size: 16,
             }
           },
-        offset: 10,
+          offset: 10,
         },
       },
     };
 
     return (
-      <div className="resultpage" style={{border:'none'}}>
-        <Line data={data} height={'100'} options={chartOptions} />
+      <div className="respage" style={{ border: 'none' }}>
+        <Line data={data} options={chartOptions} />
       </div>
     );
   }

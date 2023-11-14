@@ -338,15 +338,6 @@ function Paper() {
                       setModalTitle("Link the landing page to a test");
                     }}>
                     Link
-                  </span> <span style={{ background: '#FF9000', margin: '5px', cursor: 'pointer', color: 'white' }}
-                    onClick={() => {
-                      setModalHandler("showAttachedTestModal");
-                      setShow(true);
-                      getAllTestsAttached['id'] = ele?.id
-                      setModalTitle("Total attached Test");
-                      getAllAttachedTest()
-                    }}>
-                    Attached
                   </span>
                 </td>
                 <td style={{ fontSize: '16px' }}>
@@ -376,8 +367,8 @@ function Paper() {
                   </span> */}
                 </td>
                 <td>
-                      {frontEndPath}landingpage/?id={ele?.id} 
-                      <span style={{ background: '#FF9000', margin: '10px', cursor: 'pointer', color: 'white' }}
+                  {frontEndPath}landingpage/?id={ele?.id}
+                  <span style={{ background: '#FF9000', margin: '10px', cursor: 'pointer', color: 'white' }}
                     onClick={() => {
                       navigator.clipboard.writeText(`${frontEndPath}landingpage/?id=${ele?.id}`)
                       showToastMessage("Copied Successfully", "green", 1);
@@ -389,8 +380,8 @@ function Paper() {
 
                 </td>
                 <td>
-                      {frontEndPath}landingpageform/?id={ele?.id} 
-                      <span style={{ background: '#FF9000', margin: '10px', cursor: 'pointer', color: 'white' }}
+                  {frontEndPath}landingpageform/?id={ele?.id}
+                  <span style={{ background: '#FF9000', margin: '10px', cursor: 'pointer', color: 'white' }}
                     onClick={() => {
                       navigator.clipboard.writeText(`${frontEndPath}landingpageform/?id=${ele?.id}`)
                       showToastMessage("Copied Successfully", "green", 1);

@@ -139,7 +139,7 @@ function PropertiesStep(props) {
                     <input type="checkbox" onClick={(e) => { props.obj.mainObjectAdderForProperties(e.target.checked, "sendAll"); (e.target.checked) ? setsendAll(true) : setsendAll(false) }} checked={sendAll} />
                     <label>Also send results to Testee</label>
                     <br /><br />
-                    <input type="checkbox" onClick={(e) => { (e.target.checked) ? setTimeLimited(true) : setTimeLimited(false) }} checked={timeLimited} />
+                    <input type="checkbox" onClick={(e) => { (e.target.checked) ? setTimeLimited(true) : setTimeLimited(false); props.obj.mainObjectAdderForProperties({ 'target': { 'value': 0 } }, "timeLimit"); }} checked={timeLimited} />
                     <label> Time Limited Test </label> <br />
                     <div style={timeLimited ? { display: "block" } : { display: 'none' }}>
                         <label className="form-label"> How long the test is going to be in minutes </label>
