@@ -28,9 +28,18 @@ function CategoriesStep(props) {
       setCategoryHaveData(false);
     }
   }, [props.obj.categoryStore]);
+  useEffect(() => {
+    if(Object.keys(props.obj.categoryStore).length > 0 && categoryCounter == 0){
+      categoryCounter += Object.keys(props.obj.categoryStore).length+1;  
+    }
+  }, [props.obj.categoryStore]);
+  console.log(categoryCounter);
   const categoryValueAdder = (e, name) => {
+  
     props.obj.setCategoryStore((prev) => {
       let prevObj = Object.assign({}, prev);
+      // console.log(prevObj);
+      // console.log(categoryCounter);
       prevObj[categoryCounter]
         ? (prevObj[categoryCounter] = { ...prevObj[categoryCounter] })
         : (prevObj[categoryCounter] = { categoryName: "", noOfQuestion: 0 });

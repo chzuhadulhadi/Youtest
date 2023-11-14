@@ -158,7 +158,17 @@ function MailingPageUI(params) {
         console.log(err);
       });
   };
-
+  useEffect(() => {
+    const form = document.getElementById('submissionForm');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+    })
+    return () => {
+      form.removeEventListener('submit', (e) => {
+        e.preventDefault();
+      })
+    }
+  },[])
   const getImageFunction = (event) => {
     setSelectedFile(event.target.files[0]);
   };
@@ -389,7 +399,7 @@ function MailingPageUI(params) {
                   className="wow fadeInUp col-md-12 col-sm-12 w-50 m-auto"
                   data-wow-delay="0.9s"
                 >
-                  <form id="submissionForm" onSubmit="submitForm()">
+                  <form id="submissionForm" >
                     <div className="mb-3">
                       <label htmlFor="exampleInputEmail1" className="form-label">
                         First Name
@@ -456,7 +466,7 @@ function MailingPageUI(params) {
                         I agree to be sent promotional material from time to time. This registration can be removed at any time.
                       </label>
                     </div>
-                    <button type="submit" className="btn btn-primary">
+                    <button id='formsubmitbutton' type="submit" className="btn btn-primary">  
                       Submit
                     </button>
                   </form>

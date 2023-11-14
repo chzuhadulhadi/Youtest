@@ -91,6 +91,9 @@ function EditLandingPage(params) {
             addNewElement('mainNav6')
           }
           )
+          document.getElementById('submissionForm').addEventListener('submit', (e) => {
+            e.preventDefault()
+          })
         }, 300);
         setAttachedTest(res?.data?.data?.rows[0]?.testId);
       }).catch((err) => {

@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 
 var mainObj = {
   orientation: 0,
+  categoryStore:{},
   scoringType: 0,
   randomOrder: 0,
   timeLimit: "",
