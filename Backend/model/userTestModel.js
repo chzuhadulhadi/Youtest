@@ -328,10 +328,10 @@ module.exports = {
 					totalStats.totalQuestion += 1;
 					if (
 						testObj[categories][questions][selectedAnswer] &&
-						testObj[categories][questions].freeText == 0
+						testObj[categories][questions].freeText != 1
 					) {
 						categoryQuestion += 10;
-						// console.log(testObj[categories][questions][selectedAnswer]);
+						console.log(testObj[categories][questions][selectedAnswer]);
 						if (selectedAnswer) {
 							totalStats.totalAnswer += 1;
 							categoryAnswer += parseInt(
@@ -339,7 +339,6 @@ module.exports = {
 							);
 						}
 					}
-
 				});
 				categoryResult.percentage =
 					(categoryAnswer / categoryQuestion) * 100

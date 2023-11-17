@@ -18,9 +18,11 @@ import { toast } from "react-toastify";
 
 var mainObj = {
   orientation: 0,
+  categoryStore:{},
   scoringType: 0,
   randomOrder: 0,
   timeLimit: "",
+  layout: {},
   questions: {},
   resultStructure: {
     tableSummary: false,
@@ -64,10 +66,9 @@ function CreateTest() {
   //   randomOrder: 0,
   //   questions: {}
   // });
-  useEffect(()=>
-  {
-    console.log("mainObj",mainObj);
-  },[mainObj]);
+  useEffect(() => {
+    console.log("mainObj", mainObj);
+  }, [mainObj]);
 
   function apiCallToCreateTest(draft) {
     apiCall('post', createMyTest, mainObj)
@@ -111,8 +112,8 @@ function CreateTest() {
 
   function mainObjectAdderForProperties(e, property) {
     // console.log("mainObj[property]", mainObj[property], "type", type) 
-       if (property == 'beforeTestText' || property == 'afterTestText' || property == 'sendAll') {
-        
+    if (property == 'beforeTestText' || property == 'afterTestText' || property == 'sendAll') {
+
       mainObj = {
         ...mainObj,
         [property]: e
@@ -181,10 +182,10 @@ function CreateTest() {
 
       <StepsHeader obj={{ setTabSelected, tabSelected, showTab, mainObjectAdder }} />
       <PropertiesStep obj={{ mainObjectAdderForProperties, showTab, tabSelected, mainObj, handleSaveTest, apiCallToCreateTest }} />
-      <CategoriesStep obj={{ mainObjectAdder, showTab, tabSelected, setCategoryStore, categoryStore,apiCallToCreateTest, addCategoryStoreToMain, setNewCategoryCreated, mainObj }} />
-      <QuestionStep obj={{ mainObjectAdder, showTab, tabSelected, setCategoryStore, categoryStore, mainObj,apiCallToCreateTest, mainObjectAdder, getMainObj, newCategoryCreated }} />
-      <TestLayout obj={{ mainObjectAdder, showTab, tabSelected, mainObjectAdderForLayout,apiCallToCreateTest }} />
-      <ResultStructureStep obj={{ showTab, tabSelected, mainObjectAdderForResultStructure,apiCallToCreateTest }} />
+      <CategoriesStep obj={{ mainObjectAdder, showTab, tabSelected, setCategoryStore, categoryStore, apiCallToCreateTest, addCategoryStoreToMain, setNewCategoryCreated, mainObj }} />
+      <QuestionStep obj={{ mainObjectAdder, showTab, tabSelected, setCategoryStore, categoryStore, mainObj, apiCallToCreateTest, mainObjectAdder, getMainObj, newCategoryCreated }} />
+      <TestLayout obj={{ mainObjectAdder, showTab, tabSelected, mainObjectAdderForLayout, apiCallToCreateTest }} />
+      <ResultStructureStep obj={{ showTab, tabSelected, mainObjectAdderForResultStructure, apiCallToCreateTest }} />
       <AutomaticText obj={{ mainObjectAdderForAutomaticText, showTab, tabSelected, categoryStore, apiCallToCreateTest }} />
 
     </div>

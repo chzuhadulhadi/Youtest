@@ -5,8 +5,13 @@
     border: 1px solid black;
 }
 
-.chart {
+.respage {
+    text-align: center;
+    margin: auto;
+    border: 1px solid black;
+}
 
+.chart {
     margin: auto;
     width: 70%;
     margin-top: 50px !important;
@@ -17,10 +22,10 @@
     color: white;
     padding: 10px;
     /* width: 80% ; */
-    margin:0 auto;
+    margin: 0 auto;
     text-align: center !important;
     padding-bottom: 30px;
-}   
+}
 
 .result-table {
     padding: 10px;
@@ -33,7 +38,7 @@
 
 .result-table th,
 td {
-    text-align: center ;
+    text-align: center;
 
 }
 
@@ -58,7 +63,7 @@ td {
     text-align: left !important;
     /* padding: 5px; */
     padding-top: 0px;
-        /* font-size: 15px; */
+    /* font-size: 15px; */
 }
 
 .terms-of-use {
@@ -89,7 +94,7 @@ td {
     padding: 4px;
 
 }
-td
-{
-    text-align: center ;
+
+td {
+    text-align: center;
 }
