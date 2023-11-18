@@ -60,6 +60,7 @@ function CreateTest() {
 
   const [tabSelected, setTabSelected] = useState("PROPERTIES");
   const [categoryStore, setCategoryStore] = useState({});
+  console.log(categoryStore);
   // const [mainObj, setMainObj] = useState({
   //   orientation: 0,
   //   scoringType: 0,
@@ -67,7 +68,7 @@ function CreateTest() {
   //   questions: {}
   // });
   useEffect(() => {
-    console.log("mainObj", mainObj);
+    // console.log("mainObj", mainObj);
   }, [mainObj]);
 
   function apiCallToCreateTest(draft) {
@@ -85,7 +86,7 @@ function CreateTest() {
     setTabSelected(tab)
   }
   function mainObjectAdder(e, property, questionNo, type) {
-    console.log("mainObj[property]", mainObj[property], "type", type)
+    // console.log("mainObj[property]", mainObj[property], "type", type)
     mainObj = {
       ...mainObj,
       [property]: {
@@ -97,7 +98,7 @@ function CreateTest() {
       }
     }
 
-    console.log("main", mainObj)
+    // console.log("main", mainObj)
   }
 
   function addCategoryStoreToMain() {
@@ -105,7 +106,7 @@ function CreateTest() {
       ...mainObj,
       categoryStore
     }
-    console.log("main", mainObj)
+    // console.log("main", mainObj)
 
   }
 
@@ -126,12 +127,12 @@ function CreateTest() {
       }
     }
 
-    console.log("main", mainObj)
+    // console.log("main", mainObj)
   }
 
   function mainObjectAdderForLayout(e, property, name, value) {
     // console.log("mainObj[property]", mainObj[property], "type", type)
-    console.log(e, property, name, value)
+    // console.log(e, property, name, value)
     mainObj = {
       ...mainObj,
       [property]: {
@@ -139,7 +140,7 @@ function CreateTest() {
         [name]: value
       }
     }
-    console.log("main", mainObj)
+    // console.log("main", mainObj)
   }
   function mainObjectAdderForResultStructure(e, property, name) {
     mainObj = {
@@ -149,7 +150,7 @@ function CreateTest() {
         [name]: e.target.checked
       }
     }
-    console.log("main", mainObj)
+    // console.log("main", mainObj)
   }
   function mainObjectAdderForAutomaticText(e, property, name) {
     mainObj = {
@@ -162,7 +163,7 @@ function CreateTest() {
         }
       }
     }
-    console.log("main", mainObj)
+    // console.log("main", mainObj)
   }
 
   function getMainObj() {
@@ -170,7 +171,7 @@ function CreateTest() {
   }
 
   function handleSaveTest(e) {
-    console.log("called")
+    // console.log("called")
     e.preventDefault();
     navigate('/dashboard/mytest')
 

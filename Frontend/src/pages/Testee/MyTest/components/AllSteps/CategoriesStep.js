@@ -29,13 +29,15 @@ function CategoriesStep(props) {
     }
   }, [props.obj.categoryStore]);
   useEffect(() => {
-    if(Object.keys(props.obj.categoryStore).length > 0 && categoryCounter == 0){
-      categoryCounter += Object.keys(props.obj.categoryStore).length+1;  
+    if(props.obj?.mainObj?.categoryStore)
+    {
+      if(Object.keys(props.obj?.mainObj?.categoryStore).length > 0 && categoryCounter == 0){
+        categoryCounter += Object.keys(props.obj?.mainObj?.categoryStore).length+1;  
+      }
     }
-  }, [props.obj.categoryStore]);
-  console.log(categoryCounter);
+  }, [props.obj?.mainObj?.categoryStore]);
   const categoryValueAdder = (e, name) => {
-  
+    console.log(e.target.value,name);
     props.obj.setCategoryStore((prev) => {
       let prevObj = Object.assign({}, prev);
       // console.log(prevObj);
@@ -98,6 +100,7 @@ function CategoriesStep(props) {
     })
     var slctedone = document.getElementById(selectedOne + selectedCategory?.index)
     slctedone.innerHTML = e.target.value
+    console.log(e.target.value);
     props.obj.setCategoryStore((prev) => {
       let prevObj = Object.assign({}, prev);
       prevObj[selectedCategory?.index]
@@ -179,10 +182,10 @@ function CategoriesStep(props) {
             <input
               id={"category"}
               type="number"
-              onChange={(e) => categoryValueAdder(e, "noOfQuestion")}
+              onInput={(e) => categoryValueAdder(e, "noOfQuestion")}
               placeholder="No Of Qs"
               className="form-control mb-3 pt-3 pb-3"
-            ></input>
+            />
 
             <br />
           </div>
