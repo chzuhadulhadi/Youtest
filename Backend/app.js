@@ -45,17 +45,17 @@ const mailService = require('./service/mailService');
 
 async function sendMail() {
 	const email = await model.email.findOne({ where: { status: 0 } });
-	console.log('email', email);
 	try {
 		if (email) {
 			console.log('email inside', email.type);
 			if (email.type == 'initiatedTest') {
+				console.log('email', email);
 				await mailService.sendTestInitiateEmail(
 					email.to,
 					email.body.name,
 					email.body.testUrl,
 					'english',
-					email.id
+					email.body.id
 				);
 			} else if (email.type == 'testResult') {
 				console.log('trying to send email');

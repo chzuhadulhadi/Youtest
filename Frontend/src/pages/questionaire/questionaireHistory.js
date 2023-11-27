@@ -138,17 +138,17 @@ function QuestionaireHistory() {
               return (
 
                 <tr key={index}>
-                  <td style={{fontSize:'14px'}}>{index + 1}</td>
-                  <td style={{fontSize:'14px'}}>{ele.name}{firstText ? <><br/>(Landing Page:{firstText})</>:''}</td>
-                  <td style={{fontSize:'14px'}}>{ele.userEmail}</td>
-                  <td style={{fontSize:'14px'}}>{new Date(ele.createdAt).toLocaleDateString().padStart(10, '0')}</td>
-                  <td style={{fontSize:'14px'}}><a target="blank" style={{ textDecoration: "underline" }} href={frontEndPath+"filltest/" + ele.id}>Test Link</a></td>
-                  <td style={{fontSize:'14px'}}>{((Math.abs(new Date(ele.testEnd) - new Date(ele.testStart))) / 1000 / 60).toFixed(2)} Min</td>
+                  <td style={{ fontSize: '14px' }}>{ele?.number || index + 1}</td>
+                  <td style={{ fontSize: '14px' }}>{ele.name}{firstText ? <><br />(Landing Page:{firstText})</> : ''}</td>
+                  <td style={{ fontSize: '14px' }}>{ele.userEmail}</td>
+                  <td style={{ fontSize: '14px' }}>{new Date(ele.createdAt).toLocaleDateString().padStart(10, '0')}</td>
+                  <td style={{ fontSize: '14px' }}><a target="blank" style={{ textDecoration: "underline" }} href={frontEndPath + "filltest/" + ele.id}>Test Link</a></td>
+                  <td style={{ fontSize: '14px' }}>{((Math.abs(new Date(ele.testEnd) - new Date(ele.testStart))) / 1000 / 60).toFixed(2)} Min</td>
                   {/* {console.log("getResultScore(ele.id) ", getResultScore(ele.id))}
                   {console.log("getTestStatus(ele)(ele.id) ", getTestStatus(ele))} */}
 
-                  <td style={{fontSize:'14px'}}>{getTestStatus(ele)}</td>
-                  <td style={{fontSize:'14px'}}>{resultsWithIds[ele.id]} %</td>
+                  <td style={{ fontSize: '14px' }}>{getTestStatus(ele)}</td>
+                  <td style={{ fontSize: '14px' }}>{resultsWithIds[ele.id]} %</td>
 
 
 
@@ -156,7 +156,7 @@ function QuestionaireHistory() {
                   {/* <td style={{fontSize:'14px'}}>{ele.timeLimit}</td> */}
                   {/* <td style={{fontSize:'14px'}}>View | Edit | Delete</td>
                    */}
-                  <td style={{fontSize:'14px'}}><a target="blank" style={{ textDecoration: "underline" }} href={"/resultpage/" + ele.id}>See Result</a></td>
+                  <td style={{ fontSize: '14px' }}><a target="blank" style={{ textDecoration: "underline" }} href={"/resultpage/" + ele.id}>See Results</a></td>
 
                 </tr>
               )

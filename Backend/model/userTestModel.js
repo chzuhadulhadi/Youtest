@@ -197,6 +197,7 @@ module.exports = {
 			var bulkTests = await userTestService.initiateBulkTest(userTestArray, t);
 			const testUrls = [];
 			for (let test of bulkTests) {
+				// console.log('data', test.number);
 				testUrls.push({
 					testUrl: config.userTestUrl + test.id,
 					name: test.testObj.name,
@@ -206,6 +207,7 @@ module.exports = {
 					to: test.userEmail,
 					from: user.email,
 					body: {
+						id: test.number,
 						testUrl: config.userTestUrl + test.id,
 						name: test.testObj.name,
 					},
@@ -382,9 +384,12 @@ module.exports = {
 		} else {
 			totalStats.timeTakenForTest = dbObj.timeLimit;
 		}
+		// console.log(dbObj.ownerId);
+		var user = await userService.getuserById(dbObj.ownerId)
+		// console.log(user.email);
 		// totalPercentage: 0,
 		// totalCategories: 0	
-		return { ...dbObj, result: resultArray, resultStats: totalStats };
+		return { ...dbObj, result: resultArray, resultStats: totalStats, owner: user.email };
 	},
 	saveUserTest: async function (obj) {
 		var testDetails = await userTestService.getUserTest(0, 1, {

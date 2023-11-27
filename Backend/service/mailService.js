@@ -170,9 +170,10 @@ module.exports = {
 	sendTestResultEmail: async function (emailObj) {
 		var data;
 		emailObj = emailObj.toJSON();
+		console.log(emailObj);
 		const htmlContent = await this.testResultFormat(emailObj);
 		// console.log(htmlContent);
-		// console.log('emailObj', emailObj);
+		console.log('emailObj', emailObj.body.number);
 		var language = 'english';
 		if (language == 'hebrew') {
 			data =
@@ -180,7 +181,7 @@ module.exports = {
 				to: emailObj.to,
 				from: process.env.EMAIL_USER,
 				html: htmlContent,
-				subject: 'Test No ' + emailObj.body.testId + ' is complete',
+				subject: 'Test No ' + emailObj.body.number + ' is complete',
 			};
 		} else {
 			data =
@@ -188,7 +189,7 @@ module.exports = {
 				to: emailObj.to,
 				from: process.env.EMAIL_USER,
 				html: htmlContent,
-				subject: 'Test No ' + emailObj.body.testId + ' is complete',
+				subject: 'Test No ' + emailObj.body.number + ' is complete',
 			};
 		}
 		transporter.sendMail(data, function (error, info) {
@@ -323,30 +324,31 @@ module.exports = {
 			singleKey.text ? (html += `${singleKey.text}<br/>`) : '';
 		}
 		const selectedAnswers = [];
-  
+
 		for (const key in emailObj.body.testObj) {
-		  for (const questionKey in emailObj.body.testObj[key]) {
-			const answer = emailObj.body?.testObj[key][questionKey][emailObj.body?.testObj[key][questionKey]["selectAnswer"]]?.answer;
-			selectedAnswers.push(answer);
-		  }
+			for (const questionKey in emailObj.body.testObj[key]) {
+				const answer = emailObj.body?.testObj[key][questionKey][emailObj.body?.testObj[key][questionKey]["selectAnswer"]]?.answer;
+				selectedAnswers.push(answer);
+			}
 		}
 		// console.log( emailObj.body.automaticText);
 		for (const key in emailObj.body.automaticText) {
-		  // console.log('key', key);
-		  if (key.includes('qcondition')) {
-  
-			const questionAnswer = emailObj.body.automaticText[key]?.questionAnswer;
-			// console.log('jete')
-  
-			if (selectedAnswers.includes(questionAnswer)) {
-			  const text = emailObj.body.automaticText[key]?.text;
-			html += `<b>${text}<b/><br/>`;
+			// console.log('key', key);
+			if (key.includes('qcondition')) {
+
+				const questionAnswer = emailObj.body.automaticText[key]?.questionAnswer;
+				// console.log('jete')
+
+				if (selectedAnswers.includes(questionAnswer)) {
+					const text = emailObj.body.automaticText[key]?.text;
+					html += `<b>${text}<b/><br/>`;
+				}
 			}
-		  }
 		}
 
 		html += `</td></tr>`;
 		if (emailObj.body.email != emailObj.to) {
+			// if (true) {
 			html +=
 				`
 			<tr >
@@ -383,7 +385,7 @@ module.exports = {
 				}
 			}
 			html += `</td></tr>`;
-			
+
 
 		}
 		// 	<tr bgcolor="#114e8e">
