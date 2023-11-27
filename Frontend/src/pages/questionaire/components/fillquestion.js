@@ -9,7 +9,7 @@ var questionCount = 1;
 
 
 function FillQuestion(questionData) {
-console.log("questionData",questionData)
+    console.log("questionData", questionData)
     const divStyle = {
         textColor: { color: questionData.questionData.layout.textColor, background: questionData.questionData.layout.backgroundColor },
         answerColor: { color: questionData.questionData.layout.answerColor },
@@ -44,8 +44,7 @@ console.log("questionData",questionData)
             name[key][questionKey]["selectAnswer"] = answer;
             return name;                                 // return new object jasper object
         })
-
-        // Save object on backend
+        categoryData[key][questionKey]["selectAnswer"] = answer;
         apiCall('post', saveUserTest, { id: testObj.id, testObj: categoryData })
             .then((res) => {
                 if (res.status == 200) {
@@ -133,7 +132,7 @@ console.log("questionData",questionData)
             <h1>{testObj.name}</h1>
             {Object.keys(categoryData).map(function (key) {
                 {
-                    {console.log("categoryData[key]",categoryData)}
+                    { console.log("categoryData[key]", categoryData) }
 
                     if (!categoryData[key]["freeText"] && !categoryData[key]["freeText"] == 1) {
 
@@ -144,8 +143,8 @@ console.log("questionData",questionData)
                                     {
                                         console.log("questionKey", questionKey)
                                         console.log("categoryData[key][questionKey]", categoryData[key][questionKey])
-                                        console.log('counr',count)
-                                        console.log('showDiv',showDiv)
+                                        console.log('counr', count)
+                                        console.log('showDiv', showDiv)
                                         ++count;
                                     }
                                     return (
@@ -179,7 +178,7 @@ console.log("questionData",questionData)
                                                                 </div>)
                                                             }
 
-                                                        })  
+                                                        })
                                                     ) : <textarea className='text-answer' onChange={(e) => handleChange(key, questionKey, e.target.value, e)}></textarea>
                                                 }
                                                 <div className="prev-next">

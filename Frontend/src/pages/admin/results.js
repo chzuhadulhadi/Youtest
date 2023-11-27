@@ -83,6 +83,7 @@ function Results() {
     const handleSearch = (e) => {
         setSearchText(e.target.value);
     };
+    const sortedResults = results.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
 
     // const filteredResults = results?.filter((test) => {
     //     return (
@@ -119,11 +120,11 @@ function Results() {
                     </TableRow>
                 </TableHead>
                 <TableBody >
-                    {results?.map((test, index) => (
+                    {sortedResults?.map((test, index) => (
                         <TableRow key={test.id}>
-                            <td>{index + 1}</td>
+                            <td>{test?.number || index + 1}</td>
                             <td>{test.name}</td>
-                            <td>{test.ownerId}</td>
+                            <td>{test.owner}</td>
                             <td>{test.resultStats.totalQuestion}</td>
                             <td>{test.resultStats.totalAnswer}</td>
                             <td>{test.userEmail}</td>

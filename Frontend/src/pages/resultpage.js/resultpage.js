@@ -179,14 +179,22 @@ function ResultPage() {
                   <div className='examinee-comments-box'>
                     {Object.keys(categoryData[key]).map(function (questionKey) {
                       return (
-                        <>{categoryData[key][questionKey]["freeText"] == 1 && (
+                        <>{categoryData[key][questionKey]["freeText"] == 1 ? (
                           <>
                             <b> {categoryData[key][questionKey]["question"]}</b>
                             <br />
                             {categoryData[key][questionKey]["selectAnswer"]}
                             <hr />
                           </>
-                        )
+                        ) :
+                          (
+                            <>
+                              <b> {categoryData[key][questionKey]["question"]}</b>
+                              <br />
+                              {categoryData[key][questionKey][categoryData[key][questionKey]["selectAnswer"]]['answer']}
+                              <hr />
+                            </>
+                          )
                         }
                         </>
                       )
