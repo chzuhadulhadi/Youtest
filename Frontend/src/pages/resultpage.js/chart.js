@@ -46,8 +46,6 @@ function Charts(dataRecieved) {
     const chartOptions = {
       scales: {
         y: {
-          suggestedMin: 0,
-          suggestedMax: 100,
           ticks: {
             color: 'black',
             font: {
@@ -69,7 +67,7 @@ function Charts(dataRecieved) {
 
     return (
       <div className="respage" style={{ border: 'none' }}>
-        <Line data={data} options={chartOptions} />
+        <Line data={data} options={{ maintainAspectRatio: false, ...chartOptions }} />
       </div>
     );
   }

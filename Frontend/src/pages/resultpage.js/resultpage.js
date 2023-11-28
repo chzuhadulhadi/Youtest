@@ -147,8 +147,11 @@ function ResultPage() {
             {formObj.result &&
               formObj.result.map(function (categories) {
                 return (
-                  <div>
+                  <div style={{ textAlign: 'left' }}>
+                    <b> {categories.category + '-' + categories.percentage + '%'}</b>
+                    <br />
                     {categories.text}
+                    <hr />
                   </div>
                 )
               })
@@ -156,8 +159,9 @@ function ResultPage() {
             {
               autoText.map(function (text) {
                 return (
-                  <div>
+                  <div style={{ textAlign: 'left' }}>
                     {text}
+                    <hr />
                   </div>
                 )
               }
@@ -172,12 +176,19 @@ function ResultPage() {
           </div>
 
           <div class="examinee-comments">
-            <h5>Examinee Comments</h5>
+            <h5>Answer Report For Admin</h5>
             {
               Object.keys(categoryData).map(function (key) {
                 return (
                   <div className='examinee-comments-box'>
                     {Object.keys(categoryData[key]).map(function (questionKey) {
+                      let color = 'red';
+                      if (categoryData[key][questionKey][categoryData[key][questionKey]["selectAnswer"]]?.points >= 10) {
+                        color = 'green';
+                      }
+                      else if (categoryData[key][questionKey][categoryData[key][questionKey]["selectAnswer"]]?.points >= 1) {
+                        color = 'yellow';
+                      }
                       return (
                         <>{categoryData[key][questionKey]["freeText"] == 1 ? (
                           <>
@@ -191,7 +202,9 @@ function ResultPage() {
                             <>
                               <b> {categoryData[key][questionKey]["question"]}</b>
                               <br />
-                              {categoryData[key][questionKey][categoryData[key][questionKey]["selectAnswer"]]['answer']}
+                              <p style={{ color: color }}>
+                                {'Answer: ' + categoryData[key][questionKey][categoryData[key][questionKey]["selectAnswer"]]['answer']}
+                              </p>
                               <hr />
                             </>
                           )
