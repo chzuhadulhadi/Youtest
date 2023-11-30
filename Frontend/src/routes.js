@@ -29,6 +29,7 @@ import Results from './pages/admin/results';
 import Verify from './pages/LoginPages/verify';
 import LandingPageForm from './pages/LandingPage/landingpageform';
 import LandingPageData from './pages/LandingPage/landingpagedata';
+import RPage from './pages/resultpage.js/rpage';
 
 export default function Router() {
   const routes = useRoutes([
@@ -140,7 +141,11 @@ export default function Router() {
     {
       path:'/verify/:token?',
       element:<Verify/>
-    }
+    },
+    {
+      path: '/respage/*',
+      element: <RPage />,
+    },
   ]);
   return routes;
 }
