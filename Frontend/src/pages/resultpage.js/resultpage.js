@@ -136,6 +136,17 @@ function ResultPage() {
           </table>
 
 
+          {/* Automatic text ends */}
+
+          <div className='automatic-text'>
+            <h6>
+              Graph
+            </h6>
+          </div>
+          <div className='chart' >
+            <Charts dataRecieved={formObj.result} />
+          </div>
+
           {/* Automatic text */}
           <div className='automatic-text'>
             <h6>
@@ -168,13 +179,6 @@ function ResultPage() {
               )
             }
           </div>
-          {/* Automatic text ends */}
-
-
-          <div className='chart' >
-            <Charts dataRecieved={formObj.result} />
-          </div>
-
           <div class="examinee-comments">
             <h5>Answer Report For Admin</h5>
             {

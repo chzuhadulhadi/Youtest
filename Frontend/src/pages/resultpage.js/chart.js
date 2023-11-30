@@ -46,6 +46,8 @@ function Charts(dataRecieved) {
     const chartOptions = {
       scales: {
         y: {
+          suggestedMin: 0,
+          suggestedMax: 100,
           ticks: {
             color: 'black',
             font: {
