@@ -5,13 +5,12 @@ import { toast } from "react-toastify";
 import { serverImageUrl } from "../../../../../apiCalls/apiRoutes";
 import { useHistory } from "react-router-dom";
 import XLSX from 'sheetjs-style';
-
-
 // import '../../style.css'
 import "./steps.css";
 
 var questionCounter = 0;
 var answerCounter = 0;
+var imageCounter = 0;
 // var object = [];
 
 function QuestionStep(props) {
@@ -46,13 +45,43 @@ function QuestionStep(props) {
       });
   }, []);
   console.log('questionbank', questionbank);
-  // const handleFileSelect = (event) => {
-  //   console.log(event.target.files[0]);
-  //   setSelectedFile(event.target.files[0]);
-  //   setHandleRend(handleRend + 1);
-  //   questionphoto(event);
+  const handleFileSelect = (event) => {
+    console.log(event.target.files[0]);
+    setSelectedFile(event.target.files[0]);
+    setHandleRend(handleRend + 1);
+    questionphoto(event);
 
-  // };
+  };
+
+  const handleAnswerFileSelect = (event) => {
+    console.log(event.target.files[0]);
+    setSelectedFile(event.target.files[0]);
+    setHandleRend(handleRend + 1);
+    answerphoto(event);
+
+  };
+  const answerphoto = (e) => {
+    const lastIndex = e.target.id.lastIndexOf('-');
+    const result = e.target.id.substring(0,lastIndex);
+    // console.log('answerphoto',e.target.files[0]);
+    console.log('answerphoto', e.target.id);
+    console.log(result);
+    const formData = new FormData();
+    formData.append("file",  e.target.files[0]);
+    apiCall("post", logoUploader, formData)
+      .then((res) => {
+        if (res.status == 200) {
+          let url = res.data.data;
+          document.getElementById(`img_${result}`).src = serverImageUrl + url;
+          props.obj.mainObjectAdder({ target: { id: result, value: url } }, "questions", result, 'image');
+          // console.log(url);
+        }
+      })
+      .catch((err) => {
+        showToastMessage(err?.response?.data?.message, "red", 2);
+      }
+      );
+  }
 
   const questionphoto = (e) => {
     console.log('questionphoto', e.target.id);
@@ -63,8 +92,11 @@ function QuestionStep(props) {
         if (res.status == 200) {
           let url = res.data.data;
           // console.log(url);
-          props.obj.mainObjectAdder({ target: { id: e.target.id, value: url } }, "questions", e.target.id, 'question');
+          props.obj.mainObjectAdder({ target: { id: e.target.id.split('-')[0], value: url } }, "questions", e.target.id.split('-')[0], 'image');
           showToastMessage("Question updated Successfully ", "green", 1);
+          // console.log('img_question0', `img_${e.target.id.split('-')[0]}`);
+          document.getElementById(`img_${e.target.id.split('-')[0]}`).src = serverImageUrl + url;
+          imageCounter++;
         }
       })
       .catch((err) => {
@@ -90,6 +122,18 @@ function QuestionStep(props) {
               <div id={key} className="QuesAns">
                 <div id="singleQuestion" className="question">
                   <label className="form-label">Question</label>
+                  <input
+                    type="file"
+                    id={`question${index}-image${imageCounter}`}
+                    onChange={(e) => {
+                      handleFileSelect(e);
+                    }}
+                  />
+                  <img id={`img_question${index}`}
+                    height={'200px'}
+                    width={'200px'}
+                    src={serverImageUrl + props.obj.mainObj["questions"][`question${index}`]?.questionimg}
+                  />
                   <input
                     id={key}
                     type="text"
@@ -165,6 +209,15 @@ function QuestionStep(props) {
                 <label className="form-label" hidden>
                   Answer
                 </label>
+                <input
+                  type="file"
+                  id={`question${key.split('question')[1]}-answer${answerCounter}-image${imageCounter}`}
+                  onChange={handleAnswerFileSelect}
+                />
+                <img id={`img_question${key.split('question')[1]}-answer${answerCounter}`}
+                  height={'200px'}
+                  width={'200px'}
+                />
                 <input
                   id={key}
                   type="text"
@@ -419,14 +472,18 @@ function QuestionStep(props) {
           <div id={"question" + questionCounter}>
             <div id="singleQuestion" className="question">
               <label className="form-label">Question</label>
-              {/* <input
+              <input
                 type="file"
-                id={`question${questionCounter}`}
+                id={`question${questionCounter}-image${imageCounter}`}
                 onChange={(e) => {
                   handleFileSelect(e);
                 }}
-              /> */}
-              <img src={serverImageUrl + props.obj.mainObj["questions"][`question${questionCounter}`]?.question} />
+              />
+              <img id={`img_question${questionCounter}`}
+                height={'200px'}
+                width={'200px'}
+              //  src={serverImageUrl + props.obj.mainObj["questions"][`question${questionCounter}`]?.question} 
+              />
               <input
                 id={`question${questionCounter}`}
                 type="text"
@@ -511,6 +568,15 @@ function QuestionStep(props) {
             <label className="form-label" hidden>
               Answer
             </label>
+            <input
+              type="file"
+              id={`question${qstnCounter}-answer${answerCounter}-image${imageCounter}`}
+              onChange={handleAnswerFileSelect}
+            />
+            <img id={`img_question${qstnCounter}-answer${answerCounter}`}
+              height={'200px'}
+              width={'200px'}
+            />
             <input
               id={"question" + qstnCounter + "-answer" + answerCounter}
               type="text"
@@ -621,7 +687,7 @@ function QuestionStep(props) {
     }
   }
   const handleQuestionBank = (e) => {
-    console.log(`quesotn counter`,questionCounter);
+    console.log(`quesotn counter`, questionCounter);
 
     const questionIndex = e.target.value.split('-');
     // console.log('questionIndex', questionIndex);
@@ -638,7 +704,7 @@ function QuestionStep(props) {
         props.obj.mainObjectAdder({ target: { id: `question${questionCounter}-${key}`, value: question_data[key].points } }, "questions", `question${questionCounter}-${key}`, 'point');
       }
     });
-    console.log(`quesotn counter`,questionCounter);
+    console.log(`quesotn counter`, questionCounter);
 
     setHtml((prevState) => {
       let name = Object.assign({}, prevState);
@@ -647,6 +713,17 @@ function QuestionStep(props) {
           <div id={"question" + questionCounter}>
             <div id="singleQuestion" className="question">
               <label className="form-label">Question</label>
+              <input
+                type="file"
+                id={`question${questionCounter}-image${imageCounter}`}
+                onChange={(e) => {
+                  handleFileSelect(e);
+                }}
+              />
+              <img id={`img_question${questionCounter}`}
+                height={'200px'}
+                width={'200px'}
+              />
               <input
                 id={`question${questionCounter}`}
                 type="text"
@@ -710,14 +787,23 @@ function QuestionStep(props) {
 
       for (const key in question_data) {
         if (key.startsWith("answer")) {
-          newState[`question${questionCounter-1}-answer${answerCounter}`] = (
+          newState[`question${questionCounter - 1}-answer${answerCounter}`] = (
             <>
               <div className="question-div QuesAns">
                 <label className="form-label" hidden>
                   Answer
                 </label>
                 <input
-                  id={`question${questionCounter-1}-answer${answerCounter}`}
+                  type="file"
+                  id={`question${questionCounter - 1}-answer${answerCounter}-image${imageCounter}`}
+                  onChange={handleAnswerFileSelect}
+                />
+                <img id={`img_question${questionCounter - 1}-answer${answerCounter}`}
+                  height={'200px'}
+                  width={'200px'}
+                />
+                <input
+                  id={`question${questionCounter - 1}-answer${answerCounter}`}
                   type="text"
                   name="categoryField"
                   onChange={(e) => answerAdder(e, "answer")}
@@ -776,8 +862,8 @@ function QuestionStep(props) {
     // checkquestions();
   }
 
-console.log('html',html);
-console.log('htmlAnswer',htmlAnswer);
+  console.log('html', html);
+  console.log('htmlAnswer', htmlAnswer);
 
   return (
     <div
@@ -859,7 +945,7 @@ console.log('htmlAnswer',htmlAnswer);
               </div>
               {Object.keys(htmlAnswer).map(function (key, i) {
                 {
-             
+
                   var temp =
                     htmlAnswer[
                       key

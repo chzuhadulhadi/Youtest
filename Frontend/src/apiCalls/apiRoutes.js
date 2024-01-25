@@ -1,16 +1,17 @@
 export const environment = "C://Users/user/Downloads/";
 // export const paymentRoute="https://icredit.rivhit.co.il/API/PaymentPageRequest.svc/GetUrl";
 
-export const local = "http://16.171.235.229:4000/"
-export const serverUrl = "http://16.171.235.229:4000/"
-export const serverImageUrl = "http://16.171.235.229"
+// export const local = "http://16.171.235.229:4000/"
+// export const serverUrl = "http://16.171.235.229:4000/"
+// export const serverImageUrl = "http://16.171.235.229"
 
 
-export const frontEndPath = "http://16.171.235.229/"
+// export const frontEndPath = "http://16.171.235.229/"
+export const frontEndPath = "http://localhost:3000"
 
-// export const local = "http://localhost:4000/"
-// export const serverUrl = "http://localhost:4000/"
-// export const serverImageUrl = "http://localhost:4000"
+export const local = "http://localhost:4000/"
+export const serverUrl = "http://localhost:4000/"
+export const serverImageUrl = "http://localhost:4000"
 
 export const signup = local + 'api/user/signUp'
 export const forgotpass = local + 'api/user/forgotpassword'
