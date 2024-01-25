@@ -16,24 +16,25 @@ import { createMyTest } from '../../../apiCalls/apiRoutes';
 import { toast } from "react-toastify";
 
 
-var mainObj = {
-  orientation: 0,
-  categoryStore:{},
-  scoringType: 0,
-  randomOrder: 0,
-  timeLimit: "",
-  layout: {},
-  questions: {},
-  resultStructure: {
-    tableSummary: false,
-    graph: false
+// var mainObj = {
+//   orientation: 0,
+//   categoryStore:{},
+//   scoringType: 0,
+//   randomOrder: 0,
+//   timeLimit: "",
+//   language: "english",
+//   layout: {},
+//   questions: {},
+//   resultStructure: {
+//     tableSummary: true,
+//     graph: true
 
-  },
-  automaticText: {
+//   },
+//   automaticText: {
 
-  },
-  freeText: {}
-};
+//   },
+//   freeText: {}
+// };
 
 
 const showToastMessage = (text, color, notify) => {
@@ -51,9 +52,30 @@ const showToastMessage = (text, color, notify) => {
 };
 
 function CreateTest() {
+  
+const [mainObj, setMainObj] = useState(
+  {
+    orientation: 0,
+    scoringType: 0,
+    randomOrder: 0,
+    timeLimit: "",
+    language: "english",
+    showuser: false,
+    questions: {},
+    resultStructure: {
+      tableSummary: true,
+      graph: true
+    },
+    automaticText: {
+    },
+    freeText: {},
+    afterTestText: '',
+    beforeTestText: '',
+  });
+
   useEffect(() => {
     console.log("called")
-    console.log("mainObj", mainObj)
+    // console.log("mainObj", mainObj)
   }, [mainObj]);
   const [newCategoryCreated, setNewCategoryCreated] = useState(0)
   const navigate = useNavigate()
@@ -72,7 +94,12 @@ function CreateTest() {
   }, [mainObj]);
 
   function apiCallToCreateTest(draft) {
-    apiCall('post', createMyTest, mainObj)
+    let tempobj=mainObj;
+    if(!mainObj?.categoryStore){
+      tempobj.categoryStore={categoryName:'No Category',noOfQuestion:50};
+    }
+
+    apiCall('post', createMyTest, tempobj)
       .then((res) => {
         showToastMessage("Test created Successfully ", "green", 1);
         navigate('/dashboard/mytest')
@@ -85,46 +112,47 @@ function CreateTest() {
   function showTab(tab) {
     setTabSelected(tab)
   }
+  
   function mainObjectAdder(e, property, questionNo, type) {
-    // console.log("mainObj[property]", mainObj[property], "type", type)
-    mainObj = {
-      ...mainObj,
-      [property]: {
-        ...mainObj[property],
-        [questionNo]: {
-          ...mainObj[property][questionNo],
-          [type]: e.target.value
+      setMainObj(prevMainObj => ({
+        ...prevMainObj,
+        [property]: {
+          ...prevMainObj[property],
+          [questionNo]: {
+            ...prevMainObj[property][questionNo],
+            [type]: e.target.value
+          }
         }
-      }
-    }
-
-    // console.log("main", mainObj)
+      }));
   }
-
+  // useEffect(() => {
+  // console.log("mainObj", mainObj);
+  // }, [mainObj]);
   function addCategoryStoreToMain() {
-    mainObj = {
+    let main = {
       ...mainObj,
       categoryStore
     }
     // console.log("main", mainObj)
-
+    setMainObj(main);
   }
 
 
   function mainObjectAdderForProperties(e, property) {
-    // console.log("mainObj[property]", mainObj[property], "type", type) 
-    if (property == 'beforeTestText' || property == 'afterTestText' || property == 'sendAll') {
-
-      mainObj = {
+    // console.log("mainObj[property]", mainObj[property], "type", type)
+    if (property == 'beforeTestText' || property == 'afterTestText' || property == 'sendAll' || property == 'showuser') {
+      let main = {
         ...mainObj,
         [property]: e
       }
+      setMainObj(main);
     }
     else {
-      mainObj = {
+      let main = {
         ...mainObj,
         [property]: e.target.value
       }
+      setMainObj(main);
     }
 
     // console.log("main", mainObj)
@@ -133,27 +161,31 @@ function CreateTest() {
   function mainObjectAdderForLayout(e, property, name, value) {
     // console.log("mainObj[property]", mainObj[property], "type", type)
     // console.log(e, property, name, value)
-    mainObj = {
+    let main = {
       ...mainObj,
       [property]: {
         ...mainObj[property],
         [name]: value
       }
     }
+    console.log('main');
+    console.log(main);
+    setMainObj(main);
     // console.log("main", mainObj)
   }
   function mainObjectAdderForResultStructure(e, property, name) {
-    mainObj = {
+    let main = {
       ...mainObj,
       [property]: {
         ...mainObj[property],
         [name]: e.target.checked
       }
     }
+    setMainObj(main);
     // console.log("main", mainObj)
   }
   function mainObjectAdderForAutomaticText(e, property, name) {
-    mainObj = {
+    let main = {
       ...mainObj,
       [property]: {
         ...mainObj[property],
@@ -163,9 +195,9 @@ function CreateTest() {
         }
       }
     }
+    setMainObj(main);
     // console.log("main", mainObj)
   }
-
   function getMainObj() {
     return mainObj
   }

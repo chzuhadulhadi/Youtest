@@ -8,6 +8,10 @@
 .mobile img {
   width: 30px; /* Adjust the width of the hamburger icon as needed */
 }
+html, body {
+  scroll-behavior: auto; /* or scroll-behavior: initial; */
+}
+
 
 /* Styling for the Mobile Menu */
 .menumobile {

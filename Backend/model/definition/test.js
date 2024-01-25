@@ -8,6 +8,16 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
+      language: {
+        type: DataTypes.STRING(100),
+        allowNull: true,
+      },
+      showuser: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+        Comment: "0-false /n 1-true",
+      },
       name: {
         type: DataTypes.STRING(100),
         allowNull: false,

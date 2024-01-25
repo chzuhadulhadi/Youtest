@@ -104,30 +104,28 @@ function ResultPage() {
         <div>
           <div className='result-header'>
             <h3 style={{ textAlign: 'center' }}>
-              Results for {formObj?.additionalDetails?.name && formObj?.additionalDetails?.name != '' ? formObj.additionalDetails.name : formObj.userEmail}
+              {/* //hebrew */}
+              {formObj?.language == 'english' ?`Results for ${formObj?.additionalDetails?.name && formObj?.additionalDetails?.name != '' ? formObj.additionalDetails.name : formObj.userEmail}`: ` ${formObj?.additionalDetails?.name && formObj?.additionalDetails?.name != '' ? formObj.additionalDetails.name : formObj.userEmail}   תוצאות עבור`}
+              
             </h3>
             {getTestStatus(formObj) == "The Test is complete" ? (
               <h5>
-                The Examinee answered {' '}
-                {formObj.resultStats.totalAnswer} {' '}
-
-                questions out of {formObj.resultStats.totalQuestion}
-                {''} Duration : {''} {formObj.resultStats.timeTakenForTest} {' Mins'}
+                {formObj?.language == 'english' ? `The Examinee answered ${formObj.resultStats.totalAnswer} questions out of ${formObj.resultStats.totalQuestion} Duration : ${formObj.resultStats.timeTakenForTest} Mins` : `המבחן נענה על ידי הבוחן ${formObj.resultStats.totalAnswer} שאלות מתוך ${formObj.resultStats.totalQuestion} משך : ${formObj.resultStats.timeTakenForTest} דקות`}
               </h5>) : getTestStatus(formObj)
             }
           </div>
           <table class="table result-table" style={{ margin: '0 auto', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
-                <th style={{ textAlign: 'center', paddingLeft: '200px' }}>Category</th>
-                <th style={{ textAlign: 'center', paddingRight: '200px' }}>Percentage</th>
+                <th style={{ textAlign: 'center', paddingLeft: '200px' }}>{formObj?.language=='english' ? 'Category' : 'קטגוריה'}</th>
+                <th style={{ textAlign: 'center', paddingRight: '200px' }}>{formObj?.language=='english' ? 'Percentage' : 'אחוזים'}</th>  
               </tr>
             </thead>
 
             <TableRows data={formObj} />
             <tbody>
               <tr style={{ "background-color": "yellow" }}>
-                <td style={{ textAlign: 'center', paddingLeft: '200px' }}>Total</td>
+                <td style={{ textAlign: 'center', paddingLeft: '200px' }}>{formObj?.language=='english' ? 'Total' : 'סה"כ'}</td>
                 <td style={{ textAlign: 'center', paddingRight: '200px' }}> {(formObj.resultStats.totalPercentage / formObj.resultStats.totalCategories) ? (formObj.resultStats.totalPercentage / formObj.resultStats.totalCategories) : 0}
                   {" "}%
                 </td>
@@ -136,10 +134,21 @@ function ResultPage() {
           </table>
 
 
+          {/* Automatic text ends */}
+
+          <div className='automatic-text'>
+            <h6>
+              {formObj?.language=='english' ? 'Graph' : 'גרף'}
+            </h6>
+          </div>
+          <div className='chart' >
+            <Charts dataRecieved={formObj.result} />
+          </div>
+
           {/* Automatic text */}
           <div className='automatic-text'>
             <h6>
-              Additional Comments
+              {formObj?.language=='english' ? 'Additional Comments' : 'הערות נוספות'}
             </h6>
           </div>
 
@@ -147,8 +156,11 @@ function ResultPage() {
             {formObj.result &&
               formObj.result.map(function (categories) {
                 return (
-                  <div>
+                  <div style={{ textAlign: formObj?.language=='english' ? 'left' : 'right' }}>
+                    <b> {categories.category + '-' + categories.percentage + '%'}</b>
+                    <br />
                     {categories.text}
+                    <hr />
                   </div>
                 )
               })
@@ -156,37 +168,50 @@ function ResultPage() {
             {
               autoText.map(function (text) {
                 return (
-                  <div>
+                  <div style={{ textAlign: 'left' }}>
                     {text}
+                    <hr />
                   </div>
                 )
               }
               )
             }
           </div>
-          {/* Automatic text ends */}
-
-
-          <div className='chart' >
-            <Charts dataRecieved={formObj.result} />
-          </div>
-
           <div class="examinee-comments">
-            <h5>Examinee Comments</h5>
+            <h5>{
+              formObj?.language=='english' ? 'Answer Report For Admin' : 'דוח תשובות למנהל'}</h5>
             {
               Object.keys(categoryData).map(function (key) {
                 return (
-                  <div className='examinee-comments-box'>
+                  <div  style={{textAlign:formObj?.language=='english' ? 'left' : 'right '}}>
                     {Object.keys(categoryData[key]).map(function (questionKey) {
+                      let color = 'red';
+                      if (categoryData[key][questionKey][categoryData[key][questionKey]["selectAnswer"]]?.points >= 10) {
+                        color = 'green';
+                      }
+                      else if (categoryData[key][questionKey][categoryData[key][questionKey]["selectAnswer"]]?.points >= 1) {
+                        color = 'yellow';
+                      }
                       return (
-                        <>{categoryData[key][questionKey]["freeText"] == 1 && (
+                        <>{categoryData[key][questionKey]["freeText"] == 1 ? (
                           <>
                             <b> {categoryData[key][questionKey]["question"]}</b>
                             <br />
                             {categoryData[key][questionKey]["selectAnswer"]}
                             <hr />
                           </>
-                        )
+                        ) :
+                          (
+                            <>
+                              <b style={{textAlign:formObj?.language=='english' ? 'left' : 'right'}}> {categoryData[key][questionKey]["question"]}</b>
+                              <br />
+                              <p style={{ color: color,textAlign:formObj?.language=='english' ? 'left' : 'right' }}>
+                                {formObj?.language == 'english' ? `Answer: ${categoryData[key][questionKey][categoryData[key][questionKey]["selectAnswer"]]['answer']}}`:` תשובה : ${categoryData[key][questionKey][categoryData[key][questionKey]["selectAnswer"]]['answer']} `
+                                }
+                              </p>
+                              <hr />
+                            </>
+                          )
                         }
                         </>
                       )

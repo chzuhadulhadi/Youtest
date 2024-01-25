@@ -183,11 +183,11 @@ function SendTestFunctionality({ testId }) {
       <Modal show={showEditModal} onHide={handleClose} animation={false}>
         <Modal.Body className="mt-5" style={{ textAlign: "center" }}>
           <h5>Name of the Test</h5>
-          <p>{testNames}</p>
+          <h5>{testNames}</h5>
           <h5>The shipment will be made to </h5>
           {mailingUserArray.length !== 0 &&
             mailingUserArray.map((ele) => {
-              return <>{ele.email}</>;
+              return <h5>{ele.email}</h5>;
             })}
 
           <h5>The test has {NoOfQuestions} questions</h5>
@@ -200,7 +200,7 @@ function SendTestFunctionality({ testId }) {
           <h5 className="mb-5">You can add message to the receipt</h5>
           <textarea
             className="w-100"
-            style={{ height: "14vh" }}
+            style={{ height: "14vh" ,fontSize:"15px",color:'black'}}
             placeholder="Enter a note"
             id="note"
             onChange={(e) => {

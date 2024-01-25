@@ -3,6 +3,7 @@ const userTestService = require('../service/userTestService');
 const mailService = require('../service/mailService');
 const userService = require('../service/userService');
 const landingPageService = require('../service/landingPageService');
+const paymentService = require('../service/paymentService');
 
 
 const { Op } = require('sequelize');
@@ -13,6 +14,7 @@ const model = require('../model');
 const mailingListUserService = require('../service/mailingListUserService');
 
 module.exports = {
+	
 	transferTest: async function (obj) {
 		console.log(obj);
 		const user = await userService.getuserByAny(obj.email);
@@ -79,7 +81,6 @@ module.exports = {
 				type: 'testResult',
 			};
 			mailService.create(emailObj);
-
 		}
 		var owneremailObj = {
 			to: usermail[0].email,
@@ -131,8 +132,7 @@ module.exports = {
 					await Object.keys(testDetails.testObj).map(async function (
 						categories
 					) {
-						console.log("Categories", categories)
-						var catLength = 0;
+						var catLength = 50;
 						await Object.values(testDetails.categoryStore).map(async function (
 							singleCatStore
 						) {
@@ -161,6 +161,7 @@ module.exports = {
 								)
 							);
 						}
+
 					});
 					//IF LNDINGPAGEiD THEN ADD IT TO LANDINGPAGEDATA
 					let landingPage = obj.LandingPageData;
@@ -174,6 +175,7 @@ module.exports = {
 					userTestArray.push({
 						userEmail: single.email,
 						name: testDetails.name,
+						language: testDetails.language,
 						sendAll: testDetails.sendAll,
 						landingPageData: landingPage,
 						orientation: testDetails.orientation,
@@ -194,9 +196,11 @@ module.exports = {
 				}
 			}
 			// console.log(userTestArray);
+			await paymentService.updateRemainingTests(obj.userId);
 			var bulkTests = await userTestService.initiateBulkTest(userTestArray, t);
 			const testUrls = [];
 			for (let test of bulkTests) {
+				// console.log('data', test.number);
 				testUrls.push({
 					testUrl: config.userTestUrl + test.id,
 					name: test.testObj.name,
@@ -206,6 +210,7 @@ module.exports = {
 					to: test.userEmail,
 					from: user.email,
 					body: {
+						id: test.number,
 						testUrl: config.userTestUrl + test.id,
 						name: test.testObj.name,
 					},
@@ -382,9 +387,12 @@ module.exports = {
 		} else {
 			totalStats.timeTakenForTest = dbObj.timeLimit;
 		}
+		// console.log(dbObj.ownerId);
+		var user = await userService.getuserById(dbObj.ownerId)
+		// console.log(user.email);
 		// totalPercentage: 0,
 		// totalCategories: 0	
-		return { ...dbObj, result: resultArray, resultStats: totalStats };
+		return { ...dbObj, result: resultArray, resultStats: totalStats, owner: user.email };
 	},
 	saveUserTest: async function (obj) {
 		var testDetails = await userTestService.getUserTest(0, 1, {

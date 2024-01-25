@@ -48,7 +48,7 @@ function AdminLogin() {
     const successHandler = (res) => {
         localStorage.setItem("token", res);
         setTimeout(() => {
-            navigate("/admin/dashboard");
+            navigate("/admin/dashboard/tests");
         }, 500);
     };
 

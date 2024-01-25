@@ -1,8 +1,8 @@
 const userModel = require('../../model/userModel');
 const Joi = require('joi');
 const schema = Joi.object().keys({
-	email: Joi.string().required(),
-	newPassword: Joi.string().required(),
+	token: Joi.required(),
+	password: Joi.string().required(),
 });
 const {
 	ReasonPhrases,
@@ -23,7 +23,6 @@ module.exports = async function resetPassword(req, res) {
 				error: err.stack,
 			});
 		}
-
 		const data = await userModel.resetPassword(validate);
 		res
 			.status(StatusCodes.OK)

@@ -2,6 +2,12 @@ const config = require('../config.json');
 const { Sequelize } = require('sequelize');
 
 var database = new Sequelize(config.db);
+
+
+database.sync({ force: false }).then(() => {
+	console.log('Database & tables created!');
+}
+);
 database
 	.authenticate()
 	.then(() => {

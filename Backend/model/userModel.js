@@ -2,16 +2,34 @@ const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 const userService = require('../service/userService');
 const mailService = require('../service/mailService');
+const paymentService = require('../service/paymentService');
 const config = require('../config.json');
 var jwt = require('jsonwebtoken');
 const Sequelize = require("../common/databaseConnection");
 
 
 module.exports = {
+	handleIPN: async function (obj) {
+		try {
+			const data=await paymentService.handlePayment(obj);
+			return data;
+		}
+		catch (e) {
+		}
+	},
 	updateUser: async function (obj) {
 		try {
 			await userService.updateAgent(obj, obj.id);
 		} catch (e) {
+			throw new Error(e);
+		}
+	},
+	getUser: async function (id)
+	{
+		try{
+			return await userService.getAgentById(id);
+		}catch(e)
+		{
 			throw new Error(e);
 		}
 	},
@@ -80,7 +98,25 @@ module.exports = {
 			throw new Error(e);
 		}
 	},
+	forgotPass: async function (email) {
+		var t=await Sequelize.transaction();
+		try {
+			const filter = await userService.otherloginFilter(0, 1, email);
+			
+			var userLogin = await userService.getUsers(filter);
+			if (!userLogin.length) {
+				throw new Error('Not registered');
+			}
+			const verificationToken = await userService.generateVerificationToken(32).then(async (token) => {
+				var user = await mailService.sendForgotVerificationToken(userLogin[0], token);
+				await userService.updateToken(token,email,t);	
 
+			}
+			);
+		} catch (e) {
+			throw new Error(e);
+		}
+	},
 	signUp: async function (obj) {
 
 		var t = await Sequelize.transaction();
@@ -167,12 +203,12 @@ module.exports = {
 		return await userService.sendOtp(otp, email);
 	},
 	resetPassword: async function (obj) {
-		var user = await userService.getuserByAny(obj.email);
-		if (!user) {
-			throw new Error('Not registered');
-		}
-		obj.newPassword = await bcrypt.hashSync(obj.newPassword, saltRounds);
-		return await userService.resetPassword(obj.newPassword, obj.email);
+		// var user = await userService.getuserByAny(obj);
+		// if (!user) {
+			// throw new Error('Not registered');
+		// }
+		let pass = await bcrypt.hashSync(obj.password, saltRounds);
+		return await userService.resetPassword(pass, obj.token);
 	},
 	verifyEmail: async function (token) {
 		try {

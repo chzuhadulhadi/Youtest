@@ -9,10 +9,9 @@ var questionCount = 1;
 
 
 function FillQuestion(questionData) {
-console.log("questionData",questionData)
     const divStyle = {
-        textColor: { color: questionData.questionData.layout.textColor, background: questionData.questionData.layout.backgroundColor },
-        answerColor: { color: questionData.questionData.layout.answerColor },
+        textColor: { color: questionData.questionData.layout.textColor, background: questionData.questionData.layout.backgroundColor, textAlign: questionData?.language == 'english' ? 'left' : 'right' },
+        answerColor: { color: questionData.questionData.layout.answerColor, textAlign: questionData?.language == 'english' ? 'left' : 'right' },
         logoBackgroundColor: { backgroundColor: questionData.questionData.layout.backgroundColor },
         question: { color: questionData.questionData.layout.questionTextColor, background: questionData.questionData.layout.questionBackgroundColor },
     };
@@ -40,13 +39,16 @@ console.log("questionData",questionData)
 
     function handleChange(key, questionKey, answer, e) {
         setTemp(prevState => {
-            let name = Object.assign({}, prevState);  // creating copy of state variable jasper
-            name[key][questionKey]["selectAnswer"] = answer;
-            return name;                                 // return new object jasper object
-        })
-
-        // Save object on backend
-        apiCall('post', saveUserTest, { id: testObj.id, testObj: categoryData })
+            let name = Object.assign({}, prevState); 
+            try
+            {
+                name[key][questionKey]["selectAnswer"] = answer;
+            }
+            catch
+            {
+            name[key][questionKey] = answer;
+            }
+            apiCall('post', saveUserTest, { id: testObj.id, testObj: name })
             .then((res) => {
                 if (res.status == 200) {
                     // showToastMessage("User test saved Successfully ", "green", 1);
@@ -57,16 +59,22 @@ console.log("questionData",questionData)
             }).catch((err) => {
                 showToastMessage(err?.response?.data?.message, "red", 2);
 
-            })
+            });
+            return name;                                 // return new object jasper object
+        })
+        // categoryData[key][questionKey] = answer;    
+        // categoryData[key][questionKey] = { ...categoryData[key][questionKey], 'selectedAnswer':answer };
+
+        
     }
 
     function next() {
-        console.log("next clicked")
+        // console.log("next clicked")
         ++questionCount;
         setShowDiv(++showDiv)
     }
     function prev() {
-        console.log("prev clicked")
+        // console.log("prev clicked")
 
         --questionCount;
         setShowDiv(--showDiv)
@@ -105,7 +113,7 @@ console.log("questionData",questionData)
 
     useEffect(() => {
         window.addEventListener('keydown', (e) => {
-            console.log("pressed")
+            // console.log("pressed")
 
             // setPressedKey(e.key)
             selectPressed(e.key)
@@ -129,23 +137,17 @@ console.log("questionData",questionData)
     }
 
     return (
-        <div style={divStyle.textColor} className='fill-question'>
-            <h1>{testObj.name}</h1>
+        <div style={divStyle.textColor} className='fill-question' >
+            {/* <h1>{testObj.name}</h1> */}
             {Object.keys(categoryData).map(function (key) {
                 {
-                    {console.log("categoryData[key]",categoryData)}
-
-                    if (!categoryData[key]["freeText"] && !categoryData[key]["freeText"] == 1) {
-
+                    const regexPattern = /answer[0-9]/;
+                    if (!categoryData[key]["freeText"] || categoryData[key]["freeText"] == 0) {
                         return (
                             <div>
                                 {Object.keys(categoryData[key]).map(function (questionKey) {
 
                                     {
-                                        console.log("questionKey", questionKey)
-                                        console.log("categoryData[key][questionKey]", categoryData[key][questionKey])
-                                        console.log('counr',count)
-                                        console.log('showDiv',showDiv)
                                         ++count;
                                     }
                                     return (
@@ -156,20 +158,22 @@ console.log("questionData",questionData)
 
                                                 <div style={divStyle.question} className='question'>
                                                     <h4>
-                                                        Question:{count}
+                                                        {questionData?.language == 'english' ? `Question ${count}:` : ''}
+
                                                         {
                                                             categoryData[key][questionKey]["question"]
                                                         }
+                                                        {questionData?.language != 'english' ? `:שאלה ${count}` : ''}
 
                                                     </h4>
                                                 </div>
                                                 <br />
                                                 {
-                                                    (!categoryData[key][questionKey]["freeText"] || categoryData[key][questionKey]["freeText"] == 0) ? (
+                                                        (!categoryData[key][questionKey]["freeText"] || categoryData[key][questionKey]["freeText"] == 0 || Object.keys(categoryData[key][questionKey]).includes('answer0')) ? (
 
                                                         Object.keys(categoryData[key][questionKey]).map(function (answers, index) {
                                                             if (answers.includes("answer")) {
-                                                                return (<div style={divStyle.answerColor} className='radio-answer'>
+                                                                return (<div style={divStyle.answerColor} className='radio-answer' >
                                                                     <p>
                                                                         <input className={"radio-" + (index + 1) + questionKey} id={answers} type="radio" checked={temp[key][questionKey]["selectAnswer"] === answers} value={questionKey} name={questionKey} onChange={(e) => handleChange(key, questionKey, answers, e)} />
                                                                         {/* <input type="radio" value={questionKey} name={questionKey} onChange={()=>categoryData[key][questionKey]["selectAnswer"]=answers} /> */}
@@ -179,7 +183,7 @@ console.log("questionData",questionData)
                                                                 </div>)
                                                             }
 
-                                                        })  
+                                                        })
                                                     ) : <textarea className='text-answer' onChange={(e) => handleChange(key, questionKey, e.target.value, e)}></textarea>
                                                 }
                                                 <div className="prev-next">
@@ -191,12 +195,14 @@ console.log("questionData",questionData)
                                             {/* single case */}
                                             {testObj.orientation == 0 && <div key={count} >
                                                 <div style={divStyle.question} className='question'>
+
                                                     <h4>
-                                                        Question:
+                                                        {questionData?.language != 'english' ? `  שאלה :` : ''}
+
+                                                        {questionData?.language == 'english' ? `Question ${count}:` : ''}
                                                         {
                                                             categoryData[key][questionKey]["question"]
                                                         }
-
                                                     </h4>
                                                 </div>
                                                 {/* <div className='question'></div> */}
@@ -209,9 +215,12 @@ console.log("questionData",questionData)
                                                                 if (answers.includes("answer")) {
                                                                     return (<div style={divStyle.answerColor} className='radio-answer '>
                                                                         <p>
+                                                                            {questionData?.language == 'hebrew' ? categoryData[key][questionKey][answers]["answer"] : " "}
+                                                                            {' '}
                                                                             <input id={answers} type="radio" checked={temp[key][questionKey]["selectAnswer"] === answers} value={questionKey} name={questionKey} onChange={(e) => handleChange(key, questionKey, answers, e)} />
                                                                             {/* <input type="radio" value={questionKey} name={questionKey} onChange={()=>categoryData[key][questionKey]["selectAnswer"]=answers} /> */}
-                                                                            {" "}{categoryData[key][questionKey][answers]["answer"]}
+                                                                            {' '}                                                                         {/* {" "}{categoryData[key][questionKey][answers]["answer"]}{' '} */}
+                                                                            {questionData?.language == 'english' ? categoryData[key][questionKey][answers]["answer"] : " "}
                                                                         </p>
 
                                                                     </div>)
@@ -227,6 +236,41 @@ console.log("questionData",questionData)
                                 })}
                             </div>)
                     }
+                    else if (Object.keys(categoryData[key]).some(key => /answer[0-9]/.test(key))) {
+                        return (
+                            <>
+                                <div style={divStyle.question} className='question'>
+                                    <h4>
+                                        {questionData?.language == 'english' ? `Question ${count}:` : ''}
+                                        {
+                                            categoryData[key]["question"]
+                                        }
+                                        {questionData?.language != 'english' ? `:שאלה ${count}` : ''}
+
+                                    </h4>
+                                </div>
+                                {/* //if Object.key includes answer[0-9] then show radio */}
+                                <div className='radio-answer-all'>
+                                    {
+                                        Object.keys(categoryData[key]).map(function (answers, index) {
+                                            if (answers.includes("answer")) {
+                                                return (<div style={divStyle.answerColor} className='radio-answer'>
+                                                    <p>
+                                                        <input className={"radio-" + (index + 1) + key} id={answers} type="radio" checked={temp[key]["selectAnswer"] === answers} value={key} name={key} onChange={(e) => handleChange(key, "selectAnswer", answers, e)} />
+                                                        {/* <input type="radio" value={questionKey} name={questionKey} onChange={()=>categoryData[key][questionKey]["selectAnswer"]=answers} /> */}
+                                                        {" "}{categoryData[key][answers]["answer"]}
+                                                    </p>
+                                                </div>)
+                                            }
+
+                                        })
+                                    }
+                                </div>
+                            </>
+                        )
+
+
+                    }
                     else {
                         return <div className='free-text-div'>
                             <div style={divStyle.question} className='question'>
@@ -238,7 +282,8 @@ console.log("questionData",questionData)
 
                                 </h4>
                             </div>
-                            <textarea className='text-answer' ></textarea>
+
+                            <textarea className='text-answer' onChange={(e) => handleChange(key, "selectAnswer", e.target.value, e)}></textarea>
                         </div>
                     }
                 }

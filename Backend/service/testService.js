@@ -2,9 +2,30 @@ const { Op } = require("sequelize");
 const model = require("../model");
 
 module.exports = {
+	getUserAllPreviousQuestions: async function (userId) {
+		const tests= await model.test.findAll({
+			where: {
+				createdById: userId,
+			},
+		});
+		const questions = [];
+		// for (const test of tests) {
+		// 	const testObj = test.testObj;
+		// 	}
+		for(const test of tests){
+			const testObj = test.testObj;
+			for (const category in testObj) {
+				if (testObj.hasOwnProperty(category)) {
+					questions.push({...testObj[category]});
+				}
+			}
+		}
+		return questions;
+
+	},
 	createTest: async function (obj, t) {
 		// console.log("obj", !!obj.id);
-		if (obj?.id === 0 || obj.id === undefined) {
+		if (obj.id === 0 || obj.id === undefined) {
 			console.log(" creating obj", obj.id);
 			// Create a new test
 			return await model.test.create(obj, { transaction: t });
@@ -73,25 +94,26 @@ module.exports = {
 		}
 		console.log("obj.questions", obj)
 		Object.keys(obj.questions).map(function (key, i) {
-			if (obj.questions[key].categoryName) {
-				retObj[obj.questions[key].categoryName] ? "" : retObj[obj.questions[key].categoryName] = {}
+			if (!obj.questions[key].categoryName) {
+				obj.questions[key].categoryName = "No Category";
 			}
-
+			retObj[obj.questions[key].categoryName] ? "No Category" : retObj[obj.questions[key].categoryName] = {}
+			
 			if (!key.includes("answer") && obj.questions[key].categoryName) {
 
 				retObj[obj.questions[key].categoryName][key] = {}
 				retObj[obj.questions[key].categoryName][key] = {
 					question: "",
-					category: "",
+					category: "No Category",
 					freeText: 0,
 				}
 				// console.log("obj.freetext", obj.freeText);
 				retObj[obj.questions[key].categoryName][key]["question"] = obj.questions[key]["question"];
-				retObj[obj.questions[key].categoryName][key]["category"] = obj.questions[key]["categoryName"];
-				console.log("obj.freeText", obj.freeText);
-				console.log('obj.freeText.hasOwnProperty(key)', obj.freeText.hasOwnProperty(key));
-				console.log('obj.freeText[key]?.freeText == 1', obj.freeText[key]?.freeText == 1);
-				if (obj.freeText.hasOwnProperty(key) && obj.freeText[key]?.freeText == 1) {
+				retObj[obj.questions[key].categoryName][key]["category"] = obj.questions[key]["categoryName"] || "No Category";
+				// console.log("obj.freeText", obj.freeText);
+				// console.log('obj.freeText.hasOwnProperty(key)', obj.freeText.hasOwnProperty(key));
+				// console.log('obj.freeText[key].freeText == 1', obj.freeText[key].freeText == 1);
+				if (obj.freeText.hasOwnProperty(key) && obj.freeText[key].freeText == 1) {
 					retObj[obj.questions[key].categoryName][key]["freeText"] = 1;
 				}
 			} else if (!key.includes("answer") && !obj.questions[key].categoryName) {
@@ -99,6 +121,7 @@ module.exports = {
 				retObj[key] = {
 					question: obj.questions[key].question,
 					freeText: 1,
+					category: "No Category"
 				}
 			}
 		})
@@ -107,19 +130,29 @@ module.exports = {
 
 			if (key.includes("answer")) {
 				var temp = key.split("-")
-				const cat = obj.questions[temp[0]]["categoryName"]
-
-				retObj[cat][temp[0]] = {
-					...retObj[cat][temp[0]],
-					[temp[1]]: {
-						answer: obj.questions[key]["answer"],
-						points: obj.questions[key]["point"]
+				const cat = obj.questions[temp[0]]["categoryName"] || "No Category";
+				console.log(temp, cat);
+				if (retObj[cat]) {
+					retObj[cat][temp[0]] = {
+						...retObj[cat][temp[0]],
+						[temp[1]]: {
+							answer: obj.questions[key]["answer"],
+							points: obj.questions[key]["point"]
+						}
 					}
-
+				}
+				else {
+					retObj[temp[0]] = {
+						...retObj[temp[0]],
+						[temp[1]]: {
+							answer: obj.questions[key]["answer"],
+							points: obj.questions[key]["point"]
+						}
+					}
 				}
 			}
 		})
-
+		console.log(retObj);
 		return retObj;
 	},
 	//reverse of above function which takes the result of makecreatetestobj and converts it to the format of the frontend
@@ -128,13 +161,15 @@ module.exports = {
 			orientation: dbObject.orientation || 0,
 			scoringType: dbObject.scoringType || 0,
 			randomOrder: dbObject.randomOrder || 0,
+			language: dbObject.language || 'english',
 			timeLimit: dbObject.timeLimit || '',
+			showuser: dbObject.showuser || 0,
 			questions: {},
 			resultStructure: {
-				tableSummary: dbObject.resultStructure?.tableSummary || false,
-				graph: dbObject.resultStructure?.graph || false
+				tableSummary: dbObject.resultStructure.tableSummary || false,
+				graph: dbObject.resultStructure.graph || false
 			},
-			automaticText: dbObject?.automaticText,
+			automaticText: dbObject.automaticText,
 			sendAll: dbObject.sendAll || 0,
 			freeText: {},
 			beforeTestText: dbObject.beforeTestText || '',
@@ -142,12 +177,12 @@ module.exports = {
 			name: dbObject.name || '',
 			categoryStore: {},
 			layout: {
-				imageUrl: dbObject.layout?.imageUrl || '',
-				questionTextColor: dbObject.layout?.questionTextColor || '',
-				textColor: dbObject.layout?.textColor || '',
-				backgroundColor: dbObject.layout?.backgroundColor || '',
-				questionBackgroundColor: dbObject.layout?.questionBackgroundColor || '',
-				answerColor: dbObject.layout?.answerColor || ''
+				imageUrl: dbObject.layout.imageUrl || '',
+				questionTextColor: dbObject.layout.questionTextColor || '',
+				textColor: dbObject.layout.textColor || '',
+				backgroundColor: dbObject.layout.backgroundColor || '',
+				questionBackgroundColor: dbObject.layout.questionBackgroundColor || '',
+				answerColor: dbObject.layout.answerColor || ''
 			}
 		};
 

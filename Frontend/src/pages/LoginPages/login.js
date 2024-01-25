@@ -3,6 +3,8 @@ import { useState } from "react";
 import { login } from "../../apiCalls/apiRoutes";
 import { apiCall } from "../../apiCalls/apiCalls";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
+import Header from "../homepage/header";
 
 function Login() {
   const showToastMessage = (text, color, notify) => {
@@ -22,7 +24,7 @@ function Login() {
   var emailToDeal = queryParameters.get("email");
 
   setTimeout(() => {
-    if (emailToDeal != null) {
+    if (emailToDeal != null && emailToDeal != 'undefined') {
       document.querySelector("#email").setAttribute("value", emailToDeal);
     }
   }, 500);
@@ -62,17 +64,12 @@ function Login() {
       });
   };
   return (
-    <div className="Get_sec">
-      <div className="Mid">
-        <p
-          onClick={() => {
-            navigate("/");
-          }}
-          className="fa fa-home"
-        ></p>
-        <div className="Leftside">
-          <form onSubmit={loginHandler}>
-            <fieldset>
+    <>
+      <Header />
+      <div className="Get_sec mt-5">
+        <div className="Mid">
+          <div className="Leftside">
+            <form onSubmit={loginHandler}>
               <p>
                 <input
                   type="email"
@@ -93,33 +90,36 @@ function Login() {
                   required
                 />
               </p>
+              <a href="/ForgotPassword" className="forgot-password-link" style={{ textDecoration: 'none', float: 'right', marginBottom: '15px', marginRight: '110px' }}>
+                Forgot Password?
+              </a>
               <p>
                 <input type="submit" value="Login" className="button" />
               </p>
-            </fieldset>
-          </form>
-          <p style={{ color: "red" }}>{confirmationText}</p>
-        </div>
-        <div className="Rightside">
-          <div className="loginPage">
-            <h3 style={{fontSize: "2rem" ,fontWeight : "bold", margin : '0px !important'}}>Login now !</h3>
-            <h4> Welcome back</h4>
-            <p> Please sign in to Access your account </p>
-            <p style={{marginBottom : "2.7rem"}}> If you dont have an account you can sign Up any time. </p>
-            <button
-              onClick={() => {
-                navigate("/signup");
-              }}
-              className="clickable-primary-text m-auto"
-            >
-      
-              Sign Up Now
-            </button>
-            <div className="clear"></div>
+            </form>
+            <p style={{ color: "red" }}>{confirmationText}</p>
+          </div>
+          <div className="Rightside mt-5">
+            <div className="loginPage mt-3">
+              <h3 style={{ fontSize: "2rem", fontWeight: "bold", margin: '0px !important' }}>Login now !</h3>
+              <h4> Welcome back</h4>
+              <p> Please sign in to Access your account </p>
+              <p style={{ marginBottom: "2.7rem" }}> If you dont have an account you can sign Up any time. </p>
+              <button
+                onClick={() => {
+                  navigate("/signup");
+                }}
+                className="clickable-primary-text m-auto"
+              >
+
+                Sign Up Now
+              </button>
+              <div className="clear"></div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 export default Login;

@@ -9,6 +9,7 @@ import draftToHtml from 'draftjs-to-html';
 function PropertiesStep(props) {
     const [timeLimited, setTimeLimited] = useState(false);
     const [sendAll, setsendAll] = useState(false);
+    const [showuser, setshowuser] = useState(false);
     useEffect(() => {
         if (props.obj.mainObj?.timeLimit) {
             setTimeLimited(true)
@@ -20,7 +21,10 @@ function PropertiesStep(props) {
         if (props.obj.mainObj?.sendAll) {
             setsendAll(props.obj.mainObj?.sendAll)
         }
-    }, [props.obj.mainObj?.sendAll]);
+        if(props.obj.mainObj?.showuser){
+            setshowuser(props.obj.mainObj?.showuser)
+        }
+    }, [props.obj.mainObj?.sendAll,props.obj.mainObj?.showuser]);
 
 
     const [beforeTextState, setBeforeTextState] = useState(() =>
@@ -69,11 +73,9 @@ function PropertiesStep(props) {
             props.obj.mainObjectAdderForProperties(html, "afterTestText")
         }
     }, [afterTextState])
-
     return (
         <div hidden={props.obj.tabSelected == "PROPERTIES" ? false : true} className='categories-content'>
-            <div className="leftHalf" style={{ float: "left" }}>
-
+            <div className="leftHalf" >
                 <br />
                 <form
                     className="formClass"
@@ -82,7 +84,6 @@ function PropertiesStep(props) {
                         props.obj.showTab("CATEGORIES");
                     }}
                 >
-
                     <h3> #1 - Properties</h3>
                     <label className="form-label"> Name </label>
                     <input
@@ -94,8 +95,7 @@ function PropertiesStep(props) {
                         onChange={(e) => props.obj.mainObjectAdderForProperties(e, "name")}
                         required
                     />
-
-                    <label className="form-label">Test structure</label>
+                    <label className="form-label"> Test structure </label>
                     <select
                         id="orientation"
                         // value={orientation}
@@ -105,6 +105,13 @@ function PropertiesStep(props) {
                     >
                         <option value="0">All the questions should appear in one page</option>
                         <option value="1">Questions are shown one by one</option>
+                    </select>
+                    <label className="form-label">Language</label>
+                    <select id='language' 
+                    onChange={(e) => props.obj.mainObjectAdderForProperties(e, "language")}
+                     className="form-select mb-3 pt-3 pb-3" required>
+                        <option value="english">English</option>
+                        <option value="hebrew">Hebrew</option>
                     </select>
 
                     <label className="form-label">Scoring type</label>
@@ -138,6 +145,9 @@ function PropertiesStep(props) {
                     </select>
                     <input type="checkbox" onClick={(e) => { props.obj.mainObjectAdderForProperties(e.target.checked, "sendAll"); (e.target.checked) ? setsendAll(true) : setsendAll(false) }} checked={sendAll} />
                     <label>Also send results to Testee</label>
+                    <br /><br />
+                    <input type="checkbox" onClick={(e) => { props.obj.mainObjectAdderForProperties(e.target.checked, "showuser"); (e.target.checked) ? setshowuser(true) : setshowuser(false) }} checked={showuser}/>
+                    <label>Show Right Answer to testee</label>
                     <br /><br />
                     <input type="checkbox" onClick={(e) => { (e.target.checked) ? setTimeLimited(true) : setTimeLimited(false); props.obj.mainObjectAdderForProperties({ 'target': { 'value': 0 } }, "timeLimit"); }} checked={timeLimited} />
                     <label> Time Limited Test </label> <br />

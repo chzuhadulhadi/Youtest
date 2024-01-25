@@ -13,15 +13,15 @@ const menuStyle = {
   // margin:'10px',     // Increase font size slightly
   padding: '10px 20px',      // Add padding
 };
-function Header({ setLoginCheck }) {
 
+function Header(props) {
+  const setLoginCheck = props.setLoginCheck;
   const [token, setToken] = useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const menuRef = useRef(null);
-
   const handleClickAway = (event) => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {
       // Clicked outside the menu, close it
@@ -74,13 +74,13 @@ function Header({ setLoginCheck }) {
             <i className="fas fa-times"></i>
           </div>
           <li className="active">
-            <Typography sx={{ minWidth: 100 }}><a href="#home">Home</a></Typography>
+            <Typography sx={{ minWidth: 100 }}><a href="/#home">Home</a></Typography>
           </li>
           <li>
-            <Typography sx={{ minWidth: 100 }}> <a href="#about">About</a></Typography>
+            <Typography sx={{ minWidth: 100 }}> <a href="/#about">About</a></Typography>
           </li>
           <li>
-            <Typography sx={{ minWidth: 100 }}><a href="#services">Services</a></Typography>
+            <Typography sx={{ minWidth: 100 }}><a href="/#services">Services</a></Typography>
           </li>
           <li>
             <Typography sx={{ minWidth: 100 }}><a href="#contact">Contact</a></Typography>
@@ -91,7 +91,7 @@ function Header({ setLoginCheck }) {
             </li>
               <li><Typography sx={{ minWidth: 100 }}><a href="/" onClick={logoutHandler}>Logout</a></Typography></li></>
             : <> <li onClick={() => setLoginCheck(true)}>
-              <a style={{ color: "white" }} href="#login">
+              <a style={{ color: "white" }} href="/login">
                 Login
               </a>
               <span className="menu-item-bg"></span>

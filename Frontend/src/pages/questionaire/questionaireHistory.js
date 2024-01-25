@@ -3,6 +3,9 @@ import ReactPaginate from "react-paginate";
 import { getQuestionaireHistoryList, getResult } from "../../apiCalls/apiRoutes";
 import { apiCall } from "../../apiCalls/apiCalls";
 import { frontEndPath } from "../../apiCalls/apiRoutes";
+
+import * as XLSX from 'xlsx';
+
 function QuestionaireHistory() {
   const [currentPage, setCurrentPage] = useState(1);
   var [postsPerPage, setPostPerPage] = useState(10);
@@ -92,8 +95,19 @@ function QuestionaireHistory() {
 
   }
 
+
+  function downloadExcel() {
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.table_to_sheet(document.getElementById('myTable'));
+    XLSX.utils.book_append_sheet(wb, ws, 'TestHistory');
+    XLSX.writeFile(wb, 'TestHistory.xlsx');
+  }
+  
   return (
     <div className="questionaireHistory">
+
+<button onClick={downloadExcel}>Download Excel</button>
+
       <input
         type="text"
         placeholder="Search ..."
@@ -120,11 +134,8 @@ function QuestionaireHistory() {
             <th scope="col">Time Taken</th>
             <th scope="col">status</th>
             <th scope="col">Score</th>
-
-
-            {/* <th scope="col">Orientation</th> */}
-            {/* <th scope="col">Time Limit</th> */}
             <th scope="col">Actions</th>
+
           </tr>
         </thead>
         <tbody>
@@ -138,17 +149,17 @@ function QuestionaireHistory() {
               return (
 
                 <tr key={index}>
-                  <td style={{fontSize:'14px'}}>{index + 1}</td>
-                  <td style={{fontSize:'14px'}}>{ele.name}{firstText ? <><br/>(Landing Page:{firstText})</>:''}</td>
-                  <td style={{fontSize:'14px'}}>{ele.userEmail}</td>
-                  <td style={{fontSize:'14px'}}>{new Date(ele.createdAt).toLocaleDateString().padStart(10, '0')}</td>
-                  <td style={{fontSize:'14px'}}><a target="blank" style={{ textDecoration: "underline" }} href={frontEndPath+"filltest/" + ele.id}>Test Link</a></td>
-                  <td style={{fontSize:'14px'}}>{((Math.abs(new Date(ele.testEnd) - new Date(ele.testStart))) / 1000 / 60).toFixed(2)} Min</td>
+                  <td style={{ fontSize: '14px' }}>{ele?.number || index + 1}</td>
+                  <td style={{ fontSize: '14px' }}>{ele.name}{firstText ? <><br />(Landing Page:{firstText})</> : ''}</td>
+                  <td style={{ fontSize: '14px' }}>{ele.userEmail}</td>
+                  <td style={{ fontSize: '14px' }}>{new Date(ele.createdAt).toLocaleDateString().padStart(10, '0')}</td>
+                  <td style={{ fontSize: '14px' }}><a target="blank" style={{ textDecoration: "underline" }} href={frontEndPath + "filltest/" + ele.id}>Test Link</a></td>
+                  <td style={{ fontSize: '14px' }}>{((Math.abs(new Date(ele.testEnd) - new Date(ele.testStart))) / 1000 / 60).toFixed(2)} Min</td>
                   {/* {console.log("getResultScore(ele.id) ", getResultScore(ele.id))}
                   {console.log("getTestStatus(ele)(ele.id) ", getTestStatus(ele))} */}
 
-                  <td style={{fontSize:'14px'}}>{getTestStatus(ele)}</td>
-                  <td style={{fontSize:'14px'}}>{resultsWithIds[ele.id]} %</td>
+                  <td style={{ fontSize: '14px' }}>{getTestStatus(ele)}</td>
+                  <td style={{ fontSize: '14px' }}>{resultsWithIds[ele.id]} %</td>
 
 
 
@@ -156,7 +167,7 @@ function QuestionaireHistory() {
                   {/* <td style={{fontSize:'14px'}}>{ele.timeLimit}</td> */}
                   {/* <td style={{fontSize:'14px'}}>View | Edit | Delete</td>
                    */}
-                  <td style={{fontSize:'14px'}}><a target="blank" style={{ textDecoration: "underline" }} href={"/resultpage/" + ele.id}>See Result</a></td>
+                  <td style={{ fontSize: '14px' }}><a target="blank" style={{ textDecoration: "underline" }} href={"/resultpage/" + ele.id}>See Results</a></td>
 
                 </tr>
               )

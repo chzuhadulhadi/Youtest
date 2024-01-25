@@ -15,6 +15,7 @@ import AdminEditTest from "./editTest";
 import { apiCall } from "../../apiCalls/apiCalls";
 import Results from "./results";
 import { getResults } from "../../apiCalls/apiRoutes";
+import Packages from "./packages";
 
 
 function AdminDashboard(params) {
@@ -63,7 +64,9 @@ useEffect(() => {
         {(newlocation == '/users') && <Users />}
         {(newlocation == '/tests') && <Tests />}
         {(newlocation == '/results') && <Results />}
+        {(newlocation == '/packages') && <Packages />}
         {/^\/\d+/.test(newlocation) && <AdminEditTest />}
+
       </div>
     </div>
   )

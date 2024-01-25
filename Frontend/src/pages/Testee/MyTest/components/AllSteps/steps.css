@@ -35,7 +35,7 @@
 .text-type {
     width: 120px !important;
     height: 43px;
-    margin-top: 23px;
+    margin-top: 33px;
     margin-left: 25px;
 }
 
@@ -79,10 +79,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
-  
-    width: 20%;
-}
+
 
 .answers-field {
     width: 78% !important;
@@ -99,6 +96,8 @@ input[type=number] {
 } */
 
 .all-questions {
+    margin-top: 40px;
+    margin-bottom: 30px;
     display: block;
 }
 
@@ -111,7 +110,6 @@ input[type=number] {
 }
 
 #collapse-button {
-    float: left;
     margin: 0px !important;
 }
 
@@ -132,3 +130,66 @@ input[type=number] {
    margin: 0px !important;
    
   }
+
+
+
+
+
+/* steps.css */
+
+/* Customize the slider container */
+.slick-slider {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  /* Customize the slider track */
+  .slick-track {
+    display: flex;
+  }
+  
+  /* Customize the slider slide */
+  .slick-slide {
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+  
+  /* Optional: Customize the navigation buttons */
+  .slick-prev,
+  .slick-next {
+    margin: 50px;
+  }
+  
+  /* Optional: Customize the dots navigation */
+  .slick-dots {
+    text-align: center;
+  }
+  
+  .slick-dots li {
+    display: inline-block;
+    margin: 0 5px;
+  }
+  
+  .slick-dots li button {
+    font-size: 16px;
+    color: #333;
+  }
+
+  .counterq{
+    font-size: 17px;
+    font-weight: bolder;
+  }
+
+.true-bg{
+    background: green !important;
+}
+
+.false-bg{
+    background: red ;
+}
+.toggle{
+    width:max-content;
+}
+.cate{
+    width: 60%;
+}

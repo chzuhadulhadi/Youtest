@@ -18,7 +18,6 @@ function MyQuestionaire() {
   const [show, setShow] = useState(false);
   const [arrayLenght, setArrayLenght] = useState(0);
   const [showTable, setShowTable] = useState(false);
-  const [data, setData] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   var [postsPerPage, setPostPerPage] = useState(10);
   const [totalDataLenght, setTotalDataLenght] = useState();
@@ -33,6 +32,19 @@ function MyQuestionaire() {
   const [sendButtonDisable, setSendButtonDisable] = useState(true);
   var testArray = [];
   const [userDataArray, setUserDataArray] = useState([]);
+
+  const [data, setData] = useState([]);
+
+  const duplicateTest = (index) => {
+    // Get the current row data
+    const duplicatedTest = { ...data[index] };
+
+    // Duplicate the data array and insert the duplicatedTest at the next index
+    const newData = [...data.slice(0, index + 1), duplicatedTest, ...data.slice(index + 1)];
+    
+    // Update the state with the new data
+    setData(newData);
+  };
 
   const showToastMessage = (text, color, notify) => {
     if (notify == 1) {
@@ -238,7 +250,7 @@ function MyQuestionaire() {
                   {data.length > 0 && data.map((ele, index) => {
                     return (
                       <tr key={index}>
-                        <td>
+                        <td style={{width:"1%"}}>
                           <input
                             type="checkbox"
                             onChange={(e) => {
@@ -260,6 +272,15 @@ function MyQuestionaire() {
                           >
                             Delete Test
                           </a>
+                          <a
+                href="#"
+                style={{ color: "blue" }}
+                onClick={() => {
+                  duplicateTest(index);
+                }}
+              >
+                |  Duplicate Test
+              </a>
                            </td>
                         <td>
                           <a

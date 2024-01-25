@@ -3,6 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { apiCall } from "../../apiCalls/apiCalls";
+
 import {
   addMailingList,
   getMailingList,
@@ -16,6 +17,8 @@ import {
 import ReactPaginate from "react-paginate";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import XLSX from "sheetjs-style";
+
 function AddUserInList() {
   <ToastContainer
     position="bottom-center"
@@ -26,6 +29,7 @@ function AddUserInList() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [mId, setMId] = useState(null);
   var [postsPerPage, setPostPerPage] = useState(10);
   const [isLoading, setIsLoading] = useState(false);
   const [mailingLists, setMailingList] = useState([]);
@@ -34,6 +38,7 @@ function AddUserInList() {
   const [usersList, setUsersList] = useState([]);
   const [totalDataLenght, setTotalDataLenght] = useState(40);
   const [rendControl, setRendControl] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [listDto, setListDto] = useState({
     name: "",
   });
@@ -64,13 +69,13 @@ function AddUserInList() {
   };
 
   const submitHandler = (e) => {
-    e.preventDefault();
+      e.preventDefault();
     apiCall("post", addMailingList, listDto, true)
       .then((res) => {
-        console.log(res);
         showToastMessage("Mailing List added Successfully ", "green", 1);
         setForceRender(!forceRender);
         setShow(false);
+        setMId(res.data.data.id);
       })
       .catch((err) => {
         showToastMessage(err?.response?.data?.message, "red", 2);
@@ -237,7 +242,7 @@ function AddUserInList() {
                     <td>{res?.email}</td>
                     <td>
                       <span id={index} onClick={() => {
-                        clickDetector("Edit User In Mailing List", 'editUserInMailingList' , res?.id , res)
+                        clickDetector("Edit User In Mailing List", 'editUserInMailingList', res?.id, res)
                       }}>
                         edit
                       </span>{" "}
@@ -348,8 +353,8 @@ function AddUserInList() {
       });
   };
 
-  const clickDetector = (title, tabtoshow, selectedId,queryObj) => {
-    if (tabtoshow =="editUserInMailingList"){
+  const clickDetector = (title, tabtoshow, selectedId, queryObj) => {
+    if (tabtoshow == "editUserInMailingList") {
       console.log(queryObj)
       setIsEdit({
         id: queryObj?.id,
@@ -362,6 +367,49 @@ function AddUserInList() {
     setModalTitle(title);
     setSelectedTab(tabtoshow);
     setShow(true);
+  };
+  const uploadMailingList = (e) => {
+    e.preventDefault();
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(selectedFile);
+    reader.onload = async (e) => {
+      try {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const xlData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+        //file name
+        console.log(xlData);
+        const file = selectedFile;
+        console.log(file.name.split(".")[0]);
+        try {
+          const resp = await apiCall("post", addMailingList, { name: file.name.split(".")[0] }, true);
+          // console.log(resp);
+          // setMId(resp.data.data.id);
+        
+          for (let index = 0; index < xlData.length; index++) {
+            const res = xlData[index];
+            try {
+              await apiCall("post", addMailingListUser, {
+                name: res[0],
+                email: res[1],
+                mailingListId: resp.data.data.id,
+              });
+            } catch (err) {
+              console.log(err);
+            }
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        
+
+      } catch (error) {
+        console.log(error);
+      }
+      setForceRender(!forceRender);
+    }
   };
 
   const editUserInFormSubmitHandler = (e) => {
@@ -418,6 +466,23 @@ function AddUserInList() {
             >
               Create New Mailing List
             </Button>
+
+            <Button
+              variant="primary"
+              onClick={uploadMailingList}
+              disabled={selectedFile ? false : true}
+            >
+              Upload Excel
+            </Button>
+            <input
+              type="file"
+              id="file"
+              accept=".csv,.xlsx,.xls"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                setSelectedFile(file);
+              }}
+            />
             <Modal show={show} onHide={handleClose} animation={false}>
               <Modal.Header closeButton>
                 <Modal.Title>{modalTitle}</Modal.Title>
@@ -439,6 +504,7 @@ function AddUserInList() {
                     <th scope="col">Mailing List Name</th>
                     <th scope="col">Action</th>
                   </tr>
+
                 </thead>
                 <tbody>
                   {mailingLists?.map((element, index) => {

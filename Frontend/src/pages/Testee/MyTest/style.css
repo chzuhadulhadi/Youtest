@@ -210,3 +210,30 @@ input[type=range]::-webkit-slider-thumb {
 	width: 90% !important;
 	height: 200px;
 }
+
+.label{
+	display: flex;
+	column-gap: 15px;
+}
+.input{
+	display: flex;
+	column-gap: 20px;
+}
+.form-control-color {
+	width: 100%;
+	padding: 0.375rem 0.75rem;
+	font-size: 1rem;
+	line-height: 1.5;
+	color: #495057;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #ced4da;
+	border-radius: 0.25rem;
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+                  }
+                  
+                  .form-control-color:focus {
+	border-color: #80bdff;
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+                  }
+                  

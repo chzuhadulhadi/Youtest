@@ -1,7 +1,9 @@
 const testService = require('../service/testService');
 
 module.exports = {
-
+	getUserAllPreviousQuestions: async function (userId) {
+		return await testService.getUserAllPreviousQuestions(userId);
+	},
 	createTest: async function (obj) {
 		const testObj = await testService.makeCreateTestObj(obj)
 		return await testService.createTest({ testObj, ...obj });

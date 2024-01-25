@@ -10,6 +10,7 @@ import MyQuestionaire from "../questionaire/myquestionaire";
 import { useEffect, useState } from "react";
 import SideBar from '../mainComponent/SideBar';
 import LandingPageData from "../LandingPage/landingpagedata";
+import PricingPlace from "../LandingPage/PricingPlace";
 
 
 function Dashboard(params) {
@@ -46,25 +47,11 @@ function Dashboard(params) {
     <div className="wrapper">
       <SideBar />
       <div id="content">
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-
-          <div className="container-fluid custom-fluid" style={{ justifyContent: 'flex-end' }}>
-            <p onClick={() => {
-              localStorage.removeItem('token')
-              navigate('/')
-            }}
-              style={{ backgroundColor: '#FF9000', cursor: 'pointer', padding: '3px 6px', color: "white", float: "right" }}> Logout </p>
-            <div
-              className="collapse navbar-collapse"
-              id="navbarSupportedContent"
-            >
-            </div>
-          </div>
-        </nav>
         {(newlocation == '/mytest') && <MyQuestionaire />}
         {(newlocation == '/my-mailing-list') && <AddUserInList />}
         {(newlocation == '/questionaire-history') && <QuestionaireHistory />}
         {(newlocation == '/landing-pages') && <LandingPageData />}
+        {(newlocation == '/PricingPlace') && <PricingPlace />}
         {(newlocation == '/my-landing-pages') && <Paper />}
       </div>
     </div>

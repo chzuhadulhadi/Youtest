@@ -6,6 +6,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         allowNull: false,
+      },
+      language: {
+        type: DataTypes.STRING(100),
+        allowNull: true,
+      },
+      number:
+      {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        allowNull: false,
         primaryKey: true
       },
       userEmail: {
@@ -40,6 +50,12 @@ module.exports = (sequelize, DataTypes) => {
         Comment: "0-false /n 1-true",
       },
       sendAll: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+        Comment: "0-false /n 1-true",
+      },
+      showuser: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
         defaultValue: false,

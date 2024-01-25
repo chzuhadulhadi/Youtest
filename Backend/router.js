@@ -12,6 +12,7 @@ const {
     createTest,
     getSingleTest,
     getUsers,
+    getUser,
     updateUsers,
     deleteUser,
     getTests,
@@ -19,11 +20,19 @@ const {
     deleteTests,
     getResults,
     sendUserInfo,
+    handleIPN,
 
     getMyTest,
     startTest,
     verifyEmail,
+    forgotPass,
     transferTest,
+    getAllPreviousQuestions,
+    createPackage,
+    getPackage,
+    updatePackage,
+    deletePackage,
+    userPackage,
 
     initiateTestForUser,
     getUserTestDetails,
@@ -50,25 +59,34 @@ const {
     submitLandingPageDetails,
     getAttachedTest,
     getUserTestHistory,
-    deleteUserTestHistory
+    deleteUserTestHistory,
+    handlePayment,
 
 } = require('./controllers/index');
-
 
 //admin
 router.post('/api/admin/login', adminLogin);
 router.post('/api/admin/getUsers', verifyJwt,getUsers);
+router.post('/api/admin/getUser',verifyJwt,getUser);
 router.post('/api/admin/getTests', verifyJwt,getTests);
 router.post('/api/admin/updateUser', verifyJwt, updateUsers);
 router.post('/api/admin/deleteUser', verifyJwt, deleteUser);
 router.post('/api/admin/updateTest', verifyJwt, updateTests);
 router.post('/api/admin/deleteTest', verifyJwt, deleteTests);
 router.post('/api/admin/getResults', verifyJwt, getResults);
+router.post('/api/admin/createPackage', verifyJwt, createPackage);
+router.post('/api/admin/getPackage', verifyJwt, getPackage);
+router.post('/api/admin/updatePackage', verifyJwt, updatePackage);
+router.post('/api/admin/deletePackage', verifyJwt, deletePackage);
+router.post('/api/ipn-handler',handleIPN);
+router.post('/api/payment-handler',verifyJwt,handlePayment);
+router.post('/api/user/getPackage',verifyJwt,userPackage);
 //user
 router.post('/api/user/login', login);
 router.post('/api/user/signUp', signUp);
 router.post('/api/user/verifyemail', verifyEmail);
-// router.post('/api/user/resetPassword', resetPassword);
+router.post('/api/user/forgotpassword', forgotPass);
+router.post('/api/user/resetpassword', resetPassword);
 // router.post('/api/user/checkOtp', checkOtp);
 // router.post('/api/user/sendOtp', sendOtp);
 
@@ -79,6 +97,7 @@ router.post('/api/test/getSingleTest', verifyJwt, getSingleTest);
 router.post('/api/test/getMyTest', verifyJwt, getMyTest);
 router.post('/api/test/uploadFile', uploadFile);
 router.post('/api/test/transferTest', verifyJwt, transferTest);
+router.post('/api/test/getAllPreviousQuestions', verifyJwt, getAllPreviousQuestions);
 
 //userTest
 router.post('/api/userTest/submitLandingPageDetails', submitLandingPageDetails);

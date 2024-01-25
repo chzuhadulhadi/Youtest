@@ -56,7 +56,7 @@ function AutomaticText(props) {
               className="automatic-text-select-cat"
               onChange={(e) => AutomaticTextAdder(e, "category")}
             >
-              <option>Select Category</option>
+              <option style={{backgroundColor:'yellow'}}>Overall Score</option>
               {Object.keys(props.obj.categoryStore).map((ele) => {
                 return (
                   <option value={props.obj.categoryStore[ele].categoryName}>
@@ -151,6 +151,18 @@ function AutomaticText(props) {
       return name; // return new object jasper object
     });
   }
+
+
+  const deleteRule = () => {
+    const updatedHtml = { ...html };
+    const lastKey = Object.keys(updatedHtml).pop();
+    delete updatedHtml[lastKey];
+    setHtml(updatedHtml);
+
+    // You may also want to decrement the conditionCounter if needed
+    conditionCounter -= 1;
+  };
+
   return (
     <div
       className="automatic-text-content"
@@ -231,8 +243,9 @@ function AutomaticText(props) {
                     className="automatic-text-select-cat"
                     onChange={(e) => AutomaticTextAdder(e, "category")}
                     value={condition.category}
+                    style={{backgroundColor:condition.category==='Overall Score' && 'yellow'}}
                   >
-                    <option>Select Category</option>
+                    <option>Overall Score</option>
                     {Object.keys(props.obj.categoryStore).map((ele) => {
                       return (
                         <option
@@ -364,13 +377,22 @@ function AutomaticText(props) {
                 :
                 <div key={key}>
                   <div className="questionSetter">
+
+                      <div className="label">
+                      <label className="form-label">Choose Category</label>
+                      <label className="form-label">Minimum Value</label>
+                    <label className="form-label">Maximum Value</label>
+                    <label className="form-label">Text for the range</label>
+                      </div>
+                    
+                    <div className="input">
                     <select
                       id={key}
                       className="automatic-text-select-cat"
                       onChange={(e) => AutomaticTextAdder(e, "category")}
                     // value={condition.category}
                     >
-                      <option>Select Category</option>
+                      <option>Overall Score</option>
                       {Object.keys(props.obj.categoryStore).map((ele) => {
                         return (
                           <option
@@ -383,7 +405,6 @@ function AutomaticText(props) {
                       })}
                     </select>
 
-                    <label className="form-label">Minimum Value</label>
                     <input
                       id={key}
                       type="number"
@@ -394,7 +415,7 @@ function AutomaticText(props) {
                       required
                     // value={condition.min}
                     />
-                    <label className="form-label">Maximum Value</label>
+                    
                     <input
                       id={key}
                       type="number"
@@ -405,7 +426,7 @@ function AutomaticText(props) {
                       required
                     // value={condition.max}
                     />
-                    <label className="form-label">Text for the range</label>
+                    
                     <input
                       id={key}
                       type="text"
@@ -416,6 +437,12 @@ function AutomaticText(props) {
                       required
                     // value={condition.text}
                     />
+                    </div>
+                    <button type='button' onClick={deleteRule}>Delete Rule</button>
+
+
+
+                  
                     {/* <Editor
 
                     onEditorStateChange={setBeforeTextState}
@@ -429,8 +456,9 @@ function AutomaticText(props) {
                 </div>
             );
           })}
-          <button onClick={addAutomatictextRule}>Add Text For Category</button>
-          <button type='button' onClick={addQuestiontextRule}>Add Text For Question</button>
+          
+          <button onClick={addAutomatictextRule}>Add a rule For Category</button>
+          <button type='button' onClick={addQuestiontextRule}>Add a rule For Question</button>
           <button type="submit">Save Test & Close </button>
         </form>
       </div>

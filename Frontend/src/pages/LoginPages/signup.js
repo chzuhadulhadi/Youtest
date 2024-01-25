@@ -5,6 +5,7 @@ import { apiCall } from '../../apiCalls/apiCalls'
 import countryList from 'react-select-country-list'
 import PhoneInput from 'react-phone-input-2'
 import { toast } from "react-toastify";
+import Header from "../homepage/header";
 
 function SignUp(params) {
   const [selectedPhoneNumberCode, setSelectedPhoneNumberCode] = useState();
@@ -81,14 +82,11 @@ function SignUp(params) {
 
   };
   return (
-    <div class="Get_sec">
-      <div class="Mid" style={{ height: "100vh" }}>
-        <i
-          class="fa fa-home"
-          onClick={() => {
-            navigate("/");
-          }}
-        ></i>
+    <>
+  <Header />
+  <div className="Get_sec mt-5" >
+      <div class="Mid mt-5" style={{ height: "100vh" }}>
+        
 
         <div class="Leftside">
           <form onSubmit={submitHandler}>
@@ -138,17 +136,20 @@ function SignUp(params) {
           </form>
           <p style={{ color: 'red' }}>{confirmationText}</p>
         </div>
-        <div class="Rightside">
-          <div class="loginPage">
+        <div class="Rightside  mt-5">
+          <div class="loginPage mt-5">
+            <div style={{marginLeft:'20px'}}>
             <h3>Sign Up !</h3>
             <p> Your information will be secure with us</p>
             <p> Signin will benefit you</p>
-            <h4>If you already have an account </h4>
+            <p>If you already have an account </p>
+            </div>
             <button
+              style={{margin:'0px !important'}}
               onClick={() => {
                 navigate("/login");
               }}
-              class="clickable-primary-text"
+              class=""
             >
               Login
             </button>
@@ -157,6 +158,7 @@ function SignUp(params) {
         </div>
       </div>
     </div>
+    </>
   );
 }
 export default SignUp;

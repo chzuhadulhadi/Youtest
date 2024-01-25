@@ -1,15 +1,20 @@
 export const environment = "C://Users/user/Downloads/";
+// export const paymentRoute="https://icredit.rivhit.co.il/API/PaymentPageRequest.svc/GetUrl";
 
-// export const local = "http://16.171.235.229:4000/"
-// export const serverUrl = "http://16.171.235.229:4000/"
+export const local = "http://16.171.235.229:4000/"
+export const serverUrl = "http://16.171.235.229:4000/"
+export const serverImageUrl = "http://16.171.235.229"
+
 
 export const frontEndPath = "http://16.171.235.229/"
 
-export const local = "http://localhost:4000/"
-export const serverUrl = "http://localhost:4000/"
-export const serverImageUrl = "http://localhost:4000"
+// export const local = "http://localhost:4000/"
+// export const serverUrl = "http://localhost:4000/"
+// export const serverImageUrl = "http://localhost:4000"
 
 export const signup = local + 'api/user/signUp'
+export const forgotpass = local + 'api/user/forgotpassword'
+export const resetpass = local + 'api/user/resetpassword'
 export const verifyEmail = local + 'api/user/verifyemail'
 export const login = local + 'api/user/login'
 export const userTestDetails = local + 'api/userTest/getUserTestDetails'
@@ -17,7 +22,9 @@ export const startUserTest = local + 'api/userTest/startTest'
 export const saveUserTest = local + 'api/userTest/saveUserTest'
 export const endUserTest = local + 'api/userTest/endUserTest'
 export const getResult = local + 'api/userTest/getResult'
-export const updateLandingPageInResult = local + 'api/userTest/s    ubmitLandingPageDetails'
+export const updateLandingPageInResult = local + 'api/userTest/submitLandingPageDetails'
+export const paymentRoute=local+'api/payment-handler'
+export const userPackage = local + 'api/user/getPackage'
 
 // test apis
 export const getMyTest = local + 'api/test/getMyTest'
@@ -25,7 +32,12 @@ export const createMyTest = local + 'api/test/createTest'
 export const transferTests = local + 'api/test/transferTest'
 export const getMySingleTest = local + 'api/test/getSingleTest'
 export const deletemyTest = local + 'api/test/deleteTest'
+export const getAllPreviousQuestions = local + 'api/test/getAllPreviousQuestions'
 
+export const getPackage = local + 'api/admin/getPackage'
+export const createPackage = local + 'api/admin/createPackage'
+export const updatePackage = local + 'api/admin/updatePackage'
+export const deletePackage = local + 'api/admin/deletePackage'
 
 //file upload
 
@@ -64,6 +76,7 @@ export const getQuestionaireHistoryList = local + "api/userTest/getUserTestHisto
 //admin login
 export const adminlogin = local + "api/admin/login";
 export const getUsers = local + "api/admin/getUsers";
+export const getUser = local + "api/admin/getUser";
 export const getTests = local + "api/admin/getTests";
 export const updateUser = local + "api/admin/updateUser";
 export const updateTest = local + "api/admin/updateTest";

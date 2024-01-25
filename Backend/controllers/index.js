@@ -4,19 +4,33 @@ try {
 
 		adminLogin: require('./admin/login'),
 		getUsers:require('./admin/getusers'),
+		getUser:require('./admin/getuser'),
 		getTests:require('./admin/gettests'),
 		updateUsers:require('./admin/updateusers'),
 		deleteUser:require('./admin/deleteusers'),
 		updateTests:require('./admin/updatetests'),
 		deleteTests:require('./admin/deletetests'),
 		getResults:require('./admin/getresults'),
+		createPackage: require('./admin/createPackage'),
+		getPackage: require('./admin/getPackage'),
+		updatePackage: require('./admin/updatePackage'),
+		deletePackage: require('./admin/deletePackage'),
+		
 		//user
 		login: require('./user/login'),
+		handleIPN: require('./user/handleIPN'),
 		verifyEmail: require('./user/verifyEmail'),
+		forgotPass: require('./user/forgotPass'),
 		signUp: require('./user/signUp'),
 		resetPassword: require('./user/resetPassword'),
 		checkOtp: require('./user/checkOtp'),
 		sendOtp: require('./user/sendOtp'),
+		handlePayment:require('./user/handlePayment'),
+		userPackage:require('./user/userPackage'),
+
+
+
+
 		createTest: require('./test/createTest'),
 		getMyTest: require('./test/getMyTest'),
 		getSingleTest: require('./test/getSingleTest'),
@@ -29,6 +43,7 @@ try {
 		saveUserTest: require('./userTest/saveUserTest'),
 		transferTest: require('./userTest/transferTest'),
 		getResult: require('./userTest/getResult'),
+		getAllPreviousQuestions: require('./test/getAllPreviousQuestions'),
 
 		submitLandingPageDetails: require('./userTest/submitLandingPageDetail'),
 		getUserTestHistory: require('./userTest/getUserTestHistory'),

@@ -107,6 +107,7 @@ function EditTest(props) {
       scoringType: 0,
       randomOrder: 0,
       timeLimit: "",
+      showuser: 0,
       questions: {},
       resultStructure: {
         tableSummary: false,
@@ -135,7 +136,7 @@ function EditTest(props) {
           const data = response?.data?.data;
           setMainObj({
             id: data.obj.id,
-            sendAll: data.sendAll,
+            sendAll: !!data.sendAll,
             orientation: data.orientation,
             scoringType: data.scoringType,
             randomOrder: data.randomOrder,
@@ -212,7 +213,7 @@ function EditTest(props) {
 
   function mainObjectAdderForProperties(e, property) {
     // console.log("mainObj[property]", mainObj[property], "type", type)
-    if (property == 'beforeTestText' || property == 'afterTestText' || property == 'sendAll') {
+    if (property == 'beforeTestText' || property == 'afterTestText' || property == 'sendAll' || property == 'showuser') {
       let main = {
         ...mainObj,
         [property]: e

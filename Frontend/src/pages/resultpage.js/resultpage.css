@@ -8,6 +8,8 @@
 .respage {
     text-align: center;
     margin: auto;
+    width: 100%;
+    height: 250px;
     border: 1px solid black;
 }
 

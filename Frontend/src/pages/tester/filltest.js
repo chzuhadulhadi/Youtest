@@ -6,9 +6,9 @@ import FillQuestion from "../questionaire/components/fillquestion";
 import Countdown from 'react-countdown';
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+
 import './style.css'
-import someimg from '../homepage/css/images/google-plus-icn.png'
-function MainQuestionaire() {
+function MainQuestionaire() { 
   const [formObj, setFormObj] = useState({});
   const [displayTest, setDisplayTest] = useState(0);
   const [uuid, setUuid] = useState();
@@ -62,7 +62,7 @@ function MainQuestionaire() {
         }
       }).catch((e) => {
         setInvalidTest(1);
-        console.log(e)
+        // console.log(e)
         setApiMessage(e.response.data.data.specificError)
       })
 
@@ -165,12 +165,15 @@ function MainQuestionaire() {
 
   return (
     <div className="filltest" >
-      <h3 style={{marginTop:'0',marginBottom:'0',paddingTop:'0',paddingBottom:'0'}} onClick={() => { navigate('/') }}><span style={{ color: 'black' }}>TEST</span>FACTORY</h3>
+    <div className="Send">
+    <img src='/4.webp' alt="some image" width='300px' height='300px' className="pic" />
+<h3 style={{marginTop:'0',marginBottom:'0',paddingTop:'0',paddingBottom:'0',color:'orange'}} onClick={() => { navigate('/') }}><span style={{ color: 'black' }}>{"Test "}</span>Factory</h3>
+    </div>
       {//Landing page
         (!displayTest == 1 && invalidTest != 1 && !testCompleted && landingPage == 1) &&
         <div className="testStartClass">
           {/* <img className="test-start-img" src={serverUrl + formObj?.layout?.imageUrl} /> */}
-          <h2 className="test-title">{formObj?.name}</h2>
+          {/* <h2 className="test-title">{formObj?.name}</h2> */}
           <br />
           <div
             dangerouslySetInnerHTML={{ __html: formObj.test?.landingPage?.html }}
@@ -179,16 +182,16 @@ function MainQuestionaire() {
           {/* <button onClick={startTest}>Start Test</button> */}
         </div>
       }
-
       {//Test started and is valid
         (displayTest == 1 && invalidTest != 1 && !testCompleted) &&
         <div>
           <img className="test-logo" src={serverUrl + formObj?.layout?.imageUrl} />
-          <h2 className="timer">
-            <Countdown className="count-down" date={timeRemaining} />
+          {formObj.timeLimit > 0 && <h2 className="timer">
+           <Countdown className="count-down" date={timeRemaining} />
           </h2>
-          <button id="end-button-id" className="end-button" onClick={endTest}>End Test</button>
-          <FillQuestion questionData={formObj} />
+        }
+          {/* <button id="end-button-id" className="end-button" onClick={endTest}>End Test</button> */}
+          <FillQuestion questionData={formObj} language={formObj.language} />
 
           <button className="end-button" onClick={endTest}>End Test</button>
 

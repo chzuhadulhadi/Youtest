@@ -11,6 +11,11 @@ function CategoriesStep(props) {
   const [categoryHaveData, setCategoryHaveData] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [isFormVisible, setFormVisibility] = useState(false);
+
+  const toggleFormVisibility = () => {
+    setFormVisibility(!isFormVisible);
+  };
   const [selectedCat, setSelectedCat] = useState({
     noOfQuestion: null,
     categoryName: ""
@@ -20,7 +25,7 @@ function CategoriesStep(props) {
     noOfQuestion: null,
     categoryName: ""
   })
-  
+
   useEffect(() => {
     if (Object.keys(props.obj.categoryStore).length > 0) {
       setCategoryHaveData(true);
@@ -29,15 +34,14 @@ function CategoriesStep(props) {
     }
   }, [props.obj.categoryStore]);
   useEffect(() => {
-    if(props.obj?.mainObj?.categoryStore)
-    {
-      if(Object.keys(props.obj?.mainObj?.categoryStore).length > 0 && categoryCounter == 0){
-        categoryCounter += Object.keys(props.obj?.mainObj?.categoryStore).length+1;  
+    if (props.obj?.mainObj?.categoryStore) {
+      if (Object.keys(props.obj?.mainObj?.categoryStore).length > 0 && categoryCounter == 0) {
+        categoryCounter += Object.keys(props.obj?.mainObj?.categoryStore).length + 1;
       }
     }
   }, [props.obj?.mainObj?.categoryStore]);
   const categoryValueAdder = (e, name) => {
-    console.log(e.target.value,name);
+    console.log(e.target.value, name);
     props.obj.setCategoryStore((prev) => {
       let prevObj = Object.assign({}, prev);
       // console.log(prevObj);
@@ -127,146 +131,172 @@ function CategoriesStep(props) {
 
   }
   return (
-    <div
-      className="categories-content"
-      hidden={props.obj.tabSelected == "CATEGORIES" ? false : true}
-    >
-      <div className="leftHalf" style={{ float: "left" }}>
-        <Modal show={showEditModal} onHide={handleClose} animation={false}>
-          <Modal.Header closeButton>
-            <Modal.Title>Edit listing</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
+    <>
+
+      <div
+        className="categories-content"
+        hidden={props.obj.tabSelected == "CATEGORIES" ? false : true}
+      >
+        <div className="leftHalf" style={{ float: "left" }}>
+          <Modal show={showEditModal} onHide={handleClose} animation={false}>
+            <Modal.Header closeButton>
+              <Modal.Title>Edit listing</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+
+              <div className="questionSetter">
+
+                <label className="form-label">Name of Category</label>
+                <input
+                  id="categoryName"
+                  type="text"
+                  name="categoryField"
+                  value={selectedCat?.categoryName}
+                  onChange={(e) => editHandler(e, "categoryName")}
+                  className="form-control mb-3 pt-3 pb-3"
+                />
+                <label className="form-label">No of Questions</label>
+                <input
+                  id="noOfQuestion"
+                  type="number"
+                  value={selectedCat?.noOfQuestion}
+                  onChange={(e) => editHandler(e, "noOfQuestion")}
+                  className="form-control mb-3 pt-3 pb-3"
+                ></input>
+                <button onClick={handleCategoryEditForm}>Submit</button>
+              </div >
+            </Modal.Body >
+          </Modal >
+          <form
+            id="category-form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              props.obj.showTab("CATEGORIES");
+            }}
+            className="formClass mt-5"
+          >
+            
+<section  className="toggle">
+<button type="submit" onClick={toggleFormVisibility}>
+  {isFormVisible ? 'Create a category' : 'Create a category'}
+      </button>
+  <button type="button" className='next-button' onClick={() => { props.obj.showTab("QUESTIONS") }}>Continue without categories</button>
+
+  <h2 className="cate">"This is an advanced option which makes it possible to divide your test into several categories"</h2>
+
+</section>
+
+
+
+            {isFormVisible && (
+              <>
+            <h3>#2 - Categories</h3>
             <div className="questionSetter">
-              <label className="form-label">Name of Category</label>
+              <label className="form-label" style={{ fontSize: "15px" }}>Name of Category</label>
               <input
-                id="categoryName"
+                id={"category"}
                 type="text"
                 name="categoryField"
-                value={selectedCat?.categoryName}
-                onChange={(e) => editHandler(e, "categoryName")}
+                onChange={(e) => categoryValueAdder(e, "categoryName")}
+                placeholder="Name Of Category"
                 className="form-control mb-3 pt-3 pb-3"
               />
               <label className="form-label">No of Questions</label>
               <input
-                id="noOfQuestion"
+                id={"category"}
                 type="number"
-                value={selectedCat?.noOfQuestion}
-                onChange={(e) => editHandler(e, "noOfQuestion")}
+                onInput={(e) => categoryValueAdder(e, "noOfQuestion")}
+                placeholder="No Of Qs"
                 className="form-control mb-3 pt-3 pb-3"
-              ></input>
-              <button onClick={handleCategoryEditForm}>Submit</button>
-            </div >
-          </Modal.Body >
-        </Modal >
-        <form
-          id="category-form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            props.obj.showTab("QUESTIONS");
-          }}
-          className="formClass mt-5"
-        >
-          <h3>#2 - Categories</h3>
-          <div className="questionSetter">
-            <label className="form-label">Name of Category</label>
-            <input
-              id={"category"}
-              type="text"
-              name="categoryField"
-              onChange={(e) => categoryValueAdder(e, "categoryName")}
-              placeholder="Name Of Category"
-              className="form-control mb-3 pt-3 pb-3"
-            />
-            <label className="form-label">No of Questions</label>
-            <input
-              id={"category"}
-              type="number"
-              onInput={(e) => categoryValueAdder(e, "noOfQuestion")}
-              placeholder="No Of Qs"
-              className="form-control mb-3 pt-3 pb-3"
-            />
+              />
 
-            <br />
-          </div>
-          <button
-            onClick={(e) => {
-              addCategory(e);
-            }}
-          >
-            Save Category
-          </button>
+              <br />
+            </div>
+            <button
+              onClick={(e) => {
+                addCategory(e);
+              }}
+            >
+              Save Category
+            </button>
+            </>)}
+            
 
-          {/* {Object.keys(html).map(function (key, i) {
+            {/* {Object.keys(html).map(function (key, i) {
                         <button>Add Question</button>
                         return html[key]
                     })
                     } */}
-          <br />
-          <button type="submit" onClick={(e) => { props.obj.apiCallToCreateTest(e) }}> Save Test & Close </button>
-          <button className='next-button' type="submit" > Next </button>
-        </form>
-      </div >
+            <br />
+            <button type="submit" onClick={(e) => { props.obj.apiCallToCreateTest(e) }}> Save Test & Close </button>
+            <button className='next-button' type="submit" > Next </button>
+          </form>
+        </div >
 
-      {
-        //Table
-      }
-      < div className="rightHalf" style={{ float: "right" }
-      }>
-        {categoryHaveData && (
-          <>
-            <h2>Categories Created</h2>
-            <table className="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">Category</th>
-                  <th scope="col">No of Qs</th>
-                  <th scope="col">Actions</th>
-                  {/* <th scope="col">Action</th> */}
-                </tr>
-              </thead>
-              <tbody>
-                {Object.keys(props.obj.categoryStore).map((key, index) => {
-                  return (
-                    <tr key={index}>
-                      <td id={"categoryName" + index} name="categoryName">
-                        {props.obj.categoryStore[key]["categoryName"]}
-                      </td>
-                      <td id={"noOfQuestion" + index} name="noOfQuestion">
-                        {props.obj.categoryStore[key]["noOfQuestion"]}
-                      </td>
-                      <td>
-                        <span
-                          style={{ color: 'blue' }}
-                          className="btn"
-                          id={key}
-                          onClick={deleteCategory}
-                        >
-                          Delete
-                        </span>
-                        |
-                        <span
-                          style={{ color: 'blue' }}
-                          className="btn"
-                          id={key}
-                          onClick={(e) => {
-                            editFunctionality({
-                              index: index
-                            });
-                          }}
-                        >
-                          Edit
-                        </span>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </>
-        )}
+        {
+          //Table
+        }
+        < div className="rightHalf" style={{ float: "right" }
+        }>
+          {categoryHaveData && (
+            <>
+              {isFormVisible && (
+                <>
+              <h2>Categories Created</h2>
+              <table className="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Category</th>
+                    <th scope="col">No of Qs</th>
+                    <th scope="col">Actions</th>
+                    {/* <th scope="col">Action</th> */}
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.keys(props.obj.categoryStore).map((key, index) => {
+                    return (
+                      <tr key={index}>
+                        <td id={"categoryName" + index} name="categoryName">
+                          {props.obj.categoryStore[key]["categoryName"]}
+                        </td>
+                        <td id={"noOfQuestion" + index} name="noOfQuestion">
+                          {props.obj.categoryStore[key]["noOfQuestion"]}
+                        </td>
+                        <td>
+                          <span
+                            style={{ color: 'blue' }}
+                            className="btn"
+                            id={key}
+                            onClick={deleteCategory}
+                          >
+                            Delete
+                          </span>
+                          |
+                          <span
+                            style={{ color: 'blue' }}
+                            className="btn"
+                            id={key}
+                            onClick={(e) => {
+                              editFunctionality({
+                                index: index
+                              });
+                            }}
+                          >
+                            Edit
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+              </>
+              )}
+            </>
+          )}
+        </div >
       </div >
-    </div >
+    </>
   );
 }
 

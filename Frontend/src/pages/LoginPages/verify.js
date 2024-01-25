@@ -137,7 +137,6 @@ function Verify() {
               }}
               className="clickable-primary-text m-auto"
             >
-
               Sign Up Now
             </button>
             <div className="clear"></div>

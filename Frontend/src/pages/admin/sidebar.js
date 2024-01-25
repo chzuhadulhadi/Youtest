@@ -27,6 +27,9 @@ function AdminSideBar(props) {
                 <li id="3" onClick={() => { navigate("/admin/dashboard/results") }}>
                     <a id="2">Results</a>
                 </li>
+                <li id="3" onClick={() => { navigate("/admin/dashboard/packages") }}>
+                    <a id="2">Packages</a>
+                </li>
                 {/* <li id="4" onClick={() => { navigate("/dashboard/questionaire-history") }}>
                     <a id="3">Questionnaire History </a>
                 </li>

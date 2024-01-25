@@ -27,10 +27,17 @@
   text-align: center;
 }
 
+
 .filltest .testStartClass img {
   margin: auto;
   text-align: center;
   padding-bottom: 3rem;
+  border: 2px solid red;
+
+}
+.Send{
+  justify-content: center;
+  display: grid;
 }
 
 /* .filltest h1,

@@ -69,7 +69,7 @@ function Charts(dataRecieved) {
 
     return (
       <div className="respage" style={{ border: 'none' }}>
-        <Line data={data} options={chartOptions} />
+        <Line data={data} options={{ maintainAspectRatio: false, ...chartOptions }} />
       </div>
     );
   }

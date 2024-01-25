@@ -17,6 +17,20 @@ module.exports = {
 			});
 		});
 	},
+	updateToken: async function (verificationToken, email,t) {
+		console.log(verificationToken, email);
+		return await model.user.update(
+			{
+				verificationToken: verificationToken,
+			},
+			{
+				where: {
+					email: email,
+				},
+			},
+			{ transaction: t }
+		);
+	},
 	verifyEmail: async function (token) {
 		const user = await model.user.findOne({
 			where: {
@@ -37,6 +51,17 @@ module.exports = {
 
 	getUsers: async function (filter) {
 		return await model.user.findAll(filter);
+	},
+	otherloginFilter(offset, limit, email) {
+		return {
+			limit,
+			offset: offset,
+			attributes: ['id', 'email', 'password'],
+			where: {
+				email,
+				deletedAt: null,
+			},
+		};
 	},
 	loginFilter(offset, limit, email) {
 		return {
@@ -317,15 +342,7 @@ module.exports = {
 			},
 		});
 	},
-	updateAgentBytoken: async function (obj, token) {
-		console.log(obj, token);
-		const data=await model.user.update(obj, {
-			where: {
-				verificationToken:token,
-			},
-		});
-		console.log(data);
-	},
+
 	updateAgent: async function (obj, id) {
 		console.log(obj, id);
 		const data=await model.user.update(obj, {
@@ -400,14 +417,25 @@ module.exports = {
 		});
 		return otpCheck;
 	},
-
-	resetPassword: async function (password, email) {
+	updateAgentBytoken: async function (obj, token) {
+		console.log(obj, token);
+		const data=await model.user.update(obj, {
+			where: {
+				verificationToken:token,
+			},
+		});
+		console.log(data);
+	},
+	resetPassword: async function (password, token) {
+		console.log(password, token);
 		const check = await model.user.update(
 			{
 				password: password,
 			},
-			{ where: { email: email } }
+			{ where: { verificationToken: token } }
 		);
+
+		console.log(check);
 		if (check) {
 			return {
 				response: true,

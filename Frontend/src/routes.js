@@ -29,6 +29,11 @@ import Results from './pages/admin/results';
 import Verify from './pages/LoginPages/verify';
 import LandingPageForm from './pages/LandingPage/landingpageform';
 import LandingPageData from './pages/LandingPage/landingpagedata';
+import RPage from './pages/resultpage.js/rpage';
+import ForgotPassword from './pages/LoginPages/ForgotPassword';
+import Resetpassword from './pages/LoginPages/Resetpassword';
+import PricingPlace from './pages/LandingPage/PricingPlace';
+import Packages from './pages/admin/packages';
 
 export default function Router() {
   const routes = useRoutes([
@@ -40,6 +45,7 @@ export default function Router() {
         { path: 'mytest', element: <MainQuestionaire /> },
         { path: 'questionaire-history', element: <MainQuestionaire /> },
         { path: 'landing-pages', element: <LandingPageData /> },
+        { path: 'PricingPlace', element: <PricingPlace /> },
         { path: 'my-landing-pages', element: <MainQuestionaire /> },
         { path: 'my-mailing-list', element: <MainQuestionaire /> },
       ],
@@ -55,6 +61,10 @@ export default function Router() {
     {
       path: '/newlisting',
       element: <AddNewListing />,
+    },
+    {
+      path: '/PricingPlace',
+      element: <PricingPlace />,
     },
     {
       path: '/addusersinlisting',
@@ -73,6 +83,7 @@ export default function Router() {
       path: '/login/:email?',
       element: <Login />,
     },
+  
     {
       path: '/admin/login/:email?',
       element: <AdminLogin />,
@@ -114,6 +125,7 @@ export default function Router() {
         { path: 'tests', element: <Tests /> },
         { path: 'tests/:id?', element: <AdminEditTest /> },
         { path: 'results', element: <Results /> },
+        { path: 'packages', element: <Packages /> },
         // { path: 'questionaire-history', element: <MainQuestionaire /> },
         // { path: 'landing-pages', element: <LandingPages /> },
         // { path: 'my-landing-pages', element: <MainQuestionaire /> },
@@ -140,7 +152,19 @@ export default function Router() {
     {
       path:'/verify/:token?',
       element:<Verify/>
-    }
+    },
+    {
+      path: '/respage/*',
+      element: <RPage />,
+    },
+    {
+      path: '/ForgotPassword',
+      element: <ForgotPassword />,
+    },
+    {
+      path: '/Resetpassword',
+      element: <Resetpassword />,
+    },
   ]);
   return routes;
 }

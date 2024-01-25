@@ -173,6 +173,30 @@ function MailingPageUI(params) {
     setSelectedFile(event.target.files[0]);
   };
 
+  const imageUploadeFrFunction = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    apiCall("post", logoUploader, formData)
+      .then((res) => {
+        let url = local + res.data.data;
+        var newimg = document.createElement("img");
+        newimg.src = url;
+        newimg.id = selectedDiv + "img" + Math.random(1000);
+        newimg.onclick = editImageFunctionality;
+        var appendTo = document.getElementById(selectedDiv);
+        console.log(appendTo);
+        var sectionNameElement = appendTo.querySelector('h4.section-name');
+
+        if (sectionNameElement) {
+          sectionNameElement.parentNode.removeChild(sectionNameElement);
+        }
+        appendTo.appendChild(newimg);
+        setShowPicAdder(false);
+        showToastMessage("Image uploaded Successfully ", "green", 1);
+      });
+  };
+
   const hideFunctionality = () => {
     document.querySelector(".dashboard").style.width = "0%";
     document.querySelector(".dashboard").style.display = "none";
@@ -288,7 +312,7 @@ function MailingPageUI(params) {
             className="textEditorClass"
             style={showPicAdder ? { display: "block" } : { display: "none" }}>
             <div onClick={() => { setShowPicAdder(false) }} className="closebutton">X</div>
-            <form onSubmit={imageUploaderFunction} style={{ textAlign: "center" }}>
+            <form onSubmit={imageUploadeFrFunction} style={{ textAlign: "center" }}>
               <h2>Please choose a file</h2>
               <input className="form-control-file m-5 " type="file" onChange={getImageFunction} required /><br />
               <button type="submit"> Upload Image </button>

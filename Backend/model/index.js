@@ -7,6 +7,8 @@ const email = db.email;
 const mailingList = db.mailingList;
 const mailingListUser = db.mailingListUser;
 const landingPage = db.landingPage;
+const PricingPackage = db.PricingPackage;
+const UserPackagePlan = db.UserPackagePlan;
 
 
 //relations -------------------------------
@@ -39,6 +41,16 @@ user.hasMany(mailingListUser, { foreignKey: 'userId' });
 userTest.belongsTo(user, { foreignKey: 'ownerId' });
 user.hasOne(userTest, { foreignKey: 'ownerId' });
 
+//pricing package
+PricingPackage.hasMany(UserPackagePlan, { foreignKey: 'packageId' });
+UserPackagePlan.belongsTo(PricingPackage, { foreignKey: 'packageId' });
+
+//user
+user.hasMany(UserPackagePlan, { foreignKey: 'userId' });
+UserPackagePlan.belongsTo(user, { foreignKey: 'userId' });
+
+
+
 
 //relations ------------end----------------
 //Exporting models
@@ -49,6 +61,10 @@ const model = {
   email,
   mailingList,
   mailingListUser,
-  landingPage
+  landingPage,
+  PricingPackage,
+  UserPackagePlan
 };
+
+
 module.exports = model;
