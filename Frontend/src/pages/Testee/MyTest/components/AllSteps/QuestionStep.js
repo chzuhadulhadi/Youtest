@@ -124,7 +124,7 @@ function QuestionStep(props) {
                   <label className="form-label">Question</label>
                   <input
                     type="file"
-                    id={`question${index}-image${imageCounter}`}
+                    id={`question${index}-image`}
                     onChange={(e) => {
                       handleFileSelect(e);
                     }}
@@ -211,7 +211,7 @@ function QuestionStep(props) {
                 </label>
                 <input
                   type="file"
-                  id={`question${key.split('question')[1]}-answer${answerCounter}-image${imageCounter}`}
+                  id={`question${key.split('question')[1]}-answer${answerCounter}-image`}
                   onChange={handleAnswerFileSelect}
                 />
                 <img id={`img_question${key.split('question')[1]}-answer${answerCounter}`}
@@ -474,7 +474,7 @@ function QuestionStep(props) {
               <label className="form-label">Question</label>
               <input
                 type="file"
-                id={`question${questionCounter}-image${imageCounter}`}
+                id={`question${questionCounter}-image`}
                 onChange={(e) => {
                   handleFileSelect(e);
                 }}
@@ -570,7 +570,7 @@ function QuestionStep(props) {
             </label>
             <input
               type="file"
-              id={`question${qstnCounter}-answer${answerCounter}-image${imageCounter}`}
+              id={`question${qstnCounter}-answer${answerCounter}-image`}
               onChange={handleAnswerFileSelect}
             />
             <img id={`img_question${qstnCounter}-answer${answerCounter}`}
@@ -715,7 +715,7 @@ function QuestionStep(props) {
               <label className="form-label">Question</label>
               <input
                 type="file"
-                id={`question${questionCounter}-image${imageCounter}`}
+                id={`question${questionCounter}-image`}
                 onChange={(e) => {
                   handleFileSelect(e);
                 }}
@@ -795,7 +795,7 @@ function QuestionStep(props) {
                 </label>
                 <input
                   type="file"
-                  id={`question${questionCounter - 1}-answer${answerCounter}-image${imageCounter}`}
+                  id={`question${questionCounter - 1}-answer${answerCounter}-image`}
                   onChange={handleAnswerFileSelect}
                 />
                 <img id={`img_question${questionCounter - 1}-answer${answerCounter}`}
@@ -895,7 +895,6 @@ function QuestionStep(props) {
                         <option value={`${index}-${questionIndex}`} style={{ fontWeight: 'bold' }}>
                           {question?.question}
                         </option>
-
                       </React.Fragment>
                     ))}
                   </>
@@ -904,7 +903,6 @@ function QuestionStep(props) {
             </select>
           </div>
           <button onClick={handleUpload} disabled={selectedFile == null}>Upload Questions from excel</button>
-
         </div>
         <div>
           {" "}
@@ -945,7 +943,6 @@ function QuestionStep(props) {
               </div>
               {Object.keys(htmlAnswer).map(function (key, i) {
                 {
-
                   var temp =
                     htmlAnswer[
                       key
