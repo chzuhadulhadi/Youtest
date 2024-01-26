@@ -2,6 +2,18 @@ const { Op } = require("sequelize");
 const model = require("../model");
 
 module.exports = {
+	duplicateTest: async function (id) {
+		const test = await model.test.findByPk(id);
+		const testObj = test.testObj;
+		const newTest = await model.test.create({
+			...test.dataValues,
+			id: null,
+			name: test.name + ' copy',
+			testObj: testObj,
+			...test
+		});
+		return newTest;
+	},
 	getUserAllPreviousQuestions: async function (userId) {
 		const tests = await model.test.findAll({
 			where: {

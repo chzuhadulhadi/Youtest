@@ -8,6 +8,9 @@ module.exports = {
 		const testObj = await testService.makeCreateTestObj(obj)
 		return await testService.createTest({ testObj, ...obj });
 	},
+	duplicateTest: async function (id) {
+		return await testService.duplicateTest(id);
+	},
 	deleteTest: async function (obj) {
 		return await testService.deleteTest(obj);
 	},

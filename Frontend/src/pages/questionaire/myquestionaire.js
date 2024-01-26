@@ -7,13 +7,16 @@ import {
   getMailingList,
   getMailingListUser,
   getMyTest,
+  createMyTest,
   deletemyTest,
+  duplicateTest as duplicateTestApi,
 } from "../../apiCalls/apiRoutes";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import SendTestFunctionality from "./sendTestFunctionality";
 import { elements } from "chart.js";
+import { create } from "@mui/material/styles/createTransitions";
 function MyQuestionaire() {
   const [show, setShow] = useState(false);
   const [arrayLenght, setArrayLenght] = useState(0);
@@ -40,10 +43,20 @@ function MyQuestionaire() {
     const duplicatedTest = { ...data[index] };
 
     // Duplicate the data array and insert the duplicatedTest at the next index
-    const newData = [...data.slice(0, index + 1), duplicatedTest, ...data.slice(index + 1)];
+    // const newData = [...data.slice(0, index + 1), duplicatedTest, ...data.slice(index + 1)];
     
     // Update the state with the new data
-    setData(newData);
+    // setData(newData);
+    // console.log("duplicatedTest", duplicatedTest);
+    apiCall("post",duplicateTestApi, {id:duplicatedTest.id})
+    .then((response) => {
+      if (response.status == 200) {
+        showToastMessage("Test duplicated Successfully", "green", 1);
+        getTestData();
+      } else {
+        showToastMessage("Something went wrong", "red", 2);
+      }
+    });
   };
 
   const showToastMessage = (text, color, notify) => {
@@ -304,6 +317,7 @@ function MyQuestionaire() {
                     sendTestButtonCapture()
                   }}
                   className="buttontest"
+                  disabled={sendButtonDisable}
                 >
                   Send Test
                 </button>

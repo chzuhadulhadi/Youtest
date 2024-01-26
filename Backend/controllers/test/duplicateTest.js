@@ -4,22 +4,6 @@ const translation = require("../../translation.json");
 
 const schema = Joi.object().keys({
 	id: Joi.number().integer().allow(""),
-	sendAll: Joi.boolean().allow(""),
-	language: Joi.string(),
-	showuser: Joi.boolean().allow(""),
-	name: Joi.string(),
-	orientation: Joi.number().integer().min(0).max(2),
-	beforeTestText: Joi.string(),
-	afterTestText: Joi.string(),
-	scoringType: Joi.number().integer().min(0).max(2),
-	randomOrder: Joi.number().integer().min(0).max(1),
-	questions: Joi.object(),
-	resultStructure: Joi.object(),
-	automaticText: Joi.object(),
-	layout: Joi.object(),
-	freeText: Joi.object(),
-	timeLimit: Joi.number().integer().allow(""),
-	categoryStore: Joi.object(),
 });
 
 const {
@@ -28,7 +12,7 @@ const {
 	getReasonPhrase,
 	getStatusCode,
 } = require('http-status-codes');
-module.exports = async function createTest(req, res) {
+module.exports = async function duplicateTest(req, res) {
 	language = req.headers.language ? req.headers.language : "english";
 
 	try {
@@ -42,7 +26,7 @@ module.exports = async function createTest(req, res) {
 				error: err.stack,
 			});
 		}
-		const data = await testModel.createTest({ ...validate, createdById: req.headers.userId });
+		const data = await testModel.duplicateTest(validate.id);
 		res
 			.status(StatusCodes.OK)
 			.send({ message: translation["createTest"][language].successMessage, data, error: {} });

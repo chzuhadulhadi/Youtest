@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Typography, Menu, MenuItem, Popper, Paper, Grow, MenuList } from "@mui/material";
 
 import "./css/media.css";
@@ -15,7 +15,6 @@ const menuStyle = {
 };
 
 function Header(props) {
-  const setLoginCheck = props.setLoginCheck;
   const [token, setToken] = useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -90,15 +89,15 @@ function Header(props) {
               <Typography sx={{ minWidth: 100 }}><a href="/dashboard/mytest">Dashboard</a></Typography>
             </li>
               <li><Typography sx={{ minWidth: 100 }}><a href="/" onClick={logoutHandler}>Logout</a></Typography></li></>
-            : <> <li onClick={() => setLoginCheck(true)}>
-              <a style={{ color: "white" }} href="/login">
+            : <> <li >
+              <Link style={{ color: "white" }} to={frontEndPath + '/login'}>
                 Login
-              </a>
+              </Link>
               <span className="menu-item-bg"></span>
-            </li><li onClick={() => setLoginCheck(true)}>
-                <a style={{ color: "white" }} href={frontEndPath + 'signup'}>
+            </li><li >
+                <Link style={{ color: "white" }} to={frontEndPath + '/signup'}>
                   Signup
-                </a>
+                </Link>
                 <span className="menu-item-bg"></span>
               </li></>}
         </ul>

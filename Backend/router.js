@@ -37,6 +37,7 @@ const {
     initiateTestForUser,
     getUserTestDetails,
     saveUserTest,
+    duplicateTest,
     endUserTest,
     getSingleLandingPage,
     // attachLandingPagetoTest,
@@ -92,6 +93,7 @@ router.post('/api/user/resetpassword', resetPassword);
 
 //Test
 router.post('/api/test/createTest', verifyJwt, createTest);
+router.post('/api/test/duplicateTest', verifyJwt, duplicateTest);
 router.post('/api/test/deleteTest', verifyJwt, deleteTests);
 router.post('/api/test/getSingleTest', verifyJwt, getSingleTest);
 router.post('/api/test/getMyTest', verifyJwt, getMyTest);

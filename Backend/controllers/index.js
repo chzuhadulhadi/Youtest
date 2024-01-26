@@ -16,6 +16,7 @@ try {
 		updatePackage: require('./admin/updatePackage'),
 		deletePackage: require('./admin/deletePackage'),
 		
+		
 		//user
 		login: require('./user/login'),
 		handleIPN: require('./user/handleIPN'),
@@ -34,6 +35,7 @@ try {
 		createTest: require('./test/createTest'),
 		getMyTest: require('./test/getMyTest'),
 		getSingleTest: require('./test/getSingleTest'),
+		duplicateTest: require('./test/duplicateTest'),
 		
 
 		startTest: require('./userTest/startTest'),

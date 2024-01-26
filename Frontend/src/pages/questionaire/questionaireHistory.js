@@ -159,7 +159,10 @@ function QuestionaireHistory() {
                   {console.log("getTestStatus(ele)(ele.id) ", getTestStatus(ele))} */}
 
                   <td style={{ fontSize: '14px' }}>{getTestStatus(ele)}</td>
-                  <td style={{ fontSize: '14px' }}>{resultsWithIds[ele.id]} %</td>
+                  <td style={{ fontSize: '14px' }}>{!isNaN(resultsWithIds[ele.id])
+                    ? resultsWithIds[ele.id]
+                    : "0.0"
+                  } %</td>
 
 
 

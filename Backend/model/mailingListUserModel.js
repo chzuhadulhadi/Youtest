@@ -5,7 +5,12 @@ module.exports = {
 	getMailingListUser: async function (obj) {
 		const offset = obj.page * obj.limit - obj.limit;
 		return await mailingListUserService.getMailingListUser(offset, obj.limit,
-			{ where: { userId: obj.userId } }
+			{
+				where: {
+					userId: obj.userId,
+					mailingListId: obj.id
+				}
+			}
 		)
 	},
 

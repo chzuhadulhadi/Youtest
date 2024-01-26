@@ -26,7 +26,6 @@ function AddUserInList() {
     hideProgressBar={true}
   />;
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [mId, setMId] = useState(null);
@@ -53,7 +52,22 @@ function AddUserInList() {
     email: "",
     mailingListId: null,
   });
+  const handleClose = () => {setShow(false);setUsersList([]);
+    setAddNewUserInList({
+      name: "",
+      email: "",
+      mailingListId: null,
+    });
+    setEditListDto({
+      id: null,
+      name: "",
+    });
+    setListDto({
+      name: "",
+    });
+    setIsEdit(false);
 
+  };
   const showToastMessage = (text, color, notify) => {
     if (notify == 1) {
       toast.success(text, {
@@ -69,7 +83,7 @@ function AddUserInList() {
   };
 
   const submitHandler = (e) => {
-      e.preventDefault();
+    e.preventDefault();
     apiCall("post", addMailingList, listDto, true)
       .then((res) => {
         showToastMessage("Mailing List added Successfully ", "green", 1);
@@ -233,7 +247,6 @@ function AddUserInList() {
               </tr>
             </thead>
             <tbody>
-              {console.log("usersList", usersList)}
               {usersList?.map((res, index) => {
                 return (
                   <tr key={index}>
@@ -346,6 +359,9 @@ function AddUserInList() {
   const deleteUsersFromMailingList = (data) => {
     apiCall("post", deleteUserInMailingListApi, { id: data }, true)
       .then((res) => {
+        showToastMessage("User deleted Successfully", "green", 1);
+        setForceRender(!forceRender);
+        setShow(false);
         console.log(res);
       })
       .catch((err) => {
@@ -387,7 +403,7 @@ function AddUserInList() {
           const resp = await apiCall("post", addMailingList, { name: file.name.split(".")[0] }, true);
           // console.log(resp);
           // setMId(resp.data.data.id);
-        
+
           for (let index = 0; index < xlData.length; index++) {
             const res = xlData[index];
             try {
@@ -403,7 +419,7 @@ function AddUserInList() {
         } catch (error) {
           console.log(error);
         }
-        
+
 
       } catch (error) {
         console.log(error);
@@ -414,8 +430,14 @@ function AddUserInList() {
 
   const editUserInFormSubmitHandler = (e) => {
     e.preventDefault();
-    apiCall("post", editUserOfMailingList, { isEdit }, true)
+    apiCall("post", editUserOfMailingList, { 
+      ...isEdit,
+     }, true)
       .then((res) => {
+        showToastMessage("User updated Successfully", "green", 1);
+        setForceRender(!forceRender);
+        setShow(false);
+
         console.log(res);
       })
       .catch((err) => {
@@ -430,8 +452,11 @@ function AddUserInList() {
           <input
             type="text"
             onChange={(e) => {
-              setIsEdit({ name: e.target.value });
+              setIsEdit((prev) => {
+                return { ...prev, name: e.target.value };
+              });
             }}
+
             value={isEdit["name"]}
             className="form-control"
             required
@@ -439,7 +464,10 @@ function AddUserInList() {
           <input
             type="email"
             onChange={(e) => {
-              setIsEdit({ email: e.target.value });
+              setIsEdit((prev) => {
+                return { ...prev, email: e.target.value };
+              }
+              );
             }}
             value={isEdit["email"]}
           />
@@ -456,7 +484,8 @@ function AddUserInList() {
         <div className="Pricing_sec" id="pricing">
           <div className="Center">
             <h2>Mailing List</h2>
-
+          </div>
+          <div style={{ position: "relative", right: "20px" }}>
             <div className="Line"></div>
             <Button
               variant="primary"
@@ -483,6 +512,8 @@ function AddUserInList() {
                 setSelectedFile(file);
               }}
             />
+            </div>
+            <div>
             <Modal show={show} onHide={handleClose} animation={false}>
               <Modal.Header closeButton>
                 <Modal.Title>{modalTitle}</Modal.Title>
@@ -504,14 +535,13 @@ function AddUserInList() {
                     <th scope="col">Mailing List Name</th>
                     <th scope="col">Action</th>
                   </tr>
-
                 </thead>
                 <tbody>
                   {mailingLists?.map((element, index) => {
                     return (
                       <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>{element.name}</td>
+                        <td >{index + 1}</td>
+                        <td >{element.name}</td>
                         <td>
                           <span
                             className="btn"
