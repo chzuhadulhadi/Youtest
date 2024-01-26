@@ -1,4 +1,4 @@
-import { saveUserTest } from '../../../apiCalls/apiRoutes'
+import { saveUserTest, serverImageUrl } from '../../../apiCalls/apiRoutes'
 import { apiCall } from "../../../apiCalls/apiCalls";
 import React, { useEffect } from 'react';
 import { useState } from "react";
@@ -39,33 +39,32 @@ function FillQuestion(questionData) {
 
     function handleChange(key, questionKey, answer, e) {
         setTemp(prevState => {
-            let name = Object.assign({}, prevState); 
-            try
-            {
+            let name = Object.assign({}, prevState);
+            try {
                 name[key][questionKey]["selectAnswer"] = answer;
             }
             catch
             {
-            name[key][questionKey] = answer;
+                name[key][questionKey] = answer;
             }
             apiCall('post', saveUserTest, { id: testObj.id, testObj: name })
-            .then((res) => {
-                if (res.status == 200) {
-                    // showToastMessage("User test saved Successfully ", "green", 1);
-                }
-                else {
+                .then((res) => {
+                    if (res.status == 200) {
+                        // showToastMessage("User test saved Successfully ", "green", 1);
+                    }
+                    else {
 
-                }
-            }).catch((err) => {
-                showToastMessage(err?.response?.data?.message, "red", 2);
+                    }
+                }).catch((err) => {
+                    showToastMessage(err?.response?.data?.message, "red", 2);
 
-            });
+                });
             return name;                                 // return new object jasper object
         })
         // categoryData[key][questionKey] = answer;    
         // categoryData[key][questionKey] = { ...categoryData[key][questionKey], 'selectedAnswer':answer };
 
-        
+
     }
 
     function next() {
@@ -155,7 +154,13 @@ function FillQuestion(questionData) {
                                             {/* One By one case */}
                                             {testObj.orientation == 1 && <div key={count} hidden={(showDiv == count) ? false : true}>
                                                 <h2>{key}</h2>
-
+                                                {categoryData[key][questionKey]["image"] && categoryData[key][questionKey]["image"] != '' &&
+                                                    <img
+                                                        height={'200px'}
+                                                        width={'200px'}
+                                                        src={serverImageUrl+categoryData[key][questionKey]["image"]}
+                                                    />
+                                                }
                                                 <div style={divStyle.question} className='question'>
                                                     <h4>
                                                         {questionData?.language == 'english' ? `Question ${count}:` : ''}
@@ -169,7 +174,7 @@ function FillQuestion(questionData) {
                                                 </div>
                                                 <br />
                                                 {
-                                                        (!categoryData[key][questionKey]["freeText"] || categoryData[key][questionKey]["freeText"] == 0 || Object.keys(categoryData[key][questionKey]).includes('answer0')) ? (
+                                                    (!categoryData[key][questionKey]["freeText"] || categoryData[key][questionKey]["freeText"] == 0 || Object.keys(categoryData[key][questionKey]).includes('answer0')) ? (
 
                                                         Object.keys(categoryData[key][questionKey]).map(function (answers, index) {
                                                             if (answers.includes("answer")) {
@@ -177,7 +182,14 @@ function FillQuestion(questionData) {
                                                                     <p>
                                                                         <input className={"radio-" + (index + 1) + questionKey} id={answers} type="radio" checked={temp[key][questionKey]["selectAnswer"] === answers} value={questionKey} name={questionKey} onChange={(e) => handleChange(key, questionKey, answers, e)} />
                                                                         {/* <input type="radio" value={questionKey} name={questionKey} onChange={()=>categoryData[key][questionKey]["selectAnswer"]=answers} /> */}
-                                                                        {" "}{categoryData[key][questionKey][answers]["answer"]}
+                                                                        {" "}
+                                                                        {categoryData[key][questionKey][answers]["image"] && categoryData[key][questionKey][answers]["image"] != '' && <img
+                                                                            height={'200px'}
+                                                                            width={'200px'}
+                                                                            src={serverImageUrl+categoryData[key][questionKey][answers]["image"]}
+                                                                        />
+                                                                        }
+                                                                        {categoryData[key][questionKey][answers]["answer"]}
                                                                     </p>
 
                                                                 </div>)
@@ -198,7 +210,15 @@ function FillQuestion(questionData) {
 
                                                     <h4>
                                                         {questionData?.language != 'english' ? `  שאלה :` : ''}
-
+                                                        {
+                                                            categoryData[key][questionKey]["image"]
+                                                            && categoryData[key][questionKey]["image"] != '' &&
+                                                            <img
+                                                                height={'200px'}
+                                                                width={'200px'}
+                                                                src={serverImageUrl+categoryData[key][questionKey]["image"]}
+                                                            />
+                                                        }
                                                         {questionData?.language == 'english' ? `Question ${count}:` : ''}
                                                         {
                                                             categoryData[key][questionKey]["question"]
@@ -217,6 +237,12 @@ function FillQuestion(questionData) {
                                                                         <p>
                                                                             {questionData?.language == 'hebrew' ? categoryData[key][questionKey][answers]["answer"] : " "}
                                                                             {' '}
+                                                                            {categoryData[key][questionKey][answers]["image"] && categoryData[key][questionKey][answers]["image"] != '' && <img
+                                                                                height={'200px'}
+                                                                                width={'200px'}
+                                                                                src={serverImageUrl+categoryData[key][questionKey][answers]["image"]}
+                                                                            />
+                                                                            }
                                                                             <input id={answers} type="radio" checked={temp[key][questionKey]["selectAnswer"] === answers} value={questionKey} name={questionKey} onChange={(e) => handleChange(key, questionKey, answers, e)} />
                                                                             {/* <input type="radio" value={questionKey} name={questionKey} onChange={()=>categoryData[key][questionKey]["selectAnswer"]=answers} /> */}
                                                                             {' '}                                                                         {/* {" "}{categoryData[key][questionKey][answers]["answer"]}{' '} */}
@@ -243,6 +269,15 @@ function FillQuestion(questionData) {
                                     <h4>
                                         {questionData?.language == 'english' ? `Question ${count}:` : ''}
                                         {
+                                            categoryData[key]["image"] && categoryData[key]["image"] != '' &&
+                                            <img
+                                                height={'200px'}
+                                                width={'200px'}
+                                                src={serverImageUrl+categoryData[key]["image"]}
+                                            />
+
+                                        }
+                                        {
                                             categoryData[key]["question"]
                                         }
                                         {questionData?.language != 'english' ? `:שאלה ${count}` : ''}
@@ -258,7 +293,14 @@ function FillQuestion(questionData) {
                                                     <p>
                                                         <input className={"radio-" + (index + 1) + key} id={answers} type="radio" checked={temp[key]["selectAnswer"] === answers} value={key} name={key} onChange={(e) => handleChange(key, "selectAnswer", answers, e)} />
                                                         {/* <input type="radio" value={questionKey} name={questionKey} onChange={()=>categoryData[key][questionKey]["selectAnswer"]=answers} /> */}
-                                                        {" "}{categoryData[key][answers]["answer"]}
+                                                        {" "}
+                                                        {categoryData[key][answers]["image"] && categoryData[key][answers]["image"] != '' && <img
+                                                            height={'200px'}
+                                                            width={'200px'}
+                                                            src={serverImageUrl+categoryData[key][answers]["image"]}
+                                                        />
+                                                        }
+                                                        {categoryData[key][answers]["answer"]}
                                                     </p>
                                                 </div>)
                                             }
@@ -279,7 +321,14 @@ function FillQuestion(questionData) {
                                     {
                                         categoryData[key]["question"]
                                     }
-
+                                    {
+                                        categoryData[key]["image"] && categoryData[key]["image"] != '' &&
+                                        <img
+                                            height={'200px'}
+                                            width={'200px'}
+                                            src={serverImageUrl+categoryData[key]["image"]}
+                                        />
+                                    }
                                 </h4>
                             </div>
 
