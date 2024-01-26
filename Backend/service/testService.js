@@ -3,7 +3,7 @@ const model = require("../model");
 
 module.exports = {
 	getUserAllPreviousQuestions: async function (userId) {
-		const tests= await model.test.findAll({
+		const tests = await model.test.findAll({
 			where: {
 				createdById: userId,
 			},
@@ -12,11 +12,11 @@ module.exports = {
 		// for (const test of tests) {
 		// 	const testObj = test.testObj;
 		// 	}
-		for(const test of tests){
+		for (const test of tests) {
 			const testObj = test.testObj;
 			for (const category in testObj) {
 				if (testObj.hasOwnProperty(category)) {
-					questions.push({...testObj[category]});
+					questions.push({ ...testObj[category] });
 				}
 			}
 		}
@@ -98,7 +98,7 @@ module.exports = {
 				obj.questions[key].categoryName = "No Category";
 			}
 			retObj[obj.questions[key].categoryName] ? "No Category" : retObj[obj.questions[key].categoryName] = {}
-			
+
 			if (!key.includes("answer") && obj.questions[key].categoryName) {
 
 				retObj[obj.questions[key].categoryName][key] = {}
@@ -106,10 +106,12 @@ module.exports = {
 					question: "",
 					category: "No Category",
 					freeText: 0,
+					image: ""
 				}
 				// console.log("obj.freetext", obj.freeText);
 				retObj[obj.questions[key].categoryName][key]["question"] = obj.questions[key]["question"];
 				retObj[obj.questions[key].categoryName][key]["category"] = obj.questions[key]["categoryName"] || "No Category";
+				retObj[obj.questions[key].categoryName][key]["image"] = obj.questions[key]["image"] || "";
 				// console.log("obj.freeText", obj.freeText);
 				// console.log('obj.freeText.hasOwnProperty(key)', obj.freeText.hasOwnProperty(key));
 				// console.log('obj.freeText[key].freeText == 1', obj.freeText[key].freeText == 1);
@@ -121,7 +123,8 @@ module.exports = {
 				retObj[key] = {
 					question: obj.questions[key].question,
 					freeText: 1,
-					category: "No Category"
+					category: "No Category",
+					image: obj.questions[key].image || ""
 				}
 			}
 		})
@@ -137,7 +140,8 @@ module.exports = {
 						...retObj[cat][temp[0]],
 						[temp[1]]: {
 							answer: obj.questions[key]["answer"],
-							points: obj.questions[key]["point"]
+							points: obj.questions[key]["point"],
+							image: obj.questions[key]["image"] || ""
 						}
 					}
 				}
@@ -146,7 +150,8 @@ module.exports = {
 						...retObj[temp[0]],
 						[temp[1]]: {
 							answer: obj.questions[key]["answer"],
-							points: obj.questions[key]["point"]
+							points: obj.questions[key]["point"],
+							image: obj.questions[key]["image"] || ""
 						}
 					}
 				}
@@ -220,6 +225,7 @@ module.exports = {
 											editObj.questions[questionKey + '-' + answerKey] = {
 												answer: questionData[answerKey].answer,
 												point: questionData[answerKey].points || null,
+												image: questionData[answerKey].image || ''
 											};
 										} else if (answerKey !== 'category') {
 											// Add other properties of the question
@@ -233,7 +239,8 @@ module.exports = {
 									editObj.questions[questionKey] = {
 										question: questionData.question,
 										categoryName: categoryName,
-										freeText: questionData.freeText || 0
+										freeText: questionData.freeText || 0,
+										image: questionData.image || ''
 									};
 								}
 							}

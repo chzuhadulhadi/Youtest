@@ -132,7 +132,7 @@ function QuestionStep(props) {
                   <img id={`img_question${index}`}
                     height={'200px'}
                     width={'200px'}
-                    src={serverImageUrl + props.obj.mainObj["questions"][`question${index}`]?.questionimg}
+                    src={questionsData[key].image ? serverImageUrl + questionsData[key].image : null}
                   />
                   <input
                     id={key}
@@ -217,6 +217,7 @@ function QuestionStep(props) {
                 <img id={`img_question${key.split('question')[1]}-answer${answerCounter}`}
                   height={'200px'}
                   width={'200px'}
+                  src={questionsData[key].image ? serverImageUrl + questionsData[key].image : null}
                 />
                 <input
                   id={key}
