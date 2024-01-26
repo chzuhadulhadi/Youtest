@@ -20,6 +20,7 @@ const handleSubmit = (event) => {
 
 
 function Home({ loginCheck }) {
+  // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -249,50 +250,56 @@ function Home({ loginCheck }) {
               <Typography variant="h5" gutterBottom>
                 Contact Us
               </Typography>
-              <form onSubmit={handleSubmit}>
-                <Grid container spacing={3}>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      fullWidth
-                      label="First Name"
-                      variant="outlined"
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      fullWidth
-                      label="Last Name"
-                      variant="outlined"
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      fullWidth
-                      label="Email"
-                      type="email"
-                      variant="outlined"
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      fullWidth
-                      label="Message"
-                      multiline
-                      rows={4}
-                      variant="outlined"
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Button variant="contained" color="primary" type="submit">
-                      Submit
-                    </Button>
-                  </Grid>
-                </Grid>
-              </form>
+          <form onSubmit={handleSubmit} className="custom-form">
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            label="First Name"
+            variant="outlined"
+            required
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            label="Last Name"
+            variant="outlined"
+            required
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            label="Email"
+            type="email"
+            variant="outlined"
+            required
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            id="textarea"
+            label="Message"
+            multiline
+            rows={4}
+            variant="outlined"
+            required
+          />
+        </Grid>
+        <Grid container justify="flex-start" style={{ marginLeft: '5px' }}>
+  <Grid item xs={12}>
+    <Button variant="contained" color="primary" type="submit" >
+      Submit
+    </Button>
+  </Grid>
+</Grid>
+
+
+
+      </Grid>
+    </form>
             </Paper>
           </Container>
           <br />

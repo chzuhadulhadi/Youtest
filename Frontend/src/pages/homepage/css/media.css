@@ -491,3 +491,9 @@ http://www.templatemo.com/tm-473-november
         transform: scaleX(1);
     }
 }
+
+input:focus{
+	border: none;
+	outline: none;
+	box-shadow: none;
+}

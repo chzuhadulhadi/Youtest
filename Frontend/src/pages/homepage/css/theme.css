@@ -1589,3 +1589,11 @@ button:hover{
   background-color: black !important;
 
 }
+input:focus{
+	border: none;
+	outline: none;
+	box-shadow: none;
+}
+#textarea{
+  border: none;
+}

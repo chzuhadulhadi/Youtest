@@ -126,7 +126,7 @@ function SignUp(params) {
               type="password"
               id="password"
               minLength="8"
-              placeholder="Password ..."
+              placeholder="PASSWORD..."
               onChange={addValues}
               class="field"
               required

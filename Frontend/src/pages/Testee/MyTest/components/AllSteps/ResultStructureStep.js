@@ -50,8 +50,8 @@ function ResultStructureStep(props) {
                 </label>
                 <img style={{ width: "20%" }} src={showResultInGraphImg} />
                 <br />
-                <button type="submit" onClick={(e) => { props.obj.apiCallToCreateTest(e) }}> Save Test & Close </button>
-                <button type="submit">Next</button>
+                <button  style={{position:"relative",right:"20px"}} type="submit" onClick={(e) => { props.obj.apiCallToCreateTest(e) }}> Save Test & Close </button>
+                <button type="submit" style={{position:"relative",right:"20px"}}>Next</button>
             </form>
         </div>
     );

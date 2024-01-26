@@ -177,10 +177,10 @@ function CategoriesStep(props) {
           >
             
 <section  className="toggle">
-<button type="submit" onClick={toggleFormVisibility}>
+<button type="submit" onClick={toggleFormVisibility} style={{ position: 'relative', right: '15px' }}>
   {isFormVisible ? 'Create a category' : 'Create a category'}
       </button>
-  <button type="button" className='next-button' onClick={() => { props.obj.showTab("QUESTIONS") }}>Continue without categories</button>
+  <button type="button" className='next-button' onClick={() => { props.obj.showTab("QUESTIONS") }} style={{ position: 'relative', right: '15px' }}>Continue without categories</button>
 
   <h2 className="cate">"This is an advanced option which makes it possible to divide your test into several categories"</h2>
 
@@ -190,8 +190,8 @@ function CategoriesStep(props) {
 
             {isFormVisible && (
               <>
-            <h3>#2 - Categories</h3>
-            <div className="questionSetter">
+            <h3  style={{marginLeft:"15px"}}>#2 - Categories</h3>
+            <div className="questionSetter" style={{marginLeft:"15px"}}>
               <label className="form-label" style={{ fontSize: "15px" }}>Name of Category</label>
               <input
                 id={"category"}
@@ -216,6 +216,7 @@ function CategoriesStep(props) {
               onClick={(e) => {
                 addCategory(e);
               }}
+              style={{ position: 'relative', right: '3px' }}
             >
               Save Category
             </button>
@@ -228,8 +229,8 @@ function CategoriesStep(props) {
                     })
                     } */}
             <br />
-            <button type="submit" onClick={(e) => { props.obj.apiCallToCreateTest(e) }}> Save Test & Close </button>
-            <button className='next-button' type="submit" > Next </button>
+            <button type="submit" onClick={(e) => { props.obj.apiCallToCreateTest(e) }} style={{ position: 'relative', right: '3px' }}> Save Test & Close </button>
+            <button className='next-button' type="submit" style={{ position: 'relative', right: '3px' }}> Next </button>
           </form>
         </div >
 

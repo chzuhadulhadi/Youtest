@@ -213,7 +213,10 @@ function MyQuestionaire() {
               variant="primary"
               onClick={() => {
                 navigate("/dashboard/mytest/createtest");
-              }}
+                
+              }
+            }
+            style={{ position:'relative', right:'20px' }}
             >
               Create a new Test
             </Button>
@@ -300,6 +303,7 @@ function MyQuestionaire() {
                   onClick={(e) => {
                     sendTestButtonCapture()
                   }}
+                  className="buttontest"
                 >
                   Send Test
                 </button>

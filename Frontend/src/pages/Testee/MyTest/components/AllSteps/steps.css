@@ -192,4 +192,5 @@ input::-webkit-inner-spin-button {
 }
 .cate{
     width: 60%;
+    margin-left: 7px;
 }

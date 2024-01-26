@@ -63,7 +63,9 @@ input.invalid {
 }
 
 .searchInput {
-  margin: 10px 20px;
+  margin: 20px 0px;
+  padding: 5px;
+  float: right;
 }
 
 .myquestionairemain {
@@ -93,4 +95,9 @@ font-size: 14px;
 }
 th {
   font-size: 15px;
+}
+.buttontest{
+  position: relative;
+  right: 20px;
+  width: max-content;
 }

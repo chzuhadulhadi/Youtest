@@ -438,7 +438,7 @@ function AutomaticText(props) {
                     // value={condition.text}
                     />
                     </div>
-                    <button type='button' onClick={deleteRule}>Delete Rule</button>
+                    <button style={{position:"relative",right:"20px"}} type='button' onClick={deleteRule}>Delete Rule</button>
 
 
 
@@ -457,9 +457,9 @@ function AutomaticText(props) {
             );
           })}
           
-          <button onClick={addAutomatictextRule}>Add a rule For Category</button>
-          <button type='button' onClick={addQuestiontextRule}>Add a rule For Question</button>
-          <button type="submit">Save Test & Close </button>
+          <button  style={{position:"relative",right:"20px"}} onClick={addAutomatictextRule}>Add a rule For Category</button>
+          <button type='button' style={{position:"relative",right:"20px"}} onClick={addQuestiontextRule}>Add a rule For Question</button>
+          <button type="submit" style={{position:"relative",right:"20px"}}>Save Test & Close </button>
         </form>
       </div>
     </div>

@@ -47,7 +47,8 @@ function ForgotPassword() {
           <div className="ForgotPasswordLeftside">
             <form onSubmit={handleResetPassword}>
               <fieldset>
-                <p>
+               <div id="p">
+               <p>
                   <h3 htmlFor="email">Email:</h3>
                   <input
                     type="email"
@@ -59,11 +60,13 @@ function ForgotPassword() {
                     required
                   />
                 </p>
-                <p>
-                <Button  onClick={handleResetPassword}>Reset Password</Button>
+               <div className="button1">
+               <Button   onClick={handleResetPassword}>Reset Password</Button>
+               </div>
                 {/* <Link to="/resetpassword" class="button">Reset Password</Link> */}
 
-                </p>
+            
+               </div>
               </fieldset>
             </form>
             {error && <p className="error-text">{error}</p>}

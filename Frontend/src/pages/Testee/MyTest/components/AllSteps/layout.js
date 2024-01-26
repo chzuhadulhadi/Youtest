@@ -148,7 +148,9 @@ function TestLayout(props) {
             style={{
               backgroundColor: textLayout.backgroundColor,
               color: textLayout.textColor,
-              textAlign: "start"
+              textAlign: "start",
+              position:"relative",right:"20px"
+          
             }}
           >
 
@@ -241,8 +243,8 @@ function TestLayout(props) {
             }
             }
           /> */}
-          <div ref={BackgroundColor} className="color-picker">
-            <button onClick={() => setShowColorPickerForBackgroundColor(!showColorPickerForBackgroundColor)}>Background Color</button>
+          <div ref={BackgroundColor} className="color-picker" style={{position:"relative",right:"20px"}}>
+            <button    onClick={() => setShowColorPickerForBackgroundColor(!showColorPickerForBackgroundColor)}>Background Color</button>
             {showColorPickerForBackgroundColor && <ChromePicker
               color={textLayout.backgroundColor}
               onChangeComplete={(color) => {
@@ -252,7 +254,7 @@ function TestLayout(props) {
             />}
           </div>
 
-          <div ref={TextColor} className="color-picker">
+          <div ref={TextColor} className="color-picker" style={{position:"relative",right:"20px"}}>
             <button onClick={() => setShowColorPickerForTextColor(!showColorPickerForTextColor)}>Text Color</button>
             {showColorPickerForTextColor && <ChromePicker
               color={textLayout.textColor}
@@ -263,7 +265,7 @@ function TestLayout(props) {
             />}
           </div>
 
-          <div ref={QuestionBackgroundColor} className="color-picker">
+          <div ref={QuestionBackgroundColor} className="color-picker" style={{position:"relative",right:"20px"}}>
             <button onClick={() => setShowColorPickerForQuestionBackgroundColor(!showColorPickerForQuestionBackgroundColor)}>Question Bg Color</button>
             {showColorPickerForQuestionBackgroundColor && <ChromePicker
               color={textLayout.questionBackgroundColor}
@@ -274,7 +276,7 @@ function TestLayout(props) {
             />}
           </div>
 
-          <div ref={QuestionTextColor} className="color-picker">
+          <div ref={QuestionTextColor} className="color-picker" style={{position:"relative",right:"20px"}}>
             <button onClick={() => setShowColorPickerForQuestionTextColor(!showColorPickerForQuestionTextColor)}>Question Text CLR</button>
             {showColorPickerForQuestionTextColor && <ChromePicker
               color={textLayout.questionTextColor}
@@ -284,7 +286,7 @@ function TestLayout(props) {
               }
             />}
           </div>
-          <div ref={AnswerColor} className="color-picker">
+          <div ref={AnswerColor} className="color-picker"  style={{position:"relative",right:"20px"}}>
             <button onClick={() => setShowColorPickerForAnswerColor(!showColorPickerForAnswerColor)}>Answer Color</button>
             {showColorPickerForAnswerColor && <ChromePicker
               color={textLayout.answerColor}

@@ -84,7 +84,7 @@ function Login() {
                 <input
                   type="password"
                   onChange={valueAdder}
-                  placeholder="Password ..."
+                  placeholder="PASSWORD..."
                   id="password"
                   className="field"
                   required

@@ -144,13 +144,14 @@ function PropertiesStep(props) {
 
                     </select>
                     <input type="checkbox" onClick={(e) => { props.obj.mainObjectAdderForProperties(e.target.checked, "sendAll"); (e.target.checked) ? setsendAll(true) : setsendAll(false) }} checked={sendAll} />
-                    <label>Also send results to Testee</label>
+                    &nbsp;
+                    <label>  Also send results to Testee</label>
                     <br /><br />
                     <input type="checkbox" onClick={(e) => { props.obj.mainObjectAdderForProperties(e.target.checked, "showuser"); (e.target.checked) ? setshowuser(true) : setshowuser(false) }} checked={showuser}/>
-                    <label>Show Right Answer to testee</label>
+                    &nbsp;<label>Show Right Answer to testee</label>
                     <br /><br />
                     <input type="checkbox" onClick={(e) => { (e.target.checked) ? setTimeLimited(true) : setTimeLimited(false); props.obj.mainObjectAdderForProperties({ 'target': { 'value': 0 } }, "timeLimit"); }} checked={timeLimited} />
-                    <label> Time Limited Test </label> <br />
+                    &nbsp; <label> Time Limited Test </label> <br />
                     <div style={timeLimited ? { display: "block" } : { display: 'none' }}>
                         <label className="form-label"> How long the test is going to be in minutes </label>
                         <input
@@ -191,8 +192,8 @@ function PropertiesStep(props) {
                         // editorClassName="editor-class"
                         toolbarClassName="toolbar-class"
                     />
-                    <button type="submit" onClick={(e) => { props.obj.apiCallToCreateTest(e) }}> Save Test & Close </button>
-                    <button className='next-button' type="submit" > Next </button>
+                    <button type="submit" style={{position:"relative",right:"20px"}} onClick={(e) => { props.obj.apiCallToCreateTest(e) }}> Save Test & Close </button>
+                    <button className='next-button' type="submit" style={{position:"relative",right:"20px"}}  > Next </button>
                 </form>
                 <br />
                 <br />
