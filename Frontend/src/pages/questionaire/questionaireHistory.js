@@ -179,6 +179,7 @@ function QuestionaireHistory() {
 
         </tbody>
       </table>
+     { totalDataLenght > postsPerPage && (
       <ReactPaginate
         onPageChange={paginate}
         pageCount={Math.ceil(totalDataLenght / postsPerPage)}
@@ -190,6 +191,7 @@ function QuestionaireHistory() {
         nextLinkClassName={"page-number"}
         activeLinkClassName={"active"}
       />
+      )}
     </div >
   );
 }

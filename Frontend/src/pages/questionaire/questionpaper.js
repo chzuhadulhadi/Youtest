@@ -39,7 +39,7 @@ function Paper() {
   const [rendControl, setRendControl] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   var [postsPerPage, setPostPerPage] = useState(10);
-  const [totalDataLenght, setTotalDataLenght] = useState(30);
+  const [totalDataLenght, setTotalDataLenght] = useState(10);
   const [currentRecords, setCurrentRecord] = useState([]);
   const [isEdit, setIsEdit] = useState({});
   const showToastMessage = (text, color, notify) => {
@@ -396,17 +396,21 @@ function Paper() {
             );
           })}
         </table>
-        <ReactPaginate
-          onPageChange={paginate}
-          pageCount={Math.ceil(totalDataLenght / postsPerPage)}
-          previousLabel={"<"}
-          nextLabel={">"}
-          containerClassName={"pagination"}
-          pageLinkClassName={"page-number"}
-          previousLinkClassName={"page-number"}
-          nextLinkClassName={"page-number"}
-          activeLinkClassName={"active"}
-        />
+        {totalDataLenght > postsPerPage && (
+          <ReactPaginate
+            onPageChange={paginate}
+            pageCount={Math.ceil(totalDataLenght / postsPerPage)}
+            previousLabel={"<"}
+            nextLabel={">"}
+            containerClassName={"pagination"}
+            pageLinkClassName={"page-number"}
+            previousLinkClassName={"page-number"}
+            nextLinkClassName={"page-number"}
+            activeLinkClassName={"active"}
+          />
+        )
+
+        }
       </div>
 
       <div id="htmlDiv"></div>

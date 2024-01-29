@@ -35,7 +35,7 @@ function AddUserInList() {
   const [modalTitle, setModalTitle] = useState("");
   const [selectedTab, setSelectedTab] = useState("");
   const [usersList, setUsersList] = useState([]);
-  const [totalDataLenght, setTotalDataLenght] = useState(40);
+  const [totalDataLenght, setTotalDataLenght] = useState(10);
   const [rendControl, setRendControl] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [listDto, setListDto] = useState({
@@ -600,7 +600,10 @@ function AddUserInList() {
                   })}
                 </tbody>
               </table>
-              <div className=" paginate">
+
+              {
+                totalDataLenght > postsPerPage && (
+                  <div className=" paginate">
                 <ReactPaginate
                   onPageChange={paginate}
                   pageCount={Math.ceil(totalDataLenght / postsPerPage)}
@@ -613,6 +616,8 @@ function AddUserInList() {
                   activeLinkClassName={"active"}
                 />
               </div>
+                )
+              }
             </>
           </div>
         </div>

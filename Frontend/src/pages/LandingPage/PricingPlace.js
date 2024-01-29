@@ -51,27 +51,36 @@ export default function PricingPlace() {
           {packages.map((item, index) => (
             <Grid item xs={12} sm={6} md={4}>
               <div className="Basic">
-                <h3>{item.packageName}</h3>
+                <h5>{item.packageName}</h5>
               </div>
+              <br />
               <div className="Dollar">
-                <p>${item.packagePrice}</p>
+                <h4>${item.packagePrice}</h4>
               </div>
+              <br />
+
               <div className="Band">
-                <p>Duration: <span>{item.packageDuration} days</span></p>
+                <h5>Duration: <span>{item.packageDuration} days</span></h5>
               </div>
+              <br />
+
               <div className="Band">
-                <p>Number Of tests: <span>{item.numberOfTests}</span></p>
+                <h5>Number Of tests: <span>{item.numberOfTests}</span></h5>
               </div>
+              <br />
               <div className="Band">
-                <p>Support <span>24 Hours</span></p>
+                <h5>Support <span>24 Hours</span></h5>
               </div>
+              <br />
               <div className="Band">
-                <p>{item.support}</p>
+                <h5>{item.support}</h5>
               </div>
+              <br />
               <div className="Band last">
                 <button onClick={() => handleBuyNow(item.id)}>Buy Now</button>
               </div>
             </Grid>
+
           ))}
         </Grid>
       </div>
