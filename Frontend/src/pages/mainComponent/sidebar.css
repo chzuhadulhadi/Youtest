@@ -73,7 +73,7 @@ a:focus {
     padding: 20px 0;
     border-bottom: 1px solid #47748b;
     overflow-y: scroll;
-    height: 90%;
+    height: 80%;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;
 }

@@ -76,7 +76,7 @@ router.post('/api/admin/updateTest', verifyJwt, updateTests);
 router.post('/api/admin/deleteTest', verifyJwt, deleteTests);
 router.post('/api/admin/getResults', verifyJwt, getResults);
 router.post('/api/admin/createPackage', verifyJwt, createPackage);
-router.post('/api/admin/getPackage', verifyJwt, getPackage);
+router.post('/api/admin/getPackage', getPackage);
 router.post('/api/admin/updatePackage', verifyJwt, updatePackage);
 router.post('/api/admin/deletePackage', verifyJwt, deletePackage);
 router.post('/api/ipn-handler',handleIPN);

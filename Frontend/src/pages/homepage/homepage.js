@@ -1,7 +1,7 @@
 import "./css/media.css";
 import "./css/theme.css";
 import bannerImg from "./css/images/3.avif";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import InfoTabs from "./tab";
 import Login from "../LoginPages/login";
@@ -11,6 +11,8 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
+import { apiCall } from '../../apiCalls/apiCalls';
+import { getPackage } from '../../apiCalls/apiRoutes';
 
 
 const handleSubmit = (event) => {
@@ -22,10 +24,27 @@ const handleSubmit = (event) => {
 function Home({ loginCheck }) {
   // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
+  const [packages, setPackages] = useState([]);
 
   useEffect(() => {
     console.log("loginCheck", loginCheck);
   }, [loginCheck]);
+
+
+  const loadPackages = () => {
+    apiCall("post", getPackage).then((res) => {
+      console.log(res.data.data)
+      setPackages(res.data.data)
+    }).catch((err) => {
+      console.log(err)
+    });
+  }
+
+  useEffect(() => {
+    loadPackages();
+  }, []);
+
+
 
   return (
     <>
@@ -140,108 +159,48 @@ function Home({ loginCheck }) {
                 </Grid>
               </Grid>
             </div>
-            <div className="Pricing_sec">
+            <div className="Pricing_sec" id="pricing">
               <div className="Center">
                 <h2>Pricing</h2>
                 <p>
-                  All plans come with unlimited disk space. Our support can be as quick as 15 minutes to get a response.
+                  Service Packages for every need. <br />
                 </p>
                 <div className="Line"></div>
-                <br />
-                <br />
                 <Grid container spacing={2}>
-                  {/* Basic Plan */}
-                  <Grid item xs={12} sm={6} md={4}>
-                    <div className="Basic">
-                      <h5>Basic</h5>
-                    </div>
-                    <br />
-                    <div className="Dollar">
-                      <h4>$27.50</h4>
-                    </div>
-                    <br />
+                  {packages.map((item, index) => (
+                    <Grid item xs={12} sm={6} md={4}>
+                      <div className="Basic">
+                        <h5>{item.packageName}</h5>
+                      </div>
+                      <br />
+                      <div className="Dollar">
+                        <h4>${item.packagePrice}</h4>
+                      </div>
+                      <br />
+                      <div className="Band">
+                        <h5>Duration: <span>{item.packageDuration} days</span></h5>
+                      </div>
+                      <br />
 
-                    <div className="Band">
-                      <h5>2,000 GB <span>Bandwidth</span></h5>
-                    </div>
-                    <br />
-
-                    <div className="Band">
-                      <h5>32 GB <span>memory</span></h5>
-                    </div>
-                    <br />
-
-                    <div className="Band">
-                      <h5>Support <span>24 Hours</span></h5>
-                    </div>
-                    <br />
-
-                    <div className="Band last">
-                      <h5>Update <span>$20</span></h5>
-                    </div>
-                  </Grid>
-
-                  {/* Biz Plan */}
-                  <Grid item xs={12} sm={6} md={4}>
-                    <div className="Basic">
-                      <h5>Biz</h5>
-                    </div>
-                    <br />
-                    <div className="Dollar">
-                      <h4>$44.50</h4>
-                    </div>
-                    <br />
-
-                    <div className="Band">
-                      <h5>2,000 GB <span>Bandwidth</span></h5>
-                    </div>
-                    <br />
-
-                    <div className="Band">
-                      <h5>32 GB <span>memory</span></h5>
-                    </div>
-                    <br />
-
-                    <div className="Band">
-                      <h5>Support <span>24 Hours</span></h5>
-                    </div>
-                    <br />
-
-                    <div className="Band last">
-                      <h5>Update <span>$20</span></h5>
-                    </div>
-                  </Grid>
-
-                  {/* Pro Plan */}
-                  <Grid item xs={12} sm={6} md={4}>
-                    <div className="Basic">
-                      <h5>Pro</h5>
-                    </div>
-                    <br />
-                    <div className="Dollar">
-                      <h4>$72.50</h4>
-                    </div>
-                    <br />
-
-                    <div className="Band">
-                      <h5>2,000 GB <span>Bandwidth</span></h5>
-                    </div>
-                    <br />
-
-                    <div className="Band">
-                      <h5>32 GB <span>memory</span></h5>
-                    </div>
-                    <br />
-
-                    <div className="Band">
-                      <h5>Support <span>24 Hours</span></h5>
-                    </div>
-                    <br />
-
-                    <div className="Band last">
-                      <h5>Update <span>$20</span></h5>
-                    </div>
-                  </Grid>
+                      <div className="Band">
+                        <h5>Number Of tests: <span>{item.numberOfTests}</span></h5>
+                      </div>
+                      <br />
+                      <div className="Band">
+                        <h5>Support <span>24 Hours</span></h5>
+                      </div>
+                      <br />
+                      <div className="Band">
+                        <h5>{item.support}</h5>
+                      </div>
+                      <br />
+                      <div className="Band last">
+                        <button onClick={() => navigate(loginCheck ?
+                          "/dashboard/PricingPlace" : '/login'
+                        )}>Buy Now</button>
+                      </div>
+                    </Grid>
+                  ))}
                 </Grid>
               </div>
             </div>

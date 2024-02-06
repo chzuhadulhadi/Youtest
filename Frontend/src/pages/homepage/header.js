@@ -90,12 +90,12 @@ function Header(props) {
             </li>
               <li><Typography sx={{ minWidth: 100 }}><a href="/" onClick={logoutHandler}>Logout</a></Typography></li></>
             : <> <li >
-              <Link style={{ color: "white" }} to={frontEndPath + '/login'}>
+              <Link style={{ color: "white" }} to={frontEndPath + 'login'}>
                 Login
               </Link>
               <span className="menu-item-bg"></span>
             </li><li >
-                <Link style={{ color: "white" }} to={frontEndPath + '/signup'}>
+                <Link style={{ color: "white" }} to={frontEndPath + 'signup'}>
                   Signup
                 </Link>
                 <span className="menu-item-bg"></span>

@@ -8,9 +8,7 @@ function AdminSideBar(props) {
     return (
         <nav id="sidebar">
             <div className="sidebar-header">
-                <h3 onClick={() => { navigate('/') }}>
-                    <span style={{ color: "white" }}>Test</span>Factory
-                </h3>
+            <h3 style={{marginTop:'0',marginBottom:'0',paddingTop:'0',paddingBottom:'0',color:'orange'}} onClick={() => { navigate('/') }}><span style={{ color: 'black' }}>{"Test "}</span>Factory</h3>
             </div>
 
             <ul className="list-unstyled components">
