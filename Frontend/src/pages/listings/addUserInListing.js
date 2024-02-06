@@ -195,6 +195,12 @@ function AddUserInList() {
         // setShow(false)
         getMailingListUserFunction();
         setRendControl(!rendControl);
+        setAddNewUserInList({
+          name: "",
+          email: "",
+          mailingListId: null,
+        });
+        
       })
       .then((err) => {
         showToastMessage(err?.response?.data?.message, "red", 2);
@@ -218,6 +224,7 @@ function AddUserInList() {
               setValuesForAddUserInMailingList(e);
             }}
             id="name"
+            value={isEdit ? isEdit.name : addNewUserInList.name}
             placeholder="Name..."
             className="form-control mb-2"
             required
@@ -225,6 +232,7 @@ function AddUserInList() {
           <input
             type="email"
             id="email"
+            value={isEdit ? isEdit.email : addNewUserInList.email}
             onChange={(e) => {
               setValuesForAddUserInMailingList(e);
             }}
@@ -438,8 +446,6 @@ function AddUserInList() {
         showToastMessage("User updated Successfully", "green", 1);
         setForceRender(!forceRender);
         setShow(false);
-
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);
