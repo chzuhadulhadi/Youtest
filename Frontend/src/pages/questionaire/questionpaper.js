@@ -289,9 +289,10 @@ function Paper() {
 
   return (
     <div className="">
-      <h1>Landing pages</h1>
+      <h1>Landing Pages</h1>
 
       <button
+      style={{position:'relative', right:'20px'}}
         onClick={() => {
           navigate("/dashboard/landingpage");
         }}

@@ -62,8 +62,7 @@ function SendTestFunctionality({ testId }) {
       } catch (err) {
         showToastMessage(err.message, "red", 2);
       }
-    } else if(formDataForMailingIndividual.email.includes('@'))
-    {
+    } else if (formDataForMailingIndividual.email.includes('@')) {
       setShowTable(false);
       let temp = { ...formDataForMailingIndividual };
       mailingUserArray.push(temp);
@@ -74,7 +73,7 @@ function SendTestFunctionality({ testId }) {
         email: "",
       });
       setShowEditModal(true);
-    }else {
+    } else {
       showToastMessage(
         "Please Select a mailing List or add participants",
         "red",
@@ -154,7 +153,7 @@ function SendTestFunctionality({ testId }) {
   return (
     <div className="sendTestMain">
       {/* modal which gives testUrl and a button to copy testUrl a close button also */}
-      <Modal show={testUrl!=''} onHide={() => { }} animation={false}>
+      <Modal show={testUrl != ''} onHide={() => { }} animation={false}>
         <Modal.Body className="mt-5" style={{ textAlign: "center" }}>
           <h5>Test Url</h5>
           <p><a href={testUrl} target="_blank">{testUrl}</a></p>
@@ -200,7 +199,7 @@ function SendTestFunctionality({ testId }) {
           <h5 className="mb-5">You can add message to the receipt</h5>
           <textarea
             className="w-100"
-            style={{ height: "14vh" ,fontSize:"15px",color:'black'}}
+            style={{ height: "14vh", fontSize: "15px", color: 'black' }}
             placeholder="Enter a note"
             id="note"
             onChange={(e) => {
@@ -238,17 +237,16 @@ function SendTestFunctionality({ testId }) {
               <div
                 style={{
                   display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
                 }}
               >
-                 <div className="w-25 m-2">
+                <div className="w-25 m-2 mb-4">
                   <label for="exampleFormControlInput1">
                     Enter email of Testee
                   </label>
                   <input
                     type="email"
-                    placeholder="email"
+                    placeholder="Email"
+                    style={{ height: '38px' }}
                     className="form-control m-auto"
                     onChange={(e) => {
                       formDataForMailingIndividual["email"] = e.target.value;
@@ -256,24 +254,25 @@ function SendTestFunctionality({ testId }) {
                     required
                   />
                 </div>
-                <div className="w-25 m-2">
+                <div className="w-25 m-2 mb-4">
                   <label for="exampleFormControlInput1">
                     Enter name of Testee (Optional)
                   </label>
                   <input
                     type="text"
-                    placeholder="name"
+                    placeholder="Name"
+                    style={{ height: '38px' }}
                     className="form-control m-auto"
                     onChange={(e) => {
                       formDataForMailingIndividual["name"] = e.target.value;
                     }}
                   />
                 </div>
-               
+
                 <div>
                   <button type="submit">Add</button>
                 </div>
-                <h4>Or </h4>
+                <h4 style={{ marginTop: '30px' }}>OR </h4>
                 <button
                   onClick={() => {
                     setShowMailingLists(true);
@@ -302,9 +301,10 @@ function SendTestFunctionality({ testId }) {
                       {mailingListData?.map((ele, index) => {
                         return (
                           <tr key={index}>
-                            <td>{index}</td>
-                            <td>{ele.name}</td>
+                            <td><center>{index}</center></td>
+                            <td><center>{ele.name}</center></td>
                             <td>
+                            <center>
                               <input
                                 type="checkbox"
                                 id={ele.id}
@@ -312,6 +312,7 @@ function SendTestFunctionality({ testId }) {
                                   addToArray(e);
                                 }}
                               />
+                            </center>
                             </td>
                           </tr>
                         );
@@ -330,8 +331,8 @@ function SendTestFunctionality({ testId }) {
             <table className="table">
               <thead>
                 <tr>
-                  <th scope="col">name</th>
-                  <th scope="col">email</th>
+                  <th scope="col" >Name</th>
+                  <th scope="col">Email</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
@@ -340,10 +341,11 @@ function SendTestFunctionality({ testId }) {
                   mailingUserArray.map((ele, index) => {
                     return (
                       <tr key={index}>
-                        <td>{ele.name}</td>
-                        <td>{ele.email}</td>
+                        <td ><center>{ele.name}</center></td>
+                        <td><center>{ele.email}</center></td>
                         <td
                           id={index}
+                          style={{ cursor: "pointer" }}
                           onClick={(e) => {
                             setShowTable(false);
                             mailingUserArray.splice(index, 1);
@@ -353,7 +355,9 @@ function SendTestFunctionality({ testId }) {
                             }, 1);
                           }}
                         >
-                          delete
+                          <center>
+                            delete
+                          </center>
                         </td>
                       </tr>
                     );

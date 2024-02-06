@@ -313,8 +313,7 @@ function TestLayout(props) {
           }}
           className=""
         >
-          <h3>LAYOUT</h3>
-
+          <h3  style={{ marginLeft:'20px' }}>LAYOUT</h3>
           <TextLayouts />
         </form>
       </div>

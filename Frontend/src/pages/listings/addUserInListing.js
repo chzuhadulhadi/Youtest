@@ -52,7 +52,8 @@ function AddUserInList() {
     email: "",
     mailingListId: null,
   });
-  const handleClose = () => {setShow(false);setUsersList([]);
+  const handleClose = () => {
+    setShow(false); setUsersList([]);
     setAddNewUserInList({
       name: "",
       email: "",
@@ -430,9 +431,9 @@ function AddUserInList() {
 
   const editUserInFormSubmitHandler = (e) => {
     e.preventDefault();
-    apiCall("post", editUserOfMailingList, { 
+    apiCall("post", editUserOfMailingList, {
       ...isEdit,
-     }, true)
+    }, true)
       .then((res) => {
         showToastMessage("User updated Successfully", "green", 1);
         setForceRender(!forceRender);
@@ -479,131 +480,127 @@ function AddUserInList() {
     );
   };
   return (
-    <div className="userlist">
-      <div className="mainsection">
-        <div className="Pricing_sec" id="pricing">
-          <div className="Center">
-            <h2>Mailing List</h2>
-          </div>
-          <div style={{ position: "relative", right: "20px" }}>
-            <div className="Line"></div>
-            <Button
-              variant="primary"
-              onClick={() => {
-                clickDetector("Add New Mailing List", "addMailingList");
-              }}
-            >
-              Create New Mailing List
-            </Button>
+    <div className="">
+      <h1>Mailing List</h1>
+      <div style={{ position: "relative", right: "20px" }}>
+        <div className="Line"></div>
+        <Button
+          variant="primary"
+          onClick={() => {
+            clickDetector("Add New Mailing List", "addMailingList");
+          }}
+        >
+          Create New Mailing List
+        </Button>
 
-            <Button
-              variant="primary"
-              onClick={uploadMailingList}
-              disabled={selectedFile ? false : true}
-            >
-              Upload Excel
-            </Button>
-            <input
-              type="file"
-              id="file"
-              accept=".csv,.xlsx,.xls"
-              onChange={(e) => {
-                const file = e.target.files[0];
-                setSelectedFile(file);
-              }}
-            />
-            </div>
-            <div>
-            <Modal show={show} onHide={handleClose} animation={false}>
-              <Modal.Header closeButton>
-                <Modal.Title>{modalTitle}</Modal.Title>
-              </Modal.Header>
-              {selectedTab == "addMailingList" && addNewMailingList()}
-              {selectedTab == "addNewUserInMailingList" &&
-                addNewUserInMailingList()}
-              {selectedTab == "deleteUserInMailingList" &&
-                deleteUserInMailingList()}
-              {selectedTab == "editMailingList" && editMailingList()}
-              {selectedTab == "editUserInMailingList" && editUserMailingList()}
-            </Modal>
+        <Button
+          variant="primary"
+          onClick={uploadMailingList}
+          disabled={selectedFile ? false : true}
+        >
+          Upload Excel
+        </Button>
+        <input
+          type="file"
+          id="file"
+          accept=".csv,.xlsx,.xls"
+          onChange={(e) => {
+            const file = e.target.files[0];
+            setSelectedFile(file);
+          }}
+        />
+      </div>
+      <div>
+        <Modal show={show} onHide={handleClose} animation={false}>
+          <Modal.Header closeButton>
+            <Modal.Title>{modalTitle}</Modal.Title>
+          </Modal.Header>
+          {selectedTab == "addMailingList" && addNewMailingList()}
+          {selectedTab == "addNewUserInMailingList" &&
+            addNewUserInMailingList()}
+          {selectedTab == "deleteUserInMailingList" &&
+            deleteUserInMailingList()}
+          {selectedTab == "editMailingList" && editMailingList()}
+          {selectedTab == "editUserInMailingList" && editUserMailingList()}
+        </Modal>
 
-            <>
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Mailing List Name</th>
-                    <th scope="col">Action</th>
+        <>
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Mailing List Name</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {mailingLists?.map((element, index) => {
+                return (
+                  <tr key={index}>
+                    <td >{index + 1}</td>
+                    <td >{element.name}</td>
+                    <td>
+                      <span
+                        className="btn"
+                        style={{
+                          backgroundColor: "#FF9000",
+                          color: "white",
+                        }}
+                        onClick={() => {
+                          clickDetector(
+                            "Users in Mailing List",
+                            "addNewUserInMailingList",
+                            element.id
+                          );
+                        }}
+                      >
+                        View
+                      </span>
+                      |
+                      <span
+                        className="btn"
+                        style={{
+                          backgroundColor: "#FF9000",
+                          color: "white",
+                        }}
+                        onClick={() => {
+                          clickDetector(
+                            "Are you sure You want to Delete",
+                            "deleteUserInMailingList",
+                            element.id
+                          );
+                        }}
+                      >
+                        {" "}
+                        Delete{" "}
+                      </span>{" "}
+                      |{" "}
+                      <span
+                        className="btn"
+                        style={{
+                          backgroundColor: "#FF9000",
+                          color: "white",
+                        }}
+                        onClick={() => {
+                          clickDetector(
+                            "Edit the user in List",
+                            "editMailingList",
+                            element.id
+                          );
+                        }}
+                      >
+                        Edit{" "}
+                      </span>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {mailingLists?.map((element, index) => {
-                    return (
-                      <tr key={index}>
-                        <td >{index + 1}</td>
-                        <td >{element.name}</td>
-                        <td>
-                          <span
-                            className="btn"
-                            style={{
-                              backgroundColor: "#FF9000",
-                              color: "white",
-                            }}
-                            onClick={() => {
-                              clickDetector(
-                                "Users in Mailing List",
-                                "addNewUserInMailingList",
-                                element.id
-                              );
-                            }}
-                          >
-                            view
-                          </span>
-                          |
-                          <span
-                            className="btn"
-                            style={{
-                              backgroundColor: "#FF9000",
-                              color: "white",
-                            }}
-                            onClick={() => {
-                              clickDetector(
-                                "Are you sure You want to Delete",
-                                "deleteUserInMailingList",
-                                element.id
-                              );
-                            }}
-                          >
-                            {" "}
-                            delete{" "}
-                          </span>{" "}
-                          |{" "}
-                          <span
-                            className="btn"
-                            style={{
-                              backgroundColor: "#FF9000",
-                              color: "white",
-                            }}
-                            onClick={() => {
-                              clickDetector(
-                                "Edit the user in List",
-                                "editMailingList",
-                                element.id
-                              );
-                            }}
-                          >
-                            Edit{" "}
-                          </span>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                );
+              })}
+            </tbody>
+          </table>
 
-              {
-                totalDataLenght > postsPerPage && (
-                  <div className=" paginate">
+          {
+            totalDataLenght > postsPerPage && (
+              <div className=" paginate">
                 <ReactPaginate
                   onPageChange={paginate}
                   pageCount={Math.ceil(totalDataLenght / postsPerPage)}
@@ -616,11 +613,9 @@ function AddUserInList() {
                   activeLinkClassName={"active"}
                 />
               </div>
-                )
-              }
-            </>
-          </div>
-        </div>
+            )
+          }
+        </>
       </div>
     </div>
   );

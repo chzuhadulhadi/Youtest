@@ -903,7 +903,7 @@ function QuestionStep(props) {
               })}
             </select>
           </div>
-          <button onClick={handleUpload} disabled={selectedFile == null}>Upload Questions from excel</button>
+          <button  style={{ position:'relative', right:'20px' }} onClick={handleUpload} disabled={selectedFile == null}>Upload Questions from excel</button>
         </div>
         <div>
           {" "}
@@ -963,10 +963,11 @@ function QuestionStep(props) {
         );
       })}
 
-      <button onClick={addQuestion}>Add a Question</button>
+      <button  style={{ position:'relative', right:'20px' }} onClick={addQuestion}>Add a Question</button>
       <br />
       <button
         type="submit"
+        style={{ position:'relative', right:'20px' }}
         onClick={(e) => {
           props.obj.apiCallToCreateTest(e);
         }}
@@ -974,6 +975,7 @@ function QuestionStep(props) {
         Save Test & Close
       </button>
       <button
+       style={{ position:'relative', right:'20px' }}
         onClick={(e) => {
           e.preventDefault();
           props.obj.showTab("LAYOUT");

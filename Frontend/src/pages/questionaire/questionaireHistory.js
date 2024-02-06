@@ -102,19 +102,19 @@ function QuestionaireHistory() {
     XLSX.utils.book_append_sheet(wb, ws, 'TestHistory');
     XLSX.writeFile(wb, 'TestHistory.xlsx');
   }
-  
+
   return (
     <div className="questionaireHistory">
-
-<button onClick={downloadExcel}>Download Excel</button>
-
+      <button  style={{ position:'relative', right:'20px' }} onClick={downloadExcel}>Download Excel</button>
       <input
         type="text"
+        style={{ height: '37px' }}
         placeholder="Search ..."
         id="myInput"
         onChange={searchParam}
       />
       <select
+        style={{ height: '37px', marginLeft: '10px' }}
         onChange={(e) => {
           setSelectedField(e.target.value);
         }}
@@ -132,7 +132,7 @@ function QuestionaireHistory() {
             <th scope="col">Date</th>
             <th scope="col">Test Link</th>
             <th scope="col">Time Taken</th>
-            <th scope="col">status</th>
+            <th scope="col">Status</th>
             <th scope="col">Score</th>
             <th scope="col">Actions</th>
 
@@ -179,18 +179,18 @@ function QuestionaireHistory() {
 
         </tbody>
       </table>
-     { totalDataLenght > postsPerPage && (
-      <ReactPaginate
-        onPageChange={paginate}
-        pageCount={Math.ceil(totalDataLenght / postsPerPage)}
-        previousLabel={"<"}
-        nextLabel={">"}
-        containerClassName={"pagination"}
-        pageLinkClassName={"page-number"}
-        previousLinkClassName={"page-number"}
-        nextLinkClassName={"page-number"}
-        activeLinkClassName={"active"}
-      />
+      {totalDataLenght > postsPerPage && (
+        <ReactPaginate
+          onPageChange={paginate}
+          pageCount={Math.ceil(totalDataLenght / postsPerPage)}
+          previousLabel={"<"}
+          nextLabel={">"}
+          containerClassName={"pagination"}
+          pageLinkClassName={"page-number"}
+          previousLinkClassName={"page-number"}
+          nextLinkClassName={"page-number"}
+          activeLinkClassName={"active"}
+        />
       )}
     </div >
   );

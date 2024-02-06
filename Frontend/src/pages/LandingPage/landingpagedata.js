@@ -134,20 +134,20 @@ function LandingPageData() {
 
   return (
     <div className="questionaireHistory">
-      <button onClick={exportToExcel}> Export Data</button>
+      <button  style={{ position:'relative', right:'20px' }} onClick={exportToExcel}> Export Data</button>
       <table className="table" id="myTable">
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">first Name</th>
-            <th scope="col">last Name</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
             <th scope="col">Email</th>
-            <th scope="col">phoneNo</th>
+            <th scope="col">PhoneNo</th>
             <th scope="col">Email OK</th>
             <th scope="col">Test</th>
             <th scope="col">Test Date</th>
-            <th scope="col">status</th>
-            <th scope="col">score</th>
+            <th scope="col">Status</th>
+            <th scope="col">Score</th>
             <th scope="col">Result Link</th>
           </tr>
         </thead>

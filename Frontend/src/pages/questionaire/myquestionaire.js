@@ -246,11 +246,11 @@ function MyQuestionaire() {
                   <tr>
                     <th>Select</th>
                     <th>Sr No.</th>
-                    <th>name</th>
-                    <th>No of questions</th>
-                    <th>Time in Mins</th>
+                    <th>Name</th>
+                    <th>No Of Questions</th>
+                    <th>Time In Mins</th>
                     <th>Change</th>
-                    <th>Single send</th>
+                    <th>Single Send</th>
 
 
                     {/* <th>orientation</th>
