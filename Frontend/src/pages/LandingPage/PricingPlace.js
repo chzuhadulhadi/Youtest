@@ -49,7 +49,7 @@ export default function PricingPlace() {
         <div className="Line"></div>
         <Grid container spacing={2}>
           {packages.map((item, index) => (
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid item xs={12} sm={6} md={4} mt={5}>
               <div className="Basic">
                 <h5>{item.packageName}</h5>
               </div>

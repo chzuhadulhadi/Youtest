@@ -137,7 +137,7 @@ function Resetpassword() {
                 <p>
                   <input
                     type="submit"
-                    value="Update Password"
+                    value="UPDATE PASSWORD"
                     className="button"
                     onClick={resetPassword}
                     disabled={password !== confirmPassword}
