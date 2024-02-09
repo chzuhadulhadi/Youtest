@@ -166,13 +166,13 @@ function CategoriesStep(props) {
                 ></input>
                 <button onClick={handleCategoryEditForm}>Submit</button>
               </div >
-            </Modal.Body >
-          </Modal >
+            </Modal.Body>
+          </Modal>
           <form
             id="category-form"
             onSubmit={(e) => {
               e.preventDefault();
-              props.obj.showTab("CATEGORIES");
+              props.obj.showTab("QUESTIONS");
             }}
             className="formClass mt-5"
           >
@@ -231,7 +231,8 @@ function CategoriesStep(props) {
                     } */}
             <br />
             <button type="submit" onClick={(e) => { props.obj.apiCallToCreateTest(e) }} style={{ position: 'relative', right: '3px' }}> Save Test & Close </button>
-            <button className='next-button' type="submit" style={{ position: 'relative', right: '3px' }}> Next </button>
+            <button className='next-button' type="submit" style={{ position: 'relative', right: '3px' }}
+            > Next </button>
           </form>
         </div >
 

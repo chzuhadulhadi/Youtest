@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { serverImageUrl } from "../../../../../apiCalls/apiRoutes";
 import { useHistory } from "react-router-dom";
 import XLSX from 'sheetjs-style';
+import { Grid } from '@mui/material';
 // import '../../style.css'
 import "./steps.css";
 
@@ -62,17 +63,21 @@ function QuestionStep(props) {
   };
   const answerphoto = (e) => {
     const lastIndex = e.target.id.lastIndexOf('-');
-    const result = e.target.id.substring(0,lastIndex);
+    const result = e.target.id.substring(0, lastIndex);
     // console.log('answerphoto',e.target.files[0]);
     console.log('answerphoto', e.target.id);
     console.log(result);
     const formData = new FormData();
-    formData.append("file",  e.target.files[0]);
+    formData.append("file", e.target.files[0]);
     apiCall("post", logoUploader, formData)
       .then((res) => {
         if (res.status == 200) {
           let url = res.data.data;
           document.getElementById(`img_${result}`).src = serverImageUrl + url;
+          // change position
+          document.getElementById(`img_${result}`).style.position = 'relative';
+          document.getElementById(`img_${result}`).style.right = '0px';
+          document.getElementById(`img_${result}`).style.top = '0px';
           props.obj.mainObjectAdder({ target: { id: result, value: url } }, "questions", result, 'image');
           // console.log(url);
         }
@@ -96,6 +101,12 @@ function QuestionStep(props) {
           showToastMessage("Question updated Successfully ", "green", 1);
           // console.log('img_question0', `img_${e.target.id.split('-')[0]}`);
           document.getElementById(`img_${e.target.id.split('-')[0]}`).src = serverImageUrl + url;
+          // change position
+          document.getElementById(`img_${e.target.id.split('-')[0]}`).style.position = 'relative';
+          document.getElementById(`img_${e.target.id.split('-')[0]}`).style.right = '0px';
+          document.getElementById(`img_${e.target.id.split('-')[0]}`).style.top = '0px';
+
+
           imageCounter++;
         }
       })
@@ -129,11 +140,20 @@ function QuestionStep(props) {
                       handleFileSelect(e);
                     }}
                   />
-                  <img id={`img_question${index}`}
-                    height={'200px'}
-                    width={'200px'}
-                    src={questionsData[key].image ? serverImageUrl + questionsData[key].image : null}
-                  />
+                  {
+                    questionsData[key].image ?
+                      <img id={`img_question${index}`}
+                        height={'200px'}
+                        width={'200px'}
+                        src={questionsData[key].image ? serverImageUrl + questionsData[key].image : null}
+                      />
+                      :
+                      <img id={`img_question${index}`}
+                        height={'200px'}
+                        width={'200px'}
+                        style={{ position: 'fixed', right: '-200px', top: '-200px' }}
+                      />
+                  }
                   <input
                     id={key}
                     type="text"
@@ -148,7 +168,7 @@ function QuestionStep(props) {
                 {Object.keys(props.obj.categoryStore).length > 0 &&
                   <select
                     name="selectCategory"
-                    className="select-category"
+                    className="select-category question-div"
                     id={"question" + index}
                     defaultValue={props.obj.mainObj["questions"][`question${index}`]?.categoryName}
                     onChange={(e) => categoryValueAdder(e, "categoryName")}
@@ -168,17 +188,17 @@ function QuestionStep(props) {
                     id={"freeText" + index}
                     name={"question" + index}
                     type="checkbox"
-                    class="free-text-check"
+                    className="free-text-check question-div"
                     onChange={handleFreeTextChange}
                     defaultChecked={questionsData[key].freeText}
                   />
-                  <label className="form-label" class="free-text-label">
+                  <label className="form-label question-div" class="free-text-label question-div">
                     Free Text
                   </label>
                 </div>
 
                 <button
-                  className="add-answer-text"
+                  className="add-answer-text question-div"
                   id={"answer" + answerCounter}
                   name={"question" + index}
                   onClick={(e) => addHtmlAnswer(e)}
@@ -214,11 +234,20 @@ function QuestionStep(props) {
                   id={`question${key.split('question')[1]}-answer${answerCounter}-image`}
                   onChange={handleAnswerFileSelect}
                 />
-                <img id={`img_question${key.split('question')[1]}-answer${answerCounter}`}
-                  height={'200px'}
-                  width={'200px'}
-                  src={questionsData[key].image ? serverImageUrl + questionsData[key].image : null}
-                />
+                {
+                  questionsData[key].image ?
+                    <img id={`img_question${key.split('question')[1]}-answer${answerCounter}`}
+                      height={'200px'}
+                      width={'200px'}
+                      src={questionsData[key].image ? serverImageUrl + questionsData[key].image : null}
+                    />
+                    :
+                    <img id={`img_question${key.split('question')[1]}-answer${answerCounter}`}
+                      height={'200px'}
+                      width={'200px'}
+                      style={{ position: 'fixed', right: '-200px', top: '-200px' }}
+                    />
+                }
                 <input
                   id={key}
                   type="text"
@@ -421,7 +450,7 @@ function QuestionStep(props) {
     var allQuestions = document.getElementsByClassName("all-questions");
 
     for (let question of allQuestions) {
-      var answers = question.querySelectorAll(".QuesAns ");
+      var answers = question.querySelectorAll(".question-div");
       answers.forEach((answer) => {
         var display = answer.style.display == "none" ? "block" : "none";
         answer.style.display = display;
@@ -483,6 +512,8 @@ function QuestionStep(props) {
               <img id={`img_question${questionCounter}`}
                 height={'200px'}
                 width={'200px'}
+                style={{ position: 'fixed', right: '-200px', top: '-200px' }}
+
               //  src={serverImageUrl + props.obj.mainObj["questions"][`question${questionCounter}`]?.question} 
               />
               <input
@@ -511,15 +542,17 @@ function QuestionStep(props) {
                 ))}
               </select>}
 
-              <div style={{ display: 'flex' }}>
+              <div style={{ display: 'flex' }}
+              >
                 <input
                   id={"freeText" + questionCounter}
                   name={"question" + questionCounter}
                   type="checkbox"
-                  className="free-text-check"
+
+                  className="free-text-check question-div"
                   onChange={handleFreeTextChange}
                 />
-                <label className="form-label" class="free-text-label">
+                <label className="form-label question-div" class="free-text-label question-div">
                   Free Text
                 </label>
               </div>
@@ -531,7 +564,8 @@ function QuestionStep(props) {
                     </div> */}
             {/* <h5 className='add-answer-text' id={"answer" + questionCounter} name={"question" + questionCounter} onClick={(e) => addHtmlAnswer(e)} >+ Answer</h5> */}
             <button
-              className="add-answer-text"
+
+              className="add-answer-text question-div"
               id={"answer" + questionCounter}
               name={"question" + questionCounter}
               onClick={(e) => addHtmlAnswer(e)}
@@ -577,6 +611,8 @@ function QuestionStep(props) {
             <img id={`img_question${qstnCounter}-answer${answerCounter}`}
               height={'200px'}
               width={'200px'}
+              style={{ position: 'fixed', right: '-200px', top: '-200px' }}
+
             />
             <input
               id={"question" + qstnCounter + "-answer" + answerCounter}
@@ -724,6 +760,8 @@ function QuestionStep(props) {
               <img id={`img_question${questionCounter}`}
                 height={'200px'}
                 width={'200px'}
+                style={{ position: 'fixed', right: '-200px', top: '-200px' }}
+
               />
               <input
                 id={`question${questionCounter}`}
@@ -742,6 +780,7 @@ function QuestionStep(props) {
                 onChange={(e) => categoryValueAdder(e, "categoryName")}
                 id={"question" + questionCounter}
                 name={"question" + questionCounter}
+                className="question-div"
               >
                 <option>Select Category</option>
                 {Object.keys(props.obj.categoryStore).map((key, index) => (
@@ -756,17 +795,17 @@ function QuestionStep(props) {
                   id={"freeText" + questionCounter}
                   name={"question" + questionCounter}
                   type="checkbox"
-                  className="free-text-check"
+                  className="free-text-check question-div"
                   onChange={handleFreeTextChange}
                 />
-                <label className="form-label" class="free-text-label">
+                <label className="form-label question-div" class="free-text-label question-div">
                   Free Text
                 </label>
               </div>
 
             </div>
             <button
-              className="add-answer-text"
+              className="add-answer-text question-div"
               id={"answer" + questionCounter}
               name={"question" + questionCounter}
               onClick={(e) => addHtmlAnswer(e)}
@@ -802,6 +841,8 @@ function QuestionStep(props) {
                 <img id={`img_question${questionCounter - 1}-answer${answerCounter}`}
                   height={'200px'}
                   width={'200px'}
+                  style={{ position: 'fixed', right: '-200px', top: '-200px' }}
+
                 />
                 <input
                   id={`question${questionCounter - 1}-answer${answerCounter}`}
@@ -867,123 +908,129 @@ function QuestionStep(props) {
   console.log('htmlAnswer', htmlAnswer);
 
   return (
-    <div
-      style={{ textAlign: "start" }}
-      className="question-content"
-      hidden={props.obj.tabSelected == "QUESTIONS" ? false : true}
-    >
-      <div class="wrapper">
-        <div>
-          <h3>#3 - Questions</h3>
-          <p className="counterq">{`Questions Created: ${questionCount}`}</p>
-          <input
-            type="file"
-            id={`question${questionCounter}`}
-            onChange={(e) => {
-              setSelectedFile(e.target.files[0]);
-            }}
-          />
+    <>
+      <div
+        style={{ textAlign: "start", width: '100%' }}
+        className="question-content"
+        hidden={props.obj.tabSelected == "QUESTIONS" ? false : true}
+      >
+        <div class="wrapper">
           <div>
-            <label htmlFor="questionDropdown">Select a Question from question bank:</label>
-            <select id="questionDropdown" onChange={handleQuestionBank}>
-              <option value="" disabled selected>Select a question </option>
-              {questionbank.map((questions, index) => {
-                return (
-                  <>
-                    {Object.values(questions).map((question, questionIndex) => (
-                      question?.question &&
-                      <React.Fragment key={questionIndex}>
-                        <option value={`${index}-${questionIndex}`} style={{ fontWeight: 'bold' }}>
-                          {question?.question}
-                        </option>
-                      </React.Fragment>
-                    ))}
-                  </>
-                );
-              })}
-            </select>
+            <h3>#3 - Questions</h3>
+            <p className="counterq">{`Questions Created: ${questionCount}`}</p>
+            <input
+              type="file"
+              id={`question${questionCounter}`}
+              onChange={(e) => {
+                setSelectedFile(e.target.files[0]);
+              }}
+            />
+            <div>
+              <label htmlFor="questionDropdown">Select a Question from question bank:</label>
+              <select id="questionDropdown" onChange={handleQuestionBank}>
+                <option value="" disabled selected>Select a question </option>
+                {questionbank.map((questions, index) => {
+                  return (
+                    <>
+                      {Object.values(questions).map((question, questionIndex) => (
+                        question?.question &&
+                        <React.Fragment key={questionIndex}>
+                          <option value={`${index}-${questionIndex}`} style={{ fontWeight: 'bold' }}>
+                            {question?.question}
+                          </option>
+                        </React.Fragment>
+                      ))}
+                    </>
+                  );
+                })}
+              </select>
+            </div>
+            <button style={{ position: 'relative', right: '20px' }} onClick={handleUpload} disabled={selectedFile == null}>Upload Questions from excel</button>
           </div>
-          <button  style={{ position:'relative', right:'20px' }} onClick={handleUpload} disabled={selectedFile == null}>Upload Questions from excel</button>
-        </div>
-        <div>
-          {" "}
-          <button
-            className="QuestionButtonClass"
-            onClick={() => handleCollapseForAll()}
-          >
-            {allQUestionView}
-          </button>
-        </div>
-        <div>
-          {" "}
-          <input
-            type="search"
-            style={{ padding: "10px", marginTop: "5px" }}
-            placeholder="Search"
-            className="search-for-question"
-            onChange={search}
-          />
-        </div>
-      </div>
-      {Object.keys(html).map(function (topkey, i) {
-        return (
-          <div key={i}>
-            <div
-              style={{ display: "block" }}
-              id={"all-questions-" + i}
-              className="all-questions"
+          <div>
+            {" "}
+            <button
+              className="QuestionButtonClass"
+              onClick={() => handleCollapseForAll()}
             >
-              <button
-                id="collapse-button"
-                onClick={() => handleCollapse("all-questions-" + i)}
+              {allQUestionView}
+            </button>
+          </div>
+          <div>
+            {" "}
+            <input
+              type="search"
+              style={{ padding: "10px", marginTop: "5px" }}
+              placeholder="Search"
+              className="search-for-question"
+              onChange={search}
+            />
+          </div>
+        </div>
+        {Object.keys(html).map(function (topkey, i) {
+          return (
+            <div key={i}>
+              <div
+                style={{ display: "block" }}
+                id={"all-questions-" + i}
+                className="all-questions"
               >
-                -
-              </button>
-              <div className="QuesAns">
-                {html[topkey]}
-              </div>
-              {Object.keys(htmlAnswer).map(function (key, i) {
-                {
-                  var temp =
-                    htmlAnswer[
-                      key
-                    ]?.props.children?.props.children[1].props.id.split("-")[0];
-                  if (topkey == temp) {
-                    return htmlAnswer[key];
-                  } else {
-                    return null;
+                <button
+                  id="collapse-button"
+                  onClick={() => handleCollapse("all-questions-" + i)}
+                >
+                  -
+                </button>
+                <div className="QuesAns">
+                  {html[topkey]}
+                </div>
+                {Object.keys(htmlAnswer).map(function (key, i) {
+                  {
+                    var temp =
+                      htmlAnswer[
+                        key
+                      ]?.props.children?.props.children[1].props.id.split("-")[0];
+                    if (topkey == temp) {
+                      return htmlAnswer[key];
+                    } else {
+                      return null;
+                    }
                   }
                 }
-              }
-              )
-              }
-              <button className="QuesAns" onClick={deleteQuestion}>Delete a Question</button>
+                )
+                }
+                <button className="QuesAns" onClick={deleteQuestion}>Delete a Question</button>
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
 
-      <button  style={{ position:'relative', right:'20px' }} onClick={addQuestion}>Add a Question</button>
-      <br />
-      <button
-        type="submit"
-        style={{ position:'relative', right:'20px' }}
-        onClick={(e) => {
-          props.obj.apiCallToCreateTest(e);
-        }}
-      >
-        Save Test & Close
-      </button>
-      <button
-       style={{ position:'relative', right:'20px' }}
-        onClick={(e) => {
-          e.preventDefault();
-          props.obj.showTab("LAYOUT");
-        }}
-      >
-        Next
-      </button>
-    </div>
+      <Grid container spacing={3}>
+        <Grid item xs={12} >
+          <button style={{ position: 'relative', right: '20px' }} onClick={addQuestion}>Add a Question</button>
+          <button
+            type="submit"
+            style={{ position: 'relative', right: '20px' }}
+            onClick={(e) => {
+              props.obj.apiCallToCreateTest(e);
+            }}
+          >
+            Save Test & Close
+          </button>
+          <button
+            style={{ position: 'relative', right: '20px' }}
+            onClick={(e) => {
+              e.preventDefault();
+              props.obj.showTab("LAYOUT");
+            }}
+          >
+            Next
+          </button>
+
+        </Grid>
+      </Grid>
+    </>
   );
 }
 
