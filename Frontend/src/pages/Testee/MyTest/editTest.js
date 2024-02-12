@@ -198,6 +198,12 @@ function EditTest(props) {
       }
     }));
   }
+
+  function mainObjectRemover(e,property,questionNo,type){
+    let tempObj = mainObj;
+    delete tempObj[property][questionNo][type];
+    setMainObj(tempObj);
+  }
   // useEffect(() => {
   // console.log("mainObj", mainObj);
   // }, [mainObj]);
@@ -290,11 +296,10 @@ function EditTest(props) {
       <StepsHeader obj={{ setTabSelected, tabSelected, showTab, mainObjectAdder }} />
       <PropertiesStep obj={{ mainObjectAdderForProperties, showTab, tabSelected, mainObj, handleSaveTest, apiCallToCreateTest }} />
       <CategoriesStep obj={{ mainObjectAdder, showTab, tabSelected, setCategoryStore, categoryStore, apiCallToCreateTest, addCategoryStoreToMain, setNewCategoryCreated, mainObj }} />
-      <QuestionStep obj={{ mainObjectAdder, showTab, tabSelected, setCategoryStore, categoryStore, mainObj, apiCallToCreateTest, mainObjectAdder, getMainObj, newCategoryCreated }} />
+      <QuestionStep obj={{ mainObjectAdder, showTab, tabSelected, setCategoryStore, categoryStore, mainObj, apiCallToCreateTest, mainObjectAdder, getMainObj, newCategoryCreated,mainObjectRemover }} />
       <TestLayout obj={{ mainObjectAdder, showTab, tabSelected, mainObjectAdderForLayout, mainObj, apiCallToCreateTest }} />
       <ResultStructureStep obj={{ showTab, tabSelected, mainObjectAdderForResultStructure, mainObj, apiCallToCreateTest }} />
       <AutomaticText obj={{ mainObjectAdderForAutomaticText, showTab, tabSelected, categoryStore, mainObj, apiCallToCreateTest }} />
-
     </div>
   </>
 

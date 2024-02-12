@@ -492,6 +492,7 @@ function QuestionStep(props) {
     }
     setLength(props.obj.categoryStore.length);
   }, [props.obj.newCategoryCreated]);
+  console.log(props.obj.mainObj);
   // console.log(props.obj.mainObj["questions"]);
   // console.log(Object.keys(props.obj.categoryStore));
   function addQuestion() {
@@ -716,6 +717,8 @@ function QuestionStep(props) {
         delete newState[lastQuestionKey];
         return newState;
       });
+
+      props.obj.mainObjectRemover({ target: { id: lastQuestionKey, value: '' } }, "questions", lastQuestionKey, 'question');
 
       // Decrease the question counter
       --questionCounter;
