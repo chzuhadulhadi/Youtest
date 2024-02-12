@@ -1004,9 +1004,7 @@ function QuestionStep(props) {
             </div>
           );
         })}
-      </div>
-
-      <Grid container spacing={3}>
+        <Grid container spacing={3}>
         <Grid item xs={12} >
           <button style={{ position: 'relative', right: '20px' }} onClick={addQuestion}>Add a Question</button>
           <button
@@ -1030,6 +1028,9 @@ function QuestionStep(props) {
 
         </Grid>
       </Grid>
+      </div>
+
+      
     </>
   );
 }
