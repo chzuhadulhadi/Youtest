@@ -127,9 +127,17 @@ const [mainObj, setMainObj] = useState(
   }
 
   function mainObjectRemover(e,property,questionNo,type){
-    let tempObj = mainObj;
+    try{
+      let tempObj = mainObj;
+    
     delete tempObj[property][questionNo][type];
     setMainObj(tempObj);
+    }
+    catch
+    {
+      console.log("error")
+    }
+    
   }
   // useEffect(() => {
   // console.log("mainObj", mainObj);

@@ -166,6 +166,9 @@ function Home({ loginCheck }) {
                   Service Packages for every need. <br />
                 </p>
                 <div className="Line"></div>
+                <br/>
+                <br/>
+                <br/>
                 <Grid container spacing={2}>
                   {packages.map((item, index) => (
                     <Grid item xs={12} sm={6} md={4}>

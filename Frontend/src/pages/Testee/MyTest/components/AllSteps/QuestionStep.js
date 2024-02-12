@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { serverImageUrl } from "../../../../../apiCalls/apiRoutes";
 import { useHistory } from "react-router-dom";
 import XLSX from 'sheetjs-style';
-import { Grid } from '@mui/material';
+import { Grid, Box } from '@mui/material';
 // import '../../style.css'
 import "./steps.css";
 
@@ -130,8 +130,8 @@ function QuestionStep(props) {
           const index = key.split("question")[1];
           newState[key] = (
             <>
-              <div id={key} className="QuesAns">
-                <div id="singleQuestion" className="question">
+              <Grid id={key} className="QuesAns" container>
+                <Grid id="singleQuestion" className="question" xs={12}>
                   <label className="form-label">Question</label>
                   <input
                     type="file"
@@ -164,26 +164,27 @@ function QuestionStep(props) {
                     required
                     defaultValue={questionsData[key].question}
                   />
-                </div>
-                {Object.keys(props.obj.categoryStore).length > 0 &&
-                  <select
-                    name="selectCategory"
-                    className="select-category question-div"
-                    id={"question" + index}
-                    defaultValue={props.obj.mainObj["questions"][`question${index}`]?.categoryName}
-                    onChange={(e) => categoryValueAdder(e, "categoryName")}
-                  >
-                    <option>Select Category</option>
-                    {Object.keys(props.obj.categoryStore).map((key, index) => {
-                      return (
-                        <option value={props.obj.categoryStore[key]["categoryName"]}>
-                          {props.obj.categoryStore[key]["categoryName"]}
-                        </option>
-                      );
-                    })}
-                  </select>
-                }
-                <div style={{ display: 'flex' }}>
+                  {Object.keys(props.obj.categoryStore).length > 0 &&
+                    <select
+                      name="selectCategory"
+                      className="select-category question-div"
+                      id={"question" + index}
+                      defaultValue={props.obj.mainObj["questions"][`question${index}`]?.categoryName}
+                      onChange={(e) => categoryValueAdder(e, "categoryName")}
+                    >
+                      <option>Select Category</option>
+                      {Object.keys(props.obj.categoryStore).map((key, index) => {
+                        return (
+                          <option value={props.obj.categoryStore[key]["categoryName"]}>
+                            {props.obj.categoryStore[key]["categoryName"]}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  }
+                </Grid>
+
+                <Grid xs={12}>
                   <input
                     id={"freeText" + index}
                     name={"question" + index}
@@ -195,18 +196,18 @@ function QuestionStep(props) {
                   <label className="form-label question-div" class="free-text-label question-div">
                     Free Text
                   </label>
-                </div>
-
-                <button
-                  className="add-answer-text question-div"
-                  id={"answer" + answerCounter}
-                  name={"question" + index}
-                  onClick={(e) => addHtmlAnswer(e)}
-                >
-                  Add Answer
-                </button>
-
-              </div>
+                </Grid>
+                <Grid item xs={12}>
+                  <button
+                    className="add-answer-text question-div"
+                    id={"answer" + answerCounter}
+                    name={"question" + index}
+                    onClick={(e) => addHtmlAnswer(e)}
+                  >
+                    Add Answer
+                  </button>
+                </Grid>
+              </Grid>
             </>
           );
           ++questionCounter;
@@ -428,19 +429,20 @@ function QuestionStep(props) {
     var temp = e;
     temp.target.value = e.target.checked == true ? 1 : 0;
     // e.target.value == 0 ? document.getElementById("freeTextField" + str[1]).setAttribute("hidden", true) :
-    //     document.getElementById("freeTextField" + str[1]).removeAttribute("hidden")
+    // document.getElementById("freeTextField" + str[1]).removeAttribute("hidden")
 
     props.obj.mainObjectAdder(temp, "freeText", e.target.name, "freeText");
   }
 
   function handleCollapse(id) {
     var question = document.getElementById(id);
+    var delbtn =document.getElementById('del'+id);
     var btns = question.querySelector("#collapse-button");
     btns.innerHTML == "-" ? (btns.innerHTML = "+") : (btns.innerHTML = "-");
-    var answers = question.querySelectorAll(".QuesAns ");
+    delbtn.style.display = btns.innerHTML == "+" ? "none" : "block";
+    var answers = question.querySelectorAll(".squestion-div");
     answers.forEach((answer) => {
-      var display = answer.style.display == "none" ? "block" : "none";
-
+      var display = btns.innerHTML == "+" ? "none" : "block";
       answer.style.display = display;
     });
 
@@ -451,9 +453,19 @@ function QuestionStep(props) {
 
     for (let question of allQuestions) {
       var answers = question.querySelectorAll(".question-div");
+
+      var btns = question.querySelector("#collapse-button");
+      allQUestionView == "See Only Questions" ? (btns.innerHTML = "+") : (btns.innerHTML = "-");
       answers.forEach((answer) => {
-        var display = answer.style.display == "none" ? "block" : "none";
-        answer.style.display = display;
+        console.log(answer);
+        if (allQUestionView == "See Only Questions") {
+          answer.style.display = "none";
+        }
+        else {
+          answer.style.display = "block";
+        }
+        // var display = answer.style.display == "none" ? "block" : "none";
+        // answer.style.display = display;
       });
     }
     allQUestionView == "See Only Questions"
@@ -500,8 +512,8 @@ function QuestionStep(props) {
       let name = Object.assign({}, prevState);
       name["question" + questionCounter] = (
         <>
-          <div id={"question" + questionCounter}>
-            <div id="singleQuestion" className="question">
+        <Grid id={"question" + questionCounter} className="all-questions">
+          <Grid id="singleQuestion" className="question" xs={12}>
               <label className="form-label">Question</label>
               <input
                 type="file"
@@ -527,7 +539,8 @@ function QuestionStep(props) {
                 className="form-control mb-3 pt-3 pb-3"
                 required
               />
-            </div>
+            </Grid>
+            <Grid xs={12}>
             <label className=" form-label" hidden></label>
             <div>
               {Object.keys(props.obj.categoryStore).length != 0 && <select
@@ -559,11 +572,13 @@ function QuestionStep(props) {
               </div>
 
             </div>
+            </Grid>
             {/* <div className='text-area-div' id={"freeTextField" + questionCounter} hidden>
                         <label className="form-label">Answer</label>
                         <textarea ></textarea>
                     </div> */}
             {/* <h5 className='add-answer-text' id={"answer" + questionCounter} name={"question" + questionCounter} onClick={(e) => addHtmlAnswer(e)} >+ Answer</h5> */}
+            <Grid item xs={12}>
             <button
 
               className="add-answer-text question-div"
@@ -574,8 +589,10 @@ function QuestionStep(props) {
               Add Answer
             </button>
 
-            <br />
-          </div>
+            </Grid>
+          
+          </Grid>
+
         </>
       );
       setQuestionCount((prevCount) => prevCount + 1);
@@ -805,7 +822,6 @@ function QuestionStep(props) {
                   Free Text
                 </label>
               </div>
-
             </div>
             <button
               className="add-answer-text question-div"
@@ -970,70 +986,76 @@ function QuestionStep(props) {
             />
           </div>
         </div>
-        {Object.keys(html).map(function (topkey, i) {
-          return (
-            <div key={i}>
-              <div
-                style={{ display: "block" }}
-                id={"all-questions-" + i}
-                className="all-questions"
-              >
-                <button
-                  id="collapse-button"
-                  onClick={() => handleCollapse("all-questions-" + i)}
-                >
-                  -
-                </button>
-                <div className="QuesAns">
-                  {html[topkey]}
-                </div>
-                {Object.keys(htmlAnswer).map(function (key, i) {
-                  {
-                    var temp =
-                      htmlAnswer[
-                        key
-                      ]?.props.children?.props.children[1].props.id.split("-")[0];
-                    if (topkey == temp) {
-                      return htmlAnswer[key];
-                    } else {
-                      return null;
-                    }
-                  }
-                }
-                )
-                }
-                <button className="QuesAns" onClick={deleteQuestion}>Delete a Question</button>
-              </div>
-            </div>
-          );
-        })}
         <Grid container spacing={3}>
-        <Grid item xs={12} >
-          <button style={{ position: 'relative', right: '20px' }} onClick={addQuestion}>Add a Question</button>
-          <button
-            type="submit"
-            style={{ position: 'relative', right: '20px' }}
-            onClick={(e) => {
-              props.obj.apiCallToCreateTest(e);
-            }}
-          >
-            Save Test & Close
-          </button>
-          <button
-            style={{ position: 'relative', right: '20px' }}
-            onClick={(e) => {
-              e.preventDefault();
-              props.obj.showTab("LAYOUT");
-            }}
-          >
-            Next
-          </button>
-
+          {Object.keys(html).map(function (topkey, i) {
+            return (
+              <>
+                <Grid item xs={12} id={"all-questions-" + i}>
+                  <Grid container  key={i} className="all-questions">
+                    <Grid item xs={12} >
+                      <button
+                        id="collapse-button"
+                        onClick={() => handleCollapse("all-questions-" + i)}
+                      >
+                        -
+                      </button>
+                      </Grid>
+                      <Grid xs={12} className="QuesAns squestion-div">
+                        {html[topkey]}
+                      </Grid>
+                      <Grid xs={12} className="QuesAns question-div squestion-div">
+                        {Object.keys(htmlAnswer).map(function (key, i) {
+                          {
+                            var temp =
+                              htmlAnswer[
+                                key
+                              ]?.props.children?.props.children[1].props.id.split("-")[0];
+                            if (topkey == temp) {
+                              return htmlAnswer[key];
+                            } else {
+                              return null;
+                            }
+                          }
+                        }
+                        )
+                        }
+                      </Grid>
+                    </Grid>
+                </Grid>
+                <Grid item xs={12} id={"delall-questions-" + i}   >
+                <button className="question-div QuesAns" onClick={deleteQuestion}>Delete a Question</button>
+                </Grid>
+              </>
+            );
+          })}
         </Grid>
-      </Grid>
+        <Grid container spacing={3}>
+          <Grid item xs={12} >
+            <button style={{ position: 'relative', right: '20px' }} onClick={addQuestion}>Add a Question</button>
+            <button
+              type="submit"
+              style={{ position: 'relative', right: '20px' }}
+              onClick={(e) => {
+                props.obj.apiCallToCreateTest(e);
+              }}
+            >
+              Save Test & Close
+            </button>
+            <button
+              style={{ position: 'relative', right: '20px' }}
+              onClick={(e) => {
+                e.preventDefault();
+                props.obj.showTab("LAYOUT");
+              }}
+            >
+              Next
+            </button>
+
+          </Grid>
+        </Grid>
       </div>
 
-      
+
     </>
   );
 }
