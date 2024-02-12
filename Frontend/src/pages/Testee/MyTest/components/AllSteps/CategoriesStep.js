@@ -13,7 +13,8 @@ function CategoriesStep(props) {
   const [showEditModal, setShowEditModal] = useState(false);
   const [isFormVisible, setFormVisibility] = useState(false);
 
-  const toggleFormVisibility = () => {
+  const toggleFormVisibility = (e) => {
+    e.preventDefault();
     setFormVisibility(!isFormVisible);
   };
   const [selectedCat, setSelectedCat] = useState({
