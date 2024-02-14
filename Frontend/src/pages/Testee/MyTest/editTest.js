@@ -200,9 +200,22 @@ function EditTest(props) {
   }
 
   function mainObjectRemover(e,property,questionNo,type){
-    let tempObj = mainObj;
-    delete tempObj[property][questionNo][type];
+    try{
+      let tempObj = mainObj;
+    //we are deleting question0 from the mainObj also want to delete question0-answer0 from the mainObj
+    Object.keys(tempObj[property]).forEach((key) => {
+      if (key.includes(questionNo)) {
+        console.log("key", key);
+        delete tempObj[property][key];
+      }
+    });
     setMainObj(tempObj);
+    }
+    catch
+    {
+      console.log("error")
+    }
+    
   }
   // useEffect(() => {
   // console.log("mainObj", mainObj);
