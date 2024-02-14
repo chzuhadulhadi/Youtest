@@ -16,7 +16,7 @@ function AutomaticText(props) {
     () => EditorState.createEmpty(),)
   const [beforeTestTextHtml, setBeforeTestTextHtml] = useState()
   const [currentText, setCurrentText] = useState()
-console.log(props.obj?.mainObj);
+  console.log(props.obj?.mainObj);
   useEffect(() => {
 
     let html = convertToHTML(beforeTextState.getCurrentContent());
@@ -56,7 +56,7 @@ console.log(props.obj?.mainObj);
               className="automatic-text-select-cat"
               onChange={(e) => AutomaticTextAdder(e, "category")}
             >
-              <option style={{backgroundColor:'yellow'}}>Overall Score</option>
+              <option style={{ backgroundColor: 'yellow' }}>Overall Score</option>
               {Object.keys(props.obj.categoryStore).map((ele) => {
                 return (
                   <option value={props.obj.categoryStore[ele].categoryName}>
@@ -243,7 +243,7 @@ console.log(props.obj?.mainObj);
                     className="automatic-text-select-cat"
                     onChange={(e) => AutomaticTextAdder(e, "category")}
                     value={condition.category}
-                    style={{backgroundColor:condition.category==='Overall Score' && 'yellow'}}
+                    style={{ backgroundColor: condition.category === 'Overall Score' && 'yellow' }}
                   >
                     <option>Overall Score</option>
                     {Object.keys(props.obj.categoryStore).map((ele) => {
@@ -378,72 +378,69 @@ console.log(props.obj?.mainObj);
                 :
                 <div key={key}>
                   <div className="questionSetter">
-
-                      <div className="label">
-                      <label className="form-label">Choose Category</label>
-                      <label className="form-label">Minimum Value</label>
-                    <label className="form-label">Maximum Value</label>
-                    <label className="form-label">Text for the range</label>
-                      </div>
-                    
-                    <div className="input">
-                    <select
-                      id={key}
-                      className="automatic-text-select-cat"
-                      onChange={(e) => AutomaticTextAdder(e, "category")}
-                    // value={condition.category}
-                    >
-                      <option>Overall Score</option>
-                      {Object.keys(props.obj.categoryStore).map((ele) => {
-                        return (
-                          <option
-                            key={ele}
-                            value={props.obj.categoryStore[ele].categoryName}
-                          >
-                            {props.obj.categoryStore[ele].categoryName}
-                          </option>
-                        );
-                      })}
-                    </select>
-
-                    <input
-                      id={key}
-                      type="number"
-                      name="min"
-                      onChange={(e) => AutomaticTextAdder(e, "min")}
-                      placeholder="Min Value"
-                      className="form-control mb-3 pt-3 pb-3"
-                      required
-                    // value={condition.min}
-                    />
-                    
-                    <input
-                      id={key}
-                      type="number"
-                      name="max"
-                      onChange={(e) => AutomaticTextAdder(e, "max")}
-                      placeholder="Max Value"
-                      className="form-control mb-3 pt-3 pb-3"
-                      required
-                    // value={condition.max}
-                    />
-                    
-                    <input
-                      id={key}
-                      type="text"
-                      name="text"
-                      onChange={(e) => AutomaticTextAdder(e, "text")}
-                      placeholder="Enter text"
-                      className="form-control mb-3 pt-3 pb-3"
-                      required
-                    // value={condition.text}
-                    />
+                    <div className="label">
                     </div>
-                    <button style={{position:"relative",right:"20px"}} type='button' onClick={deleteRule}>Delete Rule</button>
+                    <label className="form-label">Choose Category</label>
+
+                      <select
+                        id={key}
+                        className="automatic-text-select-cat"
+                        onChange={(e) => AutomaticTextAdder(e, "category")}
+                      // value={condition.category}
+                      >
+                        <option>Overall Score</option>
+                        {Object.keys(props.obj.categoryStore).map((ele) => {
+                          return (
+                            <option
+                              key={ele}
+                              value={props.obj.categoryStore[ele].categoryName}
+                            >
+                              {props.obj.categoryStore[ele].categoryName}
+                            </option>
+                          );
+                        })}
+                      </select>
+                      <label className="form-label">Minimum Value</label>
+
+                      <input
+                        id={key}
+                        type="number"
+                        name="min"
+                        onChange={(e) => AutomaticTextAdder(e, "min")}
+                        placeholder="Min Value"
+                        className="form-control mb-3 pt-3 pb-3"
+                        required
+                      // value={condition.min}
+                      />
+                      <label className="form-label">Maximum Value</label>
+
+                      <input
+                        id={key}
+                        type="number"
+                        name="max"
+                        onChange={(e) => AutomaticTextAdder(e, "max")}
+                        placeholder="Max Value"
+                        className="form-control mb-3 pt-3 pb-3"
+                        required
+                      // value={condition.max}
+                      />
+                      <label className="form-label">Text for the range</label>
+
+                      <input
+                        id={key}
+                        type="text"
+                        name="text"
+                        onChange={(e) => AutomaticTextAdder(e, "text")}
+                        placeholder="Enter text"
+                        className="form-control mb-3 pt-3 pb-3"
+                        required
+                      // value={condition.text}
+                      />
+                    <button style={{ position: "relative", right: "20px" }} type='button' onClick={deleteRule}>Delete Rule</button>
 
 
 
-                  
+
                     {/* <Editor
 
                     onEditorStateChange={setBeforeTextState}
@@ -457,10 +454,10 @@ console.log(props.obj?.mainObj);
                 </div>
             );
           })}
-          
-          <button  style={{position:"relative",right:"20px"}} onClick={addAutomatictextRule}>Add a rule For Category</button>
-          <button type='button' style={{position:"relative",right:"20px"}} onClick={addQuestiontextRule}>Add a rule For Question</button>
-          <button type="submit" style={{position:"relative",right:"20px"}}>Save Test & Close </button>
+
+          <button style={{ position: "relative", right: "20px" }} onClick={addAutomatictextRule}>Add a rule For Category</button>
+          <button type='button' style={{ position: "relative", right: "20px" }} onClick={addQuestiontextRule}>Add a rule For Question</button>
+          <button type="submit" style={{ position: "relative", right: "20px" }}>Save Test & Close </button>
         </form>
       </div>
     </div>
