@@ -16,7 +16,7 @@ function AutomaticText(props) {
     () => EditorState.createEmpty(),)
   const [beforeTestTextHtml, setBeforeTestTextHtml] = useState()
   const [currentText, setCurrentText] = useState()
-
+console.log(props.obj?.mainObj);
   useEffect(() => {
 
     let html = convertToHTML(beforeTextState.getCurrentContent());
@@ -200,11 +200,11 @@ function AutomaticText(props) {
                         console.log(question);
                         if (question) {
                           const answers = Object.keys(props.obj.mainObj.questions)
-
                             .filter((ansEle) => ansEle.startsWith(ele + "-answer"))
                             .map((ansEle) => {
                               const answer = props.obj.mainObj.questions[ansEle].answer;
                               return (
+                                answer?.length > 0 &&
                                 <option key={ansEle} value={answer}>
                                   {answer}
                                 </option>
@@ -315,6 +315,7 @@ function AutomaticText(props) {
                             .map((ansEle) => {
                               const answer = props.obj.mainObj.questions[ansEle].answer;
                               return (
+                                answer?.length > 0 &&
                                 <option key={ansEle} value={answer}>
                                   {answer}
                                 </option>
