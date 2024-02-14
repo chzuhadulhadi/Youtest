@@ -176,7 +176,7 @@ function EditTest(props) {
         navigate('/dashboard/mytest')
       })
       .catch((err) => {
-        showToastMessage(err?.response?.data?.message, "red", 2);
+        showToastMessage("Please Fill all required fields", "red", 2);
       })
   }
 
