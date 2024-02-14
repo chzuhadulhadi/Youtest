@@ -167,7 +167,7 @@ function TestLayout(props) {
               <svg style={{ position: 'absolute' }} width="800" height="10"><line x1="500" y1="10" x2="600" y2="10" stroke="black" /></svg>
             </div>
             <div style={{ position: 'absolute', marginTop: '20px' }}>
-              <svg style={{ position: 'absolute' }} width="800" height="40"><line x1="200" y1="30" x2="600" y2="10" stroke="black" /></svg>
+              <svg style={{ position: 'absolute' }} width="800" height="40"><line x1="250" y1="30" x2="600" y2="10" stroke="black" /></svg>
             </div>
             <h3 className="p-5">#4 - My Questionaire</h3>
 
@@ -181,7 +181,7 @@ function TestLayout(props) {
               <svg style={{ position: 'absolute' }} width="600" height="30"><line x1="300" y1="28" x2="600" y2="0" stroke="black" /></svg>
             </div>
             <div style={{ position: 'absolute', marginTop: '-20px' }}>
-              <svg style={{ position: 'absolute' }} width="600" height="50"><line x1="100" y1="0" x2="600" y2="50" stroke="black" /></svg>
+              <svg style={{ position: 'absolute' }} width="600" height="50"><line x1="150" y1="0" x2="600" y2="50" stroke="black" /></svg>
             </div>
             <div
               className="answer"
@@ -193,7 +193,7 @@ function TestLayout(props) {
                 <p>Answer 2</p>
               </div>
               <div style={{ position: 'absolute', marginTop: '0px' }}>
-                <svg style={{ position: 'absolute' }} width="600" height="70"><line x1="200" y1="10" x2="600" y2="70" stroke="black" /></svg>
+                <svg style={{ position: 'absolute' }} width="600" height="70"><line x1="230" y1="10" x2="600" y2="70" stroke="black" /></svg>
               </div>
               <div style={{ display: 'flex' }}>
                 <p style={{ paddingRight: '10rem' }}>Answer 3</p>
@@ -277,7 +277,7 @@ function TestLayout(props) {
           </div>
 
           <div ref={QuestionTextColor} className="color-picker" style={{position:"relative",right:"20px"}}>
-            <button onClick={() => setShowColorPickerForQuestionTextColor(!showColorPickerForQuestionTextColor)}>Question Text CLR</button>
+            <button onClick={() => setShowColorPickerForQuestionTextColor(!showColorPickerForQuestionTextColor)}>Question Text COLOR</button>
             {showColorPickerForQuestionTextColor && <ChromePicker
               color={textLayout.questionTextColor}
               onChangeComplete={(color) => {
