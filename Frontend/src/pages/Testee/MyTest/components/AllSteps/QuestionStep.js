@@ -131,7 +131,7 @@ function QuestionStep(props) {
           newState[key] = (
             <>
               <Grid id={key} className="QuesAns" container>
-                <Grid id="singleQuestion" className="question" xs={12}>
+                <Grid id="singleQuestion" className="question" xs={9}>
                   <label className="form-label">Question</label>
                   <input
                     type="file"
@@ -183,8 +183,7 @@ function QuestionStep(props) {
                     </select>
                   }
                 </Grid>
-
-                <Grid xs={12}>
+                <Grid item xs={3}>
                   <input
                     id={"freeText" + index}
                     name={"question" + index}
@@ -196,8 +195,6 @@ function QuestionStep(props) {
                   <label className="form-label question-div" class="free-text-label question-div">
                     Free Text
                   </label>
-                </Grid>
-                <Grid item xs={12}>
                   <button
                     className="add-answer-text question-div"
                     id={"answer" + answerCounter}
@@ -511,7 +508,7 @@ function QuestionStep(props) {
       name["question" + questionCounter] = (
         <>
           <Grid id={"question" + questionCounter} className="all-questions" container>
-            <Grid id="singleQuestion" className="question" xs={12} item>
+            <Grid id="singleQuestion" className="question" xs={9} item>
               <label className="form-label">Question</label>
               <input
                 type="file"
@@ -538,7 +535,7 @@ function QuestionStep(props) {
                 required
               />
             </Grid>
-            <Grid xs={12} item>
+            <Grid xs={3} item>
               <label className=" form-label" hidden></label>
               <div>
                 {Object.keys(props.obj.categoryStore).length != 0 && <select
@@ -570,13 +567,11 @@ function QuestionStep(props) {
                 </div>
 
               </div>
-            </Grid>
             {/* <div className='text-area-div' id={"freeTextField" + questionCounter} hidden>
                         <label className="form-label">Answer</label>
                         <textarea ></textarea>
                     </div> */}
             {/* <h5 className='add-answer-text' id={"answer" + questionCounter} name={"question" + questionCounter} onClick={(e) => addHtmlAnswer(e)} >+ Answer</h5> */}
-            <Grid item xs={12}>
               <button
                 className="add-answer-text question-div"
                 id={"answer" + questionCounter}
@@ -661,13 +656,13 @@ function QuestionStep(props) {
                     Type
                   </label>
                   <select
-                    defaultValue={"Default"}
+                    defaultValue={"Select Option"}
                     className="form-control mb-3 pt-3 pb-3 answers-field-points"
                     id={"question" + qstnCounter + "-answer" + answerCounter}
                     onChange={(e) => answerAdder(e, "point")}
                   // style={{ backgroundColor: props.mainObj?.questions[`question${qstnCounter}`]?.point == 0 ? 'red' : 'green' }}
                   >
-                    <option value={-1} style={{ backgroundColor: 'white' }}>Default</option>
+                    <option value={-1} style={{ backgroundColor: 'white' }}>Select Option</option>
                     <option value={0} style={{ color: 'red', backgroundColor: 'white' }}>False</option>
                     <option value={10} style={{ color: 'green', backgroundColor: 'white' }}>True</option>
                   </select>
@@ -715,29 +710,34 @@ function QuestionStep(props) {
     }
   }
 
-  function deleteQuestion() {
-    if (questionCounter > 0) {
-      const lastQuestionKey = `question${questionCounter - 1}`;
+  function deleteQuestion(topkey) {
+    const questionKey=topkey;
+    if(questionCounter>0){
       setQuestionCount((prevCount) => prevCount - 1);
 
       setHtml((prevState) => {
         const newState = { ...prevState };
-        delete newState[lastQuestionKey];
+        delete newState[questionKey];
         return newState;
       });
-
       setHtmlAnswer((prevState) => {
         const newState = { ...prevState };
-        delete newState[lastQuestionKey];
+        Object.keys(htmlAnswer).map(function (key, i) {
+          {
+            var temp =
+              htmlAnswer[
+                key
+              ]?.props.children?.props.children[1].props.id.split("-")[0];
+            if (topkey == temp) {
+              delete newState[key];
+              --answerCounter;
+            }
+          }
+        });
         return newState;
       });
-
-      props.obj.mainObjectRemover({ target: { id: lastQuestionKey, value: '' } }, "questions", lastQuestionKey, 'question');
-
-      // Decrease the question counter
+      props.obj.mainObjectRemover({ target: { id: questionKey, value: '' } }, "questions", questionKey, 'question');
       --questionCounter;
-      // Decrease the answer counter (assuming each question has a corresponding answer)
-      --answerCounter;
     }
   }
   const handleQuestionBank = (e) => {
@@ -1020,7 +1020,8 @@ function QuestionStep(props) {
                   </Grid>
                 </Grid>
                 <Grid item xs={12} id={"delall-questions-" + i}   >
-                  <button className="question-div QuesAns" onClick={deleteQuestion}>Delete a Question</button>
+                  <button className="question-div QuesAns" onClick={()=>deleteQuestion(topkey)
+                  }>Delete a Question</button>
                 </Grid>
               </>
             );
