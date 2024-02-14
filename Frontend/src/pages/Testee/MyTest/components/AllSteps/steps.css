@@ -35,8 +35,9 @@
 .text-type {
     width: 120px !important;
     height: 43px;
-    margin-top: 33px;
-    margin-left: 25px;
+    /* margin-top: 33px; */
+    /* margin-left: 25px; */
+    margin-bottom: 20px;
 }
 
 .add-answer-text {
