@@ -129,8 +129,13 @@ const [mainObj, setMainObj] = useState(
   function mainObjectRemover(e,property,questionNo,type){
     try{
       let tempObj = mainObj;
-    
-    delete tempObj[property][questionNo][type];
+    //we are deleting question0 from the mainObj also want to delete question0-answer0 from the mainObj
+    Object.keys(tempObj[property]).forEach((key) => {
+      if (key.includes(questionNo)) {
+        console.log("key", key);
+        delete tempObj[property][key];
+      }
+    });
     setMainObj(tempObj);
     }
     catch
@@ -233,7 +238,7 @@ const [mainObj, setMainObj] = useState(
       <QuestionStep obj={{ mainObjectAdder, showTab, tabSelected, setCategoryStore, categoryStore, mainObj, apiCallToCreateTest, mainObjectAdder, getMainObj, newCategoryCreated ,mainObjectRemover}} />
       <TestLayout obj={{ mainObjectAdder, showTab, tabSelected, mainObjectAdderForLayout, apiCallToCreateTest }} />
       <ResultStructureStep obj={{ showTab, tabSelected, mainObjectAdderForResultStructure, apiCallToCreateTest }} />
-      <AutomaticText obj={{ mainObjectAdderForAutomaticText, showTab, tabSelected, categoryStore, apiCallToCreateTest }} />
+      <AutomaticText obj={{ mainObjectAdderForAutomaticText, showTab, tabSelected, categoryStore, apiCallToCreateTest,mainObj,getMainObj }} />
 
     </div>
   </>
