@@ -131,8 +131,10 @@ function QuestionStep(props) {
           newState[key] = (
             <>
               <Grid id={key} className="QuesAns" container>
-                <Grid id="singleQuestion" className="question" xs={9}>
+                <Grid id="singleQuestion" className="question" xs={12}>
                   <label className="form-label">Question</label>
+                </Grid>
+                <Grid item xs={10}>
                   <input
                     type="file"
                     id={`question${index}-image`}
@@ -140,6 +142,7 @@ function QuestionStep(props) {
                       handleFileSelect(e);
                     }}
                   />
+
                   {
                     questionsData[key].image ?
                       <img id={`img_question${index}`}
@@ -154,16 +157,8 @@ function QuestionStep(props) {
                         style={{ position: 'fixed', right: '-200px', top: '-200px' }}
                       />
                   }
-                  <input
-                    id={key}
-                    type="text"
-                    name="categoryField"
-                    onChange={(e) => categoryValueAdder(e, "question")}
-                    placeholder="Question"
-                    className="form-control mb-3 pt-3 pb-3"
-                    required
-                    defaultValue={questionsData[key].question}
-                  />
+                </Grid>
+                <Grid item xs={2} sx={{ display: "flex", flexDirection: 'column' }}>
                   {Object.keys(props.obj.categoryStore).length > 0 &&
                     <select
                       name="selectCategory"
@@ -182,20 +177,35 @@ function QuestionStep(props) {
                       })}
                     </select>
                   }
+                  <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <input
+                      id={"freeText" + index}
+                      name={"question" + index}
+                      type="checkbox"
+                      className="free-text-check question-div"
+                      onChange={handleFreeTextChange}
+                      defaultChecked={questionsData[key].freeText}
+                    />
+                    <label className="form-label question-div" class="free-text-label question-div">
+                      Free Text
+                    </label>
+                  </div>
+                </Grid>
+                <Grid item xs={9}>
+                  <input
+                    id={key}
+                    type="text"
+                    name="categoryField"
+                    onChange={(e) => categoryValueAdder(e, "question")}
+                    placeholder="Question"
+                    className="form-control mb-3 pt-3 pb-3"
+                    required
+                    defaultValue={questionsData[key].question}
+                  />
                 </Grid>
                 <Grid item xs={3}>
-                  <input
-                    id={"freeText" + index}
-                    name={"question" + index}
-                    type="checkbox"
-                    className="free-text-check question-div"
-                    onChange={handleFreeTextChange}
-                    defaultChecked={questionsData[key].freeText}
-                  />
-                  <label className="form-label question-div" class="free-text-label question-div">
-                    Free Text
-                  </label>
                   <button
+                    style={{ position: 'relative', top: '-10px' }}
                     className="add-answer-text question-div"
                     id={"answer" + answerCounter}
                     name={"question" + index}
@@ -508,8 +518,10 @@ function QuestionStep(props) {
       name["question" + questionCounter] = (
         <>
           <Grid id={"question" + questionCounter} className="all-questions" container>
-            <Grid id="singleQuestion" className="question" xs={9} item>
+            <Grid id="singleQuestion" className="question" xs={12} item>
               <label className="form-label">Question</label>
+            </Grid>
+            <Grid xs={10} item>
               <input
                 type="file"
                 id={`question${questionCounter}-image`}
@@ -524,22 +536,12 @@ function QuestionStep(props) {
 
               //  src={serverImageUrl + props.obj.mainObj["questions"][`question${questionCounter}`]?.question} 
               />
-              <input
-                id={`question${questionCounter}`}
-                type="text"
-                name="categoryField"
-                value={props.obj.mainObj["questions"][`question${questionCounter}`]?.question}
-                onChange={(e) => categoryValueAdder(e, "question")}
-                placeholder="Question"
-                className="form-control mb-3 pt-3 pb-3"
-                required
-              />
+
             </Grid>
-            <Grid xs={3} item>
-              <label className=" form-label" hidden></label>
-              <div>
+            <Grid xs={2} item sx={{ display: 'flex', flexDirection: 'column' }}>
                 {Object.keys(props.obj.categoryStore).length != 0 && <select
                   onChange={(e) => categoryValueAdder(e, "categoryName")}
+                  className="select-category question-div"
                   id={"question" + questionCounter}
                   name={"question" + questionCounter}
                 >
@@ -551,8 +553,7 @@ function QuestionStep(props) {
                   ))}
                 </select>}
 
-                <div style={{ display: 'flex' }}
-                >
+                <div  style={{ display: 'flex', flexDirection: 'row' }}>
                   <input
                     id={"freeText" + questionCounter}
                     name={"question" + questionCounter}
@@ -565,15 +566,23 @@ function QuestionStep(props) {
                     Free Text
                   </label>
                 </div>
-
-              </div>
-            {/* <div className='text-area-div' id={"freeTextField" + questionCounter} hidden>
-                        <label className="form-label">Answer</label>
-                        <textarea ></textarea>
-                    </div> */}
-            {/* <h5 className='add-answer-text' id={"answer" + questionCounter} name={"question" + questionCounter} onClick={(e) => addHtmlAnswer(e)} >+ Answer</h5> */}
+            </Grid>
+            <Grid xs={9} item>
+              <input
+                id={`question${questionCounter}`}
+                type="text"
+                name="categoryField"
+                value={props.obj.mainObj["questions"][`question${questionCounter}`]?.question}
+                onChange={(e) => categoryValueAdder(e, "question")}
+                placeholder="Question"
+                className="form-control mb-3 pt-3 pb-3"
+                required
+              />
+            </Grid>
+            <Grid xs={3} item>
               <button
                 className="add-answer-text question-div"
+                style={{ position: 'relative', top: '-10px' }}
                 id={"answer" + questionCounter}
                 name={"question" + questionCounter}
                 onClick={(e) => addHtmlAnswer(e)}
@@ -711,8 +720,8 @@ function QuestionStep(props) {
   }
 
   function deleteQuestion(topkey) {
-    const questionKey=topkey;
-    if(questionCounter>0){
+    const questionKey = topkey;
+    if (questionCounter > 0) {
       setQuestionCount((prevCount) => prevCount - 1);
 
       setHtml((prevState) => {
@@ -764,7 +773,89 @@ function QuestionStep(props) {
       let name = Object.assign({}, prevState);
       name["question" + questionCounter] = (
         <>
-          <div id={"question" + questionCounter}>
+          <Grid id={"question" + questionCounter} className="all-questions" container>
+            <Grid id="singleQuestion" className="question" xs={12} item>
+              <label className="form-label">Question</label>
+            </Grid>
+            <Grid xs={10} item>
+              <input
+                type="file"
+                id={`question${questionCounter}-image`}
+                onChange={(e) => {
+                  handleFileSelect(e);
+                }}
+              />
+              {
+                question_data.image ?
+                  <img id={`img_question${questionCounter}`}
+                    height={'200px'}
+                    width={'200px'}
+                    src={question_data.image ? serverImageUrl + question_data.image : null}
+                  />
+                  :
+                  <img id={`img_question${questionCounter}`}
+                    height={'200px'}
+                    width={'200px'}
+                    style={{ position: 'fixed', right: '-200px', top: '-200px' }}
+                  />
+              }
+            </Grid>
+            <Grid xs={2} item sx={{ display: 'flex', flexDirection: 'column' }}>
+              {Object.keys(props.obj.categoryStore).length != 0 && <select
+                onChange={(e) => categoryValueAdder(e, "categoryName")}
+                className="select-category question-div"
+                id={"question" + questionCounter}
+                name={"question" + questionCounter}
+              >
+                <option>Select Category</option>
+                {Object.keys(props.obj.categoryStore).map((key, index) => (
+                  <option value={props.obj.categoryStore[key]["categoryName"]} key={index}>
+                    {props.obj.categoryStore[key]["categoryName"]}
+                  </option>
+                ))}
+              </select>}
+              <div  style={{ display: 'flex',flexDirection: 'row' }}>
+                <input
+                  id={"freeText" + questionCounter}
+                  name={"question" + questionCounter}
+                  type="checkbox"
+
+                  className="free-text-check question-div"
+                  onChange={handleFreeTextChange}
+                />
+                <label className="form-label question-div" class="free-text-label question-div">
+                  Free Text
+                </label>
+              </div>
+            </Grid>
+            <Grid xs={9} item>
+              <input
+
+                id={`question${questionCounter}`}
+                type="text"
+                name="categoryField"
+                value={question}
+                onChange={(e) => categoryValueAdder(e, "question")}
+                placeholder="Question"
+                className="form-control mb-3 pt-3 pb-3"
+                required
+              />
+            </Grid>
+            <Grid xs={3} item>
+              <button
+                className="add-answer-text question-div"
+                style={{ position: 'relative', top: '-10px' }}
+                id={"answer" + questionCounter}
+                name={"question" + questionCounter}
+                onClick={(e) => addHtmlAnswer(e)}
+              >
+                Add Answer
+              </button>
+
+            </Grid>
+
+          </Grid>
+          {/* <div id={"question" + questionCounter}>
             <div id="singleQuestion" className="question">
               <label className="form-label">Question</label>
               <input
@@ -777,7 +868,7 @@ function QuestionStep(props) {
               <img id={`img_question${questionCounter}`}
                 height={'200px'}
                 width={'200px'}
-                style={{ position: 'fixed', right: '-200px', top: '-200px' }}
+                
 
               />
               <input
@@ -830,7 +921,7 @@ function QuestionStep(props) {
             </button>
 
             <br />
-          </div>
+          </div> */}
         </>
       );
 
@@ -854,12 +945,20 @@ function QuestionStep(props) {
                   id={`question${questionCounter - 1}-answer${answerCounter}-image`}
                   onChange={handleAnswerFileSelect}
                 />
-                <img id={`img_question${questionCounter - 1}-answer${answerCounter}`}
-                  height={'200px'}
-                  width={'200px'}
-                  style={{ position: 'fixed', right: '-200px', top: '-200px' }}
-
-                />
+                {
+                  question_data[key].image ?
+                    <img id={`img_question${questionCounter - 1}-answer${answerCounter}`}
+                      height={'200px'}
+                      width={'200px'}
+                      src={question_data[key].image ? serverImageUrl + question_data[key].image : null}
+                    />
+                    :
+                    <img id={`img_question${questionCounter - 1}-answer${answerCounter}`}
+                      height={'200px'}
+                      width={'200px'}
+                      style={{ position: 'fixed', right: '-200px', top: '-200px' }}
+                    />
+                }
                 <input
                   id={`question${questionCounter - 1}-answer${answerCounter}`}
                   type="text"
@@ -1020,7 +1119,7 @@ function QuestionStep(props) {
                   </Grid>
                 </Grid>
                 <Grid item xs={12} id={"delall-questions-" + i}   >
-                  <button className="question-div QuesAns" onClick={()=>deleteQuestion(topkey)
+                  <button className="question-div QuesAns" onClick={() => deleteQuestion(topkey)
                   }>Delete a Question</button>
                 </Grid>
               </>
