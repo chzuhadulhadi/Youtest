@@ -105,7 +105,7 @@ const [mainObj, setMainObj] = useState(
         navigate('/dashboard/mytest')
       })
       .catch((err) => {
-        showToastMessage(err?.response?.data?.message, "red", 2);
+        showToastMessage('Please fill All required fields first', "red", 2);
       })
   }
 
