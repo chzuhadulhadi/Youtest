@@ -162,7 +162,7 @@ function PropertiesStep(props) {
                             name='timeLimit'
                             className="form-control mb-3 pt-3 pb-3"
                             placeholder="mins"
-                            defaultValue={props.obj.mainObj?.timeLimit}
+                            value={props.obj.mainObj?.timeLimit}
                             onChange={(e) => props.obj.mainObjectAdderForProperties(e, "timeLimit")}
                         />
                     </div>
