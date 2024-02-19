@@ -50,7 +50,7 @@ function SideBar(props) {
                     <li id="6" onClick={() => { navigate("/dashboard/PricingPlace") }}>
                         <a id="6">Pricing Place </a>
                     </li>
-                    {packageData.payment &&
+                    {packageData.payment ?
                         <div style={{ border: '1px solid white', margin: '10px', paddingInline: '10px', borderRadius: '10px' }}>
                             <li id="7">
                                 <h6 id="6">My package: {packageData.package.packageName} </h6>
@@ -58,7 +58,15 @@ function SideBar(props) {
                                 <h6 id="6">Remaining tests: {packageData.payment.RemainingNumberOfTests} </h6>
                                 <h6 id="6">Expiry date: {new Date(packageData.payment.expireDate).toDateString()} </h6>
                             </li>
-                        </div>
+                        </div>:
+                        <div style={{ border: '1px solid white', margin: '10px', paddingInline: '10px', borderRadius: '10px' }}>
+                        <li id="7">
+                            <h6 id="6">My package: {'None'} </h6>
+                            <h6 id="6">Sent Tests: 0 </h6>
+                            <h6 id="6">Remaining tests: 0 </h6>
+                            <h6 id="6">Expiry date: N/A </h6>
+                        </li>
+                    </div>
                     }
                     <li id="7" onClick={() => {
                         localStorage.removeItem('token')
