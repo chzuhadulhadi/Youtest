@@ -149,14 +149,14 @@ function TestLayout(props) {
               backgroundColor: textLayout.backgroundColor,
               color: textLayout.textColor,
               textAlign: "start",
-              position:"relative",right:"20px"
-          
+              position: "relative", right: "20px"
+
             }}
           >
 
             {textLayout.imageUrl ? (
               <>
-                <svg style={{ position: 'absolute' }} width="600" height="20"><line x1="250" y1="10" x2="750" y2="10" stroke="black" /></svg>
+                <svg style={{ position: 'absolute' }} width="600" height="20"><line x1="260" y1="10" x2="750" y2="10" stroke="black" marker-start="url(#arrow1)" /></svg>
 
                 <img style={{ height: '150px', width: '250px' }} src={`${serverImageUrl}${textLayout.imageUrl}`} alt="Selected Logo" />
               </>
@@ -164,10 +164,10 @@ function TestLayout(props) {
               <p style={{ height: '150px', width: '250px' }}>No file chosen</p>
             )}
             <div style={{ position: 'absolute', marginTop: '-60px' }}>
-              <svg style={{ position: 'absolute' }} width="800" height="10"><line x1="500" y1="10" x2="600" y2="10" stroke="black" /></svg>
+              <svg style={{ position: 'absolute' }} width="800" height="20"><line x1="500" y1="10" x2="600" y2="10" stroke="black" marker-start="url(#arrow1)"/></svg>
             </div>
             <div style={{ position: 'absolute', marginTop: '20px' }}>
-              <svg style={{ position: 'absolute' }} width="800" height="40"><line x1="250" y1="30" x2="600" y2="10" stroke="black" /></svg>
+              <svg style={{ position: 'absolute' }} width="800" height="40"><line x1="250" y1="30" x2="600" y2="10" stroke="black" marker-start="url(#arrow1)" /></svg>
             </div>
             <h3 className="p-5">#4 - My Questionaire</h3>
 
@@ -178,10 +178,19 @@ function TestLayout(props) {
               padding: '0.2rem 0.3rem'
             }}>What is Computer</h4>
             <div style={{ position: 'absolute', marginTop: '-50px' }}>
-              <svg style={{ position: 'absolute' }} width="600" height="30"><line x1="300" y1="28" x2="600" y2="0" stroke="black" /></svg>
+              <svg style={{ position: 'absolute' }} width="600" height="35">
+                <defs>
+                  <marker id="arrow1" markerWidth="10" markerHeight="10" refX="10" refY="3" orient="auto" fill="black">
+                    <path d="M9,0 L9,6 L0,3 z" />
+                  </marker>
+                </defs>
+                <line x1="300" y1="28" x2="600" y2="0" stroke="black" marker-start="url(#arrow1)" />
+              </svg>
+
             </div>
-            <div style={{ position: 'absolute', marginTop: '-20px' }}>
-              <svg style={{ position: 'absolute' }} width="600" height="50"><line x1="150" y1="0" x2="600" y2="50" stroke="black" /></svg>
+            <div style={{ position: 'absolute', marginTop: '-25px' }}>
+              <svg style={{ position: 'absolute' }} width="600" height="50">
+                <line x1="160" y1="10" x2="600" y2="50" stroke="black" marker-start="url(#arrow1)" /></svg>
             </div>
             <div
               className="answer"
@@ -193,7 +202,12 @@ function TestLayout(props) {
                 <p>Answer 2</p>
               </div>
               <div style={{ position: 'absolute', marginTop: '0px' }}>
-                <svg style={{ position: 'absolute' }} width="600" height="70"><line x1="230" y1="10" x2="600" y2="70" stroke="black" /></svg>
+                <svg style={{ position: 'absolute' }} width="600" height="70">
+                  <defs>
+                    <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" fill="black">
+                      <path d="M0,0 L0,6 L9,3 z" />
+                    </marker>
+                  </defs><line x1="240" y1="10" x2="600" y2="70" stroke="black" marker-start="url(#arrow1)" /></svg>
               </div>
               <div style={{ display: 'flex' }}>
                 <p style={{ paddingRight: '10rem' }}>Answer 3</p>
@@ -243,8 +257,8 @@ function TestLayout(props) {
             }
             }
           /> */}
-          <div ref={BackgroundColor} className="color-picker" style={{position:"relative",right:"20px"}}>
-            <button    onClick={() => setShowColorPickerForBackgroundColor(!showColorPickerForBackgroundColor)}>Background Color</button>
+          <div ref={BackgroundColor} className="color-picker" style={{ position: "relative", right: "20px" }}>
+            <button onClick={() => setShowColorPickerForBackgroundColor(!showColorPickerForBackgroundColor)}>Background Color</button>
             {showColorPickerForBackgroundColor && <ChromePicker
               color={textLayout.backgroundColor}
               onChangeComplete={(color) => {
@@ -254,7 +268,7 @@ function TestLayout(props) {
             />}
           </div>
 
-          <div ref={TextColor} className="color-picker" style={{position:"relative",right:"20px"}}>
+          <div ref={TextColor} className="color-picker" style={{ position: "relative", right: "20px" }}>
             <button onClick={() => setShowColorPickerForTextColor(!showColorPickerForTextColor)}>Text Color</button>
             {showColorPickerForTextColor && <ChromePicker
               color={textLayout.textColor}
@@ -265,7 +279,7 @@ function TestLayout(props) {
             />}
           </div>
 
-          <div ref={QuestionBackgroundColor} className="color-picker" style={{position:"relative",right:"20px"}}>
+          <div ref={QuestionBackgroundColor} className="color-picker" style={{ position: "relative", right: "20px" }}>
             <button onClick={() => setShowColorPickerForQuestionBackgroundColor(!showColorPickerForQuestionBackgroundColor)}>Question Bg Color</button>
             {showColorPickerForQuestionBackgroundColor && <ChromePicker
               color={textLayout.questionBackgroundColor}
@@ -276,7 +290,7 @@ function TestLayout(props) {
             />}
           </div>
 
-          <div ref={QuestionTextColor} className="color-picker" style={{position:"relative",right:"20px"}}>
+          <div ref={QuestionTextColor} className="color-picker" style={{ position: "relative", right: "20px" }}>
             <button onClick={() => setShowColorPickerForQuestionTextColor(!showColorPickerForQuestionTextColor)}>Question Text COLOR</button>
             {showColorPickerForQuestionTextColor && <ChromePicker
               color={textLayout.questionTextColor}
@@ -286,7 +300,7 @@ function TestLayout(props) {
               }
             />}
           </div>
-          <div ref={AnswerColor} className="color-picker"  style={{position:"relative",right:"20px"}}>
+          <div ref={AnswerColor} className="color-picker" style={{ position: "relative", right: "20px" }}>
             <button onClick={() => setShowColorPickerForAnswerColor(!showColorPickerForAnswerColor)}>Answer Color</button>
             {showColorPickerForAnswerColor && <ChromePicker
               color={textLayout.answerColor}
@@ -313,7 +327,7 @@ function TestLayout(props) {
           }}
           className=""
         >
-          <h3  style={{ marginLeft:'20px' }}>LAYOUT</h3>
+          <h3 style={{ marginLeft: '20px' }}>LAYOUT</h3>
           <TextLayouts />
         </form>
       </div>
