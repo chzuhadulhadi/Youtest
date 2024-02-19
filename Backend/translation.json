@@ -36,5 +36,14 @@
             "successMessage": "Question Bank Created",
             "errorMessage": "Some Error Occured"
         }
+    },
+    "packageError":
+    {
+        "english": {
+            "errorMessage": "In order to send tests, go to the pricing page to find the right package for you"
+        },
+        "hebrew": {
+            "errorMessage": "על מנת לשלוח מבחנים יש לעבור לדף המחירים ולרכוש את החבילה שמתאימה לך"
+        }
     }
 }
