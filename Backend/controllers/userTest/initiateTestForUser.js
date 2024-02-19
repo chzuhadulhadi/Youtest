@@ -36,10 +36,19 @@ module.exports = async function initiateTestForUser(req, res) {
 			.status(StatusCodes.OK)
 			.send({ message: translation["startTest"][language].successMessage, data, error: {} });
 	} catch (err) {
-		res.status(StatusCodes.METHOD_NOT_ALLOWED).send({
-			data: {},
-			message: translation["createTest"][language].errorMessage,
-			error: err.stack,
-		});
+		if (err.message.includes("packageId")) {
+			res.status(StatusCodes.BAD_REQUEST).send({
+				data: {},
+				message: translation["packageError"][language].errorMessage,
+				error: err.stack,
+			});
+		}
+		else {
+			res.status(StatusCodes.METHOD_NOT_ALLOWED).send({
+				data: {},
+				message: translation["createTest"][language].errorMessage,
+				error: err.stack,
+			});
+		}
 	}
 };
