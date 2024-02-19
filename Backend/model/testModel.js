@@ -5,7 +5,8 @@ module.exports = {
 		return await testService.getUserAllPreviousQuestions(userId);
 	},
 	createTest: async function (obj) {
-		const testObj = await testService.makeCreateTestObj(obj)
+		const testObj = await testService.makeCreateTestObj(obj);
+		console.log('testObj', testObj);
 		return await testService.createTest({ testObj, ...obj });
 	},
 	duplicateTest: async function (id) {
