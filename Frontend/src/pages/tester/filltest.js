@@ -185,7 +185,10 @@ function MainQuestionaire() {
       {//Test started and is valid
         (displayTest == 1 && invalidTest != 1 && !testCompleted) &&
         <div>
+          {
+            formObj?.layout?.imageUrl &&
           <img className="test-logo" src={serverUrl + formObj?.layout?.imageUrl} />
+          }
           {formObj.timeLimit > 0 && <h2 className="timer">
            <Countdown className="count-down" date={timeRemaining} />
           </h2>
