@@ -211,18 +211,33 @@ function SendTestFunctionality({ testId }) {
           <button
             onClick={async () => {
               setShowEditModal(false);
+              try{
               const resp = await apiCall("post", sendMailingList, dto, true);
+              
               if (resp.status === 200) {
                 console.log(resp.data.testUrl)
                 showToastMessage("Test's send successfully", "green", 1);
                 setTestUrl(resp.data.data[0].testUrl);
-              } else {
+              } 
+              }catch(err){
+                console.log(err);
+                if(err.response.status === 400){
+                  showToastMessage(
+                    err.response.data.message,
+                    "red",
+                    2
+                  );
+              }
+              else
+              {
                 showToastMessage(
-                  "Server Error Please try again later",
+                  "Server Error please try again later",
                   "red",
                   2
                 );
               }
+              }
+
             }}
           >
             Send
