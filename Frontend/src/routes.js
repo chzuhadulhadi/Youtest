@@ -34,6 +34,7 @@ import ForgotPassword from './pages/LoginPages/ForgotPassword';
 import Resetpassword from './pages/LoginPages/Resetpassword';
 import PricingPlace from './pages/LandingPage/PricingPlace';
 import Packages from './pages/admin/packages';
+import SuccessPage from './pages/payment/sucess';
 
 export default function Router() {
   const routes = useRoutes([
@@ -65,6 +66,10 @@ export default function Router() {
     {
       path: '/PricingPlace',
       element: <PricingPlace />,
+    },
+    {
+      path:'/dashboard/paymentsucess',
+      element:<SuccessPage/>
     },
     {
       path: '/addusersinlisting',
@@ -126,6 +131,7 @@ export default function Router() {
         { path: 'tests/:id?', element: <AdminEditTest /> },
         { path: 'results', element: <Results /> },
         { path: 'packages', element: <Packages /> },
+        
         // { path: 'questionaire-history', element: <MainQuestionaire /> },
         // { path: 'landing-pages', element: <LandingPages /> },
         // { path: 'my-landing-pages', element: <MainQuestionaire /> },

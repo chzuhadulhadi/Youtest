@@ -15,9 +15,9 @@ module.exports = {
 		const dataObj={
 				GroupPrivateToken: "f87465ba-e155-4b74-a5ca-2192c84ef0fb",
 				Currency: "2",
-				RedirectURL: "http://16.171.235.229/dashboard/paymentsucess",
-				FailRedirectURL: "http://16.171.235.229/dashboard/paymentfail",
-				IPNURL: "http://16.171.235.229:4000/api/ipn-handler",
+				RedirectURL: "https://testfactory.online/dashboard/paymentsucess",
+				FailRedirectURL: "https://testfactory.online/dashboard/paymentfail",
+				IPNURL: "https://testfactory.online/api/ipn-handler",
 				CustomerFirstName: user.firstName,
 				CustomerLastName: user.lastName,
 				ExemptVAT: false,
@@ -31,9 +31,10 @@ module.exports = {
 				EmailAddress: user.email,
 				Items: [
 				  {
+					Id: package.id,
 					UnitPrice: package.packagePrice,
 					Quantity: "1",
-					Description: 'Test Factory Package'
+					Description: package.packageName,
 				  }
 				]
 		};

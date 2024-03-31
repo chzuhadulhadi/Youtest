@@ -93,7 +93,7 @@ function SignUp(params) {
             <input
               type="text"
               id="firstName"
-              placeholder="FIRST NAME..."
+              placeholder="FULL NAME..."
               onChange={addValues}
               class="field"
               required
@@ -101,7 +101,7 @@ function SignUp(params) {
             <input
               type="text"
               id="lastName"
-              placeholder="LAST NAME..."
+              placeholder="COMPANY NAME..."
               onChange={addValues}
               class="field"
               required
@@ -114,6 +114,7 @@ function SignUp(params) {
               class="field"
               required
             />
+            
             <input
               type="tel"
               id="phoneNumber"

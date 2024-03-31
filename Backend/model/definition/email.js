@@ -33,5 +33,6 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true,
     }
   );
+  email.sync({ force: false });
   return email;
 };

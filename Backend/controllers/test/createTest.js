@@ -42,6 +42,7 @@ module.exports = async function createTest(req, res) {
 				error: err.stack,
 			});
 		}
+		console.log('validate', validate);
 		const data = await testModel.createTest({ ...validate, createdById: req.headers.userId });
 		res
 			.status(StatusCodes.OK)

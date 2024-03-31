@@ -69,10 +69,6 @@ export default function PricingPlace() {
               </div>
               <br />
               <div className="Band">
-                <h5>Support <span>24 Hours</span></h5>
-              </div>
-              <br />
-              <div className="Band">
                 <h5>{item.support}</h5>
               </div>
               <br />

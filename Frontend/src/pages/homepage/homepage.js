@@ -189,10 +189,7 @@ function Home({ loginCheck }) {
                         <h5>Number Of tests: <span>{item.numberOfTests}</span></h5>
                       </div>
                       <br />
-                      <div className="Band">
-                        <h5>Support <span>24 Hours</span></h5>
-                      </div>
-                      <br />
+                     =
                       <div className="Band">
                         <h5>{item.support}</h5>
                       </div>

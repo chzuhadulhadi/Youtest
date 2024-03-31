@@ -36,11 +36,18 @@ module.exports = {
 
 	},
 	createTest: async function (obj, t) {
-		// console.log("obj", !!obj.id);
+		console.log("obj", obj);
 		if (obj.id === 0 || obj.id === undefined) {
-			console.log(" creating obj", obj.id);
+			console.log(" creating obj", obj);
 			// Create a new test
-			return await model.test.create(obj, { transaction: t });
+			try{
+				await model.test.create(obj, {
+					transaction: t,
+				});
+			}
+			catch(e){
+				console.log(e);
+			}
 		} else {
 			// Update an existing test
 			const testId = obj.id;

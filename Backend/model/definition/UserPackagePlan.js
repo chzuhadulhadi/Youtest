@@ -53,6 +53,5 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true,
     }
   );
-  UserPackagePlan.sync({ force: false });
   return UserPackagePlan;
 };

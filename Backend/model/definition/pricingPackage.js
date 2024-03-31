@@ -49,6 +49,5 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true,
     }
   );
-  PricingPackage.sync({ force: false });
   return PricingPackage;
 };
