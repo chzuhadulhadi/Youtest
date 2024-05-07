@@ -9,9 +9,9 @@ export const environment = "C://Users/user/Downloads/";
 // export const frontEndPath = "https://testfactory.online/"
 export const frontEndPath = "http://localhost:3000/"
 
-export const local = "http://localhost/"
-export const serverUrl = "http://localhost/"
-export const serverImageUrl = "http://localhost"
+export const local = "http://localhost:4000/"
+export const serverUrl = "http://localhost:4000/"
+export const serverImageUrl = "http://localhost:4000"
 
 export const signup = local + 'api/user/signUp'
 export const forgotpass = local + 'api/user/forgotpassword'

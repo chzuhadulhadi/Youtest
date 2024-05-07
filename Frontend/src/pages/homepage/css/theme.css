@@ -171,11 +171,26 @@ h6 {
 html,body{
   width: 100vw;
 }
-h1 {
+@media screen and (max-width: 768px) {
+  h1 {
+    /* padding: 3rem; */
+    font-size: 46px;
+    text-align: center;
+  }
+}
+@media screen and (min-width: 768px) {
+  h1 {
+    padding: 3rem;
+    font-size: 46px;
+    text-align: center;
+  }
+  
+}
+/* h1 {
   padding: 3rem;
   font-size: 46px;
   text-align: center;
-}
+} */
 h2 {
   font-size: 30px;
 }
@@ -285,15 +300,31 @@ header .site-logo {
 header .site-logo h1 {
   margin: 0px;
 }
-header .site-logo h1 a {
-  font-size: 36px;
-  color: #fff;
-  font-family: "Open Sans", sans-serif;
-  font-weight: 800;
-  text-decoration: none;
-  text-transform: uppercase;
-  text-shadow: rgb(3, 3, 3) 0px 2px 5px;
-  transition: all 0.7s ease;
+@media screen and (max-width: 768px) {
+  header .site-logo h1 a {
+    font-size: 26px;
+    color: #fff;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 800;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-shadow: rgb(3, 3, 3) 0px 2px 5px;
+    transition: all 0.7s ease;
+  }
+  
+}
+@media screen and (min-width: 768px) {
+  header .site-logo h1 a {
+    font-size: 36px;
+    color: #fff;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 800;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-shadow: rgb(3, 3, 3) 0px 2px 5px;
+    transition: all 0.7s ease;
+  }
+  
 }
 header .site-logo h1 a span {
   color: #ff9000;

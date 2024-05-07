@@ -31,7 +31,7 @@ module.exports = {
 				EmailAddress: user.email,
 				Items: [
 				  {
-					Id: package.id,
+					// Id: package.id,
 					UnitPrice: package.packagePrice,
 					Quantity: "1",
 					Description: package.packageName,
