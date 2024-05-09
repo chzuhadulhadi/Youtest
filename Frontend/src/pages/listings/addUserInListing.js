@@ -198,7 +198,7 @@ function AddUserInList() {
         setAddNewUserInList({
           name: "",
           email: "",
-          mailingListId: null,
+          mailingListId: addNewUserInList.mailingListId
         });
         
       })
