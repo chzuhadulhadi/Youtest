@@ -38,6 +38,7 @@ function AddUserInList() {
   const [totalDataLenght, setTotalDataLenght] = useState(10);
   const [rendControl, setRendControl] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("");
   const [listDto, setListDto] = useState({
     name: "",
   });
@@ -46,6 +47,10 @@ function AddUserInList() {
     id: null,
     name: "",
   });
+  const [showExampleModal, setShowExampleModal] = useState(false);
+
+  const handleCloseExampleModal = () => setShowExampleModal(false);
+  const handleShowExampleModal = () => setShowExampleModal(true);
 
   const [addNewUserInList, setAddNewUserInList] = useState({
     name: "",
@@ -200,7 +205,7 @@ function AddUserInList() {
           email: "",
           mailingListId: addNewUserInList.mailingListId
         });
-        
+
       })
       .then((err) => {
         showToastMessage(err?.response?.data?.message, "red", 2);
@@ -409,22 +414,76 @@ function AddUserInList() {
         const file = selectedFile;
         console.log(file.name.split(".")[0]);
         try {
-          const resp = await apiCall("post", addMailingList, { name: file.name.split(".")[0] }, true);
+          const respon = await apiCall("post", addMailingList, { name: file.name.split(".")[0] }, true);
           // console.log(resp);
           // setMId(resp.data.data.id);
 
           for (let index = 0; index < xlData.length; index++) {
             const res = xlData[index];
-            try {
-              await apiCall("post", addMailingListUser, {
-                name: res[0],
-                email: res[1],
-                mailingListId: resp.data.data.id,
-              });
-            } catch (err) {
-              console.log(err);
+            //if email is in array only then add user
+            if (selectedOption === "combined" && res.length === 3) {
+              showToastMessage("Invalid file structure", "red", 2);
+              return;
             }
+            else if (selectedOption === "separate" && res.length === 2) {
+              showToastMessage("Invalid file structure", "red", 2);
+              return;
+            }
+            else if (selectedOption === "combined") {
+              
+              if (res[1].indexOf("@") === -1) {
+                showToastMessage("Invalid email address", "red", 2);
+                return;
+              }
+              else {
+                try {
+                  const resp = await apiCall("post", addMailingListUser, {
+                    name: res[0],
+                    email: res[1],
+                    mailingListId: respon.data.data.id,
+                  });
+                  if (resp.data.data) {
+                    showToastMessage("Mailing List added Successfully", "green", 1)
+                  }
+                } catch (err) {
+                  console.log(err);
+                  showToastMessage('Error with importing Mailing List', "red", 2);
+                }
+              }
+            }
+            else if (selectedOption === "separate") {
+              if (res[2].indexOf("@") === -1) {
+                showToastMessage("Invalid email address", "red", 2);
+                return;
+              }
+              else {
+                try {
+                  const resp = await apiCall("post", addMailingListUser, {
+                    name: res[0] + " " + res[1],
+                    email: res[2],
+                    mailingListId: respon.data.data.id,
+                  });
+                  if (resp.data.data) {
+                    showToastMessage("Mailing List added Successfully", "green", 1)
+                  }
+                } catch (err) {
+                  console.log(err);
+                  showToastMessage('Error with importing Mailing List', "red", 2);
+                }
+              }
+            }
+
+            // try {
+            //   await apiCall("post", addMailingListUser, {
+            //     name: res[0],
+            //     email: res[1],
+            //     mailingListId: resp.data.data.id,
+            //   });
+            // } catch (err) {
+            //   console.log(err);
+            // }
           }
+
         } catch (error) {
           console.log(error);
         }
@@ -434,6 +493,11 @@ function AddUserInList() {
         console.log(error);
       }
       setForceRender(!forceRender);
+      setShow(false);
+      setSelectedFile(null);
+      setShowExampleModal(false);
+      setSelectedOption("");
+
     }
   };
 
@@ -450,6 +514,10 @@ function AddUserInList() {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const handleOptionChange = (e) => {
+    setSelectedOption(e.target.value);
   };
 
   const editUserMailingList = () => {
@@ -498,23 +566,79 @@ function AddUserInList() {
         >
           Create New Mailing List
         </Button>
-
         <Button
           variant="primary"
-          onClick={uploadMailingList}
-          disabled={selectedFile ? false : true}
-        >
-          Upload Excel
-        </Button>
-        <input
-          type="file"
-          id="file"
-          accept=".csv,.xlsx,.xls"
-          onChange={(e) => {
-            const file = e.target.files[0];
-            setSelectedFile(file);
+          onClick={() => {
+            handleShowExampleModal();
           }}
-        />
+        // disabled={selectedFile ? false : true}
+        >
+          Import From Excel
+        </Button>
+        {
+          showExampleModal && (
+            <Modal show={showExampleModal} onHide={handleCloseExampleModal} animation={false}>
+              <Modal.Header closeButton>
+                <Modal.Title>Import Mailing List</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+
+                <div>
+                  <h5>Select the structure of the file:</h5>
+                  <div>
+                    <input
+                      type="radio"
+                      id="separate"
+                      name="structure"
+                      value="separate"
+                      checked={selectedOption === "separate"}
+                      onChange={handleOptionChange}
+                    />
+                    {' '}
+                    <label htmlFor="separate">Separate columns (Full name, Email)</label>
+                    <img src="/seperate.png" alt="separate" />
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="combined"
+                      name="structure"
+                      value="combined"
+                      checked={selectedOption === "combined"}
+                      onChange={handleOptionChange}
+                    />
+                    {' '}
+                    <label htmlFor="combined">Combined column (First name, Last name, Email)</label>
+                    <img src="/combined.png" alt="combined" />
+                  </div>
+                </div>
+                {
+                  selectedOption && (
+                    <>
+                      <Button
+                        variant="primary"
+                        onClick={uploadMailingList}
+                        disabled={selectedFile ? false : true}
+                      >
+                        Upload Excel
+                      </Button>
+                      <input
+                        type="file"
+                        id="file"
+                        accept=".csv,.xlsx,.xls"
+                        onChange={(e) => {
+                          const file = e.target.files[0];
+                          setSelectedFile(file);
+                        }}
+                      />
+                    </>
+                  )
+                }
+              </Modal.Body>
+            </Modal>
+          )
+        }
+
       </div>
       <div>
         <Modal show={show} onHide={handleClose} animation={false}>
