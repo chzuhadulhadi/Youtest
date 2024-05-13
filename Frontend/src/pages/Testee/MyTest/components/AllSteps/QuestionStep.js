@@ -8,6 +8,7 @@ import XLSX from 'sheetjs-style';
 import { Grid, Box } from '@mui/material';
 // import '../../style.css'
 import "./steps.css";
+import Modal from "react-bootstrap/Modal";
 
 var questionCounter = 0;
 var answerCounter = 0;
@@ -34,6 +35,7 @@ function QuestionStep(props) {
   const [handleRend, setHandleRend] = useState(0);
   const [questionCount, setQuestionCount] = useState(0);
   const [questionbank, setQuestionBank] = useState([]);
+  const [showExampleModal, setShowExampleModal] = useState(false);
   useEffect(() => {
     apiCall("post", getAllPreviousQuestions)
       .then((res) => {
@@ -115,6 +117,7 @@ function QuestionStep(props) {
 
       });
   }
+
 
   const checkquestions = () => {
 
@@ -393,28 +396,29 @@ function QuestionStep(props) {
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
         const xlData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-        console.log('xlData', xlData.length);
         xlData.forEach((row, index) => {
-          console.log('row', row[2]);
-          if (row[0]) {
+          if (row[0]  && row[1] && row[2] && row[3]) {
             questionCounter++;
-            console.log('row[0]', row[0] == true);
+            console.log('row[0]', row[0]);
             props.obj.mainObjectAdder({ target: { id: `question${questionCounter}`, value: row[0] } }, "questions", `question${questionCounter}`, 'question');
             props.obj.mainObjectAdder({ target: { id: `question${questionCounter}`, value: row[3] } }, "questions", `question${questionCounter}`, 'categoryName');
             props.obj.mainObjectAdder({ target: { id: `question${questionCounter}-answer${answerCounter}`, value: row[1] } }, "questions", `question${questionCounter}-answer${answerCounter}`, 'answer');
             props.obj.mainObjectAdder({ target: { id: `question${questionCounter}-answer${answerCounter}`, value: row[2] == true ? 10 : 0 } }, "questions", `question${questionCounter}-answer${answerCounter}`, 'point');
             answerCounter++;
           }
-          else if (row[0] == undefined && row[1]) {
+          else if (row[0] == undefined && row[1] && row[2] && row[3]) {
             console.log('row[1]', row[1]);
             props.obj.mainObjectAdder({ target: { id: `question${questionCounter}-answer${answerCounter}`, value: row[1] } }, "questions", `question${questionCounter}-answer${answerCounter}`, 'answer');
             props.obj.mainObjectAdder({ target: { id: `question${questionCounter}-answer${answerCounter}`, value: row[2] == true ? 10 : 0 } }, "questions", `question${questionCounter}-answer${answerCounter}`, 'point');
             answerCounter++;
           }
-          console.log('mainOobj', props.obj.mainObj);
+          else{
+            showToastMessage("Invalid Excel Format", "red", 2);
+            
+          }
         });
       } catch (error) {
-        console.error('Error reading the Excel file:', error);
+        showToastMessage("Error reading the Excel file", "red", 2);
       }
     };
   };
@@ -422,6 +426,9 @@ function QuestionStep(props) {
   // function handleCategoryChange(e) {
   //     setSelectedCategory(e.target.value)
   // }
+  function handleCloseExampleModal() {
+    setShowExampleModal(false);
+  }
 
   function handleFreeTextChange(e) {
     // setFreeText((prev) => {
@@ -539,33 +546,33 @@ function QuestionStep(props) {
 
             </Grid>
             <Grid xs={2} item sx={{ display: 'flex', flexDirection: 'column' }}>
-                {Object.keys(props.obj.categoryStore).length != 0 && <select
-                  onChange={(e) => categoryValueAdder(e, "categoryName")}
-                  className="select-category question-div"
-                  id={"question" + questionCounter}
+              {Object.keys(props.obj.categoryStore).length != 0 && <select
+                onChange={(e) => categoryValueAdder(e, "categoryName")}
+                className="select-category question-div"
+                id={"question" + questionCounter}
+                name={"question" + questionCounter}
+              >
+                <option>Select Category</option>
+                {Object.keys(props.obj.categoryStore).map((key, index) => (
+                  <option value={props.obj.categoryStore[key]["categoryName"]} key={index}>
+                    {props.obj.categoryStore[key]["categoryName"]}
+                  </option>
+                ))}
+              </select>}
+
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <input
+                  id={"freeText" + questionCounter}
                   name={"question" + questionCounter}
-                >
-                  <option>Select Category</option>
-                  {Object.keys(props.obj.categoryStore).map((key, index) => (
-                    <option value={props.obj.categoryStore[key]["categoryName"]} key={index}>
-                      {props.obj.categoryStore[key]["categoryName"]}
-                    </option>
-                  ))}
-                </select>}
+                  type="checkbox"
 
-                <div  style={{ display: 'flex', flexDirection: 'row' }}>
-                  <input
-                    id={"freeText" + questionCounter}
-                    name={"question" + questionCounter}
-                    type="checkbox"
-
-                    className="free-text-check question-div"
-                    onChange={handleFreeTextChange}
-                  />
-                  <label className="form-label question-div" class="free-text-label question-div">
-                    Free Text
-                  </label>
-                </div>
+                  className="free-text-check question-div"
+                  onChange={handleFreeTextChange}
+                />
+                <label className="form-label question-div" class="free-text-label question-div">
+                  Free Text
+                </label>
+              </div>
             </Grid>
             <Grid xs={9} item>
               <input
@@ -814,7 +821,7 @@ function QuestionStep(props) {
                   </option>
                 ))}
               </select>}
-              <div  style={{ display: 'flex',flexDirection: 'row' }}>
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <input
                   id={"freeText" + questionCounter}
                   name={"question" + questionCounter}
@@ -1033,13 +1040,7 @@ function QuestionStep(props) {
           <div>
             <h3>#3 - Questions</h3>
             <p className="counterq">{`Questions Created: ${questionCount}`}</p>
-            <input
-              type="file"
-              id={`question${questionCounter}`}
-              onChange={(e) => {
-                setSelectedFile(e.target.files[0]);
-              }}
-            />
+
             <div>
               <label htmlFor="questionDropdown">Select a Question from question bank:</label>
               <select id="questionDropdown" onChange={handleQuestionBank}>
@@ -1060,7 +1061,27 @@ function QuestionStep(props) {
                 })}
               </select>
             </div>
-            <button style={{ position: 'relative', right: '20px' }} onClick={handleUpload} disabled={selectedFile == null}>Upload Questions from excel</button>
+            {
+              showExampleModal &&
+              <Modal show={showExampleModal} onHide={handleCloseExampleModal} animation={false}>
+              <Modal.Header closeButton>
+                <Modal.Title>Import Mailing List</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <label htmlFor={`question${questionCounter}`}>Supported File Structure:</label>
+                <img src='/ques.png' alt='question structure' />
+                <input
+                  type="file"
+                  id={`question${questionCounter}`}
+                  onChange={(e) => {
+                    setSelectedFile(e.target.files[0]);
+                  }}
+                />
+                <button style={{ position: 'relative', right: '20px' }} onClick={handleUpload} disabled={selectedFile == null}>Upload Questions from excel</button>
+              </Modal.Body>
+              </Modal>
+            }
+            <button onClick={() => setShowExampleModal(true)}>Import Questions from excel</button>
           </div>
           <div>
             {" "}

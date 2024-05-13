@@ -146,7 +146,9 @@ module.exports = {
 			// const paymentData = await model.UserPackagePlan.findAll();
 
 			// console.log(paymentData);
-
+			if (!paymentData) {
+				return null;
+			}
 			const packageData = await model.PricingPackage.findOne({
 				where: {
 					id: paymentData.packageId,

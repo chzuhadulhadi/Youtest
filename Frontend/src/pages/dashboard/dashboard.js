@@ -66,7 +66,7 @@ function Dashboard(params) {
       <div id="content">
         <Grid container>
           <Grid item xs={6}>
-            {/* <Typography variant="h4" style={{ color: '#000', fontWeight: 'bold' }}>Welcome, {user.firstName}</Typography> */}
+            <Typography variant="h4" style={{ color: '#000', fontWeight: 'bold' }}>Welcome, {user.firstName}</Typography>
           </Grid>
           <Grid item xs={6} display={'flex'} justifyContent={'flex-end'}>
             {packageData.payment ?
