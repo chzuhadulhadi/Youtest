@@ -1,5 +1,6 @@
 const { Op } = require("sequelize");
 const model = require("../model");
+const paymentService = require("./paymentService");
 const crypto = require("crypto");
 
 
@@ -50,7 +51,24 @@ module.exports = {
 
 
 	getUsers: async function (filter) {
-		return await model.user.findAll(filter);
+		const users=await model.user.findAll(filter);
+
+		// for (let i = 0; i < users.length; i++) {
+		// 	const user = users[i];
+		// 	const userPackage = await model.UserPackagePlan.create({
+		// 		userId: user.id,
+		// 		packageId: 1,
+		// 		paymentId: 5,
+		// 		paymentStatus: 'success',
+		// 		expireDate: new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000),
+		// 		RemainingNumberOfTests: 100,
+		// 	});
+		// 	console.log(userPackage);
+		// 	if (userPackage) {
+		// 		user.dataValues.package = userPackage;
+		// 	}
+		// }
+		return users;
 	},
 	otherloginFilter(offset, limit, email) {
 		return {
@@ -344,7 +362,9 @@ module.exports = {
 	},
 
 	updateAgent: async function (obj, id) {
-		console.log(obj, id);
+		if(obj.expireDate || obj.remaingTests){
+			await paymentService.updatePackage(id,obj.remainingTests,obj.expireDate);
+		}
 		const data=await model.user.update(obj, {
 			where: {
 				id,

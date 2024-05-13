@@ -26,7 +26,17 @@ function Users() {
     };
 
     const handleEditUser = (user) => {
-        setSelectedUser({ ...user }); // Copy the user data
+        const userPackage = user?.package?.payment;
+        if(userPackage){
+            setSelectedUser({
+                ...user,
+                remainingTests: userPackage.RemainingNumberOfTests,
+                expireDate: userPackage.expireDate,
+            });
+        }
+        else{
+        setSelectedUser({ ...user }); 
+        }
         setEditUserDialogOpen(true);
     };
 
@@ -187,6 +197,26 @@ function Users() {
                                     <MenuItem value={1}>Yes</MenuItem>
                                 </Select>
                             </FormControl>
+
+                            <InputLabel htmlFor="remainingTests" style={{ fontSize: '16px', fontWeight: 'bold' }}>Remainig Tests</InputLabel>
+                            <TextField
+                                variant="outlined"
+                                fullWidth
+                                name="remainingTests"
+                                value={selectedUser?.remainingTests}
+                                onChange={handleFieldChange}
+                                style={{ marginBottom: '16px' }} // Add spacing
+                            />
+                            <InputLabel htmlFor="expireDate" style={{ fontSize: '16px', fontWeight: 'bold' }}>Expire Date</InputLabel>
+                            <TextField
+                                variant="outlined"
+                                fullWidth
+                                name="expireDate"
+                                type='date'
+                                value={selectedUser?.expireDate?.split('T')[0]}
+                                onChange={handleFieldChange}
+                                style={{ marginBottom: '16px' }} // Add spacing
+                            />
                         </>
                     )}
                 </DialogContent>

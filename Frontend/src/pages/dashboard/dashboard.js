@@ -66,13 +66,13 @@ function Dashboard(params) {
       <div id="content">
         <Grid container>
           <Grid item xs={6}>
-            <Typography variant="h4" style={{ color: '#000', fontWeight: 'bold' }}>Welcome, {user.firstName}</Typography>
+            {/* <Typography variant="h4" style={{ color: '#000', fontWeight: 'bold' }}>Welcome, {user.firstName}</Typography> */}
           </Grid>
           <Grid item xs={6} display={'flex'} justifyContent={'flex-end'}>
             {packageData.payment ?
               <Grid container display={'flex'} justifyContent={'flex-end'}>
-                <Grid item xs={6}>
-                  style={{ textAlign: 'right' }}
+                <Grid item xs={6}
+                  style={{ textAlign: 'right' }}>
                   <h6 id="6">My package: {packageData.package.packageName} </h6>
                 </Grid>
                 <Grid item xs={6}>

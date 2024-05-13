@@ -134,19 +134,19 @@ module.exports = {
 	},
 	getPackage: async function getPackage(userId) {
 		try {
-			// const paymentData = await model.UserPackagePlan.findOne({
-			// 	where: {
-			// 		userId: userId,
-			// 		// expireDate: {
-			// 			// [Op.gte]: new Date(),
-			// 		// },
-			// 	},
-			// });
+			const paymentData = await model.UserPackagePlan.findOne({
+				where: {
+					userId: userId,
+					// expireDate: {
+					// [Op.gte]: new Date(),
+					// },
+				},
+			});
 			//all the packages
-			const paymentData = await model.UserPackagePlan.findAll();
+			// const paymentData = await model.UserPackagePlan.findAll();
 
-			console.log(paymentData);
-			
+			// console.log(paymentData);
+
 			const packageData = await model.PricingPackage.findOne({
 				where: {
 					id: paymentData.packageId,
@@ -187,5 +187,37 @@ module.exports = {
 		catch (err) {
 			throw err;
 		}
-	}
+	},
+	updatePackage: async function updatePackage(userId, remaingTests, expireDate) {
+		try {
+			const paymentData = await model.UserPackagePlan.findOne({
+				where: {
+					userId: userId,
+				},
+			});
+			if (!paymentData)
+				await model.UserPackagePlan.create({
+					userId: userId,
+					packageId: 1,
+					paymentId: "Trial",
+					paymentStatus: "Trial",
+					expireDate: expireDate,
+					RemainingNumberOfTests: remaingTests,
+				});
+			else
+				await model.UserPackagePlan.update({
+					RemainingNumberOfTests: remaingTests,
+					expireDate: expireDate
+				},
+					{
+						where: {
+							id: paymentData.id
+						}
+					});
+			return true;
+		}
+		catch (err) {
+			throw err;
+		}
+	},
 };

@@ -9,6 +9,7 @@ const schema = Joi.object().keys({
 	firstName: Joi.string(),
 	lastName: Joi.string(),
 	fullName: Joi.string(),
+	package: Joi.allow(),
 	id: Joi.number().integer().min(1).required(),
 	phoneNumber: Joi.string(),
 	phoneNumberCode: Joi.string(),
@@ -19,6 +20,9 @@ const schema = Joi.object().keys({
 	deletedAt: Joi.allow(),
 	createdAt: Joi.allow(),
 	verificationToken: Joi.allow(),
+	remainingTests: Joi.number().integer(),
+	expireDate: Joi.allow(),
+	
 	
 	email: Joi.string()
 		.email({ tlds: { allow: false } }),

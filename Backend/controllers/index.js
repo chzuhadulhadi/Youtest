@@ -29,6 +29,7 @@ try {
 		handlePayment:require('./user/handlePayment'),
 		userPackage:require('./user/userPackage'),
 		myInfo:require('./user/myInfo'),
+		
 
 
 

@@ -56,7 +56,7 @@ module.exports = {
 		// const user=await userModel.getAgentById(userId);
 		// const package=await packageService.getPackageById(user.packageId);
 		const payment=await paymentService.getPackage(userId);
-		console.log(payment);
+		// console.log(payment);
 		return payment;
 	},
 

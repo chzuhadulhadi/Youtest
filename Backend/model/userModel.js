@@ -219,7 +219,14 @@ module.exports = {
 	},
 	getUsers: async function () {
 		try {
-			return await userService.getUsers();
+			const user = await userService.getUsers();
+			for (var i = 0; i < user.length; i++) {
+				const userpackage = await paymentService.getPackage(user[i].id);
+				if (userpackage) {
+					user[i].dataValues.package = userpackage;
+				}
+			}
+			return user;
 		} catch (e) {
 			throw new Error(e);
 		}
