@@ -30,7 +30,6 @@ const ChangePassword = () => {
                                 setNewPassword('');
                                 setConfirmPassword('');
                                 showToastMessage("Password reset sucessfull", "green", 1);
-                              
                             }
                         })
                         .catch((err) => {

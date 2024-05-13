@@ -56,7 +56,7 @@ export default function Router() {
       ],
     },
     {
-      path: '/',
+      path: '/',  
       element: <HomePage />,
     },
     {
