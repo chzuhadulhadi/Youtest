@@ -3,6 +3,7 @@ const paymentModel=require('../../model/PaymentModel');
 const Joi = require('joi');
 const schema = Joi.object().keys({
 	id: Joi.number().integer().min(1).required(),
+	countryCode: Joi.string().required(),
 });
 const {
 	StatusCodes,
@@ -20,7 +21,7 @@ module.exports = async function handlePayment(req, res) {
 				error: err.stack,
 			});
 		}
-		const data = await paymentModel.handlePayment(validate.id, req.headers.userId);
+		const data = await paymentModel.handlePayment(validate.id, req.headers.userId, validate.countryCode);
 		res
 			.status(StatusCodes.OK)
 			.send({ message: 'Successfull Login', data, error: {} });

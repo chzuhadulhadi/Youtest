@@ -3,7 +3,7 @@ const userModel=require('../service/userService');
 const paymentService=require('../service/paymentService');
 const axios=require('axios');
 module.exports = {
-	handlePayment:async function handlePayment(obj,userId)
+	handlePayment:async function handlePayment(obj,userId,countryCode)
 	{
 		const user=await userModel.getAgentById(userId);
 		const package=await packageService.getPackageById(obj);
@@ -21,7 +21,7 @@ module.exports = {
 				CustomerFirstName: user.firstName,
 				CustomerLastName: user.lastName,
 				ExemptVAT: false,
-				PriceIncludeVAT: true,
+				PriceIncludeVAT: countryCode === 'il' ? false : true,
 				MaxPayments: "3",
 				SaleType: 1,
 				HideItemList: true,

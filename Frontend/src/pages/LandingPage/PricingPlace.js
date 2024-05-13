@@ -7,9 +7,9 @@ import axios from 'axios';
 export default function PricingPlace() {
   const [packages, setPackages] = React.useState([]);
   const [user, setUser] = React.useState({});
+  const [countryCode, setCountryCode] = React.useState('');
   const handleBuyNow = (id) => {
-    apiCall("post", paymentRoute, { id: id }).then((res) => {
-      console.log(res.data.data)
+    apiCall("post", paymentRoute, { id: id,countryCode:countryCode.toLocaleLowerCase() }).then((res) => {
       window.location.href = res.data.data.URL;
     }
     ).catch((err) => {
@@ -17,7 +17,19 @@ export default function PricingPlace() {
     });
   };
 
-  console.log(user);
+  // console.log(user);
+  useEffect(() => {
+    const fetchIp = async () => {
+      const response = await fetch('https://freeipapi.com/api/json');
+      if (response.ok) {
+        const country = await response.json();
+        setCountryCode(country.countryCode.toLowerCase());
+      } else {
+        throw new Error('Failed to fetch IP address');
+      }
+    };
+    fetchIp();
+  }, []);
   useEffect(() => {
     loadPackages();
     loadUser();
@@ -55,7 +67,9 @@ export default function PricingPlace() {
               </div>
               <br />
               <div className="Dollar">
-                <h4>${item.packagePrice}</h4>
+                {
+                  countryCode === 'il' ? <h4>${item.packagePrice} + VAT</h4> : <h4>${item.packagePrice}</h4>
+                }
               </div>
               <br />
 
