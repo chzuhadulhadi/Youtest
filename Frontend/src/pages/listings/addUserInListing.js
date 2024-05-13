@@ -430,7 +430,6 @@ function AddUserInList() {
               return;
             }
             else if (selectedOption === "combined") {
-              
               if (res[1].indexOf("@") === -1) {
                 showToastMessage("Invalid email address", "red", 2);
                 return;

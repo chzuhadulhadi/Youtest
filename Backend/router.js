@@ -33,6 +33,7 @@ const {
     updatePackage,
     deletePackage,
     userPackage,
+    myInfo,
 
     initiateTestForUser,
     getUserTestDetails,
@@ -88,6 +89,7 @@ router.post('/api/user/signUp', signUp);
 router.post('/api/user/verifyemail', verifyEmail);
 router.post('/api/user/forgotpassword', forgotPass);
 router.post('/api/user/resetpassword', resetPassword);
+router.post('/api/user/myprofile', verifyJwt, myInfo);
 // router.post('/api/user/checkOtp', checkOtp);
 // router.post('/api/user/sendOtp', sendOtp);
 

@@ -134,14 +134,19 @@ module.exports = {
 	},
 	getPackage: async function getPackage(userId) {
 		try {
-			const paymentData = await model.UserPackagePlan.findOne({
-				where: {
-					userId: userId,
-					expireDate: {
-						[Op.gte]: new Date(),
-					},
-				},
-			});
+			// const paymentData = await model.UserPackagePlan.findOne({
+			// 	where: {
+			// 		userId: userId,
+			// 		// expireDate: {
+			// 			// [Op.gte]: new Date(),
+			// 		// },
+			// 	},
+			// });
+			//all the packages
+			const paymentData = await model.UserPackagePlan.findAll();
+
+			console.log(paymentData);
+			
 			const packageData = await model.PricingPackage.findOne({
 				where: {
 					id: paymentData.packageId,

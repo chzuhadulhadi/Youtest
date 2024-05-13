@@ -50,6 +50,12 @@ function SideBar(props) {
                     <li id="6" onClick={() => { navigate("/dashboard/PricingPlace") }}>
                         <a id="6">Pricing Place </a>
                     </li>
+                    <li id="7" onClick={() => { navigate("/dashboard/update") }}>
+                        <a id="7">Update User Data </a>
+                    </li>
+                    <li id="7" onClick={() => { navigate("/dashboard/change-password") }}>
+                        <a id="7">Change Password </a>
+                    </li>
                     {packageData.payment ?
                         <div style={{ border: '1px solid white', margin: '10px', paddingInline: '10px', borderRadius: '10px' }}>
                             <li id="7">

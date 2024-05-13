@@ -35,6 +35,8 @@ import Resetpassword from './pages/LoginPages/Resetpassword';
 import PricingPlace from './pages/LandingPage/PricingPlace';
 import Packages from './pages/admin/packages';
 import SuccessPage from './pages/payment/sucess';
+import UpdateUser from './pages/user/updateUser';
+import ChangePassword from './pages/user/changePassword';
 
 export default function Router() {
   const routes = useRoutes([
@@ -49,6 +51,8 @@ export default function Router() {
         { path: 'PricingPlace', element: <PricingPlace /> },
         { path: 'my-landing-pages', element: <MainQuestionaire /> },
         { path: 'my-mailing-list', element: <MainQuestionaire /> },
+        { path: 'update', element: <UpdateUser /> },
+        { path: 'change-password', element: <ChangePassword /> }
       ],
     },
     {
@@ -68,14 +72,14 @@ export default function Router() {
       element: <PricingPlace />,
     },
     {
-      path:'/dashboard/paymentsucess',
-      element:<SuccessPage/>
+      path: '/dashboard/paymentsucess',
+      element: <SuccessPage />
     },
     {
       path: '/addusersinlisting',
       element: <AddUserInList />,
     },
- 
+
     {
       path: '/newquestion',
       element: <MultiStepForm />,
@@ -88,7 +92,7 @@ export default function Router() {
       path: '/login/:email?',
       element: <Login />,
     },
-  
+
     {
       path: '/admin/login/:email?',
       element: <AdminLogin />,
@@ -110,12 +114,12 @@ export default function Router() {
       element: <FillTest />,
     },
     {
-      path:'/landingpage/:id?',
-      element:<LandingPage/>
+      path: '/landingpage/:id?',
+      element: <LandingPage />
     },
     {
       path: '/landingpageform/:id?',
-      element:<LandingPageForm/>,
+      element: <LandingPageForm />,
     },
     {
       path: '/temp/*',
@@ -123,7 +127,7 @@ export default function Router() {
     },
     {
       path: '/admin/dashboard',
-      element: <AdminDashboard/>,
+      element: <AdminDashboard />,
       children: [
         { element: <Navigate to="/dashboard" />, index: true },
         { path: 'users', element: <Users /> },
@@ -131,7 +135,7 @@ export default function Router() {
         { path: 'tests/:id?', element: <AdminEditTest /> },
         { path: 'results', element: <Results /> },
         { path: 'packages', element: <Packages /> },
-        
+
         // { path: 'questionaire-history', element: <MainQuestionaire /> },
         // { path: 'landing-pages', element: <LandingPages /> },
         // { path: 'my-landing-pages', element: <MainQuestionaire /> },
@@ -143,8 +147,8 @@ export default function Router() {
       element: <CreateTest />
     },
     {
-      path:'/dashboard/mytest/edittest/:id?',
-      element:<EditTest/>
+      path: '/dashboard/mytest/edittest/:id?',
+      element: <EditTest />
     },
 
     {
@@ -156,8 +160,8 @@ export default function Router() {
       element: <EditLandingPage />
     },
     {
-      path:'/verify/:token?',
-      element:<Verify/>
+      path: '/verify/:token?',
+      element: <Verify />
     },
     {
       path: '/respage/*',

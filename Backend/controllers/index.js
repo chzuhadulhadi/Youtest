@@ -28,6 +28,7 @@ try {
 		sendOtp: require('./user/sendOtp'),
 		handlePayment:require('./user/handlePayment'),
 		userPackage:require('./user/userPackage'),
+		myInfo:require('./user/myInfo'),
 
 
 

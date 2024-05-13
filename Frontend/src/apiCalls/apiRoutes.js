@@ -24,6 +24,7 @@ export const getResult = local + 'api/userTest/getResult'
 export const updateLandingPageInResult = local + 'api/userTest/submitLandingPageDetails'
 export const paymentRoute=local+'api/payment-handler'
 export const userPackage = local + 'api/user/getPackage'
+export const myInfo = local + 'api/user/myprofile'
 
 // test apis
 export const getMyTest = local + 'api/test/getMyTest'
