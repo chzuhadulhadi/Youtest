@@ -67,6 +67,9 @@ module.exports = {
 		);
 		return model.test.findByPk(ids[0]);
 	},
+	getTestById: async function (id) {
+		return await model.test.findByPk(id);
+	},
 
 	getMyTest: async function (offset, limit, filter) {
 		return await model.test.findAll({

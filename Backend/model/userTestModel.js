@@ -26,8 +26,25 @@ module.exports = {
 		// var t = await Sequelize.transaction();
 
 		const updated = await testService.updateTest(user.id, obj.ids);
-		console.log(updated);
 		return updated;
+	},
+	copyTest: async function (obj) {
+		console.log(obj);
+		const user = await userService.getuserByAny(obj.email);
+		if (!user) {
+			throw new Error('User is not valid');
+		}
+		console.log(user.id);
+		for (let id of obj.ids) {
+			const test = await testService.getTestById(id);
+			if (!test) {
+				throw new Error('Test is not valid');
+			}
+			const testObj = test.toJSON();
+			delete testObj.id;
+			testObj.createdById = user.id;
+			await testService.createTest(testObj);
+		}
 	},
 	startTest: async function (obj) {
 		const start = userTestService.updateUserTest(

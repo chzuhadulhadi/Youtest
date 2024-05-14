@@ -31,6 +31,7 @@ export const getMyTest = local + 'api/test/getMyTest'
 export const createMyTest = local + 'api/test/createTest'
 export const duplicateTest = local + "api/test/duplicateTest"
 export const transferTests = local + 'api/test/transferTest'
+export const copyTest = local + 'api/test/copyTest'
 export const getMySingleTest = local + 'api/test/getSingleTest'
 export const deletemyTest = local + 'api/test/deleteTest'
 export const getAllPreviousQuestions = local + 'api/test/getAllPreviousQuestions'

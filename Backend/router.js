@@ -27,6 +27,7 @@ const {
     verifyEmail,
     forgotPass,
     transferTest,
+    copyTest,
     getAllPreviousQuestions,
     createPackage,
     getPackage,
@@ -101,6 +102,7 @@ router.post('/api/test/getSingleTest', verifyJwt, getSingleTest);
 router.post('/api/test/getMyTest', verifyJwt, getMyTest);
 router.post('/api/test/uploadFile', uploadFile);
 router.post('/api/test/transferTest', verifyJwt, transferTest);
+router.post('/api/test/copyTest', verifyJwt, copyTest);
 router.post('/api/test/getAllPreviousQuestions', verifyJwt, getAllPreviousQuestions);
 
 //userTest

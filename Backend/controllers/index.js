@@ -46,6 +46,7 @@ try {
 		getUserTestDetails: require('./userTest/getUserTestDetails'),
 		saveUserTest: require('./userTest/saveUserTest'),
 		transferTest: require('./userTest/transferTest'),
+		copyTest: require('./userTest/copyTest'),
 		getResult: require('./userTest/getResult'),
 		getAllPreviousQuestions: require('./test/getAllPreviousQuestions'),
 

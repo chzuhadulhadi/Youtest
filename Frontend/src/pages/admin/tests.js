@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Table, TableBody, td, TableHead, tr, Checkbox, TextField, Dialog, DialogTitle, DialogContent, DialogActions, Typography } from '@mui/material'; // Import only the necessary components
 import { apiCall } from '../../apiCalls/apiCalls';
 import { useNavigate } from 'react-router-dom';
-import { deleteTest, updateTest, getTests,transferTests } from '../../apiCalls/apiRoutes';
+import { deleteTest, updateTest, getTests, transferTests, copyTest } from '../../apiCalls/apiRoutes';
 
 function Tests() {
     const [tests, setTests] = useState([]);
@@ -12,6 +12,7 @@ function Tests() {
     const [selectedTests, setSelectedTests] = useState([]);
     const [email, setEmail] = useState('');
     const [open, setOpen] = useState(false);
+    const [openCopy, setOpenCopy] = useState(false);
 
     const navigate = useNavigate();
     useEffect(() => {
@@ -77,7 +78,18 @@ function Tests() {
     };
     const TransferTest = () => {
         console.log('here');
-        apiCall("post", transferTests, {ids:selectedTests,email:email})
+        apiCall("post", transferTests, { ids: selectedTests, email: email })
+            .then((res) => {
+                if (res.status === 200) {
+                    loadTests();
+                }
+                setOpen(false)
+            }).catch((err) => {
+                console.error(err);
+            });
+    };
+    const CopyTest = () => {
+        apiCall("post", copyTest, { ids: selectedTests, email: email })
             .then((res) => {
                 if (res.status === 200) {
                     loadTests();
@@ -103,7 +115,7 @@ function Tests() {
                 <DialogTitle id="form-dialog-title">Transfer To:</DialogTitle>
                 <DialogContent>
                     <TextField
-                        onChange={(e)=>setEmail(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value)}
                         autoFocus
                         margin="dense"
                         id="email"
@@ -113,11 +125,30 @@ function Tests() {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => {setOpen(false)}}>Cancel</Button>
+                    <Button onClick={() => { setOpen(false) }}>Cancel</Button>
                     <Button onClick={TransferTest}>Save</Button>
                 </DialogActions>
             </Dialog>
-            
+
+            <Dialog open={openCopy}>
+                <DialogTitle id="form-dialog-title">Copy To:</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        onChange={(e) => setEmail(e.target.value)}
+                        autoFocus
+                        margin="dense"
+                        id="email"
+                        label="Email Address"
+                        type="email"
+                        fullWidth
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => { setOpenCopy(false) }}>Cancel</Button>
+                    <Button onClick={CopyTest}>Save</Button>
+                </DialogActions>
+            </Dialog>
+
             <Typography variant='h2' justifyContent={'center'} display={'flex'}>Test List</Typography>
             <TextField
                 label="Search"
@@ -126,19 +157,20 @@ function Tests() {
                 value={searchText}
                 onChange={handleSearch}
             />
-            <Button onClick={()=>{selectedTests.length<1  ?alert('select a test first'):setOpen(!open)}}  >Transfer selected test</Button>
+            <Button onClick={() => { selectedTests.length < 1 ? alert('select a test first') : setOpen(!open) }}  >Transfer selected test</Button>
+            <Button onClick={() => { selectedTests.length < 1 ? alert('select a test first') : setOpenCopy(!openCopy) }}>Copy selected test</Button>
             <Table my={2} sx={{ position: 'relative', borderCollapse: 'collapse' }}>
                 <TableHead sx={{
                     position: 'sticky',
                     top: 0,
                 }}>
-                        <th style={{textAlign:'center'}}>Select</th>
-                        <th style={{textAlign:'center'}}>#</th>
-                        <th style={{textAlign:'center'}}>Name</th>
-                        <th style={{textAlign:'center'}}>Time</th>
-                        <th style={{textAlign:'center'}}>Created At</th>
-                        <th style={{textAlign:'center'}}>Owner</th>
-                        <th style={{textAlign:'center'}}>Actions</th>
+                    <th style={{ textAlign: 'center' }}>Select</th>
+                    <th style={{ textAlign: 'center' }}>#</th>
+                    <th style={{ textAlign: 'center' }}>Name</th>
+                    <th style={{ textAlign: 'center' }}>Time</th>
+                    <th style={{ textAlign: 'center' }}>Created At</th>
+                    <th style={{ textAlign: 'center' }}>Owner</th>
+                    <th style={{ textAlign: 'center' }}>Actions</th>
                 </TableHead>
                 <TableBody>
                     {filteredTests.map((test, index) => (

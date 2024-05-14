@@ -399,7 +399,6 @@ function QuestionStep(props) {
         xlData.forEach((row, index) => {
           if (row[0]  && row[1] && row[2] && row[3]) {
             questionCounter++;
-            console.log('row[0]', row[0]);
             props.obj.mainObjectAdder({ target: { id: `question${questionCounter}`, value: row[0] } }, "questions", `question${questionCounter}`, 'question');
             props.obj.mainObjectAdder({ target: { id: `question${questionCounter}`, value: row[3] } }, "questions", `question${questionCounter}`, 'categoryName');
             props.obj.mainObjectAdder({ target: { id: `question${questionCounter}-answer${answerCounter}`, value: row[1] } }, "questions", `question${questionCounter}-answer${answerCounter}`, 'answer');
@@ -407,14 +406,13 @@ function QuestionStep(props) {
             answerCounter++;
           }
           else if (row[0] == undefined && row[1] && row[2] && row[3]) {
-            console.log('row[1]', row[1]);
+          
             props.obj.mainObjectAdder({ target: { id: `question${questionCounter}-answer${answerCounter}`, value: row[1] } }, "questions", `question${questionCounter}-answer${answerCounter}`, 'answer');
             props.obj.mainObjectAdder({ target: { id: `question${questionCounter}-answer${answerCounter}`, value: row[2] == true ? 10 : 0 } }, "questions", `question${questionCounter}-answer${answerCounter}`, 'point');
             answerCounter++;
           }
           else{
             showToastMessage("Invalid Excel Format", "red", 2);
-            
           }
         });
       } catch (error) {
