@@ -1,12 +1,12 @@
 export const environment = "C://Users/user/Downloads/";
 // export const paymentRoute="https://icredit.rivhit.co.il/API/PaymentPageRequest.svc/GetUrl";
 
-export const local = "https://youtest-git-main-zuhads-projects.vercel.app/"
-export const serverUrl = "https://youtest-git-main-zuhads-projects.vercel.app/"
-export const serverImageUrl = "https://youtest-git-main-zuhads-projects.vercel.app"
+export const local = "https://testfactory.online/"
+export const serverUrl = "https://testfactory.online/"
+export const serverImageUrl = "https://testfactory.online"
 
 
-export const frontEndPath = "https://youtest-git-main-zuhads-projects.vercel.app"
+export const frontEndPath = "https://youtest-git-main-zuhads-projects.vercel.app/"
 // export const frontEndPath = "http://localhost:3000/"
 // export const local = "http://localhost:4000/"
 // export const serverUrl = "http://localhost:4000/"
