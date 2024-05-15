@@ -69,7 +69,7 @@ function Dashboard(params) {
             <Typography variant="h4" style={{ color: '#000', fontWeight: 'bold' }}>Welcome, {user.firstName}</Typography>
           </Grid>
           <Grid item xs={6} display={'flex'} justifyContent={'flex-end'}>
-            {packageData.payment ?
+            {packageData?.payment ?
               <Grid container display={'flex'} justifyContent={'flex-end'}>
                 <Grid item xs={6}
                   style={{ textAlign: 'right' }}>
