@@ -594,7 +594,7 @@ function AddUserInList() {
                       onChange={handleOptionChange}
                     />
                     {' '}
-                    <label htmlFor="separate">Separate columns (Full name, Email)</label>
+                    <label htmlFor="separate">Separate columns (First name, Last name, Email)</label>
                     <img src="/seperate.png" alt="separate" />
                   </div>
                   <div>
@@ -607,7 +607,7 @@ function AddUserInList() {
                       onChange={handleOptionChange}
                     />
                     {' '}
-                    <label htmlFor="combined">Combined column (First name, Last name, Email)</label>
+                    <label htmlFor="combined">Combined column (Full Name, Email)</label>
                     <img src="/combined.png" alt="combined" />
                   </div>
                 </div>
@@ -683,9 +683,29 @@ function AddUserInList() {
                           );
                         }}
                       >
-                        View
+                        Edit
                       </span>
-                      |
+                      {" "}
+                      |{" "}
+                      <span
+                        className="btn"
+                        style={{
+                          backgroundColor: "#FF9000",
+                          color: "white",
+                        }}
+                        onClick={() => {
+                          clickDetector(
+                            "Edit the user in List",
+                            "editMailingList",
+                            element.id
+                          );
+                        }}
+                      >
+                        Change list name
+                        {" "}
+                      </span>
+                      {" "}
+                        |{" "}
                       <span
                         className="btn"
                         style={{
@@ -702,23 +722,6 @@ function AddUserInList() {
                       >
                         {" "}
                         Delete{" "}
-                      </span>{" "}
-                      |{" "}
-                      <span
-                        className="btn"
-                        style={{
-                          backgroundColor: "#FF9000",
-                          color: "white",
-                        }}
-                        onClick={() => {
-                          clickDetector(
-                            "Edit the user in List",
-                            "editMailingList",
-                            element.id
-                          );
-                        }}
-                      >
-                        Edit{" "}
                       </span>
                     </td>
                   </tr>
