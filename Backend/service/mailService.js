@@ -42,7 +42,7 @@ module.exports = {
 				from: process.env.EMAIL_USER,
 				to: obj.email,
 				html: `Forgot Your Password?<br>
-				  <a href="https://testfactory.online/resetpassword?token=${VerificationToken}">
+				  <a href="https://youtest-git-main-zuhads-projects.vercel.app/resetpassword?token=${VerificationToken}">
 				  		Click here to reset your password
 								</a>`,
 			}
@@ -52,7 +52,7 @@ module.exports = {
 				from: process.env.EMAIL_USER,
 				to: obj.email,
 				html: `Forgot Your Password?<br>
-				  <a href="https://testfactory.online/resetpassword?token=${VerificationToken}">
+				  <a href="https://youtest-git-main-zuhads-projects.vercel.app/resetpassword?token=${VerificationToken}">
 				  		Click here to reset your password
 								</a>`,
 			}
@@ -68,6 +68,7 @@ module.exports = {
 	},
 	
 	sendVerificationToken: async function (obj, VerificationToken, language = 'english') {
+		console.log('inside');
 		var data;
 		if (language == 'hebrew') {
 			data = {
@@ -75,7 +76,7 @@ module.exports = {
 				to: obj.email,
 				html: `
 				  Congratulations on your registration on the Test Factory website!<br>
-				  <a href="https://testfactory.online/verify?token=${VerificationToken}">
+				  <a href="https://youtest-git-main-zuhads-projects.vercel.app/verify?token=${VerificationToken}">
 					Click here to verify your email
 				  </a>
 				`,
@@ -87,7 +88,7 @@ module.exports = {
 				to: obj.email,
 				html: `
 				  Congratulations on your registration on the Test Factory website!<br>
-				  <a href="https://testfactory.online/verify?token=${VerificationToken}">
+				  <a href="https://youtest-git-main-zuhads-projects.vercel.app/verify?token=${VerificationToken}">
 					Click here to verify your email
 				  </a>
 				`,
@@ -417,7 +418,7 @@ module.exports = {
                 </tr>
                 <tr>
                     <td colspan="3" style="direction:rtl"><br> <a
-                            href="https://testfactory.online/resultpage/${emailObj.body.id
+                            href="https://youtest-git-main-zuhads-projects.vercel.app/resultpage/${emailObj.body.id
 			}"
                             target="_blank">
 							${emailObj.body.language=='english'?'Click here to see the graph':'לחץ כאן לראות את הגרף'}
@@ -525,7 +526,7 @@ module.exports = {
 		html += ` <tr>
                     <td colspan="3" bgcolor="#114e8e">
                         <div align="center" style="color:#fff;text-align:left;direction:ltr"> <a
-                                href="https://testfactory.online" style="color:#fff"
+                                href="https://youtest-git-main-zuhads-projects.vercel.app" style="color:#fff"
                                 target="_blank">
 								${emailObj.body.language=='english'?'Terms of use and service':'תנאי שימוש ושירות'}
 								</a></div>

@@ -15,8 +15,8 @@ module.exports = {
 		const dataObj={
 				GroupPrivateToken: "f87465ba-e155-4b74-a5ca-2192c84ef0fb",
 				Currency: "2",
-				RedirectURL: "https://testfactory.online/dashboard/paymentsucess",
-				FailRedirectURL: "https://testfactory.online/dashboard/paymentfail",
+				RedirectURL: "https://youtest-git-main-zuhads-projects.vercel.app/dashboard/paymentsucess",
+				FailRedirectURL: "https://youtest-git-main-zuhads-projects.vercel.app/dashboard/paymentfail",
 				IPNURL: "https://testfactory.online/api/ipn-handler",
 				CustomerFirstName: user.firstName,
 				CustomerLastName: user.lastName,
