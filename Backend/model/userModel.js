@@ -118,7 +118,7 @@ module.exports = {
 		}
 	},
 	signUp: async function (obj) {
-
+		console.log('hiii');
 		var t = await Sequelize.transaction();
 		try {
 			const filter = await userService.loginFilter(0, 1, obj.email);
@@ -126,8 +126,10 @@ module.exports = {
 			if (userLogin.length) {
 				throw new Error('already registered');
 			}
+			console.log('hiii');
 			const verificationToken = await userService.generateVerificationToken(32).then(async (token) => {
 				obj.verificationToken = token;
+				console.log('all ok');
 				var user = await mailService.sendVerificationToken(obj, token);
 			});
 
@@ -141,6 +143,7 @@ module.exports = {
 					name: obj.firstName + " " + obj.lastName
 				}
 			}
+			console.log(emailObj);
 			await mailService.create(emailObj, t);
 			await userService.signUp({ ...obj, fullName: obj.firstName + " " + obj.lastName }, t);
 
