@@ -64,52 +64,53 @@ function Dashboard(params) {
     <div className="wrapper">
       <SideBar />
       <div id="content">
-        <Grid container>
-          <Grid item xs={6}>
+        {/* add frame to container and smaller */}
+        <Grid container >
+          <Grid item xs={8}>
             <Typography variant="h4" style={{ color: '#000', fontWeight: 'bold' }}>Welcome, {user.firstName}</Typography>
           </Grid>
-          <Grid item xs={6} display={'flex'} justifyContent={'flex-end'}>
+          <Grid item xs={4} display={'flex'} justifyContent={'flex-end'} border={1} borderRadius={5} style={{ padding: '10px' }}>
             {packageData?.payment ?
               <Grid container display={'flex'} justifyContent={'flex-end'}>
                 <Grid item xs={6}
-                  style={{ textAlign: 'right' }}>
+                  style={{ textAlign: 'center' }}>
                   <h6 id="6">My package: {packageData.package.packageName} </h6>
                 </Grid>
                 <Grid item xs={6}>
                   <h6 id="6"
-                    style={{ textAlign: 'right' }}
+                    style={{ textAlign: 'center' }}
                   >Sent Tests: {packageData.package.numberOfTests - packageData.payment.RemainingNumberOfTests} </h6>
                 </Grid>
                 <Grid item xs={6}>
                   <h6 id="6"
-                    style={{ textAlign: 'right' }}
+                    style={{ textAlign: 'center' }}
                   >Remaining tests: {packageData.payment.RemainingNumberOfTests} </h6>
                 </Grid>
                 <Grid item xs={6}>
                   <h6 id="6"
-                    style={{ textAlign: 'right' }}
+                    style={{ textAlign: 'center' }}
                   >Expiry date: {new Date(packageData.payment.expireDate).toDateString()} </h6>
                 </Grid>
               </Grid> :
               <Grid container display={'flex'} justifyContent={'flex-end'}>
                 <Grid item xs={6} >
                   <h6 id="6"
-                    style={{ textAlign: 'right' }}
+                    style={{ textAlign: 'center' }}
                   >My package: {'None'} </h6>
                 </Grid>
                 <Grid item xs={6}>
                   <h6 id="6"
-                    style={{ textAlign: 'right' }}
+                    style={{ textAlign: 'center' }}
                   >Sent Tests: 0 </h6>
                 </Grid>
                 <Grid item xs={6}>
                   <h6 id="6"
-                    style={{ textAlign: 'right' }}
+                    style={{ textAlign: 'center' }}
                   >Remaining tests: 0 </h6>
                 </Grid>
                 <Grid item xs={6}>
                   <h6 id="6"
-                    style={{ textAlign: 'right' }}
+                    style={{ textAlign: 'center' }}
                   >Expiry date: N/A </h6>
                 </Grid>
               </Grid>

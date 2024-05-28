@@ -58,34 +58,34 @@ function UpdateUser() {
         <div class="Get_sec" style={{ height: '100vh' }}>
             <h1>User Profile</h1>
             <div class="container">
-                <div class="row gutters">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div class="card h-100">
+                <div class="row gutters justify-content-center align-items-center">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                        <div class="card h-100 justify-content-center align-items-center">
                             <div class="card-body">
                                 <div class="row gutters">
-                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                        <h6 class="mb-2 text-primary">Personal Details</h6>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 my-2">
+                                        <h3 class="mb-2 text-primary">Personal Details</h3>
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
+                                        <div class="form-group my-2">
                                             <label for="fullName">Full Name</label>
                                             <input type="text" class="form-control" id="fullName" placeholder="Enter full name" value={userData.firstName} onChange={(e) => { setUserData({ ...userData, firstName: e.target.value }); setUpdateData(true) }} />
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
+                                        <div class="form-group my-2">
                                             <label for="fullName">Company Name</label>
                                             <input type="text" class="form-control" id="fullName" placeholder="Enter Company Name" value={userData.lastName} onChange={(e) => { setUserData({ ...userData, lastName: e.target.value }); setUpdateData(true) }} />
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
+                                        <div class="form-group my-2">
                                             <label for="eMail">Email</label>
                                             <input type="email" class="form-control" id="email" placeholder="Enter email ID" value={userData.email} onChange={(e) => { setUserData({ ...userData, email: e.target.value }); setUpdateData(true) }} />
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
+                                        <div class="form-group my-2">
                                             <label for="phone">Phone</label>
                                             <input type="text" class="form-control" id="phone" placeholder="Enter phone number" value={userData.phoneNumber} onChange={(e) => { setUserData({ ...userData, phoneNumber: e.target.value }); setUpdateData(true) }} />
                                         </div>

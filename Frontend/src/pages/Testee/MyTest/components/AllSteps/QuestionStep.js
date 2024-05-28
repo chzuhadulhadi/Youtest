@@ -397,25 +397,32 @@ function QuestionStep(props) {
         const worksheet = workbook.Sheets[sheetName];
         const xlData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
         xlData.forEach((row, index) => {
-          if (row[0]  && row[1] && row[2] && row[3]) {
-            questionCounter++;
-            props.obj.mainObjectAdder({ target: { id: `question${questionCounter}`, value: row[0] } }, "questions", `question${questionCounter}`, 'question');
-            props.obj.mainObjectAdder({ target: { id: `question${questionCounter}`, value: row[3] } }, "questions", `question${questionCounter}`, 'categoryName');
-            props.obj.mainObjectAdder({ target: { id: `question${questionCounter}-answer${answerCounter}`, value: row[1] } }, "questions", `question${questionCounter}-answer${answerCounter}`, 'answer');
-            props.obj.mainObjectAdder({ target: { id: `question${questionCounter}-answer${answerCounter}`, value: row[2] == true ? 10 : 0 } }, "questions", `question${questionCounter}-answer${answerCounter}`, 'point');
-            answerCounter++;
-          }
-          else if (row[0] == undefined && row[1] && row[2] && row[3]) {
-          
-            props.obj.mainObjectAdder({ target: { id: `question${questionCounter}-answer${answerCounter}`, value: row[1] } }, "questions", `question${questionCounter}-answer${answerCounter}`, 'answer');
-            props.obj.mainObjectAdder({ target: { id: `question${questionCounter}-answer${answerCounter}`, value: row[2] == true ? 10 : 0 } }, "questions", `question${questionCounter}-answer${answerCounter}`, 'point');
-            answerCounter++;
-          }
-          else{
-            showToastMessage("Invalid Excel Format", "red", 2);
+          // console.log(!!(row[0] && row[1] && row[2] && row[3]));
+          // console.log(row[0], row[1], row[2], row[3]);
+          // console.log(row[0] == undefined && row[1] && row[2  ] && row[3]);
+          if (row[2]?.toLowerCase() == 'true' || row[2]?.toLowerCase() == 'false') {
+            if (!!(row[0] && row[1] && row[2] && row[3])) {
+              console.log('row', row);
+              questionCounter++;
+              props.obj.mainObjectAdder({ target: { id: `question${questionCounter}`, value: row[0] } }, "questions", `question${questionCounter}`, 'question');
+              props.obj.mainObjectAdder({ target: { id: `question${questionCounter}`, value: row[3] } }, "questions", `question${questionCounter}`, 'categoryName');
+              props.obj.mainObjectAdder({ target: { id: `question${questionCounter}-answer${answerCounter}`, value: row[1] } }, "questions", `question${questionCounter}-answer${answerCounter}`, 'answer');
+              props.obj.mainObjectAdder({ target: { id: `question${questionCounter}-answer${answerCounter}`, value: row[2]?.toLowerCase() == 'true' ? 10 : 0 } }, "questions", `question${questionCounter}-answer${answerCounter}`, 'point');
+              answerCounter++;
+            }
+            else if (!!(row[0] == undefined && row[1] && (row[2]?.toLowerCase() == 'true' || row[2]?.toLowerCase() == 'false'))) {
+              console.log('ans row', row);
+              props.obj.mainObjectAdder({ target: { id: `question${questionCounter}-answer${answerCounter}`, value: row[1] } }, "questions", `question${questionCounter}-answer${answerCounter}`, 'answer');
+              props.obj.mainObjectAdder({ target: { id: `question${questionCounter}-answer${answerCounter}`, value: row[2]?.toLowerCase() == 'true' ? 10 : 0 } }, "questions", `question${questionCounter}-answer${answerCounter}`, 'point');
+              answerCounter++;
+            }
+            else {
+              showToastMessage("Invalid Excel Format", "red", 2);
+            }
           }
         });
       } catch (error) {
+        console.log(error);
         showToastMessage("Error reading the Excel file", "red", 2);
       }
     };
@@ -1062,21 +1069,21 @@ function QuestionStep(props) {
             {
               showExampleModal &&
               <Modal show={showExampleModal} onHide={handleCloseExampleModal} animation={false}>
-              <Modal.Header closeButton>
-                <Modal.Title>Import Mailing List</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <label htmlFor={`question${questionCounter}`}>Supported File Structure:</label>
-                <img src='/ques.png' alt='question structure' />
-                <input
-                  type="file"
-                  id={`question${questionCounter}`}
-                  onChange={(e) => {
-                    setSelectedFile(e.target.files[0]);
-                  }}
-                />
-                <button style={{ position: 'relative', right: '20px' }} onClick={handleUpload} disabled={selectedFile == null}>Upload Questions from excel</button>
-              </Modal.Body>
+                <Modal.Header closeButton>
+                  <Modal.Title>Import Mailing List</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <label htmlFor={`question${questionCounter}`}>Supported File Structure:</label>
+                  <img src='/ques.png' alt='question structure' />
+                  <input
+                    type="file"
+                    id={`question${questionCounter}`}
+                    onChange={(e) => {
+                      setSelectedFile(e.target.files[0]);
+                    }}
+                  />
+                  <button style={{ position: 'relative', right: '20px' }} onClick={handleUpload} disabled={selectedFile == null}>Upload Questions from excel</button>
+                </Modal.Body>
               </Modal>
             }
             <button onClick={() => setShowExampleModal(true)}>Import Questions from excel</button>

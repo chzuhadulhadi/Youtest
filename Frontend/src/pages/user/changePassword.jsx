@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 const ChangePassword = () => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [oldPassword, setOldPassword] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -68,6 +69,10 @@ const ChangePassword = () => {
                 <div class="card-body">
                     <form class="form" role="form" autocomplete="off">
                         <div class="form-group">
+                            <label for="inputPasswordOld">Old Password</label>
+                            <input type="password" class="form-control" id="inputPasswordOld" onChange={(e) => setOldPassword(e.target.value)} required="" value={oldPassword} />
+                        </div>
+                        <div class="form-group">
                             <label for="inputPasswordNew">New Password</label>
                             <input type="password" class="form-control" id="inputPasswordNew" onChange={(e) => setNewPassword(e.target.value)} required="" value={newPassword} />
                             <span class="form-text small text-muted">
@@ -83,7 +88,7 @@ const ChangePassword = () => {
                         </div>
                         <div class="form-group">
                             <button type="submit" disabled={newPassword === '' || confirmPassword === ''} onClick={handleSubmit}
-                             class="btn btn-success btn-lg float-right">Save</button>
+                                class="btn btn-success btn-lg float-right">Save</button>
                         </div>
                     </form>
                 </div>

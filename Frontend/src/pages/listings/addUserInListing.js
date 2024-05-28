@@ -431,8 +431,8 @@ function AddUserInList() {
             }
             else if (selectedOption === "combined") {
               if (res[1].indexOf("@") === -1) {
-                showToastMessage("Invalid email address", "red", 2);
-                return;
+                // showToastMessage("Invalid email address", "red", 2);
+                continue;
               }
               else {
                 try {
@@ -452,8 +452,8 @@ function AddUserInList() {
             }
             else if (selectedOption === "separate") {
               if (res[2].indexOf("@") === -1) {
-                showToastMessage("Invalid email address", "red", 2);
-                return;
+                // showToastMessage("Invalid email address", "red", 2);
+                continue;
               }
               else {
                 try {
