@@ -135,7 +135,7 @@ function Dashboard(params) {
                     : (newlocation == '/my-landing-pages') ? <Typography variant="span" style={{ color: '#000', fontWeight: 'bold' }}>My Landing Pages</Typography>
                       : (newlocation == '/PricingPlace') ? <Typography variant="span" style={{ color: '#000', fontWeight: 'bold' }}>Pricing</Typography>
                         : (newlocation == '/my-landing-pages') ? <Typography variant="span" style={{ color: '#000', fontWeight: 'bold' }}>My Landing Pages</Typography>
-                          : (newlocation == '/update') ? <Typography variant="span" style={{ color: '#000', fontWeight: 'bold' }}>Update User</Typography>
+                          : (newlocation == '/update') ? <Typography variant="span" style={{ color: '#000', fontWeight: 'bold' }}>My Account Details</Typography>
                             : (newlocation == '/change-password') ? <Typography variant="span" style={{ color: '#000', fontWeight: 'bold' }}>Change Password</Typography>
                               : <Typography variant="span" style={{ color: '#000', fontWeight: 'bold' }}>Dashboard</Typography>
           }

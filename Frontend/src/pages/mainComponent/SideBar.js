@@ -60,7 +60,7 @@ function SideBar(props) {
                     <a id="6">Pricing </a>
                 </li>
                 <li id="7" onClick={() => { navigate("/dashboard/update") }}>
-                    <a id="7">Update User Data </a>
+                    <a id="7">My Account Details </a>
                 </li>
                 <li id="7" onClick={() => { navigate("/dashboard/change-password") }}>
                     <a id="7">Change Password </a>

@@ -56,7 +56,7 @@ function UpdateUser() {
     // Your component logic here
     return (
         <div class="Get_sec" style={{ height: '100vh' }}>
-            <h1>User Profile</h1>
+            <h1>My account details</h1>
             <div class="container">
                 <div class="row gutters justify-content-center align-items-center">
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
