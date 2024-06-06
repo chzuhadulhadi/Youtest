@@ -417,7 +417,7 @@ function AddUserInList() {
           const respon = await apiCall("post", addMailingList, { name: file.name.split(".")[0] }, true);
           // console.log(resp);
           // setMId(resp.data.data.id);
-
+          console.log(xlData);
           for (let index = 0; index < xlData.length; index++) {
             const res = xlData[index];
             //if email is in array only then add user
@@ -429,8 +429,14 @@ function AddUserInList() {
               showToastMessage("Invalid file structure", "red", 2);
               return;
             }
+            else if (res.length < 2) {
+             continue;
+            }
             else if (selectedOption === "combined") {
+              console.log(res);
               if (res[1].indexOf("@") === -1) {
+                console.log(res[1]);
+                console.log(res[1].indexOf("@"));
                 // showToastMessage("Invalid email address", "red", 2);
                 continue;
               }
