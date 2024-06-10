@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { myInfo, resetpass } from '../../apiCalls/apiRoutes'
 import { apiCall } from "../../apiCalls/apiCalls";
 import { toast } from 'react-toastify';
+import {useNavigate} from 'react-router-dom';
 
 
 const ChangePassword = () => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [oldPassword, setOldPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -31,6 +33,9 @@ const ChangePassword = () => {
                                 setNewPassword('');
                                 setConfirmPassword('');
                                 showToastMessage("Password reset sucessfull", "green", 1);
+                                setTimeout(() => {
+                                    navigate('/dashboard/mytest');
+                                }, 1000);
                             }
                         })
                         .catch((err) => {
@@ -59,10 +64,10 @@ const ChangePassword = () => {
     };
 
 
-    return (
-        <div class="Get_sec" style={{ height: '100vh' }}>
-            <h1>Change Password</h1>
-            <div class="card card-outline-secondary">
+    return (<>
+        <h1>Change Password</h1>
+        <div class="Get_sec" style={{ display:'flex',justifyContent:'center',alignItems:'center' }}>
+            <div class="card card-outline-secondary" style={{width:'400px'}}>
                 <div class="card-header">
                     <h3 class="mb-0">Change Password</h3>
                 </div>
@@ -70,7 +75,7 @@ const ChangePassword = () => {
                     <form class="form" role="form" autocomplete="off">
                         <div class="form-group">
                             <label for="inputPasswordOld">Old Password</label>
-                            <input type="password" class="form-control" id="inputPasswordOld" onChange={(e) => setOldPassword(e.target.value)} required="" value={oldPassword} />
+                            <input type="password"  class="form-control" id="inputPasswordOld" onChange={(e) => setOldPassword(e.target.value)} required="" value={oldPassword} />
                         </div>
                         <div class="form-group">
                             <label for="inputPasswordNew">New Password</label>
@@ -94,6 +99,7 @@ const ChangePassword = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 

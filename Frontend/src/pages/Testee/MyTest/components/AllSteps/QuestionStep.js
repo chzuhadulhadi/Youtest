@@ -421,6 +421,8 @@ function QuestionStep(props) {
             }
           }
         });
+          showToastMessage("Questions added successfully", "green", 1);
+          setShowExampleModal(false);
       } catch (error) {
         console.log(error);
         showToastMessage("Error reading the Excel file", "red", 2);
@@ -1070,7 +1072,7 @@ function QuestionStep(props) {
               showExampleModal &&
               <Modal show={showExampleModal} onHide={handleCloseExampleModal} animation={false}>
                 <Modal.Header closeButton>
-                  <Modal.Title>Import Mailing List</Modal.Title>
+                  <Modal.Title>Import Questions</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   <label htmlFor={`question${questionCounter}`}>Supported File Structure:</label>
