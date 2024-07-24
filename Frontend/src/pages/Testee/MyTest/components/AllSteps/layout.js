@@ -5,7 +5,6 @@ import { logoUploader } from "../../../../../apiCalls/apiRoutes";
 import { toast } from "react-toastify";
 import { serverImageUrl } from "../../../../../apiCalls/apiRoutes";
 import { SketchPicker, SwatchesPicker, ChromePicker } from "react-color";
-import { HexColorPicker } from "react-colorful";
 import { debounce } from "lodash";
 
 function TestLayout(props) {
