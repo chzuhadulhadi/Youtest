@@ -12,6 +12,7 @@ function TableRows(data) {
                     data.data.result.map(function (categories) {
                         // { console.log(categories) }
                         return (
+                            categories.category=='No Category' ? null :
                             <tr style={{textAlign:'center'}}>
                                 <td style={{textAlign:'center',paddingLeft:'200px'}}>{categories.category}</td>
                                 <td style={{textAlign:'center',paddingRight:'200px'}}>{categories.percentage} %</td>

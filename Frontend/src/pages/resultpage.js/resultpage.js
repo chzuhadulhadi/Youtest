@@ -156,11 +156,12 @@ function ResultPage() {
             {formObj.result &&
               formObj.result.map(function (categories) {
                 return (
+                  categories.category=='No Category' ? null :
                   <div style={{ textAlign: formObj?.language=='english' ? 'left' : 'right' }}>
                     <b> {categories.category + '-' + categories.percentage + '%'}</b>
                     <br />
                     {categories.text}
-                    <hr />
+                    <hr style={{marginBottom:'0px'}}/>
                   </div>
                 )
               })
@@ -170,7 +171,7 @@ function ResultPage() {
                 return (
                   <div style={{ textAlign: 'left' }}>
                     {text}
-                    <hr />
+                    <hr style={{marginBottom:'0px'}}/>
                   </div>
                 )
               }
@@ -198,7 +199,7 @@ function ResultPage() {
                             <b> {categoryData[key][questionKey]["question"]}</b>
                             <br />
                             {categoryData[key][questionKey]["selectAnswer"]}
-                            <hr />
+                            <hr style={{marginBottom:'0px'}}/>
                           </>
                         ) :
                           (
@@ -209,7 +210,7 @@ function ResultPage() {
                                 {formObj?.language == 'english' ? `Answer: ${categoryData[key][questionKey][categoryData[key][questionKey]["selectAnswer"]]['answer']}}`:` תשובה : ${categoryData[key][questionKey][categoryData[key][questionKey]["selectAnswer"]]['answer']} `
                                 }
                               </p>
-                              <hr />
+                              <hr style={{marginBottom:'0px'}}/>
                             </>
                           )
                         }
