@@ -168,7 +168,8 @@ h6 {
   margin: 0px;
   line-height: 46px;
 }
-html,body{
+html,
+body {
   width: 100vw;
 }
 @media screen and (max-width: 768px) {
@@ -184,7 +185,6 @@ html,body{
     font-size: 46px;
     text-align: center;
   }
-  
 }
 /* h1 {
   padding: 3rem;
@@ -290,19 +290,19 @@ header .Center {
   max-width: 1100px;
   margin: auto;
 }
-header .site-logo {
+/* header .site-logo {
   padding: 0px 0px 0px 0px;
   margin-top: -40px;
   width: 220px;
   float: left;
   transition: all 0.3s;
-}
-header .site-logo h1 {
+} */
+/* header .site-logo h1 {
   margin: 0px;
-}
+} */
 @media screen and (max-width: 768px) {
-  header .site-logo h1 a {
-    font-size: 26px;
+  /* header .site-logo h1 a {
+    font-size: 15px;
     color: #fff;
     font-family: "Open Sans", sans-serif;
     font-weight: 800;
@@ -310,12 +310,10 @@ header .site-logo h1 {
     text-transform: uppercase;
     text-shadow: rgb(3, 3, 3) 0px 2px 5px;
     transition: all 0.7s ease;
-  }
-  
+  } */
 }
 @media screen and (min-width: 768px) {
-  header .site-logo h1 a {
-    font-size: 36px;
+  /* header .site-logo h1 a {
     color: #fff;
     font-family: "Open Sans", sans-serif;
     font-weight: 800;
@@ -323,27 +321,26 @@ header .site-logo h1 {
     text-transform: uppercase;
     text-shadow: rgb(3, 3, 3) 0px 2px 5px;
     transition: all 0.7s ease;
-  }
-  
+  } */
 }
-header .site-logo h1 a span {
+/* header .site-logo h1 a span {
   color: #ff9000;
-}
+} */
 header.smaller {
   padding: 0px 0px 0px 0px;
   height: 60px;
   transition: all 0.3s;
   background: rgba(0, 0, 0, 0.75);
 }
-header.smaller .site-logo {
+/* header.smaller .site-logo {
   padding: 13px 0px 0px 0px;
-}
-header.smaller .site-logo h1 {
+} */
+/* header.smaller .site-logo h1 {
   line-height: 30px;
-}
-header.smaller .site-logo h1 a {
+} */
+/* header.smaller .site-logo h1 a {
   font-size: 30px;
-}
+} */
 
 /* <<< Navigation >>> */
 .Navigation {
@@ -448,7 +445,7 @@ header.smaller .Navigation li {
 /* <<< Banner Section >>> */
 .Banner_sec {
   width: 100%;
-   height: 100vh;
+  height: 100vh;
   position: relative;
   background-size: cover;
 }
@@ -502,8 +499,8 @@ header.smaller .Navigation li {
   text-transform: uppercase;
   text-decoration: none;
   display: inline-block;
-  border: solid 1px #FF9000;
-  background: #FF9000;
+  border: solid 1px #ff9000;
+  background: #ff9000;
   transition: all 0.3s ease;
 }
 .Banner_sec .leftside a:hover {
@@ -679,9 +676,14 @@ header.smaller .Navigation li {
 
 /* <<< About Section >>> */
 .About_sec {
-	background: linear-gradient(0deg, rgba(255, 254, 254, 0.8), rgba(255, 255, 255, 0.8)),
-    url(./images/pngtree-concept-of-online-exam-on-internet-png-image_6060987.png) top left no-repeat;
-	background-repeat: no-repeat;
+  background: linear-gradient(
+      0deg,
+      rgba(255, 254, 254, 0.8),
+      rgba(255, 255, 255, 0.8)
+    ),
+    url(./images/pngtree-concept-of-online-exam-on-internet-png-image_6060987.png)
+      top left no-repeat;
+  background-repeat: no-repeat;
 
   padding: 115px 0px 88px 0px;
   width: 100%;
@@ -730,7 +732,7 @@ header.smaller .Navigation li {
 .About_sec .Tabside li {
   float: none;
   padding: 0px;
-  color:black;
+  color: black;
   margin: 0px -2px;
   display: inline-block;
 }
@@ -818,8 +820,12 @@ header.smaller .Navigation li {
 
 /* <<< Services Section >>> */
 .Services_sec {
-  margin:auto;
-	background: linear-gradient(0deg, rgba(255, 254, 254, 0.8), rgba(255, 255, 255, 0.8)),
+  margin: auto;
+  background: linear-gradient(
+      0deg,
+      rgba(255, 254, 254, 0.8),
+      rgba(255, 255, 255, 0.8)
+    ),
     url(./images/ourservicesback.png) top center no-repeat;
   padding: 114px 0px 90px 0px;
   width: 100%;
@@ -864,6 +870,8 @@ header.smaller .Navigation li {
   align-items: center;
   overflow: hidden;
 }
+@media screen {
+}
 .Services_sec .Serviceside ul {
   list-style: none;
   margin: 0px;
@@ -880,12 +888,12 @@ header.smaller .Navigation li {
 }
 .Services_sec .Serviceside li.Development {
   padding: 44px 0px 161px 0px;
-  background: url(./images/Development-bg.jpg) no-repeat; 
+  background: url(./images/Development-bg.jpg) no-repeat;
   box-shadow: 1px 4px 7px -4px rgba(0, 0, 0, 0.75);
 }
 .Services_sec .Serviceside li.Development a {
   text-decoration: none;
-  background: url(./images/Development-cn.png) top center no-repeat; 
+  background: url(./images/Development-cn.png) top center no-repeat;
   display: block;
 }
 .Services_sec .Serviceside li.Development h4 {
@@ -899,17 +907,17 @@ header.smaller .Navigation li {
 }
 .Services_sec .Serviceside li.Development a:hover h4 {
   color: #fff;
-   background: url(./images/Develop-hover-icn.png) top center no-repeat; 
+  background: url(./images/Develop-hover-icn.png) top center no-repeat;
 }
 
 .Services_sec .Serviceside li.Desdin {
   padding: 44px 0px 159px 0px;
- background: url(./images/desgin-bg.jpg) no-repeat; 
+  background: url(./images/desgin-bg.jpg) no-repeat;
   box-shadow: 1px 4px 7px -4px rgba(0, 0, 0, 0.75);
 }
 .Services_sec .Serviceside li.Desdin a {
   text-decoration: none;
-  background: url(./images/desgin-icn.png) top center no-repeat; 
+  background: url(./images/desgin-icn.png) top center no-repeat;
   display: block;
 }
 .Services_sec .Serviceside li.Desdin h4 {
@@ -923,17 +931,17 @@ header.smaller .Navigation li {
 }
 .Services_sec .Serviceside li.Desdin a:hover h4 {
   color: #fff;
-  background: url(./images/desgin-hover-icn.png) top center no-repeat; 
+  background: url(./images/desgin-hover-icn.png) top center no-repeat;
 }
 
 .Services_sec .Serviceside li.Concept {
   padding: 44px 0px 159px 0px;
- background: url(./images/concept-bg.jpg) no-repeat; 
+  background: url(./images/concept-bg.jpg) no-repeat;
   box-shadow: 1px 4px 7px -4px rgba(0, 0, 0, 0.75);
 }
 .Services_sec .Serviceside li.Concept a {
   text-decoration: none;
-   background: url(./images/concept-icn.png) top center no-repeat;
+  background: url(./images/concept-icn.png) top center no-repeat;
   display: block;
 }
 .Services_sec .Serviceside li.Concept h4 {
@@ -947,17 +955,17 @@ header.smaller .Navigation li {
 }
 .Services_sec .Serviceside li.Concept a:hover h4 {
   color: #fff;
-   background: url(./images/concept-hover-icn.png) top center no-repeat; 
+  background: url(./images/concept-hover-icn.png) top center no-repeat;
 }
 
 .Services_sec .Serviceside li.System {
   padding: 44px 0px 159px 0px;
-  background: url(./images/systam-bg.jpg) no-repeat; 
+  background: url(./images/systam-bg.jpg) no-repeat;
   box-shadow: 1px 4px 7px -4px rgba(0, 0, 0, 0.75);
 }
 .Services_sec .Serviceside li.System a {
   text-decoration: none;
- background: url(./images/systam-icn.png) top center no-repeat; 
+  background: url(./images/systam-icn.png) top center no-repeat;
   display: block;
 }
 .Services_sec .Serviceside li.System h4 {
@@ -972,12 +980,12 @@ header.smaller .Navigation li {
 }
 .Services_sec .Serviceside li.System a:hover h4 {
   color: #fff;
-  background: url(./images/systam-hover-icn.png) top center no-repeat; 
+  background: url(./images/systam-hover-icn.png) top center no-repeat;
 }
 
 /* <<< Pricing Section >>> */
 .Pricing_sec {
-  padding: 112px 0px 108px 0px;
+  padding: 112px 32px 108px 0px;
   width: 100%;
   overflow: hidden;
   background: #ececec;
@@ -1145,7 +1153,6 @@ header.smaller .Navigation li {
   overflow: hidden;
 }
 .Contact_sec .Contactside {
-  
   background-size: cover;
   overflow: hidden;
 }
@@ -1158,7 +1165,7 @@ header.smaller .Navigation li {
 }
 .Contact_sec h2 {
   font-size: 57px;
-  color:#f88e04 ;
+  color: #f88e04;
   font-family: "Oswald", sans-serif;
   font-weight: 400;
   margin: 0px;
@@ -1253,9 +1260,9 @@ header.smaller .Navigation li {
 /* <<< Get Section >>> */
 .Get_sec {
   width: 100%;
-  overflow: hidden;  
+  overflow: hidden;
 
-	background-size: cover;
+  background-size: cover;
 }
 .Get_sec .Mid {
   padding: 36px 0px 95px 0px;
@@ -1266,7 +1273,7 @@ header.smaller .Navigation li {
 .Get_sec .Leftside {
   width: 48.2%;
   float: left;
-  margin:auto;
+  margin: auto;
   margin-top: 5rem;
 }
 .Get_sec .Leftside fieldset {
@@ -1286,9 +1293,8 @@ header.smaller .Navigation li {
   width: 80%;
   margin-bottom: 1rem;
   border-radius: 5px;
-  border:2px groove #CED4DA;
+  border: 2px groove #ced4da;
   box-shadow: inset 1px black;
-
 }
 .Get_sec .Leftside input:focus {
   outline: none;
@@ -1296,13 +1302,13 @@ header.smaller .Navigation li {
 .Get_sec .Leftside textarea {
   padding: 18px 20px 17px 20px;
   font-size: 14px;
-  color:black;
+  color: black;
   font-family: "Open Sans", sans-serif;
   font-weight: 400;
   width: 80%;
   height: 156px;
   resize: none;
-  border:2px groove #CED4DA;
+  border: 2px groove #ced4da;
   border-radius: 5px;
 }
 .Get_sec .Leftside textarea:focus {
@@ -1316,7 +1322,7 @@ header.smaller .Navigation li {
   font-family: "Open Sans", sans-serif;
   font-weight: 700;
   text-align: center;
-  background: #FF9000;
+  background: #ff9000;
   border: 0px;
   text-transform: uppercase;
   width: 80%;
@@ -1566,65 +1572,74 @@ footer .Cntr a:hover {
 .loginPage p {
   color: black;
 }
-.tab{
+.tab {
   display: block;
-  margin:4rem 0px;
-
+  margin: 4rem 0px;
 }
-.tab .fullWidth{
+.tab .fullWidth {
   width: 100%;
   display: flex;
   margin: auto;
-  padding: 10px 20px
+  padding: 10px 20px;
 }
 .tab .fullWidth .leftHalf {
-width: 48%;
-margin: 10px;
-
-}
-.tab .fullWidth .rightHalf{
   width: 48%;
-  margin: 10px
+  margin: 10px;
 }
-.selectInput{
+.tab .fullWidth .rightHalf {
+  width: 48%;
+  margin: 10px;
+}
+.selectInput {
   margin-top: 10px;
 }
-.selectInput select{
+.selectInput select {
   width: 200px;
   padding: 3px 10px;
-
 }
-.selectInput label{
-  font-size : 14px;
+.selectInput label {
+  font-size: 14px;
   font-weight: 500;
 }
-.nav-item button{
+.nav-item button {
   background-color: transparent !important;
-  color: #f9c922 !important; 
+  color: #f9c922 !important;
   font-size: 15px;
   padding: 10px 20px;
 }
 .nav-item button:focus {
-  background-color:  #f9c922 !important;
-  color:white !important;
+  background-color: #f9c922 !important;
+  color: white !important;
 }
 button {
   padding: 7px 14px !important;
-  font-size: 15px !important;
+  font-size: 12px !important;
   font-weight: 600;
   border: none;
   outline: none;
   text-transform: uppercase !important;
+  width: 100px;
+  text-align: center;
 }
-button:hover{
-  background-color: black !important;
+@media (max-width: 767px) {
+  button {
+    padding: 5px 10px !important;
+    font-size: 10px !important;
+    font-weight: 600;
+    border: none;
+    outline: none;
+    text-transform: uppercase !important;
+  }
+}
 
+button:hover {
+  background-color: black !important;
 }
-input:focus{
-	border: none;
-	outline: none;
-	box-shadow: none;
+input:focus {
+  border: none;
+  outline: none;
+  box-shadow: none;
 }
-#textarea{
+#textarea {
   border: none;
 }

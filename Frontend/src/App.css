@@ -54,7 +54,6 @@
   width: 100% !important;
 }
 
-
 .chart {
   margin-top: 100px;
 }
@@ -62,7 +61,17 @@
 .form-label {
   margin-top: 10px;
 }
+@media screen {
+}
 
-#content {
-  margin-left: 23vw !important;
+@media (max-width: 768px) {
+  #content {
+    /* margin-left: 23vw !important; */
+  }
+}
+
+@media (min-width: 768px) {
+  #content {
+    margin-left: 23vw !important;
+  }
 }

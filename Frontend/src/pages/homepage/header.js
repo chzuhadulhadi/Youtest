@@ -1,6 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Typography, Menu, MenuItem, Popper, Paper, Grow, MenuList } from "@mui/material";
+import {
+  Typography,
+  Menu,
+  MenuItem,
+  Popper,
+  Paper,
+  Grow,
+  MenuList,
+} from "@mui/material";
 
 import "./css/media.css";
 import "./css/theme.css";
@@ -8,10 +16,10 @@ import "./header.css";
 import { Dropdown } from "react-bootstrap";
 import { frontEndPath } from "../../apiCalls/apiRoutes";
 const menuStyle = {
-  backgroundColor: '#696969', // Set the background color to gray
-  fontSize: '1.2em',
+  backgroundColor: "#696969", // Set the background color to gray
+  fontSize: "1.2em",
   // margin:'10px',     // Increase font size slightly
-  padding: '10px 20px',      // Add padding
+  padding: "10px 20px", // Add padding
 };
 
 function Header(props) {
@@ -43,7 +51,7 @@ function Header(props) {
 
   const handleClose = (event) => {
     setAnchorEl(null);
-  }
+  };
   const logoutHandler = () => {
     localStorage.removeItem("token");
     navigate("/");
@@ -51,8 +59,8 @@ function Header(props) {
   };
 
   function handleListKeyDown(event) {
-    if (event.key === 'Tab') {
-      event.preventDefault()
+    if (event.key === "Tab") {
+      event.preventDefault();
       // setOpen(false)
       setAnchorEl(null);
     }
@@ -60,46 +68,75 @@ function Header(props) {
 
   return (
     <header className="header_nav">
-      <div className="site-logo">
-        <h1>
-          <a href="/#home">
-            Test<span>Factory</span>
-          </a>
-        </h1>
+      <div className="site-logo text-sm">
+        <a className="no-underline" href="/#home">
+          <span className="text-white text-3xl font-bold">TEST</span>
+          <span className="text-[#ff9000] text-3xl font-bold">FACTORY</span>
+        </a>
       </div>
       <nav>
-        <ul className={isMobileMenuOpen ? 'nav_items show_menu' : 'nav_items'}>
-          <div className="close_menu" onClick={() => setIsMobileMenuOpen(false)}>
+        <ul className={isMobileMenuOpen ? "nav_items show_menu" : "nav_items"}>
+          <div
+            className="close_menu"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
             <i className="fas fa-times"></i>
           </div>
           <li className="active">
-            <Typography sx={{ minWidth: 100 }}><a href="/#home">Home</a></Typography>
+            <Typography sx={{ minWidth: 100 }}>
+              <a href="/#home">Home</a>
+            </Typography>
           </li>
           <li>
-            <Typography sx={{ minWidth: 100 }}> <a href="/#about">About</a></Typography>
+            <Typography sx={{ minWidth: 100 }}>
+              {" "}
+              <a href="/#about">About</a>
+            </Typography>
+          </li>
+
+          <li>
+            <Typography sx={{ minWidth: 100 }}>
+              <a href="/#services">Services</a>
+            </Typography>
           </li>
           <li>
-            <Typography sx={{ minWidth: 100 }}><a href="/#services">Services</a></Typography>
+            <Typography sx={{ minWidth: 100 }}>
+              <a href="#contact">Contact</a>
+            </Typography>
           </li>
-          <li>
-            <Typography sx={{ minWidth: 100 }}><a href="#contact">Contact</a></Typography>
-          </li>
-          {token ?
-            <> <li>
-              <Typography sx={{ minWidth: 100 }}><a href="/dashboard/mytest">Dashboard</a></Typography>
-            </li>
-              <li><Typography sx={{ minWidth: 100 }}><a href="/" onClick={logoutHandler}>Logout</a></Typography></li></>
-            : <> <li >
-              <Link style={{ color: "white" }} to={frontEndPath + 'login'}>
-                Login
-              </Link>
-              <span className="menu-item-bg"></span>
-            </li><li >
-                <Link style={{ color: "white" }} to={frontEndPath + 'signup'}>
+          {token ? (
+            <>
+              {" "}
+              <li>
+                <Typography sx={{ minWidth: 100 }}>
+                  <a href="/dashboard/mytest">Dashboard</a>
+                </Typography>
+              </li>
+              <li>
+                <Typography sx={{ minWidth: 100 }}>
+                  <a href="/" onClick={logoutHandler}>
+                    Logout
+                  </a>
+                </Typography>
+              </li>
+            </>
+          ) : (
+            <>
+              {" "}
+              <li>
+                <Link style={{ color: "black" }} to={frontEndPath + "login"}>
+                  Login
+                </Link>
+                <span className="menu-item-bg"></span>
+              </li>
+              <li>
+                <Link className="text-black" to={frontEndPath + "signup"}>
                   Signup
                 </Link>
                 <span className="menu-item-bg"></span>
-              </li></>}
+              </li>
+            </>
+          )}
         </ul>
       </nav>
       <div className="menu-toggle" onClick={() => setIsMobileMenuOpen(true)}>

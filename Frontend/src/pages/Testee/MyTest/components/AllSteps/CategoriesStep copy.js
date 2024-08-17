@@ -1,9 +1,10 @@
 import React, { Component, useEffect, useState } from "react";
+
+// import '../../style.css'
 import "./steps.css";
 import Modal from "react-bootstrap/Modal";
 
 var categoryCounter = 0;
-
 function CategoriesStep(props) {
   const [categoryadder, setCategoryAdder] = useState(0);
   const [html, setHtml] = useState({});
@@ -16,7 +17,6 @@ function CategoriesStep(props) {
     e.preventDefault();
     setFormVisibility(!isFormVisible);
   };
-
   const [selectedCat, setSelectedCat] = useState({
     noOfQuestion: null,
     categoryName: "",
@@ -34,12 +34,11 @@ function CategoriesStep(props) {
       setCategoryHaveData(false);
     }
   }, [props.obj.categoryStore]);
-
   useEffect(() => {
     if (props.obj?.mainObj?.categoryStore) {
       if (
         Object.keys(props.obj?.mainObj?.categoryStore).length > 0 &&
-        categoryCounter === 0
+        categoryCounter == 0
       ) {
         setFormVisibility(true);
         categoryCounter +=
@@ -47,10 +46,12 @@ function CategoriesStep(props) {
       }
     }
   }, [props.obj?.mainObj?.categoryStore]);
-
   const categoryValueAdder = (e, name) => {
+    console.log(e.target.value, name);
     props.obj.setCategoryStore((prev) => {
       let prevObj = Object.assign({}, prev);
+      // console.log(prevObj);
+      // console.log(categoryCounter);
       prevObj[categoryCounter]
         ? (prevObj[categoryCounter] = { ...prevObj[categoryCounter] })
         : (prevObj[categoryCounter] = { categoryName: "", noOfQuestion: 0 });
@@ -62,7 +63,6 @@ function CategoriesStep(props) {
     });
     return 0;
   };
-
   function addCategory(e) {
     e.preventDefault();
     document.getElementById("category-form").reset();
@@ -71,7 +71,6 @@ function CategoriesStep(props) {
     props.obj.setNewCategoryCreated(categoryadder + 1);
     setCategoryAdder(categoryadder + 1);
   }
-
   function deleteCategory(e) {
     setCategoryHaveData(false);
     delete props.obj.categoryStore[e.target.id];
@@ -103,6 +102,8 @@ function CategoriesStep(props) {
   const handleClose = () => setShowEditModal(false);
 
   const editHandler = (e, selectedOne) => {
+    //Remove previous
+
     setSelectedCat((prev) => {
       return { ...prev, [e.target.id]: e.target.value };
     });
@@ -110,7 +111,7 @@ function CategoriesStep(props) {
       selectedOne + selectedCategory?.index
     );
     slctedone.innerHTML = e.target.value;
-
+    console.log(e.target.value);
     props.obj.setCategoryStore((prev) => {
       let prevObj = Object.assign({}, prev);
       prevObj[selectedCategory?.index]
@@ -135,7 +136,7 @@ function CategoriesStep(props) {
     props.obj.addCategoryStoreToMain();
     Object.keys(props.obj.mainObj.questions).map((key) => {
       if (
-        props.obj.mainObj.questions[key].categoryName ===
+        props.obj.mainObj.questions[key].categoryName ==
         originalCat.categoryName
       ) {
         props.obj.mainObj.questions[key].categoryName =
@@ -144,14 +145,13 @@ function CategoriesStep(props) {
     });
     setShowEditModal(false);
   }
-
   return (
     <>
       <div
-        className="categories-content w-[90%] mx-auto flex flex-col md:flex-row"
-        hidden={props.obj.tabSelected === "CATEGORIES" ? false : true}
+        className="categories-content"
+        hidden={props.obj.tabSelected == "CATEGORIES" ? false : true}
       >
-        <div className="leftHalf w-full md:w-1/2">
+        <div className="leftHalf" style={{ float: "left" }}>
           <Modal show={showEditModal} onHide={handleClose} animation={false}>
             <Modal.Header closeButton>
               <Modal.Title>Edit listing</Modal.Title>
@@ -165,7 +165,7 @@ function CategoriesStep(props) {
                   name="categoryField"
                   value={selectedCat?.categoryName}
                   onChange={(e) => editHandler(e, "categoryName")}
-                  className="form-control mb-3 pt-3 pb-3 w-full"
+                  className="form-control mb-3 pt-3 pb-3"
                 />
                 <label className="form-label">No of Questions</label>
                 <input
@@ -179,27 +179,25 @@ function CategoriesStep(props) {
               </div>
             </Modal.Body>
           </Modal>
-
           <form
             id="category-form"
             onSubmit={(e) => {
               e.preventDefault();
               props.obj.showTab("QUESTIONS");
             }}
-            className="formClass mt-5"
+            className="formClass mt-5 ml-8 "
           >
             <section className="toggle">
               <button
                 type="submit"
                 onClick={toggleFormVisibility}
-                className="md:w-1/2 w-full m-2"
                 style={{ position: "relative", right: "15px" }}
               >
                 {isFormVisible ? "Create a category" : "Create a category"}
               </button>
               <button
                 type="button"
-                className="next-button md:w-1/2 w-full m-2"
+                className="next-button"
                 onClick={() => {
                   props.obj.showTab("QUESTIONS");
                 }}
@@ -217,9 +215,11 @@ function CategoriesStep(props) {
 
             {isFormVisible && (
               <>
-                <h3 className="ml-4">#2 - Categories</h3>
-                <div className="questionSetter ml-3">
-                  <label className="form-label text-xs">Name of Category</label>
+                <h3 style={{ marginLeft: "15px" }}>#2 - Categories</h3>
+                <div className="questionSetter" style={{ marginLeft: "10px" }}>
+                  <label className="form-label" style={{ fontSize: "10px" }}>
+                    Name of Category
+                  </label>
                   <input
                     id={"category"}
                     type="text"
@@ -236,11 +236,13 @@ function CategoriesStep(props) {
                     placeholder="No Of Qs"
                     className="form-control mb-3 pt-3 pb-3"
                   />
+
                   <br />
                 </div>
                 <button
-                  onClick={(e) => addCategory(e)}
-                  className="md:w-1/2 w-full m-2"
+                  onClick={(e) => {
+                    addCategory(e);
+                  }}
                   style={{ position: "relative", right: "3px" }}
                 >
                   Save Category
@@ -248,82 +250,94 @@ function CategoriesStep(props) {
               </>
             )}
 
+            {/* {Object.keys(html).map(function (key, i) {
+                        <button>Add Question</button>
+                        return html[key]
+                    })
+                    } */}
             <br />
-            <div className="fixed  bottom-0 left-0 shadow-lg p-3 bg-white w-full">
-              <div className="w-[90%]">
-                <button
-                  type="submit"
-                  className="float-end  w-max  bg-blue-500 text-white py-2 rounded"
-                  onClick={(e) => {
-                    props.obj.apiCallToCreateTest(e);
-                  }}
-                >
-                  Save Test & Close
-                </button>
-                <button
-                  onClick={() => props.obj.setTabSelected("PROPERTIES")}
-                  className=" fixed left-0 md:left-[340px] top-1/2 transform -translate-y-1/2 bg-blue-500 text-white p-4 rounded-full shadow-lg"
-                >
-                  &larr;
-                </button>
-                <button
-                  onClick={() => props.obj.setTabSelected("QUESTIONS")}
-                  className="fixed right-0 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white p-4 rounded-full shadow-lg"
-                >
-                  &rarr;
-                </button>
-              </div>
-            </div>
+            <button
+              type="submit"
+              onClick={(e) => {
+                props.obj.apiCallToCreateTest(e);
+              }}
+              style={{ position: "relative", right: "3px" }}
+            >
+              {" "}
+              Save Test & Close{" "}
+            </button>
+            <button
+              className="next-button"
+              type="submit"
+              style={{ position: "relative", right: "3px" }}
+            >
+              {" "}
+              Next{" "}
+            </button>
           </form>
         </div>
 
-        <div className="rightHalf w-full md:w-1/2 mt-5 md:mt-0">
+        {
+          //Table
+        }
+        <div className="rightHalf " style={{}}>
           {categoryHaveData && (
             <>
               {isFormVisible && (
                 <>
                   <h2>Categories Created</h2>
-                  <table className="table table-striped w-full">
+                  <table className="table table-striped ">
                     <thead>
                       <tr>
                         <th scope="col">Category</th>
                         <th scope="col">No of Qs</th>
                         <th scope="col">Actions</th>
+                        {/* <th scope="col">Action</th> */}
                       </tr>
                     </thead>
                     <tbody>
                       {Object.keys(props.obj.categoryStore).map(
-                        (key, index) => (
-                          <tr key={index}>
-                            <td id={"categoryName" + index} name="categoryName">
-                              {props.obj.categoryStore[key]["categoryName"]}
-                            </td>
-                            <td id={"noOfQuestion" + index} name="noOfQuestion">
-                              {props.obj.categoryStore[key]["noOfQuestion"]}
-                            </td>
-                            <td>
-                              <span
-                                style={{ color: "blue" }}
-                                className="btn"
-                                id={key}
-                                onClick={deleteCategory}
+                        (key, index) => {
+                          return (
+                            <tr key={index}>
+                              <td
+                                id={"categoryName" + index}
+                                name="categoryName"
                               >
-                                Delete
-                              </span>
-                              |
-                              <span
-                                style={{ color: "blue" }}
-                                className="btn"
-                                id={key}
-                                onClick={(e) => {
-                                  editFunctionality({ index: index });
-                                }}
+                                {props.obj.categoryStore[key]["categoryName"]}
+                              </td>
+                              <td
+                                id={"noOfQuestion" + index}
+                                name="noOfQuestion"
                               >
-                                Edit
-                              </span>
-                            </td>
-                          </tr>
-                        )
+                                {props.obj.categoryStore[key]["noOfQuestion"]}
+                              </td>
+                              <td>
+                                <span
+                                  style={{ color: "blue" }}
+                                  className="btn"
+                                  id={key}
+                                  onClick={deleteCategory}
+                                >
+                                  Delete
+                                </span>
+                                |
+                                <span
+                                  style={{ color: "blue" }}
+                                  className="btn"
+                                  id={key}
+                                  onClick={(e) => {
+                                    editFunctionality({
+                                      index: index,
+                                    });
+                                  }}
+                                >
+                                  Edit
+                                </span>
+                              </td>
+                            </tr>
+                          );
+                        }
                       )}
                     </tbody>
                   </table>

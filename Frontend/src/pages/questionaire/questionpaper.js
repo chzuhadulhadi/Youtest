@@ -10,7 +10,7 @@ import {
   linkTest,
   viewAttachedTests,
   pathToViewTest,
-  frontEndPath
+  frontEndPath,
 } from "../../apiCalls/apiRoutes";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -29,8 +29,8 @@ function Paper() {
   const [getAllTestsAttached, setGetAllTestsAttached] = useState({
     limit: 10,
     page: 1,
-    id: 1
-  })
+    id: 1,
+  });
   const [modalHandler, setModalHandler] = useState("");
   const [modalTitle, setModalTitle] = useState("");
   const [elementId, setElementId] = useState("");
@@ -99,15 +99,15 @@ function Paper() {
   }, [rendControl]);
 
   const getAllAttachedTest = async () => {
-
-    apiCall('post', viewAttachedTests, getAllTestsAttached, true)
+    apiCall("post", viewAttachedTests, getAllTestsAttached, true)
       .then((res) => {
-        console.log(res.data.data.rows, "dadii")
-        setCurrentRecord(res?.data?.data?.rows)
-      }).catch((err) => {
-        console.log(err)
+        console.log(res.data.data.rows, "dadii");
+        setCurrentRecord(res?.data?.data?.rows);
       })
-  }
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const deleteModal = () => {
     return (
@@ -130,58 +130,53 @@ function Paper() {
       </Modal.Body>
     );
   };
-  var array = []
+  var array = [];
   const checkboxFunctionality = (e) => {
     if (e.target.checked) {
-      array.push(e.target.id)
+      array.push(e.target.id);
+    } else {
+      const indexs = array.indexOf(e.target.id);
+      array.splice(indexs, 1);
     }
-    else {
-      const indexs = array.indexOf(e.target.id)
-      array.splice(indexs, 1)
-    }
-  }
-
+  };
 
   const showAttachedTestModal = () => {
     return (
       <Modal.Body>
         <h3>List of attached tests </h3>
-        <table style={{ width: "100%" }} >
+        <table style={{ width: "100%" }}>
           <thead>
-            <tr style={{ textAlign: 'center' }}>
-              <th>
-                No
-              </th>
-              <th>
-                User
-              </th>
-              <th>
-                Email Id
-              </th>
-              <th>
-                Link
-              </th>
+            <tr style={{ textAlign: "center" }}>
+              <th>No</th>
+              <th>User</th>
+              <th>Email Id</th>
+              <th>Link</th>
             </tr>
           </thead>
           <tbody>
-
-            {
-              (currentRecords.length !== 0) ?
-                currentRecords.map((ele, index) => {
-                  console.log(ele, "pop")
-                  const url = pathToViewTest + "/" + ele?.userTest?.id
-                  return (
-                    <tr key={index}>
-                      <td>{index} </td>
-                      <td>{ele?.userTest?.user?.fullName} </td>
-                      <td>{ele?.userTest?.user?.email}</td>
-                      <td style={{ color: 'blue', cursor: "pointer" }} onClick={() => { window.location.replace(url) }}>{url}</td>
-                    </tr>
-                  )
-                })
-
-                : <p>No attached Test</p>
-            }
+            {currentRecords.length !== 0 ? (
+              currentRecords.map((ele, index) => {
+                console.log(ele, "pop");
+                const url = pathToViewTest + "/" + ele?.userTest?.id;
+                return (
+                  <tr key={index}>
+                    <td>{index} </td>
+                    <td>{ele?.userTest?.user?.fullName} </td>
+                    <td>{ele?.userTest?.user?.email}</td>
+                    <td
+                      style={{ color: "blue", cursor: "pointer" }}
+                      onClick={() => {
+                        window.location.replace(url);
+                      }}
+                    >
+                      {url}
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <p>No attached Test</p>
+            )}
           </tbody>
         </table>
 
@@ -194,7 +189,7 @@ function Paper() {
         </button>
       </Modal.Body>
     );
-  }
+  };
 
   const showModalForLink = () => {
     return (
@@ -205,9 +200,17 @@ function Paper() {
             console.log(res);
             return (
               <>
-                <label><input type="checkbox" onChange={checkboxFunctionality} id={res.id} />{res?.name} </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    onChange={checkboxFunctionality}
+                    id={res.id}
+                  />
+                  {res?.name}{" "}
+                </label>
                 <br />
-              </>)
+              </>
+            );
           })
         ) : (
           <div></div>
@@ -216,19 +219,22 @@ function Paper() {
           onClick={() => {
             if (array == []) {
               showToastMessage("Please select one Test", "red", 2);
-            }
-            else if (array.length > 1) {
+            } else if (array.length > 1) {
               showToastMessage("Please select only one Test", "red", 2);
-            }
-            else {
+            } else {
               setShow(false);
-              apiCall('post', linkTest, { testId: array[0], id: elementId }, true)
+              apiCall(
+                "post",
+                linkTest,
+                { testId: array[0], id: elementId },
+                true
+              )
                 .then((res) => {
                   showToastMessage("Linked Successfully", "green", 1);
                 })
                 .catch((err) => {
                   showToastMessage(err?.response?.data?.message, "red", 2);
-                })
+                });
             }
           }}
         >
@@ -243,10 +249,10 @@ function Paper() {
         </button>
       </Modal.Body>
     );
-  }
+  };
 
   const editLandingPage = () => {
-    apiCall("post", updateLandingPage, { id: elementId, }, true)
+    apiCall("post", updateLandingPage, { id: elementId }, true)
       .then((res) => {
         console.log(res);
         showToastMessage("Landing page updated Successfully ", "green", 1);
@@ -288,11 +294,12 @@ function Paper() {
   };
 
   return (
-    <div className="">
+    <div className="sm:pl-3 md:pl-8 w-[90%] mx-auto">
       <h1>Landing Pages</h1>
 
       <button
-      style={{position:'relative', right:'20px'}}
+        className="w-1/2 md:w-1/4"
+        style={{ position: "relative", right: "20px" }}
         onClick={() => {
           navigate("/dashboard/landingpage");
         }}
@@ -309,40 +316,68 @@ function Paper() {
         {modalHandler == "showAttachedTestModal" && showAttachedTestModal()}
       </Modal>
       <div>
-        <table className="table" style={{ borderSpacing: '0 15px', borderCollapse: 'separate' }}>
+        <table
+          className="table"
+          style={{ borderSpacing: "0 15px", borderCollapse: "separate" }}
+        >
           <thead>
             <tr>
-              <th style={{ textAlign: 'center' }} scope="col">No</th>
-              <th style={{ textAlign: 'center' }} scope="col">Name</th>
-              <th style={{ textAlign: 'center' }} scope="col">Test Actions</th>
-              <th style={{ textAlign: 'center' }} scope="col">Landing Page Actions</th>
-              <th style={{ textAlign: 'center' }} scope="col">Landing Page Link</th>
-              <th style={{ textAlign: 'center' }} scope="col">Landing Page Form</th>
+              <th style={{ textAlign: "center" }} scope="col">
+                No
+              </th>
+              <th style={{ textAlign: "center" }} scope="col">
+                Name
+              </th>
+              <th style={{ textAlign: "center" }} scope="col">
+                Test Actions
+              </th>
+              <th style={{ textAlign: "center" }} scope="col">
+                Landing Page Actions
+              </th>
+              <th style={{ textAlign: "center" }} scope="col">
+                Landing Page Link
+              </th>
+              <th style={{ textAlign: "center" }} scope="col">
+                Landing Page Form
+              </th>
             </tr>
           </thead>
           {allLandingPages.map((ele, index) => {
-            var tempElement = document.createElement('div');
+            var tempElement = document.createElement("div");
             tempElement.innerHTML = ele?.html;
-            var firstText = tempElement.querySelector('#mainNav1')?.textContent?.trim();
+            var firstText = tempElement
+              .querySelector("#mainNav1")
+              ?.textContent?.trim();
             return (
-              <tr key={index} >
-                <td style={{ fontSize: '16px' }}>{index + 1}</td>
-                <td style={{ fontSize: '16px' }}>
-                  {firstText}
-                </td>
-                <td style={{ fontSize: '16px' }}>
-                  <span style={{ background: '#FF9000', margin: '5px', cursor: 'pointer', color: 'white' }}
+              <tr key={index}>
+                <td style={{ fontSize: "16px" }}>{index + 1}</td>
+                <td style={{ fontSize: "16px" }}>{firstText}</td>
+                <td style={{ fontSize: "16px" }}>
+                  <span
+                    style={{
+                      background: "#FF9000",
+                      margin: "5px",
+                      cursor: "pointer",
+                      color: "white",
+                    }}
                     onClick={() => {
                       setModalHandler("linkModal");
                       setShow(true);
                       setElementId(ele.id);
                       setModalTitle("Link the landing page to a test");
-                    }}>
+                    }}
+                  >
                     Link
                   </span>
                 </td>
-                <td style={{ fontSize: '16px' }}>
-                  <span style={{ background: '#FF9000', margin: '5px', cursor: 'pointer', color: 'white' }}
+                <td style={{ fontSize: "16px" }}>
+                  <span
+                    style={{
+                      background: "#FF9000",
+                      margin: "5px",
+                      cursor: "pointer",
+                      color: "white",
+                    }}
                     onClick={() => {
                       setModalHandler("deleteModal");
                       setShow(true);
@@ -352,7 +387,13 @@ function Paper() {
                   >
                     Delete
                   </span>
-                  <span style={{ background: '#FF9000', margin: '5px', cursor: 'pointer', color: 'white' }}
+                  <span
+                    style={{
+                      background: "#FF9000",
+                      margin: "5px",
+                      cursor: "pointer",
+                      color: "white",
+                    }}
                     onClick={() => {
                       navigate(`/dashboard/editLandingPage/?id=${ele?.id}`);
                     }}
@@ -369,29 +410,41 @@ function Paper() {
                 </td>
                 <td>
                   {frontEndPath}landingpage/?id={ele?.id}
-                  <span style={{ background: '#FF9000', margin: '10px', cursor: 'pointer', color: 'white' }}
+                  <span
+                    style={{
+                      background: "#FF9000",
+                      margin: "10px",
+                      cursor: "pointer",
+                      color: "white",
+                    }}
                     onClick={() => {
-                      navigator.clipboard.writeText(`${frontEndPath}landingpage/?id=${ele?.id}`)
+                      navigator.clipboard.writeText(
+                        `${frontEndPath}landingpage/?id=${ele?.id}`
+                      );
                       showToastMessage("Copied Successfully", "green", 1);
-                    }
-                    }
+                    }}
                   >
                     Copy
                   </span>
-
                 </td>
                 <td>
                   {frontEndPath}landingpageform/?id={ele?.id}
-                  <span style={{ background: '#FF9000', margin: '10px', cursor: 'pointer', color: 'white' }}
+                  <span
+                    style={{
+                      background: "#FF9000",
+                      margin: "10px",
+                      cursor: "pointer",
+                      color: "white",
+                    }}
                     onClick={() => {
-                      navigator.clipboard.writeText(`${frontEndPath}landingpageform/?id=${ele?.id}`)
+                      navigator.clipboard.writeText(
+                        `${frontEndPath}landingpageform/?id=${ele?.id}`
+                      );
                       showToastMessage("Copied Successfully", "green", 1);
-                    }
-                    }
+                    }}
                   >
                     Copy
                   </span>
-
                 </td>
               </tr>
             );
@@ -409,9 +462,7 @@ function Paper() {
             nextLinkClassName={"page-number"}
             activeLinkClassName={"active"}
           />
-        )
-
-        }
+        )}
       </div>
 
       <div id="htmlDiv"></div>

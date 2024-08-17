@@ -44,19 +44,20 @@ function MyQuestionaire() {
 
     // Duplicate the data array and insert the duplicatedTest at the next index
     // const newData = [...data.slice(0, index + 1), duplicatedTest, ...data.slice(index + 1)];
-    
+
     // Update the state with the new data
     // setData(newData);
     // console.log("duplicatedTest", duplicatedTest);
-    apiCall("post",duplicateTestApi, {id:duplicatedTest.id})
-    .then((response) => {
-      if (response.status == 200) {
-        showToastMessage("Test duplicated Successfully", "green", 1);
-        getTestData();
-      } else {
-        showToastMessage("Something went wrong", "red", 2);
+    apiCall("post", duplicateTestApi, { id: duplicatedTest.id }).then(
+      (response) => {
+        if (response.status == 200) {
+          showToastMessage("Test duplicated Successfully", "green", 1);
+          getTestData();
+        } else {
+          showToastMessage("Something went wrong", "red", 2);
+        }
       }
-    });
+    );
   };
 
   const showToastMessage = (text, color, notify) => {
@@ -102,15 +103,14 @@ function MyQuestionaire() {
     getTestData();
   }, [currentPage]);
 
-
-
   const handleClose = () => setShow(false);
 
   const navigate = useNavigate();
 
   const sendTestButtonCapture = () => {
-    sendButtonDisable ? alert("Please select at least one Test List") :
-      setSendTest(true);
+    sendButtonDisable
+      ? alert("Please select at least one Test List")
+      : setSendTest(true);
   };
 
   function searchParam(e) {
@@ -136,13 +136,12 @@ function MyQuestionaire() {
   }
 
   function questionCount(ele) {
-    console.log("data received", ele)
+    console.log("data received", ele);
     var total = 0;
     Object.keys(ele.testObj).map(function (key, i) {
       Object.keys(ele.testObj[key]).map(function (questions, i) {
         ++total;
-
-      })
+      });
     });
     return total;
   }
@@ -152,24 +151,22 @@ function MyQuestionaire() {
       id: data?.id,
       nameOfTest: data?.name,
       timeLimit: data?.timeLimit,
-
     };
     // alert(e.target.checked)
     if (e.target.checked) {
-      obj = { ...obj, NoOfQuestions: questionCount(data) }
+      obj = { ...obj, NoOfQuestions: questionCount(data) };
       // console.log("userDataToDisplay",data)
 
       // console.log("userDataToDisplay",obj)
-      const newobj = { ...obj }
+      const newobj = { ...obj };
       testArray.push(newobj);
-      setUserDataArray(oldArray => [...oldArray, testArray]);
+      setUserDataArray((oldArray) => [...oldArray, testArray]);
       setSendTest(true);
     } else {
-
-      const indexx = testArray.indexOf(userDataToDisplay)
-      testArray.splice(indexx, 1)
+      const indexx = testArray.indexOf(userDataToDisplay);
+      testArray.splice(indexx, 1);
     }
-    setArrayLenght(testArray.length)
+    setArrayLenght(testArray.length);
   }
 
   function checkboxFunctionality(data, e) {
@@ -178,27 +175,25 @@ function MyQuestionaire() {
       id: data?.id,
       nameOfTest: data?.name,
       timeLimit: data?.timeLimit,
-
     };
     // alert(e.target.checked)
     if (e.target.checked) {
-      obj = { ...obj, NoOfQuestions: questionCount(data) }
+      obj = { ...obj, NoOfQuestions: questionCount(data) };
       // console.log("userDataToDisplay",data)
 
       // console.log("userDataToDisplay",obj)
-      const newobj = { ...obj }
+      const newobj = { ...obj };
       testArray.push(newobj);
-      setUserDataArray(oldArray => [...oldArray, testArray]);
+      setUserDataArray((oldArray) => [...oldArray, testArray]);
       // console.log("newobj",newobj)
     } else {
-
-      const indexx = testArray.indexOf(userDataToDisplay)
-      testArray.splice(indexx, 1)
+      const indexx = testArray.indexOf(userDataToDisplay);
+      testArray.splice(indexx, 1);
     }
-    setArrayLenght(testArray.length)
+    setArrayLenght(testArray.length);
   }
   const DeleteTest = (id) => {
-    apiCall("post", deletemyTest, {id:id})
+    apiCall("post", deletemyTest, { id: id })
       .then((response) => {
         if (response.status == 200) {
           showToastMessage("Test Deleted Successfully", "green", 1);
@@ -213,122 +208,145 @@ function MyQuestionaire() {
   };
 
   useEffect(() => {
-    (arrayLenght !== 0) ? setSendButtonDisable(false) : setSendButtonDisable(true)
-  }, [arrayLenght])
+    arrayLenght !== 0
+      ? setSendButtonDisable(false)
+      : setSendButtonDisable(true);
+  }, [arrayLenght]);
 
   return (
     <>
-      {sendTest === false ? (
-        <div className="myquestionairemain">
-          <div className="questionaireTable">
-            <h1 style={{padding:0}}>Tests List</h1>
-            <Button
-              variant="primary"
-              onClick={() => {
-                navigate("/dashboard/mytest/createtest");
-                
-              }
-            }
-            style={{ position:'relative', right:'20px' }}
-            >
-              Create a new Test
-            </Button>
-            <input
-              type="search"
-              onChange={searchParam}
-              placeholder="Search ... "
-              className="searchInput"
-              id="myInput"
-            />
-            <>
-              <table class="table" id="myTable">
-                <thead>
-                  <tr>
-                    <th>Select</th>
-                    <th>Sr No.</th>
-                    <th>Name</th>
-                    <th>No Of Questions</th>
-                    <th>Time In Mins</th>
-                    <th>Change</th>
-                    <th>Single Send</th>
+      <div className="w-[90%] mx-auto">
+        {sendTest === false ? (
+          <div className="myquestionairemain">
+            <div className="sm:pl-2 md:pl-5">
+              <h1 style={{ padding: 0 }}>Tests List</h1>
+              <Button
+                className="w-full sm:w-1/4"
+                variant="primary"
+                onClick={() => {
+                  navigate("/dashboard/mytest/createtest");
+                }}
+                style={{ position: "relative", right: "20px" }}
+              >
+                Create a new Test
+              </Button>
+              <input
+                type="search"
+                onChange={searchParam}
+                placeholder="Search ... "
+                className="searchInput"
+                id="myInput"
+              />
+              <>
+                <table className="w-full" class="table" id="myTable">
+                  <thead>
+                    <tr>
+                      <th>Select</th>
+                      <th>Sr No.</th>
+                      <th>Name</th>
+                      <th>No Of Questions</th>
+                      <th>Time In Mins</th>
+                      <th>Change</th>
+                      <th>Single Send</th>
 
-
-                    {/* <th>orientation</th>
+                      {/* <th>orientation</th>
                   <th>Introductory Message</th>
                   <th>Ending Message</th>
                   <th> Scoring Type</th>
                   <th> Random Order</th>
                   <th>Time Limit</th>
                  */}
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.length > 0 && data.map((ele, index) => {
-                    return (
-                      <tr key={index}>
-                        <td style={{width:"1%"}}>
-                          <input
-                            type="checkbox"
-                            onChange={(e) => {
-                              checkboxFunctionality(ele, e);
-                            }}
-                          />
-                        </td>
-                        <td>{index + 1}</td>
-                        <td>{ele.name}</td>
-                        <td>{questionCount(ele)}</td>
-                        <td>{ele.timeLimit}</td>
-                        <td>
-                          <a href={`/dashboard/mytest/edittest/?id=${ele?.id}`} style={{ color: "blue"}}>Edit Test</a>
-                           | <a
-                            style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
-                            onClick={() => {
-                              DeleteTest(ele.id);
-                            }}
-                          >
-                            Delete Test
-                          </a>
-                          <a
-                href="#"
-                style={{ color: "blue" }}
-                onClick={() => {
-                  duplicateTest(index);
-                }}
-              >
-                |  Duplicate Test
-              </a>
-                           </td>
-                        <td>
-                          <a
-                            style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
-                            onClick={() => {
-                              sendTestAndCheckboxFunctionality(ele, { target: { checked: true } });
-                            }}
-                          >
-                            Send This Test
-                          </a>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-                <button
-                  onClick={(e) => {
-                    sendTestButtonCapture()
-                  }}
-                  className="buttontest"
-                  disabled={sendButtonDisable}
-                >
-                  Send Test
-                </button>
-              </table>
-            </>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data.length > 0 &&
+                      data.map((ele, index) => {
+                        return (
+                          <tr key={index}>
+                            <td style={{ width: "1%" }}>
+                              <input
+                                type="checkbox"
+                                onChange={(e) => {
+                                  checkboxFunctionality(ele, e);
+                                }}
+                              />
+                            </td>
+                            <td>{index + 1}</td>
+                            <td>{ele.name}</td>
+                            <td>{questionCount(ele)}</td>
+                            <td>{ele.timeLimit}</td>
+                            <td>
+                              <a
+                                href={`/dashboard/mytest/edittest/?id=${ele?.id}`}
+                                style={{ color: "blue" }}
+                              >
+                                Edit Test
+                              </a>
+                              |{" "}
+                              <a
+                                style={{
+                                  cursor: "pointer",
+                                  color: "blue",
+                                  textDecoration: "underline",
+                                }}
+                                onClick={() => {
+                                  DeleteTest(ele.id);
+                                }}
+                              >
+                                Delete Test
+                              </a>
+                              <a
+                                href="#"
+                                style={{ color: "blue" }}
+                                onClick={() => {
+                                  duplicateTest(index);
+                                }}
+                              >
+                                | Duplicate Test
+                              </a>
+                            </td>
+                            <td>
+                              <a
+                                style={{
+                                  cursor: "pointer",
+                                  color: "blue",
+                                  textDecoration: "underline",
+                                }}
+                                onClick={() => {
+                                  sendTestAndCheckboxFunctionality(ele, {
+                                    target: { checked: true },
+                                  });
+                                }}
+                              >
+                                Send This Test
+                              </a>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                  <div className="fixed  bottom-0 pb-3 ">
+                    <div className="">
+                      <button
+                        onClick={(e) => {
+                          sendTestButtonCapture();
+                        }}
+                        className="buttontest w-full"
+                        disabled={sendButtonDisable}
+                      >
+                        Send Test
+                      </button>
+                    </div>
+                  </div>
+                </table>
+              </>
+            </div>
           </div>
-        </div>
-      ) : (
-        <SendTestFunctionality testId={userDataArray} />
-      )}
+        ) : (
+          <SendTestFunctionality testId={userDataArray} />
+        )}
+      </div>
     </>
-  )
+  );
 }
 export default MyQuestionaire;

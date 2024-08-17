@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
-import { getQuestionaireHistoryList, getResult } from "../../apiCalls/apiRoutes";
+import {
+  getQuestionaireHistoryList,
+  getResult,
+} from "../../apiCalls/apiRoutes";
 import { apiCall } from "../../apiCalls/apiCalls";
 import { frontEndPath } from "../../apiCalls/apiRoutes";
-import XLSX from 'sheetjs-style';
-import * as FileSaver from 'file-saver';
+import XLSX from "sheetjs-style";
+import * as FileSaver from "file-saver";
 function LandingPageData() {
   const [currentPage, setCurrentPage] = useState(1);
   var [postsPerPage, setPostPerPage] = useState(10);
@@ -13,13 +16,12 @@ function LandingPageData() {
 
   const [dto, seDto] = useState({
     limit: 10,
-    page: 1
-  })
+    page: 1,
+  });
   const date = new Date();
   const [selectedField, setSelectedField] = useState(1);
 
   const [resultsWithIds, setResultsWithIds] = useState({});
-
 
   function searchParam() {
     var input, filter, table, tr, td, i, txtValue;
@@ -43,18 +45,18 @@ function LandingPageData() {
   }
 
   function getAllHistoryListing() {
-    apiCall('post', getQuestionaireHistoryList, dto, true)
+    apiCall("post", getQuestionaireHistoryList, dto, true)
       .then((res) => {
-        console.log("res", res.data.data.rows[0].landingPageData)
-        setTotalDataLenght(res?.data?.data?.count)
-        setCurrentRecord(res?.data?.data?.rows)
-        getResultScore(res?.data?.data?.rows)
+        console.log("res", res.data.data.rows[0].landingPageData);
+        setTotalDataLenght(res?.data?.data?.count);
+        setCurrentRecord(res?.data?.data?.rows);
+        getResultScore(res?.data?.data?.rows);
       })
-      .catch(er => console.log(''))
+      .catch((er) => console.log(""));
   }
   useEffect(() => {
-    getAllHistoryListing()
-  }, [])
+    getAllHistoryListing();
+  }, []);
 
   const paginate = ({ selected }) => {
     setCurrentPage(selected + 1);
@@ -62,38 +64,37 @@ function LandingPageData() {
   function getTestStatus(testObj) {
     var status = "";
     if (testObj.testStart == null) {
-      status = "Test Not started"
-    }
-    else if (testObj.testStart != null && testObj.testEnd == null) {
-      status = "Test Started"
-    }
-    else if (testObj.testStart != null && testObj.testEnd != null) {
-      status = "Test Ended"
+      status = "Test Not started";
+    } else if (testObj.testStart != null && testObj.testEnd == null) {
+      status = "Test Started";
+    } else if (testObj.testStart != null && testObj.testEnd != null) {
+      status = "Test Ended";
     }
     return status;
   }
 
   async function getResultScore(allRows) {
     for (let singleRow of allRows) {
-      apiCall('post', getResult, { "id": singleRow.id })
-        .then((res) => {
-          if (res.status == 200) {
-            const data = res.data.data;
+      apiCall("post", getResult, { id: singleRow.id }).then((res) => {
+        if (res.status == 200) {
+          const data = res.data.data;
 
-            if (data.id && data.resultStats) {
-              // console.log("data.resultStats", data.resultStats)
-              setResultsWithIds(prevState => {
-                let name = Object.assign({}, prevState);  // creating copy of state variable jasper
-                name[singleRow.id] = (data.resultStats?.totalPercentage / data.resultStats?.totalCategories).toFixed(1);
+          if (data.id && data.resultStats) {
+            // console.log("data.resultStats", data.resultStats)
+            setResultsWithIds((prevState) => {
+              let name = Object.assign({}, prevState); // creating copy of state variable jasper
+              name[singleRow.id] = (
+                data.resultStats?.totalPercentage /
+                data.resultStats?.totalCategories
+              ).toFixed(1);
 
-                return name;                                 // return new object jasper object
-              })
-              // console.log("res", resultsWithIds);
-            }
+              return name; // return new object jasper object
+            });
+            // console.log("res", resultsWithIds);
           }
-        })
+        }
+      });
     }
-
   }
   // Function to export the table data to Excel
   function exportToExcel() {
@@ -108,9 +109,10 @@ function LandingPageData() {
       bookType: "xlsx",
       type: "array",
     });
-    const data = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' })
+    const data = new Blob([excelBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
+    });
     FileSaver.saveAs(data, `LandingPageData-${date.toLocaleDateString()}.xlsx`);
-
   }
 
   // Function to transform data for export
@@ -121,21 +123,31 @@ function LandingPageData() {
       "#": index + 1,
       "First Name": ele.landingPageData.firstName,
       "Last Name": ele.landingPageData.lastName,
-      "Email": ele.userEmail,
+      Email: ele.userEmail,
       "Phone No": ele.landingPageData.phoneNumber,
-      "Email OK": ele.landingPageData.termAndCondition === true ? 'Agree' : 'Disagree',
-      "Test": `Test Link: ${frontEndPath}filltest/${ele.id}`,
-      "Test Date": new Date(ele.createdAt).toLocaleDateString().padStart(10, '0'),
-      "Status": getTestStatus(ele),
-      "Score": `${resultsWithIds[ele.id]} %`,
+      "Email OK":
+        ele.landingPageData.termAndCondition === true ? "Agree" : "Disagree",
+      Test: `Test Link: ${frontEndPath}filltest/${ele.id}`,
+      "Test Date": new Date(ele.createdAt)
+        .toLocaleDateString()
+        .padStart(10, "0"),
+      Status: getTestStatus(ele),
+      Score: `${resultsWithIds[ele.id]} %`,
       "Result Link": `Result Link: /resultpage/${ele.id}`,
     }));
   }
 
   return (
-    <div className="questionaireHistory">
-      <button  style={{ position:'relative', right:'20px' }} onClick={exportToExcel}> Export Data</button>
-      <table className="table" id="myTable">
+    <div className="questionaireHistory w-[90%] mx-auto">
+      <button
+        className="w-1/2 md:w-1/4 mt-2"
+        style={{ position: "relative", right: "20px" }}
+        onClick={exportToExcel}
+      >
+        {" "}
+        Export Data
+      </button>
+      <table className="table mt-4" id="myTable">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -152,47 +164,74 @@ function LandingPageData() {
           </tr>
         </thead>
         <tbody>
-          {
-            currentRecords?.filter((value) => value.landingPageData?.email).map((ele, index) => {
+          {currentRecords
+            ?.filter((value) => value.landingPageData?.email)
+            .map((ele, index) => {
               console.log("ele.landingPageData", ele.landingPageData);
               return (
                 <tr key={index}>
-                  <td style={{ fontSize: '14px' }}>{index + 1}</td>
-                  <td style={{ fontSize: '14px' }}>{ele.landingPageData.firstName}</td>
-                  <td style={{ fontSize: '14px' }}>{ele.landingPageData.lastName}</td>
-                  <td style={{ fontSize: '14px' }}>{ele.userEmail}</td>
-                  <td style={{ fontSize: '14px' }}>{ele.landingPageData.phoneNumber}</td>
-                  <td style={{ fontSize: '14px' }}>{ele.landingPageData.termAndCondition == true ? 'Agree' : 'Disagree'}</td>
-                  <td style={{ fontSize: '14px' }}><a target="blank" style={{ textDecoration: "underline" }} href={frontEndPath + "filltest/" + ele.id}>Test Link</a></td>
-                  <td style={{ fontSize: '14px' }}>{new Date(ele.createdAt).toLocaleDateString().padStart(10, '0')}</td>
-                  <td style={{ fontSize: '14px' }}>{getTestStatus(ele)}</td>
-                  <td style={{ fontSize: '14px' }}>{resultsWithIds[ele.id]} %</td>
-                  <td style={{ fontSize: '14px' }}><a target="blank" style={{ textDecoration: "underline" }} href={"/resultpage/" + ele.id}>See Result</a></td>
+                  <td style={{ fontSize: "14px" }}>{index + 1}</td>
+                  <td style={{ fontSize: "14px" }}>
+                    {ele.landingPageData.firstName}
+                  </td>
+                  <td style={{ fontSize: "14px" }}>
+                    {ele.landingPageData.lastName}
+                  </td>
+                  <td style={{ fontSize: "14px" }}>{ele.userEmail}</td>
+                  <td style={{ fontSize: "14px" }}>
+                    {ele.landingPageData.phoneNumber}
+                  </td>
+                  <td style={{ fontSize: "14px" }}>
+                    {ele.landingPageData.termAndCondition == true
+                      ? "Agree"
+                      : "Disagree"}
+                  </td>
+                  <td style={{ fontSize: "14px" }}>
+                    <a
+                      target="blank"
+                      style={{ textDecoration: "underline" }}
+                      href={frontEndPath + "filltest/" + ele.id}
+                    >
+                      Test Link
+                    </a>
+                  </td>
+                  <td style={{ fontSize: "14px" }}>
+                    {new Date(ele.createdAt)
+                      .toLocaleDateString()
+                      .padStart(10, "0")}
+                  </td>
+                  <td style={{ fontSize: "14px" }}>{getTestStatus(ele)}</td>
+                  <td style={{ fontSize: "14px" }}>
+                    {resultsWithIds[ele.id]} %
+                  </td>
+                  <td style={{ fontSize: "14px" }}>
+                    <a
+                      target="blank"
+                      style={{ textDecoration: "underline" }}
+                      href={"/resultpage/" + ele.id}
+                    >
+                      See Result
+                    </a>
+                  </td>
                 </tr>
-              )
-            })
-          }
-
+              );
+            })}
         </tbody>
       </table>
-      {
-        totalDataLenght > postsPerPage && (
-
-          <ReactPaginate
-            onPageChange={paginate}
-            pageCount={Math.ceil(totalDataLenght / postsPerPage)}
-            previousLabel={"<"}
-            nextLabel={">"}
-            containerClassName={"pagination"}
-            pageLinkClassName={"page-number"}
-            previousLinkClassName={"page-number"}
-            nextLinkClassName={"page-number"}
-            activeLinkClassName={"active"}
-          />
-        )
-      }
-
-    </div >
+      {totalDataLenght > postsPerPage && (
+        <ReactPaginate
+          onPageChange={paginate}
+          pageCount={Math.ceil(totalDataLenght / postsPerPage)}
+          previousLabel={"<"}
+          nextLabel={">"}
+          containerClassName={"pagination"}
+          pageLinkClassName={"page-number"}
+          previousLinkClassName={"page-number"}
+          nextLinkClassName={"page-number"}
+          activeLinkClassName={"active"}
+        />
+      )}
+    </div>
   );
 }
 export default LandingPageData;

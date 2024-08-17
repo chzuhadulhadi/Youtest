@@ -24,7 +24,7 @@ function Login() {
   var emailToDeal = queryParameters.get("email");
 
   setTimeout(() => {
-    if (emailToDeal != null && emailToDeal != 'undefined') {
+    if (emailToDeal != null && emailToDeal != "undefined") {
       document.querySelector("#email").setAttribute("value", emailToDeal);
     }
   }, 500);
@@ -66,55 +66,78 @@ function Login() {
   return (
     <>
       <Header />
-      <div className="Get_sec mt-5">
-        <div className="Mid">
-          <div className="Leftside">
-            <form onSubmit={loginHandler}>
-              <p>
-                <input
-                  type="email"
-                  onChange={valueAdder}
-                  placeholder="EMAIL..."
-                  className="field"
-                  id="email"
-                  required
-                />
-              </p>
-              <p>
-                <input
-                  type="password"
-                  onChange={valueAdder}
-                  placeholder="PASSWORD..."
-                  id="password"
-                  className="field"
-                  required
-                />
-              </p>
-              <a href="/ForgotPassword" className="forgot-password-link" style={{ textDecoration: 'none', float: 'right', marginBottom: '15px', marginRight: '110px' }}>
-                Forgot Password?
-              </a>
-              <p>
-                <input type="submit" value="Login" className="button" />
-              </p>
-            </form>
-            <p style={{ color: "red" }}>{confirmationText}</p>
-          </div>
-          <div className="Rightside mt-5">
-            <div className="loginPage mt-3">
-              <h3 style={{ fontSize: "2rem", fontWeight: "bold", margin: '0px !important' }}>Login now !</h3>
-              <h4> Welcome back</h4>
-              <p> Please sign in to Access your account </p>
-              <p style={{ marginBottom: "2.7rem" }}> If you dont have an account you can sign Up any time. </p>
-              <button
-                onClick={() => {
-                  navigate("/signup");
-                }}
-                className="clickable-primary-text m-auto"
-              >
+      <div className="flex flex-col-1">
+        <div className="Get_sec mt-5 ">
+          <div className="Mid">
+            <div className="">
+              {" "}
+              <div className="Leftside  ">
+                <form onSubmit={loginHandler}>
+                  <p>
+                    <input
+                      type="email"
+                      onChange={valueAdder}
+                      placeholder="EMAIL..."
+                      className="field"
+                      id="email"
+                      required
+                    />
+                  </p>
+                  <p>
+                    <input
+                      type="password"
+                      onChange={valueAdder}
+                      placeholder="PASSWORD..."
+                      id="password"
+                      className="field"
+                      required
+                    />
+                  </p>
+                  <a
+                    href="/ForgotPassword"
+                    className="forgot-password-link mr-0 sm:mr-[110px] float-end "
+                    style={{
+                      textDecoration: "none",
 
-                Sign Up Now
-              </button>
-              <div className="clear"></div>
+                      marginBottom: "15px",
+                    }}
+                  >
+                    Forgot Password?
+                  </a>
+                  <p>
+                    <input type="submit" value="Login" className="button" />
+                  </p>
+                </form>
+                <p style={{ color: "red" }}>{confirmationText}</p>
+              </div>
+            </div>
+            <div className="Rightside mt-5">
+              <div className="loginPage mt-3">
+                <h3
+                  style={{
+                    fontSize: "2rem",
+                    fontWeight: "bold",
+                    margin: "0px !important",
+                  }}
+                >
+                  Login now !
+                </h3>
+                <h4> Welcome back</h4>
+                <p> Please sign in to Access your account </p>
+                <p style={{ marginBottom: "2.7rem" }}>
+                  {" "}
+                  If you dont have an account you can sign Up any time.{" "}
+                </p>
+                <button
+                  onClick={() => {
+                    navigate("/signup");
+                  }}
+                  className="clickable-primary-text m-auto w-1/2 md:w-1/4"
+                >
+                  Sign Up Now
+                </button>
+                <div className="clear"></div>
+              </div>
             </div>
           </div>
         </div>

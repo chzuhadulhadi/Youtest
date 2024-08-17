@@ -12,7 +12,7 @@ import {
   updateMailingList,
   addMailingListUser,
   deleteUserInMailingListApi,
-  editUserOfMailingList
+  editUserOfMailingList,
 } from "../../apiCalls/apiRoutes";
 import ReactPaginate from "react-paginate";
 import { ToastContainer, toast } from "react-toastify";
@@ -58,7 +58,8 @@ function AddUserInList() {
     mailingListId: null,
   });
   const handleClose = () => {
-    setShow(false); setUsersList([]);
+    setShow(false);
+    setUsersList([]);
     setAddNewUserInList({
       name: "",
       email: "",
@@ -72,7 +73,6 @@ function AddUserInList() {
       name: "",
     });
     setIsEdit(false);
-
   };
   const showToastMessage = (text, color, notify) => {
     if (notify == 1) {
@@ -203,9 +203,8 @@ function AddUserInList() {
         setAddNewUserInList({
           name: "",
           email: "",
-          mailingListId: addNewUserInList.mailingListId
+          mailingListId: addNewUserInList.mailingListId,
         });
-
       })
       .then((err) => {
         showToastMessage(err?.response?.data?.message, "red", 2);
@@ -268,9 +267,17 @@ function AddUserInList() {
                     <td>{isEdit[index] ? <input type="text" /> : res?.name}</td>
                     <td>{res?.email}</td>
                     <td>
-                      <span id={index} onClick={() => {
-                        clickDetector("Edit User In Mailing List", 'editUserInMailingList', res?.id, res)
-                      }}>
+                      <span
+                        id={index}
+                        onClick={() => {
+                          clickDetector(
+                            "Edit User In Mailing List",
+                            "editUserInMailingList",
+                            res?.id,
+                            res
+                          );
+                        }}
+                      >
                         edit
                       </span>{" "}
                       |{" "}
@@ -385,12 +392,12 @@ function AddUserInList() {
 
   const clickDetector = (title, tabtoshow, selectedId, queryObj) => {
     if (tabtoshow == "editUserInMailingList") {
-      console.log(queryObj)
+      console.log(queryObj);
       setIsEdit({
         id: queryObj?.id,
         name: queryObj?.name,
-        email: queryObj?.email
-      })
+        email: queryObj?.email,
+      });
     }
     selectedId && (addNewUserInList.mailingListId = selectedId);
     console.log(selectedId);
@@ -414,7 +421,12 @@ function AddUserInList() {
         const file = selectedFile;
         console.log(file.name.split(".")[0]);
         try {
-          const respon = await apiCall("post", addMailingList, { name: file.name.split(".")[0] }, true);
+          const respon = await apiCall(
+            "post",
+            addMailingList,
+            { name: file.name.split(".")[0] },
+            true
+          );
           // console.log(resp);
           // setMId(resp.data.data.id);
           console.log(xlData);
@@ -424,23 +436,19 @@ function AddUserInList() {
             if (selectedOption === "combined" && res.length === 3) {
               showToastMessage("Invalid file structure", "red", 2);
               return;
-            }
-            else if (selectedOption === "separate" && res.length === 2) {
+            } else if (selectedOption === "separate" && res.length === 2) {
               showToastMessage("Invalid file structure", "red", 2);
               return;
-            }
-            else if (res.length < 2) {
-             continue;
-            }
-            else if (selectedOption === "combined") {
+            } else if (res.length < 2) {
+              continue;
+            } else if (selectedOption === "combined") {
               console.log(res);
               if (res[1].indexOf("@") === -1) {
                 console.log(res[1]);
                 console.log(res[1].indexOf("@"));
                 // showToastMessage("Invalid email address", "red", 2);
                 continue;
-              }
-              else {
+              } else {
                 try {
                   const resp = await apiCall("post", addMailingListUser, {
                     name: res[0],
@@ -448,20 +456,26 @@ function AddUserInList() {
                     mailingListId: respon.data.data.id,
                   });
                   if (resp.data.data) {
-                    showToastMessage("Mailing List added Successfully", "green", 1)
+                    showToastMessage(
+                      "Mailing List added Successfully",
+                      "green",
+                      1
+                    );
                   }
                 } catch (err) {
                   console.log(err);
-                  showToastMessage('Error with importing Mailing List', "red", 2);
+                  showToastMessage(
+                    "Error with importing Mailing List",
+                    "red",
+                    2
+                  );
                 }
               }
-            }
-            else if (selectedOption === "separate") {
+            } else if (selectedOption === "separate") {
               if (res[2].indexOf("@") === -1) {
                 // showToastMessage("Invalid email address", "red", 2);
                 continue;
-              }
-              else {
+              } else {
                 try {
                   const resp = await apiCall("post", addMailingListUser, {
                     name: res[0] + " " + res[1],
@@ -469,11 +483,19 @@ function AddUserInList() {
                     mailingListId: respon.data.data.id,
                   });
                   if (resp.data.data) {
-                    showToastMessage("Mailing List added Successfully", "green", 1)
+                    showToastMessage(
+                      "Mailing List added Successfully",
+                      "green",
+                      1
+                    );
                   }
                 } catch (err) {
                   console.log(err);
-                  showToastMessage('Error with importing Mailing List', "red", 2);
+                  showToastMessage(
+                    "Error with importing Mailing List",
+                    "red",
+                    2
+                  );
                 }
               }
             }
@@ -488,12 +510,9 @@ function AddUserInList() {
             //   console.log(err);
             // }
           }
-
         } catch (error) {
           console.log(error);
         }
-
-
       } catch (error) {
         console.log(error);
       }
@@ -502,15 +521,19 @@ function AddUserInList() {
       setSelectedFile(null);
       setShowExampleModal(false);
       setSelectedOption("");
-
-    }
+    };
   };
 
   const editUserInFormSubmitHandler = (e) => {
     e.preventDefault();
-    apiCall("post", editUserOfMailingList, {
-      ...isEdit,
-    }, true)
+    apiCall(
+      "post",
+      editUserOfMailingList,
+      {
+        ...isEdit,
+      },
+      true
+    )
       .then((res) => {
         showToastMessage("User updated Successfully", "green", 1);
         setForceRender(!forceRender);
@@ -536,7 +559,6 @@ function AddUserInList() {
                 return { ...prev, name: e.target.value };
               });
             }}
-
             value={isEdit["name"]}
             className="form-control"
             required
@@ -546,8 +568,7 @@ function AddUserInList() {
             onChange={(e) => {
               setIsEdit((prev) => {
                 return { ...prev, email: e.target.value };
-              }
-              );
+              });
             }}
             value={isEdit["email"]}
           />
@@ -559,91 +580,95 @@ function AddUserInList() {
     );
   };
   return (
-    <div className="">
+    <div className=" w-[90%] mx-auto">
       <h1>Mailing List</h1>
       <div style={{ position: "relative", right: "20px" }}>
         <div className="Line"></div>
-        <Button
-          variant="primary"
-          onClick={() => {
-            clickDetector("Add New Mailing List", "addMailingList");
-          }}
-        >
-          Create New Mailing List
-        </Button>
-        <Button
-          variant="primary"
-          onClick={() => {
-            handleShowExampleModal();
-          }}
-        // disabled={selectedFile ? false : true}
-        >
-          Import From Excel
-        </Button>
-        {
-          showExampleModal && (
-            <Modal show={showExampleModal} onHide={handleCloseExampleModal} animation={false}>
-              <Modal.Header closeButton>
-                <Modal.Title>Import Mailing List</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-
+        <div className="my-3  flex flex-col gap-2 md:flex-row justify-evenly ">
+          <Button
+            className="w-1/2 md:w-1/4"
+            variant="primary"
+            onClick={() => {
+              clickDetector("Add New Mailing List", "addMailingList");
+            }}
+          >
+            Create New Mailing List
+          </Button>
+          <Button
+            className="w-1/2 md:w-1/4"
+            variant="primary"
+            onClick={() => {
+              handleShowExampleModal();
+            }}
+            // disabled={selectedFile ? false : true}
+          >
+            Import From Excel
+          </Button>
+        </div>
+        {showExampleModal && (
+          <Modal
+            show={showExampleModal}
+            onHide={handleCloseExampleModal}
+            animation={false}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Import Mailing List</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <div>
+                <h5>Select the structure of the file:</h5>
                 <div>
-                  <h5>Select the structure of the file:</h5>
-                  <div>
-                    <input
-                      type="radio"
-                      id="separate"
-                      name="structure"
-                      value="separate"
-                      checked={selectedOption === "separate"}
-                      onChange={handleOptionChange}
-                    />
-                    {' '}
-                    <label htmlFor="separate">Separate columns (First name, Last name, Email)</label>
-                    <img src="/seperate.png" alt="separate" />
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      id="combined"
-                      name="structure"
-                      value="combined"
-                      checked={selectedOption === "combined"}
-                      onChange={handleOptionChange}
-                    />
-                    {' '}
-                    <label htmlFor="combined">Combined column (Full Name, Email)</label>
-                    <img src="/combined.png" alt="combined" />
-                  </div>
+                  <input
+                    type="radio"
+                    id="separate"
+                    name="structure"
+                    value="separate"
+                    checked={selectedOption === "separate"}
+                    onChange={handleOptionChange}
+                  />{" "}
+                  <label htmlFor="separate">
+                    Separate columns (First name, Last name, Email)
+                  </label>
+                  <img src="/seperate.png" alt="separate" />
                 </div>
-                {
-                  selectedOption && (
-                    <>
-                      <Button
-                        variant="primary"
-                        onClick={uploadMailingList}
-                        disabled={selectedFile ? false : true}
-                      >
-                        Upload Excel
-                      </Button>
-                      <input
-                        type="file"
-                        id="file"
-                        accept=".csv,.xlsx,.xls"
-                        onChange={(e) => {
-                          const file = e.target.files[0];
-                          setSelectedFile(file);
-                        }}
-                      />
-                    </>
-                  )
-                }
-              </Modal.Body>
-            </Modal>
-          )
-        }
-
+                <div>
+                  <input
+                    type="radio"
+                    id="combined"
+                    name="structure"
+                    value="combined"
+                    checked={selectedOption === "combined"}
+                    onChange={handleOptionChange}
+                  />{" "}
+                  <label htmlFor="combined">
+                    Combined column (Full Name, Email)
+                  </label>
+                  <img src="/combined.png" alt="combined" />
+                </div>
+              </div>
+              {selectedOption && (
+                <>
+                  <Button
+                    variant="primary"
+                    onClick={uploadMailingList}
+                    disabled={selectedFile ? false : true}
+                  >
+                    Upload Excel
+                  </Button>
+                  <input
+                    type="file"
+                    id="file"
+                    accept=".csv,.xlsx,.xls"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      setSelectedFile(file);
+                    }}
+                  />
+                </>
+              )}
+            </Modal.Body>
+          </Modal>
+        )}
       </div>
       <div>
         <Modal show={show} onHide={handleClose} animation={false}>
@@ -672,8 +697,8 @@ function AddUserInList() {
               {mailingLists?.map((element, index) => {
                 return (
                   <tr key={index}>
-                    <td >{index + 1}</td>
-                    <td >{element.name}</td>
+                    <td>{index + 1}</td>
+                    <td>{element.name}</td>
                     <td>
                       <span
                         className="btn"
@@ -690,8 +715,7 @@ function AddUserInList() {
                         }}
                       >
                         Edit
-                      </span>
-                      {" "}
+                      </span>{" "}
                       |{" "}
                       <span
                         className="btn"
@@ -707,11 +731,9 @@ function AddUserInList() {
                           );
                         }}
                       >
-                        Change list name
-                        {" "}
-                      </span>
-                      {" "}
-                        |{" "}
+                        Change list name{" "}
+                      </span>{" "}
+                      |{" "}
                       <span
                         className="btn"
                         style={{
@@ -736,23 +758,21 @@ function AddUserInList() {
             </tbody>
           </table>
 
-          {
-            totalDataLenght > postsPerPage && (
-              <div className=" paginate">
-                <ReactPaginate
-                  onPageChange={paginate}
-                  pageCount={Math.ceil(totalDataLenght / postsPerPage)}
-                  previousLabel={"<"}
-                  nextLabel={">"}
-                  containerClassName={"pagination"}
-                  pageLinkClassName={"page-number"}
-                  previousLinkClassName={"page-number"}
-                  nextLinkClassName={"page-number"}
-                  activeLinkClassName={"active"}
-                />
-              </div>
-            )
-          }
+          {totalDataLenght > postsPerPage && (
+            <div className=" paginate">
+              <ReactPaginate
+                onPageChange={paginate}
+                pageCount={Math.ceil(totalDataLenght / postsPerPage)}
+                previousLabel={"<"}
+                nextLabel={">"}
+                containerClassName={"pagination"}
+                pageLinkClassName={"page-number"}
+                previousLinkClassName={"page-number"}
+                nextLinkClassName={"page-number"}
+                activeLinkClassName={"active"}
+              />
+            </div>
+          )}
         </>
       </div>
     </div>

@@ -1,18 +1,21 @@
-import React, { Component, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'
-import './style.css'
-import StepsHeader from './components/StepsHeader';
-import PropertiesStep from './components/AllSteps/PropertiesStep';
-import CategoriesStep from './components/AllSteps/CategoriesStep';
-import QuestionStep from './components/AllSteps/QuestionStep';
-import AutomaticText from './components/AllSteps/automaticText';
-import TestLayout from './components/AllSteps/layout';
-import ResultStructureStep from './components/AllSteps/ResultStructureStep';
-import SideBar from '../../mainComponent/SideBar';
-import { apiCall } from '../../../apiCalls/apiCalls';
-import { createMyTest, getMyTest, getMySingleTest } from '../../../apiCalls/apiRoutes';
+import React, { Component, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "./style.css";
+import StepsHeader from "./components/StepsHeader";
+import PropertiesStep from "./components/AllSteps/PropertiesStep";
+import CategoriesStep from "./components/AllSteps/CategoriesStep";
+import QuestionStep from "./components/AllSteps/QuestionStep";
+import AutomaticText from "./components/AllSteps/automaticText";
+import TestLayout from "./components/AllSteps/layout";
+import ResultStructureStep from "./components/AllSteps/ResultStructureStep";
+import SideBar from "../../mainComponent/SideBar";
+import { apiCall } from "../../../apiCalls/apiCalls";
+import {
+  createMyTest,
+  getMyTest,
+  getMySingleTest,
+} from "../../../apiCalls/apiRoutes";
 import { toast } from "react-toastify";
-
 
 // var mainObj = {
 //   orientation: 0,
@@ -30,7 +33,6 @@ import { toast } from "react-toastify";
 //   },
 //   freeText: {}
 // };
-
 
 const showToastMessage = (text, color, notify) => {
   if (notify == 1) {
@@ -87,38 +89,34 @@ const showToastMessage = (text, color, notify) => {
 //   return obj;
 // }
 
-
-
 function EditTest(props) {
   // console.log(props);
   var queryParameters = new URLSearchParams(window.location.search);
   var testId = queryParameters.get("id");
   // console.log(testId);
-  const [newCategoryCreated, setNewCategoryCreated] = useState(0)
-  const navigate = useNavigate()
+  const [newCategoryCreated, setNewCategoryCreated] = useState(0);
+  const navigate = useNavigate();
   const [dto, setDto] = useState({
-    id: testId
+    id: testId,
   });
   const [tabSelected, setTabSelected] = useState("PROPERTIES");
   const [categoryStore, setCategoryStore] = useState({});
-  const [mainObj, setMainObj] = useState(
-    {
-      orientation: 0,
-      scoringType: 0,
-      randomOrder: 0,
-      timeLimit: "",
-      showuser: 0,
-      questions: {},
-      resultStructure: {
-        tableSummary: false,
-        graph: false
-      },
-      automaticText: {
-      },
-      freeText: {},
-      afterTestText: '',
-      beforeTestText: '',
-    });
+  const [mainObj, setMainObj] = useState({
+    orientation: 0,
+    scoringType: 0,
+    randomOrder: 0,
+    timeLimit: "",
+    showuser: 0,
+    questions: {},
+    resultStructure: {
+      tableSummary: false,
+      graph: false,
+    },
+    automaticText: {},
+    freeText: {},
+    afterTestText: "",
+    beforeTestText: "",
+  });
   useEffect(() => {
     getTestData();
   }, []);
@@ -170,52 +168,49 @@ function EditTest(props) {
 
   function apiCallToCreateTest(draft) {
     console.log(mainObj);
-    apiCall('post', createMyTest, { ...mainObj })
+    apiCall("post", createMyTest, { ...mainObj })
       .then((res) => {
         showToastMessage("Test created Successfully ", "green", 1);
-        navigate('/dashboard/mytest')
+        navigate("/dashboard/mytest");
       })
       .catch((err) => {
         showToastMessage("Please Fill all required fields", "red", 2);
-      })
+      });
   }
 
   function showTab(tab) {
-    setTabSelected(tab)
+    setTabSelected(tab);
   }
   function mainObjectAdder(e, property, questionNo, type) {
     // console.log("mainObj[property]", mainObj[property], "type", type)
-    console.log("mainObj", mainObj)
+    console.log("mainObj", mainObj);
 
-    setMainObj(prevMainObj => ({
+    setMainObj((prevMainObj) => ({
       ...prevMainObj,
       [property]: {
         ...prevMainObj[property],
         [questionNo]: {
           ...prevMainObj[property][questionNo],
-          [type]: e.target.value
-        }
-      }
+          [type]: e.target.value,
+        },
+      },
     }));
   }
 
-  function mainObjectRemover(e,property,questionNo,type){
-    try{
+  function mainObjectRemover(e, property, questionNo, type) {
+    try {
       let tempObj = mainObj;
-    //we are deleting question0 from the mainObj also want to delete question0-answer0 from the mainObj
-    Object.keys(tempObj[property]).forEach((key) => {
-      if (key.includes(questionNo)) {
-        console.log("key", key);
-        delete tempObj[property][key];
-      }
-    });
-    setMainObj(tempObj);
+      //we are deleting question0 from the mainObj also want to delete question0-answer0 from the mainObj
+      Object.keys(tempObj[property]).forEach((key) => {
+        if (key.includes(questionNo)) {
+          console.log("key", key);
+          delete tempObj[property][key];
+        }
+      });
+      setMainObj(tempObj);
+    } catch {
+      console.log("error");
     }
-    catch
-    {
-      console.log("error")
-    }
-    
   }
   // useEffect(() => {
   // console.log("mainObj", mainObj);
@@ -223,27 +218,30 @@ function EditTest(props) {
   function addCategoryStoreToMain() {
     let main = {
       ...mainObj,
-      categoryStore
-    }
+      categoryStore,
+    };
     // console.log("main", mainObj)
     setMainObj(main);
   }
 
-
   function mainObjectAdderForProperties(e, property) {
     // console.log("mainObj[property]", mainObj[property], "type", type)
-    if (property == 'beforeTestText' || property == 'afterTestText' || property == 'sendAll' || property == 'showuser') {
+    if (
+      property == "beforeTestText" ||
+      property == "afterTestText" ||
+      property == "sendAll" ||
+      property == "showuser"
+    ) {
       let main = {
         ...mainObj,
-        [property]: e
-      }
+        [property]: e,
+      };
       setMainObj(main);
-    }
-    else {
+    } else {
       let main = {
         ...mainObj,
-        [property]: e.target.value
-      }
+        [property]: e.target.value,
+      };
       setMainObj(main);
     }
 
@@ -257,10 +255,10 @@ function EditTest(props) {
       ...mainObj,
       [property]: {
         ...mainObj[property],
-        [name]: value
-      }
-    }
-    console.log('main');
+        [name]: value,
+      },
+    };
+    console.log("main");
     console.log(main);
     setMainObj(main);
     // console.log("main", mainObj)
@@ -270,9 +268,9 @@ function EditTest(props) {
       ...mainObj,
       [property]: {
         ...mainObj[property],
-        [name]: e.target.checked
-      }
-    }
+        [name]: e.target.checked,
+      },
+    };
     setMainObj(main);
     // console.log("main", mainObj)
   }
@@ -283,40 +281,107 @@ function EditTest(props) {
         ...mainObj[property],
         [e.target.id]: {
           ...mainObj[property][e.target.id],
-          [name]: e.target.value
-        }
-      }
-    }
+          [name]: e.target.value,
+        },
+      },
+    };
     setMainObj(main);
     // console.log("main", mainObj)
   }
 
   function getMainObj() {
-    return mainObj
+    return mainObj;
   }
 
   function handleSaveTest(e) {
     // console.log("called")
     e.preventDefault();
-    navigate('/dashboard/mytest')
-
+    navigate("/dashboard/mytest");
   }
 
-  return (<>
-    <SideBar />
-    <div className='dashboard-content'>
-
-      <StepsHeader obj={{ setTabSelected, tabSelected, showTab, mainObjectAdder }} />
-      <PropertiesStep obj={{ mainObjectAdderForProperties, showTab, tabSelected, mainObj, handleSaveTest, apiCallToCreateTest }} />
-      <CategoriesStep obj={{ mainObjectAdder, showTab, tabSelected, setCategoryStore, categoryStore, apiCallToCreateTest, addCategoryStoreToMain, setNewCategoryCreated, mainObj }} />
-      <QuestionStep obj={{ mainObjectAdder, showTab, tabSelected, setCategoryStore, categoryStore, mainObj, apiCallToCreateTest, mainObjectAdder, getMainObj, newCategoryCreated,mainObjectRemover }} />
-      <TestLayout obj={{ mainObjectAdder, showTab, tabSelected, mainObjectAdderForLayout, mainObj, apiCallToCreateTest }} />
-      <ResultStructureStep obj={{ showTab, tabSelected, mainObjectAdderForResultStructure, mainObj, apiCallToCreateTest }} />
-      <AutomaticText obj={{ mainObjectAdderForAutomaticText, showTab, tabSelected, categoryStore, mainObj, apiCallToCreateTest }} />
-    </div>
-  </>
-
-  )
+  return (
+    <>
+      <SideBar />
+      <div className="dashboard-content">
+        <StepsHeader
+          obj={{ setTabSelected, tabSelected, showTab, mainObjectAdder }}
+        />
+        <PropertiesStep
+          obj={{
+            setTabSelected,
+            mainObjectAdderForProperties,
+            showTab,
+            tabSelected,
+            mainObj,
+            handleSaveTest,
+            apiCallToCreateTest,
+          }}
+        />
+        <CategoriesStep
+          obj={{
+            setTabSelected,
+            mainObjectAdder,
+            showTab,
+            tabSelected,
+            setCategoryStore,
+            categoryStore,
+            apiCallToCreateTest,
+            addCategoryStoreToMain,
+            setNewCategoryCreated,
+            mainObj,
+          }}
+        />
+        <QuestionStep
+          obj={{
+            mainObjectAdder,
+            showTab,
+            setTabSelected,
+            tabSelected,
+            setCategoryStore,
+            categoryStore,
+            mainObj,
+            apiCallToCreateTest,
+            mainObjectAdder,
+            getMainObj,
+            newCategoryCreated,
+            mainObjectRemover,
+          }}
+        />
+        <TestLayout
+          obj={{
+            mainObjectAdder,
+            showTab,
+            tabSelected,
+            mainObjectAdderForLayout,
+            setTabSelected,
+            mainObj,
+            apiCallToCreateTest,
+          }}
+        />
+        <ResultStructureStep
+          obj={{
+            showTab,
+            setTabSelected,
+            tabSelected,
+            mainObjectAdderForResultStructure,
+            mainObj,
+            apiCallToCreateTest,
+          }}
+        />
+        <AutomaticText
+          obj={{
+            mainObjectAdderForAutomaticText,
+            showTab,
+            tabSelected,
+            categoryStore,
+            setTabSelected,
+            mainObj,
+            apiCallToCreateTest,
+          }}
+        />
+      </div>
+    </>
+  );
 }
 
 export default EditTest;
