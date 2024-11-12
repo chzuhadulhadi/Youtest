@@ -14,6 +14,7 @@ import SideBar from "../../mainComponent/SideBar";
 import { apiCall } from "../../../apiCalls/apiCalls";
 import { createMyTest } from "../../../apiCalls/apiRoutes";
 import { toast } from "react-toastify";
+import Preview from "./components/AllSteps/Preview";
 
 // var mainObj = {
 //   orientation: 0,
@@ -54,7 +55,7 @@ function CreateTest() {
     orientation: 0,
     scoringType: 0,
     randomOrder: 0,
-    timeLimit: "",
+    timeLimit: 0,
     language: "english",
     showuser: false,
     questions: {},
@@ -66,6 +67,12 @@ function CreateTest() {
     freeText: {},
     afterTestText: "",
     beforeTestText: "",
+    timeAvailability: {
+      enabled: false,
+      startTime: "",
+      endTime: "",
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // Get user's timezone by default
+    },
   });
 
   useEffect(() => {
@@ -149,7 +156,7 @@ function CreateTest() {
   }
 
   function mainObjectAdderForProperties(e, property) {
-    // console.log("mainObj[property]", mainObj[property], "type", type)
+    console.log(e, property, mainObj);
     if (
       property == "beforeTestText" ||
       property == "afterTestText" ||
@@ -161,6 +168,29 @@ function CreateTest() {
         [property]: e,
       };
       setMainObj(main);
+    } else if (property === "timeAvailability") {
+      let main = {
+        ...mainObj,
+        timeAvailability: {
+          ...mainObj.timeAvailability,
+          ...e,
+        },
+      };
+      setMainObj(main);
+    } else if (
+      property == "startTime" ||
+      property == "endTime" ||
+      property == "timeZone" ||
+      property == "enabled"
+    ) {
+      let main = {
+        ...mainObj,
+        timeAvailability: {
+          ...mainObj.timeAvailability,
+          [property]: e,
+        },
+      };
+      setMainObj(main);
     } else {
       let main = {
         ...mainObj,
@@ -168,8 +198,6 @@ function CreateTest() {
       };
       setMainObj(main);
     }
-
-    // console.log("main", mainObj)
   }
 
   function mainObjectAdderForLayout(e, property, name, value) {
@@ -216,6 +244,17 @@ function CreateTest() {
     return mainObj;
   }
 
+  function removeAutomaticTextRule(key) {
+    let main = {
+      ...mainObj,
+      automaticText: {
+        ...mainObj.automaticText,
+      },
+    };
+    delete main.automaticText[key];
+    setMainObj(main);
+  }
+
   function handleSaveTest(e) {
     // console.log("called")
     e.preventDefault();
@@ -229,6 +268,7 @@ function CreateTest() {
         <StepsHeader
           obj={{ setTabSelected, tabSelected, showTab, mainObjectAdder }}
         />
+
         <PropertiesStep
           obj={{
             setTabSelected,
@@ -299,6 +339,7 @@ function CreateTest() {
             apiCallToCreateTest,
             mainObj,
             getMainObj,
+            removeAutomaticTextRule,
           }}
         />
       </div>

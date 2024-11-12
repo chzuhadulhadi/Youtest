@@ -289,7 +289,7 @@ function AdminEditTest(props) {
   return (<>
     {/* <AdminSideBar /> */}
     {/* <div className='dashboard-content'> */}
-      <div>Owner ID: `{ownerId}`</div>
+      <div className='w-[90%] mx-auto'>Owner ID: `{ownerId}`</div>
       <StepsHeader obj={{ setTabSelected, tabSelected, showTab, mainObjectAdder }} />
       <PropertiesStep obj={{ mainObjectAdderForProperties, showTab, tabSelected, mainObj, handleSaveTest, apiCallToCreateTest,mainObj }} />
       <CategoriesStep obj={{ mainObjectAdder, showTab, tabSelected, setCategoryStore, categoryStore, addCategoryStoreToMain, setNewCategoryCreated, mainObj }} />

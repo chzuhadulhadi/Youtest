@@ -37,6 +37,7 @@ import Packages from './pages/admin/packages';
 import SuccessPage from './pages/payment/sucess';
 import UpdateUser from './pages/user/updateUser';
 import ChangePassword from './pages/user/changePassword';
+import Preview from './pages/Testee/MyTest/components/AllSteps/Preview';
 
 export default function Router() {
   const routes = useRoutes([
@@ -78,6 +79,10 @@ export default function Router() {
     {
       path: '/addusersinlisting',
       element: <AddUserInList />,
+    },
+    {
+      path:`/preview/:id`,
+      element:<Preview/>,
     },
 
     {

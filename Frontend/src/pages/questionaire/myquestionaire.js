@@ -236,8 +236,11 @@ function MyQuestionaire() {
                 placeholder="Search ... "
                 className="searchInput"
                 id="myInput"
+                border-style="solid"
+                border-width="1px"
               />
-              <>
+
+              <div className="overflow-x-auto my-4 w-full">
                 <table className="w-full" class="table" id="myTable">
                   <thead>
                     <tr>
@@ -248,6 +251,7 @@ function MyQuestionaire() {
                       <th>Time In Mins</th>
                       <th>Change</th>
                       <th>Single Send</th>
+                      <th>Preview Test</th>
 
                       {/* <th>orientation</th>
                   <th>Introductory Message</th>
@@ -321,11 +325,25 @@ function MyQuestionaire() {
                                 Send This Test
                               </a>
                             </td>
+                            <td>
+                              <a
+                                style={{
+                                  cursor: "pointer",
+                                  color: "blue",
+                                  textDecoration: "underline",
+                                }}
+                                onClick={() => {
+                                  navigate(`/preview/${ele?.id}`);
+                                }}
+                              >
+                                Preview Test
+                              </a>
+                            </td>
                           </tr>
                         );
                       })}
                   </tbody>
-                  <div className="fixed  bottom-0 pb-3 ">
+                  <div className="fixed w-full bg-white bottom-0 pb-3 ">
                     <div className="">
                       <button
                         onClick={(e) => {
@@ -339,7 +357,7 @@ function MyQuestionaire() {
                     </div>
                   </div>
                 </table>
-              </>
+              </div>
             </div>
           </div>
         ) : (

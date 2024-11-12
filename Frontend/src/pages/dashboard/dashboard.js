@@ -60,7 +60,7 @@ function Dashboard(params) {
   return (
     <div className="">
       <SideBar />
-      <div id="content" className=" w-1/2 sm:w-auto">
+      <div id="content" className=" w-auto sm:w-auto">
         {/* add frame to container and smaller */}
         <Grid className="w-auto" container ml={{ xs: 10, sm: 10 }}>
           <Grid item xs={8} md={12}>

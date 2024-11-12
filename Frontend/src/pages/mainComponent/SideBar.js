@@ -40,7 +40,7 @@ function SideBar(props) {
             overflow: "hidden",
           }}
         >
-          <div className="site-logo">
+          <div className="site-logo  mt-1">
             <Grid container>
               <Grid item xs={2}>
                 <a href="/" style={{ fontSize: "25px" }}>
@@ -48,7 +48,6 @@ function SideBar(props) {
                     style={{
                       textAlign: "center",
                       background: "none",
-                      marginLeft: "20px",
                     }}
                   >
                     <i
@@ -59,18 +58,24 @@ function SideBar(props) {
                 </a>
               </Grid>
               <Grid item xs={10}>
-                <h1
+                <h2
                   style={{
-                    textAlign: "center",
-                    margin: "0",
+                    margin: "6px 0px 0px 0px",
                     paddingTop: "0",
                     paddingBottom: "0",
                   }}
                 >
-                  <a href="/" className="sm:text-[15px] md:text-[20px]">
-                    Test<span>Factory</span>
+                  <a className="no-underline" href="/#home">
+                    <div className=" pt-1">
+                      <span className="text-white text-2xl font-bold">
+                        TEST
+                      </span>
+                      <span className="text-[#ff9000] text-2xl font-bold">
+                        FACTORY
+                      </span>
+                    </div>
                   </a>
-                </h1>
+                </h2>
               </Grid>
             </Grid>
           </div>
@@ -83,10 +88,14 @@ function SideBar(props) {
             id="2"
             onClick={() => {
               toggleSidebar();
-              navigate("/dashboard/mytest");
+              if (window.location.pathname === "/dashboard/mytest") {
+                window.location.reload();
+            } else {
+                navigate("/dashboard/mytest");
+            }
             }}
           >
-            <a className="" id="1">
+            <a className="no-underline" id="1">
               My Tests{" "}
             </a>
           </li>

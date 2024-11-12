@@ -8,10 +8,29 @@ import { toast } from "react-toastify";
 import { serverImageUrl } from "../../../../../apiCalls/apiRoutes";
 import { useHistory } from "react-router-dom";
 import XLSX from "sheetjs-style";
-import { Grid, Box } from "@mui/material";
+import {
+  Grid,
+  Box,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormControlLabel,
+  TextField,
+  Checkbox,
+  Button,
+} from "@mui/material";
 // import '../../style.css'
 import "./steps.css";
 import Modal from "react-bootstrap/Modal";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
+import SaveIcon from "@mui/icons-material/Save";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 var questionCounter = 0;
 var answerCounter = 0;
@@ -39,6 +58,8 @@ function QuestionStep(props) {
   const [questionCount, setQuestionCount] = useState(0);
   const [questionbank, setQuestionBank] = useState([]);
   const [showExampleModal, setShowExampleModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editingQuestion, setEditingQuestion] = useState(null);
   useEffect(() => {
     apiCall("post", getAllPreviousQuestions)
       .then((res) => {
@@ -63,6 +84,22 @@ function QuestionStep(props) {
     setSelectedFile(event.target.files[0]);
     setHandleRend(handleRend + 1);
     answerphoto(event);
+  };
+  const handleEditQuestion = (questionKey) => {
+    setEditingQuestion(questionKey);
+    setShowEditModal(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+    setEditingQuestion(null);
+  };
+
+  const handleSaveEdit = (e) => {
+    e.preventDefault();
+    // Save the edited question data
+    // You'll need to implement the logic to update the question in your state and API
+    handleCloseEditModal();
   };
   const answerphoto = (e) => {
     const lastIndex = e.target.id.lastIndexOf("-");
@@ -132,6 +169,8 @@ function QuestionStep(props) {
         showToastMessage(err?.response?.data?.message, "red", 2);
       });
   };
+
+  console.log(props.obj.mainObj);
 
   const checkquestions = () => {
     const questionsData = props?.obj?.mainObj?.questions || {};
@@ -231,6 +270,37 @@ function QuestionStep(props) {
                       Free Text
                     </label>
                   </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <TextField
+                      id={`timeLimit${index}`}
+                      name={`question${index}`}
+                      type="number"
+                      label="Time Limit (seconds)"
+                      defaultValue={questionsData[key].timeLimit || 0}
+                      onChange={(e) => {
+                        props.obj.mainObjectAdder(
+                          {
+                            target: {
+                              id: `question${index}`,
+                              value: e.target.value,
+                            },
+                          },
+                          "questions",
+                          `question${index}`,
+                          "timeLimit"
+                        );
+                      }}
+                      InputProps={{ inputProps: { min: 0 } }}
+                      size="small"
+                      helperText="0 means no time limit"
+                    />
+                  </div>
                 </Grid>
                 <Grid item xs={9}>
                   <input
@@ -244,6 +314,34 @@ function QuestionStep(props) {
                     defaultValue={questionsData[key].question}
                   />
                 </Grid>
+                <Grid item xs={12}>
+                  {props.obj.getMainObj().scoringType == 1 && (
+                    <TextField
+                      id={`question${index}-maxPoints`}
+                      type="number"
+                      label="Maximum Points"
+                      defaultValue={questionsData[key]?.maxPoints}
+                      onChange={(e) => {
+                        props.obj.mainObjectAdder(
+                          {
+                            target: {
+                              id: `question${index}`,
+                              value: e.target.value,
+                            },
+                          },
+                          "questions",
+                          `question${index}`,
+                          "maxPoints"
+                        );
+                      }}
+                      InputProps={{ inputProps: { min: 0 } }}
+                      size="small"
+                      style={{ marginTop: "10px" }}
+                      fullWidth
+                    />
+                  )}
+                </Grid>
+
                 <Grid item xs={3}>
                   <button
                     style={{
@@ -279,7 +377,7 @@ function QuestionStep(props) {
           questionsData[key].hasOwnProperty("answer")
         ) {
           answerCounter++;
-          newState[key] = (
+          newState[key.split("-")[1]] = (
             <>
               <div className="question-div QuesAns">
                 <label className="form-label" hidden>
@@ -706,6 +804,37 @@ function QuestionStep(props) {
                   Free Text
                 </label>
               </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginTop: "10px",
+                }}
+              >
+                <TextField
+                  id={`timeLimit${questionCounter}`}
+                  name={`question${questionCounter}`}
+                  type="number"
+                  label="Time Limit (seconds)"
+                  defaultValue={0}
+                  onChange={(e) => {
+                    props.obj.mainObjectAdder(
+                      {
+                        target: {
+                          id: `question${questionCounter}`,
+                          value: e.target.value,
+                        },
+                      },
+                      "questions",
+                      `question${questionCounter}`,
+                      "timeLimit"
+                    );
+                  }}
+                  InputProps={{ inputProps: { min: 0 } }}
+                  size="small"
+                  helperText="0 means no time limit"
+                />
+              </div>
             </Grid>
             <Grid xs={9} item>
               <input
@@ -722,6 +851,36 @@ function QuestionStep(props) {
                 required
               />
             </Grid>
+            <Grid item xs={12}>
+              {props.obj.getMainObj().scoringType == 1 && (
+                <TextField
+                  id={`question${questionCounter}-maxPoints`}
+                  type="number"
+                  label="Maximum Points"
+                  defaultValue={
+                    props.obj.mainObj["questions"][`question${questionCounter}`]
+                      ?.maxPoints || null
+                  }
+                  onChange={(e) => {
+                    props.obj.mainObjectAdder(
+                      {
+                        target: {
+                          id: `question${questionCounter}`,
+                          value: e.target.value,
+                        },
+                      },
+                      "questions",
+                      `question${questionCounter}`,
+                      "maxPoints"
+                    );
+                  }}
+                  InputProps={{ inputProps: { min: 0 } }}
+                  size="small"
+                  style={{ marginTop: "10px" }}
+                  fullWidth
+                />
+              )}
+            </Grid>
             <Grid xs={3} item>
               <button
                 className="add-answer-text question-div"
@@ -736,12 +895,15 @@ function QuestionStep(props) {
           </Grid>
         </>
       );
-      setQuestionCount((prevCount) => prevCount + 1);
 
-      ++questionCounter;
+      setQuestionCount((prevCount) => prevCount + 1);
       return name;
     });
+    setEditingQuestion("question" + questionCounter);
+    setShowEditModal(true);
+    ++questionCounter;
   }
+  console.log(questionCounter);
 
   function addHtmlAnswer(e) {
     var qstnCounter = e.target.getAttribute("name");
@@ -778,6 +940,10 @@ function QuestionStep(props) {
               placeholder="Answer"
               className="form-control mb-3 pt-3 pb-3 answers-field"
               required
+              value={
+                props.obj.mainObj["questions"][`question${questionCounter}`]
+                  ?.question
+              }
             />
             <>
               {props.obj.getMainObj().scoringType == 1 ? (
@@ -791,7 +957,10 @@ function QuestionStep(props) {
                     onChange={(e) => answerAdder(e, "point")}
                     placeholder="points"
                     min="0"
-                    max="10"
+                    max={
+                      props.obj.mainObj["questions"][`question${qstnCounter}`]
+                        ?.maxPoints || 10
+                    }
                     className="form-control mb-3 pt-3 pb-3 answers-field-points"
                     required
                   ></input>
@@ -867,10 +1036,11 @@ function QuestionStep(props) {
   }
 
   function deleteQuestion(topkey) {
+    console.log(topkey);
     const questionKey = topkey;
+    console.log(questionCounter);
     if (questionCounter > 0) {
       setQuestionCount((prevCount) => prevCount - 1);
-
       setHtml((prevState) => {
         const newState = { ...prevState };
         delete newState[questionKey];
@@ -1196,7 +1366,11 @@ function QuestionStep(props) {
                       onChange={(e) => answerAdder(e, "point")}
                       placeholder="points"
                       min="0"
-                      max="10"
+                      max={
+                        props.obj.mainObj["questions"][
+                          `question${questionCounter - 1}`
+                        ]?.maxPoints || 10
+                      }
                       defaultValue={question_data[key].points}
                       className="form-control mb-3 pt-3 pb-3 answers-field-points"
                       required
@@ -1243,12 +1417,12 @@ function QuestionStep(props) {
 
   return (
     <>
-      <div
-        style={{ textAlign: "start", width: "100%" }}
-        className="question-content ml-8"
-        hidden={props.obj.tabSelected == "QUESTIONS" ? false : true}
-      >
-        <div class="wrapper">
+      <div hidden={props.obj.tabSelected == "QUESTIONS" ? false : true}>
+        <div
+          style={{ textAlign: "start" }}
+          className="question-content ml-8 w-[80%] mx-auto pb-20"
+          hidden={props.obj.tabSelected == "QUESTIONS" ? false : true}
+        >
           <div>
             <h3>#3 - Questions</h3>
             <p className="counterq">{`Questions Created: ${questionCount}`}</p>
@@ -1321,9 +1495,17 @@ function QuestionStep(props) {
             </button>
             <br />
             <br />
+
+            <button
+              style={{ position: "relative", right: "20px" }}
+              onClick={addQuestion}
+            >
+              Add a Question
+            </button>
+            <br />
             <br />
           </div>
-          <div className="mt-36 text-xs px-6">
+          {/* <div className="mt-36 text-xs px-6">
             {" "}
             <button
               className="QuestionButtonClass"
@@ -1331,8 +1513,8 @@ function QuestionStep(props) {
             >
               {allQUestionView}
             </button>
-          </div>
-          <div>
+          </div> */}
+          {/* <div>
             {" "}
             <input
               type="search"
@@ -1345,94 +1527,383 @@ function QuestionStep(props) {
               className="search-for-question"
               onChange={search}
             />
-          </div>
-        </div>
-        <Grid container spacing={3}>
-          {Object.keys(html).map(function (topkey, i) {
-            return (
-              <>
-                <Grid item xs={12} id={"all-questions-" + i}>
-                  <Grid container key={i} className="all-questions">
-                    <Grid item xs={12}>
-                      <button
-                        id="collapse-button"
-                        onClick={() => handleCollapse("all-questions-" + i)}
-                      >
-                        -
-                      </button>
-                    </Grid>
-                    <Grid xs={12} className="QuesAns squestion-div">
-                      {html[topkey]}
-                    </Grid>
+          </div> */}
+
+          <Grid container spacing={3}>
+            {Object.keys(html).map(function (topkey, i) {
+              return (
+                <>
+                  <Grid item xs={12} id={"all-questions-" + i}>
                     <Grid
-                      xs={12}
-                      className="QuesAns question-div squestion-div"
+                      container
+                      key={i}
+                      className="all-questions"
+                      style={{
+                        border: "1px solid #ccc",
+                        borderRadius: "8px",
+                        padding: "16px",
+                        marginBottom: "20px",
+                        position: "relative",
+                      }}
                     >
-                      {Object.keys(htmlAnswer).map(function (key, i) {
-                        {
-                          var temp =
-                            htmlAnswer[
-                              key
-                            ]?.props.children?.props.children[1].props.id.split(
-                              "-"
-                            )[0];
-                          if (topkey == temp) {
-                            return htmlAnswer[key];
-                          } else {
-                            return null;
+                      <Grid item xs={12} style={{ marginBottom: "16px" }}>
+                        <Typography variant="h6" style={{ fontWeight: "bold" }}>
+                          Question: {i + 1}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography
+                          variant="h5"
+                          style={{ marginBottom: "16px" }}
+                        >
+                          {props.obj.mainObj.questions[topkey]?.question}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        {Object.keys(props.obj.mainObj.questions)
+                          .filter((key) => key.startsWith(`${topkey}-answer`))
+                          .map((answerKey, index) => (
+                            <Box key={index} style={{ marginBottom: "8px" }}>
+                              <Typography>
+                                {props.obj.mainObj.questions[answerKey].answer}
+                                <span style={{ marginLeft: "8px" }}>
+                                  Points:{" "}
+                                  {props.obj.mainObj.questions[answerKey].point}
+                                </span>
+                              </Typography>
+                            </Box>
+                          ))}
+                      </Grid>
+                      <Box
+                        style={{
+                          position: "absolute",
+                          top: "8px",
+                          right: "8px",
+                        }}
+                      >
+                        <EditIcon
+                          onClick={() => handleEditQuestion(topkey)}
+                          style={{
+                            cursor: "pointer",
+                            color: "blue",
+                            marginRight: "8px",
+                          }}
+                        />
+                        <DeleteIcon
+                          onClick={() => deleteQuestion(topkey)}
+                          style={{ cursor: "pointer", color: "red" }}
+                        />
+                      </Box>
+                    </Grid>
+                  </Grid>
+                  {/* <Grid item xs={12} id={"delall-questions-" + i}>
+                    <button
+                      className="question-div QuesAns"
+                      onClick={() => deleteQuestion(topkey)}
+                    >
+                      Delete a Question
+                    </button>
+                  </Grid> */}
+                </>
+              );
+            })}
+          </Grid>
+          <Modal show={showEditModal} onHide={handleCloseEditModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>Question</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              {editingQuestion && (
+                <form onSubmit={handleSaveEdit}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <Typography variant="h6">Question</Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <input
+                        type="file"
+                        id={`${editingQuestion}-image`}
+                        onChange={(e) => handleFileSelect(e)}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <img
+                        id={`img_${editingQuestion}`}
+                        height="200"
+                        width="200"
+                        style={{ display: "none" }}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <FormControl fullWidth>
+                        <InputLabel>Category</InputLabel>
+                        <Select
+                          onChange={(e) =>
+                            categoryValueAdder(e, "categoryName")
                           }
+                          id={editingQuestion}
+                          name={editingQuestion}
+                        >
+                          <MenuItem value="">Select Category</MenuItem>
+                          {Object.keys(props.obj.categoryStore).map(
+                            (key, index) => (
+                              <MenuItem
+                                key={index}
+                                value={
+                                  props.obj.categoryStore[key]["categoryName"]
+                                }
+                              >
+                                {props.obj.categoryStore[key]["categoryName"]}
+                              </MenuItem>
+                            )
+                          )}
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            id={"freeText" + 0}
+                            name={editingQuestion}
+                            onChange={handleFreeTextChange}
+                          />
+                        }
+                        label="Free Text"
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        id={editingQuestion}
+                        name={editingQuestion}
+                        type="number"
+                        label="Time Limit (seconds)"
+                        value={
+                          props.obj.mainObj["questions"][editingQuestion]
+                            ?.timeLimit
+                        }
+                        onChange={(e) => {
+                          props.obj.mainObjectAdder(
+                            {
+                              target: {
+                                id: editingQuestion,
+                                value: e.target.value,
+                              },
+                            },
+                            "questions",
+                            editingQuestion,
+                            "timeLimit"
+                          );
+                        }}
+                        InputProps={{ inputProps: { min: 0 } }}
+                        size="small"
+                        helperText="0 means no time limit"
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        fullWidth
+                        id={editingQuestion}
+                        label="Question"
+                        name="categoryField"
+                        value={
+                          props.obj.mainObj["questions"][editingQuestion]
+                            ?.question
+                        }
+                        onChange={(e) => categoryValueAdder(e, "question")}
+                        placeholder="Question"
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      {props.obj.getMainObj().scoringType == 1 && (
+                        <TextField
+                          id={`${editingQuestion}-maxPoints`}
+                          type="number"
+                          label="Maximum Points"
+                          value={
+                            props.obj.mainObj["questions"][editingQuestion]
+                              ?.maxPoints || null
+                          }
+                          onChange={(e) => {
+                            props.obj.mainObjectAdder(
+                              {
+                                target: {
+                                  id: editingQuestion,
+                                  value: e.target.value,
+                                },
+                              },
+                              "questions",
+                              editingQuestion,
+                              "maxPoints"
+                            );
+                          }}
+                          InputProps={{ inputProps: { min: 0 } }}
+                          size="small"
+                          fullWidth
+                        />
+                      )}
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        id={"answer" + questionCounter}
+                        name={editingQuestion}
+                        onClick={(e) => addHtmlAnswer(e)}
+                      >
+                        Add Answer
+                      </Button>
+                    </Grid>
+                    <Grid item xs={12}>
+                      {Object.keys(htmlAnswer).map(function (key, i) {
+                        var temp =
+                          htmlAnswer[
+                            key
+                          ]?.props.children?.props.children[1].props.id.split(
+                            "-"
+                          )[0];
+                        if (editingQuestion == temp) {
+                          return (
+                            <Grid container spacing={2} key={i}>
+                              <Grid item xs={12}>
+                                <input
+                                  type="file"
+                                  id={`${editingQuestion}-${key}-image`}
+                                  onChange={handleAnswerFileSelect}
+                                />
+                              </Grid>
+                              <Grid item xs={12}>
+                                <img
+                                  id={`img_${editingQuestion}-${key}`}
+                                  height="200"
+                                  width="200"
+                                  style={{ display: "none" }}
+                                />
+                              </Grid>
+                              <Grid item xs={12}>
+                                <TextField
+                                  fullWidth
+                                  id={`${editingQuestion}-${key}`}
+                                  label="Answer"
+                                  name="categoryField"
+                                  onChange={(e) => answerAdder(e, "answer")}
+                                  placeholder="Answer"
+                                  required
+                                  value={
+                                    props.obj.mainObj["questions"][
+                                      `${editingQuestion}-${key}`
+                                    ]?.answer
+                                  }
+                                />
+                              </Grid>
+                              <Grid item xs={12}>
+                                {props.obj.getMainObj().scoringType == 1 ? (
+                                  <TextField
+                                    fullWidth
+                                    id={`${editingQuestion}-${key}`}
+                                    label="Points"
+                                    type="number"
+                                    onChange={(e) => answerAdder(e, "point")}
+                                    placeholder="points"
+                                    InputProps={{
+                                      inputProps: { min: 0, max: 10 },
+                                    }}
+                                    required
+                                    value={
+                                      props.obj.mainObj["questions"][
+                                        `${editingQuestion}-${key}`
+                                      ]?.point
+                                    }
+                                  />
+                                ) : (
+                                  <FormControl fullWidth>
+                                    <Typography variant="p">Points</Typography>
+                                    <select
+                                      // defaultValue={"Select Option"}
+                                      className="m-1 p-2"
+                                      id={`${editingQuestion}-${key}`}
+                                      defaultValue={
+                                        props.obj.mainObj["questions"][
+                                          `${editingQuestion}-${key}`
+                                        ]?.point
+                                      }
+                                      onChange={(e) => answerAdder(e, "point")}
+                                      // style={{ backgroundColor: props.mainObj?.questions[`question${qstnCounter}`]?.point == 0 ? 'red' : 'green' }}
+                                    >
+                                      <option
+                                        value={-1}
+                                        style={{ backgroundColor: "white" }}
+                                      >
+                                        Select Option
+                                      </option>
+                                      <option
+                                        value={0}
+                                        style={{
+                                          color: "red",
+                                          backgroundColor: "white",
+                                        }}
+                                      >
+                                        False
+                                      </option>
+                                      <option
+                                        value={10}
+                                        style={{
+                                          color: "green",
+                                          backgroundColor: "white",
+                                        }}
+                                      >
+                                        True
+                                      </option>
+                                    </select>
+                                  </FormControl>
+                                )}
+                              </Grid>
+                            </Grid>
+                          );
+                        } else {
+                          return null;
                         }
                       })}
                     </Grid>
                   </Grid>
-                </Grid>
-                <Grid item xs={12} id={"delall-questions-" + i}>
+                </form>
+              )}
+            </Modal.Body>
+          </Modal>
+
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <div className="fixed  bottom-0 left-0 shadow-lg p-3 bg-white w-full">
+                <div className="w-[90%]">
                   <button
-                    className="question-div QuesAns"
-                    onClick={() => deleteQuestion(topkey)}
+                    type="submit"
+                    className="float-end w-max    bg-blue-500 text-white py-2 rounded"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      props.obj.apiCallToCreateTest(e);
+                    }}
                   >
-                    Delete a Question
+                    Save Test & Close
                   </button>
-                </Grid>
-              </>
-            );
-          })}
-        </Grid>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <button
-              style={{ position: "relative", right: "20px" }}
-              onClick={addQuestion}
-            >
-              Add a Question
-            </button>
-            <div className="fixed  bottom-0 left-0 shadow-lg p-3 bg-white w-full">
-              <div className="w-[90%]">
-                <button
-                  type="submit"
-                  className="float-end w-max    bg-blue-500 text-white py-2 rounded"
-                  onClick={(e) => {
-                    props.obj.apiCallToCreateTest(e);
-                  }}
-                >
-                  Save Test & Close
-                </button>
+                </div>
               </div>
-            </div>
-            <button
-              onClick={() => props.obj.setTabSelected("CATEGORIES")}
-              className=" fixed left-0 md:left-[340px] top-1/2 transform -translate-y-1/2 bg-blue-500 text-white p-4 rounded-full shadow-lg"
-            >
-              &larr;
-            </button>
-            <button
-              onClick={() => props.obj.setTabSelected("LAYOUT")}
-              className="fixed right-0 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white p-4 rounded-full shadow-lg"
-            >
-              &rarr;
-            </button>
+            </Grid>
           </Grid>
-        </Grid>
+        </div>
+        <button
+          onClick={() => props.obj.setTabSelected("CATEGORIES")}
+          className="fixed LEFT-0 ml-4 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white p-4 rounded-full shadow-lg flex "
+        >
+          <ArrowBackIosRoundedIcon />
+        </button>
+        <button
+          onClick={() => props.obj.setTabSelected("LAYOUT")}
+          className="fixed right-4 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white p-4 rounded-full shadow-lg flex "
+        >
+          <ArrowForwardIosRoundedIcon />
+        </button>
       </div>
     </>
   );

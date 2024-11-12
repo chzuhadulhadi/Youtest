@@ -9,6 +9,7 @@ import AutomaticText from "./components/AllSteps/automaticText";
 import TestLayout from "./components/AllSteps/layout";
 import ResultStructureStep from "./components/AllSteps/ResultStructureStep";
 import SideBar from "../../mainComponent/SideBar";
+import Preview from "./components/AllSteps/Preview";
 import { apiCall } from "../../../apiCalls/apiCalls";
 import {
   createMyTest,
@@ -105,7 +106,7 @@ function EditTest(props) {
     orientation: 0,
     scoringType: 0,
     randomOrder: 0,
-    timeLimit: "",
+    timeLimit: 0,
     showuser: 0,
     questions: {},
     resultStructure: {
@@ -116,6 +117,12 @@ function EditTest(props) {
     freeText: {},
     afterTestText: "",
     beforeTestText: "",
+    timeAvailability: {
+      enabled: false,
+      startTime: "",
+      endTime: "",
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // Get user's timezone by default
+    },
   });
   useEffect(() => {
     getTestData();
@@ -132,6 +139,7 @@ function EditTest(props) {
           // ...converted
           // };
           const data = response?.data?.data;
+          console.log(data);
           setMainObj({
             id: data.obj.id,
             sendAll: !!data.sendAll,
@@ -148,8 +156,21 @@ function EditTest(props) {
             name: data.name,
             categoryStore: data.categoryStore,
             layout: data.layout,
+            testObj: data.getobj,
+            timeAvailability: data.timeAvailability,
           });
-          setCategoryStore(response?.data?.data?.categoryStore);
+          const filteredCategoryStore = Object.keys(
+            response?.data?.data?.categoryStore
+          ).reduce((acc, key) => {
+            if (key !== "categoryName" && key !== "noOfQuestion") {
+              acc[key] = response?.data?.data?.categoryStore[key];
+            }
+            return acc;
+          }, {});
+          console.log(Object.keys(filteredCategoryStore));
+          if (Object.keys(filteredCategoryStore).length > 0) {
+            setCategoryStore(filteredCategoryStore);
+          }
           // console.log(response?.data?.data);
           // return response?.data?.data?.rows[0];
           // setData(response?.data?.data?.rows);
@@ -167,8 +188,7 @@ function EditTest(props) {
   };
 
   function apiCallToCreateTest(draft) {
-    console.log(mainObj);
-    apiCall("post", createMyTest, { ...mainObj })
+    apiCall("post", createMyTest, { ...mainObj, testObj: undefined })
       .then((res) => {
         showToastMessage("Test created Successfully ", "green", 1);
         navigate("/dashboard/mytest");
@@ -224,6 +244,17 @@ function EditTest(props) {
     setMainObj(main);
   }
 
+  function removeAutomaticTextRule(key) {
+    let main = {
+      ...mainObj,
+      automaticText: {
+        ...mainObj.automaticText,
+      },
+    };
+    delete main.automaticText[key];
+    setMainObj(main);
+  }
+
   function mainObjectAdderForProperties(e, property) {
     // console.log("mainObj[property]", mainObj[property], "type", type)
     if (
@@ -235,6 +266,20 @@ function EditTest(props) {
       let main = {
         ...mainObj,
         [property]: e,
+      };
+      setMainObj(main);
+    } else if (
+      property == "startTime" ||
+      property == "endTime" ||
+      property == "timeZone" ||
+      property == "enabled"
+    ) {
+      let main = {
+        ...mainObj,
+        timeAvailability: {
+          ...mainObj.timeAvailability,
+          [property]: e,
+        },
       };
       setMainObj(main);
     } else {
@@ -377,6 +422,7 @@ function EditTest(props) {
             setTabSelected,
             mainObj,
             apiCallToCreateTest,
+            removeAutomaticTextRule,
           }}
         />
       </div>

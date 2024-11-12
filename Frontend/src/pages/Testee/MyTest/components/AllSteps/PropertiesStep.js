@@ -5,17 +5,34 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import htmlToDraft from "html-to-draftjs";
 import draftToHtml from "draftjs-to-html";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 
 function PropertiesStep(props) {
   const [timeLimited, setTimeLimited] = useState(false);
+  const [timeAvailability, setTimeAvailability] = useState(false);
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [timeZone, setTimeZone] = useState(
+    Intl.DateTimeFormat().resolvedOptions().timeZone
+  );
   const [sendAll, setsendAll] = useState(false);
   const [showuser, setshowuser] = useState(false);
+
   useEffect(() => {
     if (props.obj.mainObj?.timeLimit) {
       setTimeLimited(true);
     }
-  }, [props.obj.mainObj?.timeLimit]);
-  console.log(props.obj.mainObj);
+    if (props.obj.mainObj?.timeAvailability) {
+      setTimeAvailability(props.obj.mainObj?.timeAvailability?.enabled);
+      setStartTime(props.obj.mainObj?.timeAvailability?.startTime || "");
+      setEndTime(props.obj.mainObj?.timeAvailability?.endTime || "");
+      setTimeZone(
+        props.obj.mainObj?.timeAvailability?.timeZone ||
+          Intl.DateTimeFormat().resolvedOptions().timeZone
+      );
+    }
+  }, [props.obj.mainObj]);
 
   useEffect(() => {
     if (props.obj.mainObj?.sendAll) {
@@ -32,14 +49,15 @@ function PropertiesStep(props) {
   const [afterTextState, setAfterTextState] = useState(() =>
     EditorState.createEmpty()
   );
+
   useEffect(() => {
     const isEmpty = beforeTextState.getCurrentContent().hasText() === false;
     if (!isEmpty) {
-      // console.log("beforeTextState",beforeTextState)
       let html = draftToHtml(convertToRaw(beforeTextState.getCurrentContent()));
       props.obj.mainObjectAdderForProperties(html, "beforeTestText");
     }
   }, [beforeTextState]);
+
   useEffect(() => {
     document.querySelectorAll(".rdw-option-wrapper")?.forEach((ele, index) => {
       if (
@@ -65,6 +83,7 @@ function PropertiesStep(props) {
       ele.style.display = "none";
     });
   }, []);
+
   useEffect(() => {
     const isEmpty = beforeTextState.getCurrentContent().hasText() === false;
     if (isEmpty && props?.obj.mainObj?.beforeTestText?.length > 0) {
@@ -91,20 +110,20 @@ function PropertiesStep(props) {
   useEffect(() => {
     const isEmpty = afterTextState.getCurrentContent().hasText() === false;
     if (!isEmpty) {
-      // console.log("afterTextState",afterTextState)
       let html = draftToHtml(convertToRaw(afterTextState.getCurrentContent()));
       props.obj.mainObjectAdderForProperties(html, "afterTestText");
     }
   }, [afterTextState]);
+
   return (
     <div
       hidden={props.obj.tabSelected == "PROPERTIES" ? false : true}
-      className="categories-content"
+      className="categories-content w-[70%] mx-auto md:w-[90%] "
     >
       <div className="leftHalf  ">
         <br />
         <form
-          className="formClass w-[80%] mx-auto"
+          className="formClass w-[90%] mx-auto mb-10"
           onSubmit={(e) => {
             e.preventDefault();
             props.obj.showTab("CATEGORIES");
@@ -124,7 +143,6 @@ function PropertiesStep(props) {
           <label className="form-label"> Test structure </label>
           <select
             id="orientation"
-            // value={orientation}
             onChange={(e) =>
               props.obj.mainObjectAdderForProperties(e, "orientation")
             }
@@ -151,7 +169,6 @@ function PropertiesStep(props) {
           <label className="form-label">Scoring type</label>
           <select
             id="scoringType"
-            // value={props.obj.mainObj?.scoringType }
             onChange={(e) =>
               props.obj.mainObjectAdderForProperties(e, "scoringType")
             }
@@ -168,7 +185,6 @@ function PropertiesStep(props) {
           <label className="form-label">Questions order</label>
           <select
             id="randomOrder"
-            // value={props.obj.mainObj?.randomOrder}
             onChange={(e) =>
               props.obj.mainObjectAdderForProperties(e, "randomOrder")
             }
@@ -176,9 +192,71 @@ function PropertiesStep(props) {
             required
           >
             <option value="0">Sequence</option>
-
             <option value="1">Random</option>
           </select>
+          <input
+            type="checkbox"
+            onClick={(e) => {
+              props.obj.mainObjectAdderForProperties(
+                e.target.checked,
+                "enabled"
+              );
+              setTimeAvailability(e.target.checked);
+            }}
+            checked={timeAvailability}
+          />
+          &nbsp;<label>Set Time Availability</label>
+          <br />
+          <div
+            style={
+              timeAvailability ? { display: "block" } : { display: "none" }
+            }
+          >
+            <label className="form-label">Start Time</label>
+            <input
+              type="datetime-local"
+              value={startTime}
+              onChange={(e) => {
+                setStartTime(e.target.value);
+                props.obj.mainObjectAdderForProperties(
+                  e.target.value,
+                  "startTime"
+                );
+              }}
+              className="form-control mb-3 pt-3 pb-3"
+            />
+            <label className="form-label">End Time</label>
+            <input
+              type="datetime-local"
+              value={endTime}
+              onChange={(e) => {
+                setEndTime(e.target.value);
+                props.obj.mainObjectAdderForProperties(
+                  e.target.value,
+                  "endTime"
+                );
+              }}
+              className="form-control mb-3 pt-3 pb-3"
+            />
+            <label className="form-label">Timezone</label>
+            <select
+              value={timeZone}
+              onChange={(e) => {
+                setTimeZone(e.target.value);
+                props.obj.mainObjectAdderForProperties(
+                  e.target.value,
+                  "timeZone"
+                );
+              }}
+              className="form-select mb-3 pt-3 pb-3"
+            >
+              {Intl.supportedValuesOf("timeZone").map((tz) => (
+                <option key={tz} value={tz}>
+                  {tz}
+                </option>
+              ))}
+            </select>
+          </div>
           <input
             type="checkbox"
             onClick={(e) => {
@@ -248,7 +326,6 @@ function PropertiesStep(props) {
             id="beforeTestText"
             wrapperClassName="wrapper-class"
             editorStyle={{ border: "1px solid black" }}
-            // editorClassName="editor-class"
             toolbarClassName="toolbar-class"
           />
           <label className="form-label mt-4">
@@ -260,46 +337,33 @@ function PropertiesStep(props) {
             id="afterTestText"
             wrapperClassName="wrapper-class"
             editorStyle={{ border: "1px solid black" }}
-            // editorClassName="editor-class"
             toolbarClassName="toolbar-class"
           />
           <div className="fixed  bottom-0 left-0 shadow-lg p-3 bg-white w-full">
             <div className="w-[90%]">
               <button
                 type="submit"
-                className="float-end  w-max   bg-blue-500 text-white py-2 rounded"
+                className="float-end w-max   bg-blue-500 text-white py-2 rounded"
                 onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
                   props.obj.apiCallToCreateTest(e);
                 }}
               >
                 Save Test & Close
               </button>
-
-              <button
-                onClick={() => props.obj.setTabSelected("CATEGORIES")}
-                className="fixed right-0 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white p-4 rounded-full shadow-lg flex items-center"
-              >
-                &rarr;
-                <img
-                  src="/path/to/your/arrow-image.png" // Replace with the actual path to your arrow image
-                  alt="Arrow"
-                  className="ml-2 w-4 h-4" // Adjust size and spacing as needed
-                />
-              </button>
             </div>
           </div>
-          {/* <button
-            className="next-button"
-            type="submit"
-            style={{ position: "relative", right: "20px" }}
-          >
-            {" "}
-            Next{" "}
-          </button> */}
         </form>
         <br />
         <br />
       </div>
+      <button
+        onClick={() => props.obj.setTabSelected("CATEGORIES")}
+        className="fixed right-4 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white p-4 rounded-full shadow-lg flex "
+      >
+        <ArrowForwardIosRoundedIcon />
+      </button>
     </div>
   );
 }

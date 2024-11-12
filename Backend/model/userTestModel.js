@@ -5,7 +5,6 @@ const userService = require('../service/userService');
 const landingPageService = require('../service/landingPageService');
 const paymentService = require('../service/paymentService');
 
-
 const { Op } = require('sequelize');
 const config = require('../config.json');
 const Sequelize = require('../common/databaseConnection');
@@ -14,7 +13,6 @@ const model = require('../model');
 const mailingListUserService = require('../service/mailingListUserService');
 
 module.exports = {
-	
 	transferTest: async function (obj) {
 		console.log(obj);
 		const user = await userService.getuserByAny(obj.email);
@@ -42,6 +40,7 @@ module.exports = {
 			}
 			const testObj = test.toJSON();
 			delete testObj.id;
+			console.log('testObj', testObj.createdById);
 			testObj.createdById = user.id;
 			await testService.createTest(testObj);
 		}
@@ -178,7 +177,6 @@ module.exports = {
 								)
 							);
 						}
-
 					});
 					//IF LNDINGPAGEiD THEN ADD IT TO LANDINGPAGEDATA
 					let landingPage = obj.LandingPageData;
@@ -192,6 +190,7 @@ module.exports = {
 					userTestArray.push({
 						userEmail: single.email,
 						name: testDetails.name,
+						timeAvailability: testDetails.timeAvailability,
 						language: testDetails.language,
 						sendAll: testDetails.sendAll,
 						landingPageData: landingPage,
@@ -209,12 +208,13 @@ module.exports = {
 						categoryStore: testDetails.categoryStore,
 						additionalDetails: { name: single.name, note: obj.note },
 						ownerId: obj.userId,
+						createdById: obj.createdById,
 					});
 				}
 			}
-			// console.log(userTestArray);
 			await paymentService.updateRemainingTests(obj.userId);
 			var bulkTests = await userTestService.initiateBulkTest(userTestArray, t);
+			console.log('bulkTests', bulkTests);
 			const testUrls = [];
 			for (let test of bulkTests) {
 				// console.log('data', test.number);
@@ -299,7 +299,10 @@ module.exports = {
 						return result;
 					} catch (error) {
 						// Handle errors for individual test objects
-						console.error(`Error processing result for test ID ${testObject.id}:`, error.message);
+						console.error(
+							`Error processing result for test ID ${testObject.id}:`,
+							error.message
+						);
 						return null; // You can choose to return a default value or handle the error as needed
 					}
 				})
@@ -405,11 +408,16 @@ module.exports = {
 			totalStats.timeTakenForTest = dbObj.timeLimit;
 		}
 		// console.log(dbObj.ownerId);
-		var user = await userService.getuserById(dbObj.ownerId)
+		var user = await userService.getuserById(dbObj.ownerId);
 		// console.log(user.email);
 		// totalPercentage: 0,
-		// totalCategories: 0	
-		return { ...dbObj, result: resultArray, resultStats: totalStats, owner: user.email };
+		// totalCategories: 0
+		return {
+			...dbObj,
+			result: resultArray,
+			resultStats: totalStats,
+			owner: user.email,
+		};
 	},
 	saveUserTest: async function (obj) {
 		var testDetails = await userTestService.getUserTest(0, 1, {
@@ -423,5 +431,5 @@ module.exports = {
 		});
 		return updated;
 	},
-	deleteUserTestHistory: async function (obj) { },
+	deleteUserTestHistory: async function (obj) {},
 };

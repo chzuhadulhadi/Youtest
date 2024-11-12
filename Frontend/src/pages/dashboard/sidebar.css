@@ -38,7 +38,7 @@ a:focus {
 }
 
 #sidebar {
-  min-width: 79vw;
+  min-width: 25vw;
   background: #3e3f3f;
   color: #fff;
   transition: all 0.3s;
@@ -47,6 +47,24 @@ a:focus {
 #sidebar.active {
   margin-left: -250px;
   background-color: #ff9000;
+}
+@media (min-width: 768) {
+  #sidebar {
+    width: 25vw !important;
+    min-width: 20vw !important;
+    float: left;
+    position: fixed;
+    height: 100%;
+  }
+}
+@media (max-width: 768) {
+  #sidebar {
+    width: 79vw !important;
+    min-width: 20vw !important;
+    float: left;
+    position: fixed;
+    height: 100%;
+  }
 }
 
 #sidebar .sidebar-header {
@@ -62,6 +80,14 @@ a:focus {
 #sidebar ul.components {
   padding: 20px 0;
   border-bottom: 1px solid #47748b;
+  overflow-y: scroll;
+  height: 80%;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
+}
+
+#sidebar ul.components::-webkit-scrollbar {
+  display: none;
 }
 
 #sidebar ul p {
@@ -136,7 +162,7 @@ a.article:hover {
 ----------------------------------------------------- */
 
 #content {
-  width: 75vw;
+  width: auto;
   padding: 20px;
   min-height: 100vh;
   transition: all 0.3s;
@@ -148,7 +174,7 @@ a.article:hover {
 
 @media (max-width: 768px) {
   #sidebar {
-    margin-left: -250px;
+    margin-left: 0px;
   }
 
   #sidebar.active {
@@ -158,8 +184,4 @@ a.article:hover {
   #sidebarCollapse span {
     display: none;
   }
-}
-
-.custom-fluid {
-  display: block !important;
 }

@@ -142,7 +142,7 @@ function AddUserInList() {
             className="form-control"
             required
           />
-          <button type="submit" className="btn btn-primary center">
+          <button type="submit" className="btn btn-primary center my-2">
             Submit
           </button>
         </form>
@@ -244,7 +244,7 @@ function AddUserInList() {
             className="form-control"
             required
           />
-          <button type="submit" className="btn btn-primary center">
+          <button type="submit" className="btn btn-primary center my-3">
             Submit
           </button>
         </form>
@@ -595,7 +595,7 @@ function AddUserInList() {
             Create New Mailing List
           </Button>
           <Button
-            className="w-1/2 md:w-1/4"
+            className="w-1/2 md:w-1/4 "
             variant="primary"
             onClick={() => {
               handleShowExampleModal();
@@ -684,8 +684,8 @@ function AddUserInList() {
           {selectedTab == "editUserInMailingList" && editUserMailingList()}
         </Modal>
 
-        <>
-          <table className="table">
+        <div className="overflow-x-auto w-full">
+          <table className="table place-contant-evenly">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -705,6 +705,7 @@ function AddUserInList() {
                         style={{
                           backgroundColor: "#FF9000",
                           color: "white",
+                          margin: "1px",
                         }}
                         onClick={() => {
                           clickDetector(
@@ -722,6 +723,7 @@ function AddUserInList() {
                         style={{
                           backgroundColor: "#FF9000",
                           color: "white",
+                          margin: "1px",
                         }}
                         onClick={() => {
                           clickDetector(
@@ -739,6 +741,7 @@ function AddUserInList() {
                         style={{
                           backgroundColor: "#FF9000",
                           color: "white",
+                          margin: "1px",
                         }}
                         onClick={() => {
                           clickDetector(
@@ -773,7 +776,7 @@ function AddUserInList() {
               />
             </div>
           )}
-        </>
+        </div>
       </div>
     </div>
   );

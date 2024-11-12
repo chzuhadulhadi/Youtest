@@ -1,5 +1,5 @@
-const { Op } = require("sequelize");
-const model = require("../model");
+const { Op } = require('sequelize');
+const model = require('../model');
 
 module.exports = {
 	duplicateTest: async function (id) {
@@ -10,7 +10,7 @@ module.exports = {
 			id: null,
 			name: test.name + ' copy',
 			testObj: testObj,
-			...test
+			...test,
 		});
 		return newTest;
 	},
@@ -33,19 +33,17 @@ module.exports = {
 			}
 		}
 		return questions;
-
 	},
 	createTest: async function (obj, t) {
-		console.log("obj", obj);
+		console.log('obj', obj);
 		if (obj.id === 0 || obj.id === undefined) {
-			console.log(" creating obj", obj);
+			console.log(' creating obj', obj);
 			// Create a new test
-			try{
+			try {
 				await model.test.create(obj, {
 					transaction: t,
 				});
-			}
-			catch(e){
+			} catch (e) {
 				console.log(e);
 			}
 		} else {
@@ -75,12 +73,12 @@ module.exports = {
 		return await model.test.findAll({
 			offset,
 			limit,
-			...filter
+			...filter,
 		});
 	},
 	getAllTest: async function (filter) {
 		return await model.test.findAll({
-			...filter
+			...filter,
 		});
 	},
 	deleteTest: async function (id) {
@@ -95,14 +93,13 @@ module.exports = {
 		//embed owner email from user table as createdById
 		const users = await model.user.findAll();
 		const usersMap = {};
-		users.forEach(user => {
+		users.forEach((user) => {
 			usersMap[user.id] = user.email;
 		});
-		tests.forEach(test => {
+		tests.forEach((test) => {
 			test.dataValues.createdByEmail = usersMap[test.dataValues.createdById];
 		});
 		return tests;
-
 	},
 	getMyTestCount: async function (filter) {
 		return await model.test.count(filter);
@@ -111,80 +108,90 @@ module.exports = {
 		return await model.test.findOne(filter);
 	},
 	makeCreateTestObj: async function (obj) {
-		var retObj = {
-
-		}
-		console.log("obj.questions", obj)
+		var retObj = {};
+		console.log('obj.questions', obj);
 		Object.keys(obj.questions).map(function (key, i) {
 			if (!obj.questions[key].categoryName) {
-				obj.questions[key].categoryName = "No Category";
+				obj.questions[key].categoryName = 'No Category';
 			}
-			retObj[obj.questions[key].categoryName] ? "No Category" : retObj[obj.questions[key].categoryName] = {}
+			retObj[obj.questions[key].categoryName]
+				? 'No Category'
+				: (retObj[obj.questions[key].categoryName] = {});
 
-			if (!key.includes("answer") && obj.questions[key].categoryName) {
-
-				retObj[obj.questions[key].categoryName][key] = {}
+			if (!key.includes('answer') && obj.questions[key].categoryName) {
+				retObj[obj.questions[key].categoryName][key] = {};
 				retObj[obj.questions[key].categoryName][key] = {
-					question: "",
-					category: "No Category",
+					question: '',
+					category: 'No Category',
 					freeText: 0,
-					image: ""
-				}
+					image: '',
+					timeLimit: 0,
+				};
 				// console.log("obj.freetext", obj.freeText);
-				retObj[obj.questions[key].categoryName][key]["question"] = obj.questions[key]["question"];
-				retObj[obj.questions[key].categoryName][key]["category"] = obj.questions[key]["categoryName"] || "No Category";
-				retObj[obj.questions[key].categoryName][key]["image"] = obj.questions[key]["image"] || "";
+				retObj[obj.questions[key].categoryName][key]['question'] =
+					obj.questions[key]['question'];
+				retObj[obj.questions[key].categoryName][key]['category'] =
+					obj.questions[key]['categoryName'] || 'No Category';
+				retObj[obj.questions[key].categoryName][key]['image'] =
+					obj.questions[key]['image'] || '';
+				retObj[obj.questions[key].categoryName][key]['timeLimit'] =
+					obj.questions[key]['timeLimit'] || 0;
 				// console.log("obj.freeText", obj.freeText);
 				// console.log('obj.freeText.hasOwnProperty(key)', obj.freeText.hasOwnProperty(key));
 				// console.log('obj.freeText[key].freeText == 1', obj.freeText[key].freeText == 1);
-				if (obj.freeText.hasOwnProperty(key) && obj.freeText[key].freeText == 1) {
-					retObj[obj.questions[key].categoryName][key]["freeText"] = 1;
+				if (
+					obj.freeText.hasOwnProperty(key) &&
+					obj.freeText[key].freeText == 1
+				) {
+					retObj[obj.questions[key].categoryName][key]['freeText'] = 1;
 				}
-			} else if (!key.includes("answer") && !obj.questions[key].categoryName) {
-
+			} else if (!key.includes('answer') && !obj.questions[key].categoryName) {
 				retObj[key] = {
 					question: obj.questions[key].question,
 					freeText: 1,
-					category: "No Category",
-					image: obj.questions[key].image || ""
-				}
+					category: 'No Category',
+					image: obj.questions[key].image || '',
+					timeLimit: obj.questions[key].timeLimit || 0,
+				};
 			}
-		})
+		});
 		Object.keys(obj.questions).map(function (key, i) {
-			console.log("obj.questions", obj.questions[key])
+			console.log('obj.questions', obj.questions[key]);
 
-			if (key.includes("answer")) {
-				var temp = key.split("-")
-				const cat = obj.questions[temp[0]]["categoryName"] || "No Category";
+			if (key.includes('answer')) {
+				var temp = key.split('-');
+				const cat = obj.questions[temp[0]]['categoryName'] || 'No Category';
 				console.log(temp, cat);
 				if (retObj[cat]) {
 					retObj[cat][temp[0]] = {
 						...retObj[cat][temp[0]],
 						[temp[1]]: {
-							answer: obj.questions[key]["answer"],
-							points: obj.questions[key]["point"],
-							image: obj.questions[key]["image"] || ""
-						}
-					}
-				}
-				else {
+							answer: obj.questions[key]['answer'],
+							points: obj.questions[key]['point'],
+							image: obj.questions[key]['image'] || '',
+							timeLimit: obj.questions[key].timeLimit || 0,
+						},
+					};
+				} else {
 					retObj[temp[0]] = {
 						...retObj[temp[0]],
 						[temp[1]]: {
-							answer: obj.questions[key]["answer"],
-							points: obj.questions[key]["point"],
-							image: obj.questions[key]["image"] || ""
-						}
-					}
+							answer: obj.questions[key]['answer'],
+							points: obj.questions[key]['point'],
+							image: obj.questions[key]['image'] || '',
+							timeLimit: obj.questions[key].timeLimit || 0,
+						},
+					};
 				}
 			}
-		})
+		});
 		console.log(retObj);
 		return retObj;
 	},
 	//reverse of above function which takes the result of makecreatetestobj and converts it to the format of the frontend
 	makeEditTestObj: async function (dbObject) {
 		const editObj = {
+			timeAvailability: dbObject.timeAvailability,
 			orientation: dbObject.orientation || 0,
 			scoringType: dbObject.scoringType || 0,
 			randomOrder: dbObject.randomOrder || 0,
@@ -194,7 +201,7 @@ module.exports = {
 			questions: {},
 			resultStructure: {
 				tableSummary: dbObject.resultStructure.tableSummary || false,
-				graph: dbObject.resultStructure.graph || false
+				graph: dbObject.resultStructure.graph || false,
 			},
 			automaticText: dbObject.automaticText,
 			sendAll: dbObject.sendAll || 0,
@@ -209,8 +216,8 @@ module.exports = {
 				textColor: dbObject.layout.textColor || '',
 				backgroundColor: dbObject.layout.backgroundColor || '',
 				questionBackgroundColor: dbObject.layout.questionBackgroundColor || '',
-				answerColor: dbObject.layout.answerColor || ''
-			}
+				answerColor: dbObject.layout.answerColor || '',
+			},
 		};
 
 		// Process questions
@@ -233,7 +240,9 @@ module.exports = {
 							// console.log('questoin data');
 							// console.log(questionData);
 
-							if (Object.keys(questionData).some(key => key.includes('answer'))) {
+							if (
+								Object.keys(questionData).some((key) => key.includes('answer'))
+							) {
 								if (!editObj.questions[questionKey]) {
 									editObj.questions[questionKey] = {
 										categoryName: categoryName,
@@ -247,11 +256,12 @@ module.exports = {
 											editObj.questions[questionKey + '-' + answerKey] = {
 												answer: questionData[answerKey].answer,
 												point: questionData[answerKey].points || null,
-												image: questionData[answerKey].image || ''
+												image: questionData[answerKey].image || '',
 											};
 										} else if (answerKey !== 'category') {
 											// Add other properties of the question
-											editObj.questions[questionKey][answerKey] = questionData[answerKey];
+											editObj.questions[questionKey][answerKey] =
+												questionData[answerKey];
 										}
 									}
 								}
@@ -262,7 +272,8 @@ module.exports = {
 										question: questionData.question,
 										categoryName: categoryName,
 										freeText: questionData.freeText || 0,
-										image: questionData.image || ''
+										image: questionData.image || '',
+										timeLimit: questionData.timeLimit || 0,
 									};
 								}
 							}
@@ -290,7 +301,7 @@ module.exports = {
 			if (dbObject.freeText.hasOwnProperty(key)) {
 				const freeTextData = dbObject.freeText[key];
 				editObj.freeText[key] = {
-					freeText: freeTextData.freeText
+					freeText: freeTextData.freeText,
 				};
 			}
 		}
@@ -301,14 +312,11 @@ module.exports = {
 				const categoryData = dbObject.categoryStore[catKey];
 				editObj.categoryStore[catKey] = {
 					categoryName: categoryData.categoryName,
-					noOfQuestion: categoryData.noOfQuestion
+					noOfQuestion: categoryData.noOfQuestion,
 				};
 			}
 		}
 
 		return editObj;
-
 	},
-
-
 };

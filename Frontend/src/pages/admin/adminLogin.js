@@ -106,7 +106,7 @@ function AdminLogin() {
                                 id="password"
                                 required
                             />
-                            <Button type="submit" variant="contained" color="primary" >
+                            <Button className="w-1/4 " type="submit" variant="contained" color="primary" >
                                 Admin Login
                             </Button>
                         </form>
