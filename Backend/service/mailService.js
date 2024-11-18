@@ -42,7 +42,7 @@ module.exports = {
 				from: process.env.EMAIL_USER,
 				to: obj.email,
 				html: `Forgot Your Password?<br>
-				  <a href="https://youtest-git-main-zuhads-projects.vercel.app/resetpassword?token=${VerificationToken}">
+				  <a href="http://3.83.243.222/resetpassword?token=${VerificationToken}">
 				  		Click here to reset your password
 								</a>`,
 			}
@@ -52,7 +52,7 @@ module.exports = {
 				from: process.env.EMAIL_USER,
 				to: obj.email,
 				html: `Forgot Your Password?<br>
-				  <a href="https://youtest-git-main-zuhads-projects.vercel.app/resetpassword?token=${VerificationToken}">
+				  <a href="http://3.83.243.222/resetpassword?token=${VerificationToken}">
 				  		Click here to reset your password
 								</a>`,
 			}
@@ -76,7 +76,7 @@ module.exports = {
 				to: obj.email,
 				html: `
 				  Congratulations on your registration on the Test Factory website!<br>
-				  <a href="https://youtest-git-main-zuhads-projects.vercel.app/verify?token=${VerificationToken}">
+				  <a href="http://3.83.243.222/verify?token=${VerificationToken}">
 					Click here to verify your email
 				  </a>
 				`,
@@ -88,7 +88,7 @@ module.exports = {
 				to: obj.email,
 				html: `
 				  Congratulations on your registration on the Test Factory website!<br>
-				  <a href="https://youtest-git-main-zuhads-projects.vercel.app/verify?token=${VerificationToken}">
+				  <a href="http://3.83.243.222/verify?token=${VerificationToken}">
 					Click here to verify your email
 				  </a>
 				`,
@@ -418,7 +418,7 @@ module.exports = {
                 </tr>
                 <tr>
                     <td colspan="3" style="direction:rtl"><br> <a
-                            href="https://youtest-git-main-zuhads-projects.vercel.app/resultpage/${emailObj.body.id
+                            href="http://3.83.243.222/resultpage/${emailObj.body.id
 			}"
                             target="_blank">
 							${emailObj.body.language=='english'?'Click here to see the graph':'לחץ כאן לראות את הגרף'}
@@ -526,7 +526,7 @@ module.exports = {
 		html += ` <tr>
                     <td colspan="3" bgcolor="#114e8e">
                         <div align="center" style="color:#fff;text-align:left;direction:ltr"> <a
-                                href="https://youtest-git-main-zuhads-projects.vercel.app" style="color:#fff"
+                                href="http://3.83.243.222" style="color:#fff"
                                 target="_blank">
 								${emailObj.body.language=='english'?'Terms of use and service':'תנאי שימוש ושירות'}
 								</a></div>
