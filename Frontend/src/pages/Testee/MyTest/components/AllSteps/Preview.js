@@ -40,7 +40,7 @@ const Preview = (props) => {
           name: data.name,
           categoryStore: data.categoryStore,
           layout: data.layout,
-          testObj: data.getobj,
+          testObj: data.testObj,
         });
       }
     });
@@ -60,6 +60,7 @@ const Preview = (props) => {
     }
   }, [id]); // Re-fetch data if the ID changes
 
+  console.log(data?.testObj);
   return (
     <>
       <div hidden={props.obj?.tabSelected === "PREVIEW" ? false : true}></div>
