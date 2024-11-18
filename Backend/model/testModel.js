@@ -23,7 +23,7 @@ module.exports = {
 		// return getobj;
 		const qobj = await testService.makeEditTestObj(getobj.dataValues);
 		// console.log(qobj);
-		return { obj, ...qobj }
+		return { obj, ...qobj, testObj: getobj.testObj }
 		// return { rows }
 	},
 	getMyTest: async function (obj) {
