@@ -186,7 +186,7 @@ function FillQuestion(questionData) {
                                 date={
                                   questionTimer +
                                   categoryData[key][questionKey]["timeLimit"] *
-                                    1000
+                                  1000
                                 }
                                 onComplete={handleTimeUp}
                                 autoStart={true}
@@ -218,10 +218,10 @@ function FillQuestion(questionData) {
                           </div>
                           <br />
                           {!categoryData[key][questionKey]["freeText"] ||
-                          categoryData[key][questionKey]["freeText"] == 0 ||
-                          Object.keys(categoryData[key][questionKey]).includes(
-                            "answer0"
-                          ) ? (
+                            categoryData[key][questionKey]["freeText"] == 0 ||
+                            Object.keys(categoryData[key][questionKey]).includes(
+                              "answer0"
+                            ) ? (
                             Object.keys(categoryData[key][questionKey]).map(
                               function (answers, index) {
                                 if (answers.includes("answer")) {
@@ -239,7 +239,7 @@ function FillQuestion(questionData) {
                                           type="radio"
                                           checked={
                                             temp[key][questionKey][
-                                              "selectAnswer"
+                                            "selectAnswer"
                                             ] === answers
                                           }
                                           value={questionKey}
@@ -257,7 +257,7 @@ function FillQuestion(questionData) {
                                           answers
                                         ]["image"] &&
                                           categoryData[key][questionKey][
-                                            answers
+                                          answers
                                           ]["image"] != "" && (
                                             <img
                                               height={"200px"}
@@ -265,14 +265,14 @@ function FillQuestion(questionData) {
                                               src={
                                                 serverImageUrl +
                                                 categoryData[key][questionKey][
-                                                  answers
+                                                answers
                                                 ]["image"]
                                               }
                                             />
                                           )}
                                         {
                                           categoryData[key][questionKey][
-                                            answers
+                                          answers
                                           ]["answer"]
                                         }
                                       </p>
@@ -295,7 +295,7 @@ function FillQuestion(questionData) {
                             ></textarea>
                           )}
                           <div className="prev-next">
-                            {1 - showDiv != 0 && (
+                            {1 - showDiv != 0 && !((categoryData[key]['question' + (showDiv - 1)]?.timeLimit || 0) > 0) && (
                               <button onClick={prev}>Prev</button>
                             )}
                             {showDiv < totalQuestion && (
@@ -317,7 +317,7 @@ function FillQuestion(questionData) {
                                 : ""}
                               {categoryData[key][questionKey]["image"] &&
                                 categoryData[key][questionKey]["image"] !=
-                                  "" && (
+                                "" && (
                                   <img
                                     height={"200px"}
                                     width={"200px"}
@@ -336,7 +336,7 @@ function FillQuestion(questionData) {
                           <br />
                           <div className="radio-answer-all-single">
                             {!categoryData[key][questionKey]["freeText"] ||
-                            categoryData[key][questionKey]["freeText"] == 0 ? (
+                              categoryData[key][questionKey]["freeText"] == 0 ? (
                               Object.keys(categoryData[key][questionKey]).map(
                                 function (answers) {
                                   if (answers.includes("answer")) {
@@ -348,14 +348,14 @@ function FillQuestion(questionData) {
                                         <p>
                                           {questionData?.language == "hebrew"
                                             ? categoryData[key][questionKey][
-                                                answers
-                                              ]["answer"]
+                                            answers
+                                            ]["answer"]
                                             : " "}{" "}
                                           {categoryData[key][questionKey][
                                             answers
                                           ]["image"] &&
                                             categoryData[key][questionKey][
-                                              answers
+                                            answers
                                             ]["image"] != "" && (
                                               <img
                                                 height={"200px"}
@@ -363,7 +363,7 @@ function FillQuestion(questionData) {
                                                 src={
                                                   serverImageUrl +
                                                   categoryData[key][
-                                                    questionKey
+                                                  questionKey
                                                   ][answers]["image"]
                                                 }
                                               />
@@ -373,7 +373,7 @@ function FillQuestion(questionData) {
                                             type="radio"
                                             checked={
                                               temp[key][questionKey][
-                                                "selectAnswer"
+                                              "selectAnswer"
                                               ] === answers
                                             }
                                             value={questionKey}
@@ -389,8 +389,8 @@ function FillQuestion(questionData) {
                                           />{" "}
                                           {questionData?.language == "english"
                                             ? categoryData[key][questionKey][
-                                                answers
-                                              ]["answer"]
+                                            answers
+                                            ]["answer"]
                                             : " "}
                                         </p>
                                       </div>
