@@ -28,6 +28,8 @@ function MainQuestionaire() {
   var queryParameters = new URLSearchParams(window.location.search);
   var emailToDeal = queryParameters.get("email");
 
+
+
   useEffect(() => {
     const allUrl = window.location.href.split("?");
 
@@ -251,7 +253,7 @@ function MainQuestionaire() {
                 dangerouslySetInnerHTML={{ __html: formObj.beforeTestText }}
               />
               <br />
-              {formObj.timeAvailability?.enabled == "true" ? (
+              {formObj.timeAvailability?.enabled == true ? (
                 <>
                   {(() => {
                     const now = new Date();

@@ -388,6 +388,7 @@ module.exports = {
 			// Loop through the questions in the current category
 			for (let questionKey in emailObj.body.testObj[category]) {
 				const question = emailObj.body.testObj[category][questionKey];
+				console.log('question', question);
 
 				// Check if freeText is 1
 				if (question.freeText === 1) {
