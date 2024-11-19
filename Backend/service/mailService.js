@@ -444,7 +444,7 @@ module.exports = {
 
 		for (const key in emailObj.body.testObj) {
 			for (const questionKey in emailObj.body.testObj[key]) {
-				const answer = emailObj.body.testObj[key][questionKey][emailObj.body.testObj[key][questionKey]["selectAnswer"]].answer;
+				const answer = emailObj.body.testObj[key][questionKey][emailObj.body.testObj[key][questionKey]["selectAnswer"]]?.answer || '';
 				selectedAnswers.push(answer);
 			}
 		}
@@ -551,4 +551,5 @@ module.exports = {
 			transaction: t,
 		});
 	},
+
 };
