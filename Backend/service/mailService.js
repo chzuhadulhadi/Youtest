@@ -498,24 +498,24 @@ module.exports = {
 					}
 					else {
 						let color = 'red';
-						if (question[question.selectAnswer].points >= 10) {
+						if (question[question.selectAnswer]?.points >= 10) {
 							color = 'green';
 						}
-						else if (question[question.selectAnswer].points >= 1) {
+						else if (question[question.selectAnswer]?.points >= 1) {
 							color = 'yellow';
 						}
 						if (emailObj.body.language == 'english' ){
 							html += `
 								  <p style="text-align:left; direction:ltr">
 									<b>${question.question}</b><br>
-									<p style="font-weight:400;color:${color}">Answer: ${question[question.selectAnswer].answer}<p><br>
+									<p style="font-weight:400;color:${color}">Answer: ${question[question.selectAnswer]?.answer}<p><br>
 								  </p>`;
 						}
 						else{
 							html += `
 								  <p style="text-align:right; direction:ltr">
 									<b>${question.question}</b><br>
-									<p style="font-weight:400;color:${color};text-align:right; direction:ltr"> ${question[question.selectAnswer].answer}${" : "} תשובה    <p><br>
+									<p style="font-weight:400;color:${color};text-align:right; direction:ltr"> ${question[question.selectAnswer]?.answer}${" : "} תשובה    <p><br>
 								  </p>`;
 						}
 					}
