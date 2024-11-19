@@ -145,6 +145,7 @@ function EditTest(props) {
             sendAll: !!data.sendAll,
             orientation: data.orientation,
             scoringType: data.scoringType,
+            showuser: data.showuser,
             randomOrder: data.randomOrder,
             timeLimit: data.timeLimit,
             questions: data.questions,
