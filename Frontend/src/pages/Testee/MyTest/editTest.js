@@ -139,15 +139,14 @@ function EditTest(props) {
           // ...converted
           // };
           const data = response?.data?.data;
-          console.log(data);
           setMainObj({
             id: data.obj.id,
             sendAll: !!data.sendAll,
             orientation: data.orientation,
             scoringType: data.scoringType,
-            showuser: data.showuser,
+            showuser: !!data.showuser,
             randomOrder: data.randomOrder,
-            timeLimit: data.timeLimit,
+            timeLimit: data.timeLimit || 0,
             questions: data.questions,
             resultStructure: data.resultStructure,
             automaticText: data.automaticText,
