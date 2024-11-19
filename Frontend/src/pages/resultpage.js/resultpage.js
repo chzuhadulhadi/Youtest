@@ -207,7 +207,7 @@ function ResultPage() {
                               <b style={{textAlign:formObj?.language=='english' ? 'left' : 'right'}}> {categoryData[key][questionKey]["question"]}</b>
                               <br />
                               <p style={{ color: color,textAlign:formObj?.language=='english' ? 'left' : 'right' }}>
-                                {formObj?.language == 'english' ? `Answer: ${categoryData[key][questionKey][categoryData[key][questionKey]["selectAnswer"]]['answer']}}`:` תשובה : ${categoryData[key][questionKey][categoryData[key][questionKey]["selectAnswer"]]['answer']} `
+                                {formObj?.language == 'english' ? `Answer: ${categoryData[key][questionKey][categoryData[key][questionKey]["selectAnswer"]]?.answer || ''}`:` תשובה : ${categoryData[key][questionKey][categoryData[key][questionKey]["selectAnswer"]]?.answer || ''  } `
                                 }
                               </p>
                               <hr style={{marginBottom:'0px'}}/>

@@ -100,6 +100,7 @@ function FillQuestion(questionData) {
       }
     }
   }
+  console.log(questionTimer);
 
   var count = 0;
 
@@ -179,7 +180,7 @@ function FillQuestion(questionData) {
                           hidden={showDiv == count ? false : true}
                         >
                           {key !== "No Category" && <h2>{key}</h2>}
-                          {categoryData[key][questionKey]["timeLimit"] && (
+                          {categoryData[key][questionKey]["timeLimit"] && (showDiv == count) && (
                             <h2>
                               <Countdown
                                 date={
@@ -188,6 +189,7 @@ function FillQuestion(questionData) {
                                     1000
                                 }
                                 onComplete={handleTimeUp}
+                                autoStart={true}
                               />
                             </h2>
                           )}
