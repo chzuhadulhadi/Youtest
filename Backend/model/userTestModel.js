@@ -190,6 +190,7 @@ module.exports = {
 					userTestArray.push({
 						userEmail: single.email,
 						name: testDetails.name,
+						showuser: testDetails.showuser,
 						timeAvailability: testDetails.timeAvailability,
 						language: testDetails.language,
 						sendAll: testDetails.sendAll,
