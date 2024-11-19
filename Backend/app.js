@@ -62,9 +62,6 @@ async function sendMail() {
 				await mailService.sendTestResultEmail(email);
 				console.log('email sent');
 			}
-			else{
-				await mailService.sendMail(email);
-			}
 			await email.update({ status: 1 });
 			// console.log("email sent", email)
 			setTimeout(sendMail, 1000);
