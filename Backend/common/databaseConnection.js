@@ -11,7 +11,7 @@ const database = new Sequelize(
 );
 
 // database
-// 	.sync({ force: true })
+// 	.sync({ force: false })
 // 	.then(() => {
 // 		console.log('Database & tables created!');
 // 	})
