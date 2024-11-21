@@ -385,16 +385,14 @@ function QuestionStep(props) {
                 </label>
                 <input
                   type="file"
-                  id={`question${
-                    key.split("question")[1]
-                  }-answer${answerCounter}-image`}
+                  id={`question${key.split("question")[1]
+                    }-answer${answerCounter}-image`}
                   onChange={handleAnswerFileSelect}
                 />
                 {questionsData[key].image ? (
                   <img
-                    id={`img_question${
-                      key.split("question")[1]
-                    }-answer${answerCounter}`}
+                    id={`img_question${key.split("question")[1]
+                      }-answer${answerCounter}`}
                     height={"200px"}
                     width={"200px"}
                     src={
@@ -405,9 +403,8 @@ function QuestionStep(props) {
                   />
                 ) : (
                   <img
-                    id={`img_question${
-                      key.split("question")[1]
-                    }-answer${answerCounter}`}
+                    id={`img_question${key.split("question")[1]
+                      }-answer${answerCounter}`}
                     height={"200px"}
                     width={"200px"}
                     style={{
@@ -455,7 +452,7 @@ function QuestionStep(props) {
                       id={key}
                       defaultValue={questionsData[key].point}
                       onChange={(e) => answerAdder(e, "point")}
-                      // style={{ backgroundColor: (questionsData[key].point === null || questionsData[key].point === 0) ? 'red' : 'green' }}
+                    // style={{ backgroundColor: (questionsData[key].point === null || questionsData[key].point === 0) ? 'red' : 'green' }}
                     >
                       <option value={0} style={{ color: "red" }}>
                         False
@@ -766,7 +763,7 @@ function QuestionStep(props) {
                 width={"200px"}
                 style={{ position: "fixed", right: "-200px", top: "-200px" }}
 
-                //  src={serverImageUrl + props.obj.mainObj["questions"][`question${questionCounter}`]?.question}
+              //  src={serverImageUrl + props.obj.mainObj["questions"][`question${questionCounter}`]?.question}
               />
             </Grid>
             <Grid xs={2} item sx={{ display: "flex", flexDirection: "column" }}>
@@ -975,7 +972,7 @@ function QuestionStep(props) {
                     className="form-control mb-3 pt-3 pb-3 answers-field-points"
                     id={"question" + qstnCounter + "-answer" + answerCounter}
                     onChange={(e) => answerAdder(e, "point")}
-                    // style={{ backgroundColor: props.mainObj?.questions[`question${qstnCounter}`]?.point == 0 ? 'red' : 'green' }}
+                  // style={{ backgroundColor: props.mainObj?.questions[`question${qstnCounter}`]?.point == 0 ? 'red' : 'green' }}
                   >
                     <option value={-1} style={{ backgroundColor: "white" }}>
                       Select Option
@@ -1313,16 +1310,14 @@ function QuestionStep(props) {
                 </label>
                 <input
                   type="file"
-                  id={`question${
-                    questionCounter - 1
-                  }-answer${answerCounter}-image`}
+                  id={`question${questionCounter - 1
+                    }-answer${answerCounter}-image`}
                   onChange={handleAnswerFileSelect}
                 />
                 {question_data[key].image ? (
                   <img
-                    id={`img_question${
-                      questionCounter - 1
-                    }-answer${answerCounter}`}
+                    id={`img_question${questionCounter - 1
+                      }-answer${answerCounter}`}
                     height={"200px"}
                     width={"200px"}
                     src={
@@ -1333,9 +1328,8 @@ function QuestionStep(props) {
                   />
                 ) : (
                   <img
-                    id={`img_question${
-                      questionCounter - 1
-                    }-answer${answerCounter}`}
+                    id={`img_question${questionCounter - 1
+                      }-answer${answerCounter}`}
                     height={"200px"}
                     width={"200px"}
                     style={{
@@ -1387,7 +1381,7 @@ function QuestionStep(props) {
                       id={key}
                       defaultValue={question_data[key].points}
                       onChange={(e) => answerAdder(e, "point")}
-                      // style={{ backgroundColor: (questionsData[key].point === null || questionsData[key].point === 0) ? 'red' : 'green' }}
+                    // style={{ backgroundColor: (questionsData[key].point === null || questionsData[key].point === 0) ? 'red' : 'green' }}
                     >
                       <option value={0} style={{ color: "red" }}>
                         False
@@ -1829,7 +1823,7 @@ function QuestionStep(props) {
                                         ]?.point
                                       }
                                       onChange={(e) => answerAdder(e, "point")}
-                                      // style={{ backgroundColor: props.mainObj?.questions[`question${qstnCounter}`]?.point == 0 ? 'red' : 'green' }}
+                                    // style={{ backgroundColor: props.mainObj?.questions[`question${qstnCounter}`]?.point == 0 ? 'red' : 'green' }}
                                     >
                                       <option
                                         value={-1}
@@ -1865,6 +1859,15 @@ function QuestionStep(props) {
                           return null;
                         }
                       })}
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleSaveEdit}
+                      >
+                        Save
+                      </Button>
                     </Grid>
                   </Grid>
                 </form>
