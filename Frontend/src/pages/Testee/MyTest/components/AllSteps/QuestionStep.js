@@ -1421,13 +1421,13 @@ function QuestionStep(props) {
             <h3>#3 - Questions</h3>
             <p className="counterq">{`Questions Created: ${questionCount}`}</p>
 
-            <div>
-              <label htmlFor="questionDropdown">
-                Select a Question from question bank:
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+              <label htmlFor="questionDropdown" style={{ fontSize: 'larger', marginBottom: '10px' }}>
+                Select a question from the questions bank?
               </label>
-              <select id="questionDropdown" onChange={handleQuestionBank}>
-                <option value="" disabled selected>
-                  Select a question{" "}
+              <select id="questionDropdown" onChange={handleQuestionBank} style={{ marginBottom: '10px', fontSize: 'larger' }}>
+                <option value="" disabled selected style={{ fontSize: 'larger' }}>
+                  Select a question
                 </option>
                 {questionbank.map((questions, index) => {
                   return (
@@ -1438,7 +1438,7 @@ function QuestionStep(props) {
                             <React.Fragment key={questionIndex}>
                               <option
                                 value={`${index}-${questionIndex}`}
-                                style={{ fontWeight: "bold" }}
+                                style={{ fontWeight: "bold", fontSize: 'larger' }}
                               >
                                 {question?.question}
                               </option>
@@ -1491,6 +1491,7 @@ function QuestionStep(props) {
             <br />
 
             <button
+              className="text-xs mx-6"
               style={{ position: "relative", right: "20px" }}
               onClick={addQuestion}
             >
@@ -1558,13 +1559,24 @@ function QuestionStep(props) {
                           .filter((key) => key.startsWith(`${topkey}-answer`))
                           .map((answerKey, index) => (
                             <Box key={index} style={{ marginBottom: "8px" }}>
-                              <Typography>
-                                {props.obj.mainObj.questions[answerKey].answer}
+                              {
+                                props.obj.mainObj.scoringType == 1 ? (
+                                  <Typography>
+                                    {props.obj.mainObj.questions[answerKey].answer}
                                 <span style={{ marginLeft: "8px" }}>
                                   Points:{" "}
                                   {props.obj.mainObj.questions[answerKey].point}
                                 </span>
                               </Typography>
+                              ) : (
+                                <Typography>
+                                    {props.obj.mainObj.questions[answerKey].answer}
+                                <span style={{ marginLeft: "8px" }}>
+                                  Points:{" "}
+                                  {props.obj.mainObj.questions[answerKey].point==10 ? "True" : "False"}
+                                </span>
+                              </Typography>
+                              )}  
                             </Box>
                           ))}
                       </Grid>
@@ -1628,32 +1640,34 @@ function QuestionStep(props) {
                         style={{ display: "none" }}
                       />
                     </Grid>
-                    <Grid item xs={12}>
-                      <FormControl fullWidth>
-                        <InputLabel>Category</InputLabel>
-                        <Select
-                          onChange={(e) =>
-                            categoryValueAdder(e, "categoryName")
-                          }
-                          id={editingQuestion}
-                          name={editingQuestion}
-                        >
-                          <MenuItem value="">Select Category</MenuItem>
-                          {Object.keys(props.obj.categoryStore).map(
-                            (key, index) => (
-                              <MenuItem
-                                key={index}
-                                value={
-                                  props.obj.categoryStore[key]["categoryName"]
-                                }
-                              >
-                                {props.obj.categoryStore[key]["categoryName"]}
-                              </MenuItem>
-                            )
-                          )}
-                        </Select>
-                      </FormControl>
-                    </Grid>
+                    {props.obj.mainObj?.categoryStore[0]?.categoryName && (
+                      <Grid item xs={12}>
+                        <FormControl fullWidth>
+                          <InputLabel>Category</InputLabel>
+                          <Select
+                            onChange={(e) =>
+                              categoryValueAdder(e, "categoryName")
+                            }
+                            id={editingQuestion}
+                            name={editingQuestion}
+                          >
+                            <MenuItem value="">Select Category</MenuItem>
+                            {Object.keys(props.obj.categoryStore).map(
+                              (key, index) => (
+                                <MenuItem
+                                  key={index}
+                                  value={
+                                    props.obj.categoryStore[key]["categoryName"]
+                                  }
+                                >
+                                  {props.obj.categoryStore[key]["categoryName"]}
+                                </MenuItem>
+                              )
+                            )}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                    )}
                     <Grid item xs={12}>
                       <FormControlLabel
                         control={
@@ -1690,6 +1704,7 @@ function QuestionStep(props) {
                           );
                         }}
                         InputProps={{ inputProps: { min: 0 } }}
+                        hidden
                         size="small"
                         helperText="0 means no time limit"
                       />

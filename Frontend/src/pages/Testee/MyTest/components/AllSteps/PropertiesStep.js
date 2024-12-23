@@ -315,6 +315,7 @@ function PropertiesStep(props) {
               onChange={(e) =>
                 props.obj.mainObjectAdderForProperties(e, "timeLimit")
               }
+              style={{ width: "250px" }}
             />
           </div>
           <label className="form-label">

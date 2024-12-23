@@ -70,7 +70,7 @@ const Preview = (props) => {
           <div className="w-[80%] mx-auto">
             <div className="flex justify-center mt-8">
               <img
-                src="/4.webp"
+                src="http://3.83.243.222/4.webp"
                 alt="some image"
                 width="300px"
                 height="300px"

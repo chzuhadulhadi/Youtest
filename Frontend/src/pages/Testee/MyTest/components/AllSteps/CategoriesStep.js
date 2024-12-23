@@ -194,6 +194,11 @@ function CategoriesStep(props) {
                 className="formClass mt-5"
               >
                 <section className="toggle">
+                <h2 className="cate">
+                    This is an advanced option which makes it possible to divide
+                    your test into several
+                    <br /> categories
+                  </h2>
                   <button
                     type="submit"
                     onClick={toggleFormVisibility}
@@ -213,11 +218,7 @@ function CategoriesStep(props) {
                     Continue without categories
                   </button>
 
-                  <h2 className="cate">
-                    This is an advanced option which makes it possible to divide
-                    your test into several
-                    <br /> categories
-                  </h2>
+                 
                 </section>
 
                 {isFormVisible && (
