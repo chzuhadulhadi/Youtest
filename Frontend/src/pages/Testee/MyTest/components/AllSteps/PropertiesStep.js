@@ -118,7 +118,7 @@ function PropertiesStep(props) {
   return (
     <div
       hidden={props.obj.tabSelected == "PROPERTIES" ? false : true}
-      className="categories-content w-[70%] mx-auto md:w-[90%] "
+      className="categories-content w-[70%] mx-auto md:w-[400px]  sm:w-[90%]"
     >
       <div className="leftHalf  ">
         <br />
