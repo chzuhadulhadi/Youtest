@@ -48,7 +48,7 @@ module.exports = {
 			}
 
 		} else {
-			data ={
+			data = {
 				from: process.env.EMAIL_USER,
 				to: obj.email,
 				html: `Forgot Your Password?<br>
@@ -66,7 +66,7 @@ module.exports = {
 		});
 
 	},
-	
+
 	sendVerificationToken: async function (obj, VerificationToken, language = 'english') {
 		console.log('inside');
 		var data;
@@ -237,7 +237,8 @@ module.exports = {
 	testResultFormat: function (emailObj) {
 		// emailObj.body.language = 'english'; alogn left else right all text and text change also
 		var html = "";
-		if (emailObj.body.language == 'english' ){html += `<div>
+		if (emailObj.body.language == 'english') {
+			html += `<div>
         <div style="direction:rtl;text-align:center;text-align:left;direction:ltr"><img style="height:80px;width:200px"
                 src="https://ci4.googleusercontent.com/proxy/fI11_M8pgArxrER6Uu2pbxBIjtzcGjTzuJ5ZfS_sntyjeFW8L781HYutoY90f2EDytwTOeYIX7DO=s0-d-e1-ft#https://youtest.online/images/logo.png"><br><br>
             <a href="mailto:${emailObj.to}" target="_blank">${emailObj.body.email}</a> finished answering the questions and below are his results:
@@ -266,9 +267,9 @@ module.exports = {
                             The name of the test</div>
                     </td>
                 </tr>`;
-	}
-	else{
-		html += `<div>
+		}
+		else {
+			html += `<div>
 		<div style="direction:rtl;text-align:center;text-align:right;direction:ltr"><img style="height:80px;width:200px"
 				src="https://ci4.googleusercontent.com/proxy/fI11_M8pgArxrER6Uu2pbxBIjtzcGjTzuJ5ZfS_sntyjeFW8L781HYutoY90f2EDytwTOeYIX7DO=s0-d-e1-ft#https://youtest.online/images/logo.png"><br><br>
 			<a href="mailto:${emailObj.to}" target="_blank">${emailObj.body.email}</a> סיים לענות על השאלות ולהלן התוצאות שלו:
@@ -297,91 +298,94 @@ module.exports = {
 							שם המבחן</div>
 					</td>
 				</tr>`;
-	}
+		}
 
 
 		var totalScore = 0;
 		var totalCat = 0;
 
 		for (let singleKey of emailObj.body.result) {
+
 			totalScore += singleKey.percentage;
 			++totalCat;
-			if (emailObj.body.language == 'english' ){
-				html += `
-				<tr>
-					<td>
-						<div align="center" style="direction:rtl;text-align:left;direction:ltr"> ${singleKey.percentage}%</div>
-					</td>
-					<td>
-						<div align="center" style="direction:rtl;text-align:left;direction:ltr"> ${singleKey.category}</div>
-					</td>
-					<td>
-						<div align="center" style="direction:rtl;text-align:left;direction:ltr"> ${emailObj.body.name}</div>
-					</td>
-				</tr>`;
-			}
-			else{
-				html += `
-				<tr>
-					<td>
-						<div align="center" style="direction:rtl;text-align:right;direction:ltr"> ${singleKey.percentage}%</div>
-					</td>
-					<td>
-						<div align="center" style="direction:rtl;text-align:right;direction:ltr"> ${singleKey.category}</div>
-					</td>
-					<td>
-						<div align="center" style="direction:rtl;text-align:right;direction:ltr"> ${emailObj.body.name}</div>
-					</td>
-				</tr>`;
-			}
+	if(singleKey.category!="No Category"){
+		if (emailObj.body.language == 'english') {
+			html += `
+			<tr>
+				<td>
+					<div align="center" style="direction:rtl;text-align:left;direction:ltr"> ${singleKey.percentage}%</div>
+				</td>
+				<td>
+					<div align="center" style="direction:rtl;text-align:left;direction:ltr"> ${singleKey.category}</div>
+				</td>
+				<td>
+					<div align="center" style="direction:rtl;text-align:left;direction:ltr"> ${emailObj.body.name}</div>
+				</td>
+			</tr>`;
 		}
-		if(emailObj.body.language == 'english' ){
-			html += `<tr style="background-color:#ffff00">
-					<td>
-						<div align="center" style="direction:rtl;text-align:left;direction:ltr"> ${totalScore / totalCat
-				} %</div>
-					</td>
-					<td>
-						<div align="center" style="direction:rtl;text-align:left;direction:ltr"> Total score
-						</div>
-					</td>
-					<td>
-						<div align="center" style="direction:rtl;text-align:left;direction:ltr"> ${emailObj.body.name
-				} <br>
-						</div>
-					</td>
-				</tr>
-				<tr bgcolor="#114e8e" cellpadding="10">
-					<td colspan="3">
-						<div align="center" style="color:#fff;direction:rtl;text-align:left;direction:ltr">
-							Testee's Comments</div>
-					</td>
-				</tr>`;
+		else {
+			html += `
+			<tr>
+				<td>
+					<div align="center" style="direction:rtl;text-align:right;direction:ltr"> ${singleKey.percentage}%</div>
+				</td>
+				<td>
+					<div align="center" style="direction:rtl;text-align:right;direction:ltr"> ${singleKey.category}</div>
+				</td>
+				<td>
+					<div align="center" style="direction:rtl;text-align:right;direction:ltr"> ${emailObj.body.name}</div>
+				</td>
+			</tr>`;
 		}
-		else{
-			html += `<tr style="background-color:#ffff00">
-					<td>
-						<div align="center" style="direction:rtl;text-align:right;direction:ltr"> ${totalScore / totalCat
-				} %</div>
-					</td>
-					<td>
-						<div align="center" style="direction:rtl;text-align:right;direction:ltr"> ציון כולל
-						</div>
-					</td>
-					<td>
-						<div align="center" style="direction:rtl;text-align:right;direction:ltr"> ${emailObj.body.name
-				} <br>
-						</div>
-					</td>
-				</tr>
-				<tr bgcolor="#114e8e" cellpadding="10">
-					<td colspan="3">
-						<div align="center" style="color:#fff;direction:rtl;text-align:right;direction:ltr">
-							הערות המבחן</div>
-					</td>
-				</tr>`;
-		}
-		
+	}
+	if (emailObj.body.language == 'english') {
+		html += `<tr style="background-color:#ffff00">
+				<td>
+					<div align="center" style="direction:rtl;text-align:left;direction:ltr"> ${totalScore / totalCat
+			} %</div>
+				</td>
+				<td>
+					<div align="center" style="direction:rtl;text-align:left;direction:ltr"> Total score
+					</div>
+				</td>
+				<td>
+					<div align="center" style="direction:rtl;text-align:left;direction:ltr"> ${emailObj.body.name
+			} <br>
+					</div>
+				</td>
+			</tr>
+			<tr bgcolor="#114e8e" cellpadding="10">
+				<td colspan="3">
+					<div align="center" style="color:#fff;direction:rtl;text-align:left;direction:ltr">
+						Testee's Comments</div>
+				</td>
+			</tr>`;
+	}
+	else {
+		html += `<tr style="background-color:#ffff00">
+				<td>
+					<div align="center" style="direction:rtl;text-align:right;direction:ltr"> ${totalScore / totalCat
+			} %</div>
+				</td>
+				<td>
+					<div align="center" style="direction:rtl;text-align:right;direction:ltr"> ציון כולל
+					</div>
+				</td>
+				<td>
+					<div align="center" style="direction:rtl;text-align:right;direction:ltr"> ${emailObj.body.name
+			} <br>
+					</div>
+				</td>
+			</tr>
+			<tr bgcolor="#114e8e" cellpadding="10">
+				<td colspan="3">
+					<div align="center" style="color:#fff;direction:rtl;text-align:right;direction:ltr">
+						הערות המבחן</div>
+				</td>
+			</tr>`;
+	}
+	}
+
 		html += `<tr cellpadding="10">
 				<td colspan="3" style="direction:rtl;padding:10px">`;
 		for (let category in emailObj.body.testObj) {
@@ -393,14 +397,14 @@ module.exports = {
 				// Check if freeText is 1
 				if (question.freeText === 1) {
 					// Include the question and answer in the HTML
-					if(emailObj.body.language == 'english' ){
+					if (emailObj.body.language == 'english') {
 						html += `
 								  <p style="text-align:left; direction:ltr">
 									<b>${question.question}</b><br>
 									Answer: ${question.selectAnswer}
 								  </p>`;
 					}
-					else{
+					else {
 						html += `
 								  <p style="text-align:right; direction:rtl">
 									<b>${question.question}</b><br>
@@ -422,13 +426,13 @@ module.exports = {
                             href="http://3.83.243.222/resultpage/${emailObj.body.id
 			}"
                             target="_blank">
-							${emailObj.body.language=='english'?'Click here to see the graph':'לחץ כאן לראות את הגרף'}
+							${emailObj.body.language == 'english' ? 'Click here to see the graph' : 'לחץ כאן לראות את הגרף'}
 							
 							</a> <br></td>
                 </tr>
                 <tr bgcolor="#114e8e">
                     <td colspan="3">
-					${emailObj.body.language=='english'?`<div align="center" style="color:#fff;direction:rtl;text-align:left;direction:ltr"> Additional comments</div>`:`<div align="center" style="color:#fff;direction:rtl;text-align:right;direction:ltr"> הערות נוספות</div>`}
+					${emailObj.body.language == 'english' ? `<div align="center" style="color:#fff;direction:rtl;text-align:left;direction:ltr"> Additional comments</div>` : `<div align="center" style="color:#fff;direction:rtl;text-align:right;direction:ltr"> הערות נוספות</div>`}
                     </td>
                 </tr>
                 <tr style="direction:rtl">
@@ -466,19 +470,19 @@ module.exports = {
 
 		html += `</td></tr>`;
 		if (emailObj.body.email != emailObj.to || emailObj.body.showuser) {
-			
-			if(emailObj.body.language == 'english' ){
+
+			if (emailObj.body.language == 'english') {
 				html +=
-				`
+					`
 			<tr >
 				<td colspan="3">
 				 		<div align="center" style="background-color:#114e8e;color:#fff;text-align:left;direction:ltr"> Answer Report
 						for Admin</div>
 				`
 			}
-			else{
+			else {
 				html +=
-				`
+					`
 			<tr >
 				<td colspan="3">
 						<div align="center" style="background-color:#114e8e;color:#fff;text-align:right;direction:ltr"> דוח תשובות
@@ -505,14 +509,14 @@ module.exports = {
 						else if (question[question.selectAnswer]?.points >= 1) {
 							color = 'yellow';
 						}
-						if (emailObj.body.language == 'english' ){
+						if (emailObj.body.language == 'english') {
 							html += `
 								  <p style="text-align:left; direction:ltr">
 									<b>${question.question}</b><br>
 									<p style="font-weight:400;color:${color}">Answer: ${question[question.selectAnswer]?.answer}<p><br>
 								  </p>`;
 						}
-						else{
+						else {
 							html += `
 								  <p style="text-align:right; direction:ltr">
 									<b>${question.question}</b><br>
@@ -529,7 +533,7 @@ module.exports = {
                         <div align="center" style="color:#fff;text-align:left;direction:ltr"> <a
                                 href="http://3.83.243.222" style="color:#fff"
                                 target="_blank">
-								${emailObj.body.language=='english'?'Terms of use and service':'תנאי שימוש ושירות'}
+								${emailObj.body.language == 'english' ? 'Terms of use and service' : 'תנאי שימוש ושירות'}
 								</a></div>
                     </td>
                 </tr>
