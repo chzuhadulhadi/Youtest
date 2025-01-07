@@ -205,7 +205,8 @@ function TestLayout(props) {
                       <img
                         className="mx-auto my-4"
                         style={{ height: "150px", width: "250px" }}
-                        src={`${serverImageUrl}/api${textLayout.imageUrl}`}
+                        // src={`${serverImageUrl}/api${textLayout.imageUrl}`}
+                        src={`${serverImageUrl}${textLayout.imageUrl}`}
                         alt="Selected Logo"
                       />
                     </>
