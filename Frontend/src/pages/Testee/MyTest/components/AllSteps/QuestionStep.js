@@ -1640,7 +1640,7 @@ function QuestionStep(props) {
                         style={{ display: "none" }}
                       />
                     </Grid>
-                    {props.obj.mainObj?.categoryStore[0]?.categoryName && (
+                    {Object.keys(props.obj.categoryStore).length > 0 && (
                       <Grid item xs={12}>
                         <FormControl fullWidth>
                           <InputLabel>Category</InputLabel>
