@@ -48,7 +48,7 @@ module.exports = {
 		ext = ext[ext.length - 1];
 		const fileName = "est-" + Date.now() + "." + ext;
 		const path = "/files/";
-		let temp = await fl.mv("./public/" + fileName);
+		let temp = await fl.mv("./public/files/" + fileName);
 		return path + fileName;
 	},
 };
