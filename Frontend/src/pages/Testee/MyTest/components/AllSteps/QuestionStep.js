@@ -533,7 +533,7 @@ function QuestionStep(props) {
   const [lenght, setLength] = useState(null);
 
   const categoryValueAdder = (e, name) => {
-    props.obj.mainObjectAdder(e, "questions", e.target.id, name);
+    props.obj.mainObjectAdder(e, "questions", e.target.id?e.target.id:e.target.name, name);
     return 0;
   };
 
