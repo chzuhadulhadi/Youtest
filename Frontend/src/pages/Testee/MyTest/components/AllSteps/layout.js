@@ -200,23 +200,7 @@ function TestLayout(props) {
                 >
                   {textLayout.imageUrl ? (
                     <>
-                      <svg
-                        style={{ position: "absolute" }}
-                        width="530"
-                        height="80"
-                        className="lg:block hidden"
-                      >
-                        <line
-                          className=""
-                          x1="350"
-                          y1="70"
-                          x2="530"
-                          y2="70"
-                          stroke="black"
-                          marker-start="url(#arrow1)"
-                          marker-end="url(#arrow1)"
-                        />
-                      </svg>
+                    
 
                       <img
                         className="mx-auto my-4"
@@ -237,41 +221,13 @@ function TestLayout(props) {
                     style={{ position: "absolute", marginTop: "-60px" }}
                     className="lg:block hidden"
                   >
-                    <svg
-                      style={{ position: "absolute" }}
-                      width="530"
-                      height="20"
-                    >
-                      <line
-                        x1="400"
-                        y1="10"
-                        x2="530"
-                        y2="10"
-                        stroke="black"
-                        marker-start="url(#arrow1)"
-                        marker-end="url(#arrow1)"
-                      />
-                    </svg>
+                 
                   </div>
                   <div
                     style={{ position: "absolute", marginTop: "0px" }}
                     className="lg:block hidden"
                   >
-                    <svg
-                      style={{ position: "absolute" }}
-                      width="530"
-                      height="40"
-                    >
-                      <line
-                        x1="320"
-                        y1="10"
-                        x2="530"
-                        y2="10"
-                        stroke="black"
-                        marker-start="url(#arrow1)"
-                        marker-end="url(#arrow1)"
-                      />
-                    </svg>
+                   
                   </div>
                   <h3 className="text-center">#4 - My Questionaire</h3>
 
@@ -289,62 +245,13 @@ function TestLayout(props) {
                     style={{ position: "absolute", marginTop: "-50px" }}
                     className="lg:block hidden"
                   >
-                    <svg
-                      style={{ position: "absolute" }}
-                      width="530"
-                      height="35"
-                    >
-                      <defs>
-                        <marker
-                          id="arrow1"
-                          markerWidth="10"
-                          markerHeight="10"
-                          refX="10"
-                          refY="3"
-                          orient="auto"
-                          fill="black"
-                        >
-                          <circle cx={"6"} cy={"4"} r={"4"} fill="black" />
-                        </marker>
-                        <marker
-                          id="circle1"
-                          markerWidth="8"
-                          markerHeight="8"
-                          refX="5"
-                          refY="5"
-                          orient="auto"
-                        ></marker>
-                      </defs>
-                      <line
-                        x1="200"
-                        y1="28"
-                        x2="530"
-                        y2="28"
-                        stroke="black"
-                        marker-start="url(#arrow1)"
-                        marker-end="url(#arrow1)"
-                      />
-                    </svg>
+                 
                   </div>
                   <div
                     style={{ position: "absolute" }}
                     className="lg:block hidden"
                   >
-                    <svg
-                      style={{ position: "absolute" }}
-                      width="530"
-                      height="150"
-                    >
-                      <line
-                        x1="140"
-                        y1="110"
-                        x2="530"
-                        y2="110"
-                        stroke="black"
-                        marker-start="url(#arrow1)"
-                        marker-end="url(#arrow1)"
-                      />
-                    </svg>
+                 
                   </div>
                   <div
                     className="answer"
@@ -358,34 +265,7 @@ function TestLayout(props) {
                       style={{ position: "absolute", marginTop: "0px" }}
                       className="lg:block hidden"
                     >
-                      <svg
-                        style={{ position: "absolute" }}
-                        width="530"
-                        height="150"
-                      >
-                        <defs>
-                          <marker
-                            id="arrow"
-                            markerWidth="10"
-                            markerHeight="10"
-                            refX="0"
-                            refY="3"
-                            orient="auto"
-                            fill="black"
-                          >
-                            <path d="M0,0 L0,6 L9,3 z" />
-                          </marker>
-                        </defs>
-                        <line
-                          x1="440"
-                          y1="130"
-                          x2="530"
-                          y2="130"
-                          stroke="black"
-                          marker-start="url(#arrow1)"
-                          marker-end="url(#arrow1)"
-                        />
-                      </svg>
+                   
                     </div>
                     <div className="flex justify-between lg:flex-row">
                       <p className="pr-0 lg:pr-[10rem]">Answer 3</p>

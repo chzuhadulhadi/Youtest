@@ -308,9 +308,9 @@ module.exports = {
 
 			totalScore += singleKey.percentage;
 			++totalCat;
-	if(singleKey.category!="No Category"){
-		if (emailObj.body.language == 'english') {
-			html += `
+			if (singleKey.category != "No Category") {
+				if (emailObj.body.language == 'english') {
+					html += `
 			<tr>
 				<td>
 					<div align="center" style="direction:rtl;text-align:left;direction:ltr"> ${singleKey.percentage}%</div>
@@ -322,9 +322,9 @@ module.exports = {
 					<div align="center" style="direction:rtl;text-align:left;direction:ltr"> ${emailObj.body.name}</div>
 				</td>
 			</tr>`;
-		}
-		else {
-			html += `
+				}
+				else {
+					html += `
 			<tr>
 				<td>
 					<div align="center" style="direction:rtl;text-align:right;direction:ltr"> ${singleKey.percentage}%</div>
@@ -336,13 +336,13 @@ module.exports = {
 					<div align="center" style="direction:rtl;text-align:right;direction:ltr"> ${emailObj.body.name}</div>
 				</td>
 			</tr>`;
-		}
-	}
-	if (emailObj.body.language == 'english') {
-		html += `<tr style="background-color:#ffff00">
+				}
+			}
+			if (emailObj.body.language == 'english') {
+				html += `<tr style="background-color:#ffff00">
 				<td>
 					<div align="center" style="direction:rtl;text-align:left;direction:ltr"> ${totalScore / totalCat
-			} %</div>
+					} %</div>
 				</td>
 				<td>
 					<div align="center" style="direction:rtl;text-align:left;direction:ltr"> Total score
@@ -350,7 +350,7 @@ module.exports = {
 				</td>
 				<td>
 					<div align="center" style="direction:rtl;text-align:left;direction:ltr"> ${emailObj.body.name
-			} <br>
+					} <br>
 					</div>
 				</td>
 			</tr>
@@ -360,12 +360,12 @@ module.exports = {
 						Testee's Comments</div>
 				</td>
 			</tr>`;
-	}
-	else {
-		html += `<tr style="background-color:#ffff00">
+			}
+			else {
+				html += `<tr style="background-color:#ffff00">
 				<td>
 					<div align="center" style="direction:rtl;text-align:right;direction:ltr"> ${totalScore / totalCat
-			} %</div>
+					} %</div>
 				</td>
 				<td>
 					<div align="center" style="direction:rtl;text-align:right;direction:ltr"> ציון כולל
@@ -373,7 +373,7 @@ module.exports = {
 				</td>
 				<td>
 					<div align="center" style="direction:rtl;text-align:right;direction:ltr"> ${emailObj.body.name
-			} <br>
+					} <br>
 					</div>
 				</td>
 			</tr>
@@ -383,8 +383,8 @@ module.exports = {
 						הערות המבחן</div>
 				</td>
 			</tr>`;
-	}
-	}
+			}
+		}
 
 		html += `<tr cellpadding="10">
 				<td colspan="3" style="direction:rtl;padding:10px">`;
@@ -392,7 +392,6 @@ module.exports = {
 			// Loop through the questions in the current category
 			for (let questionKey in emailObj.body.testObj[category]) {
 				const question = emailObj.body.testObj[category][questionKey];
-				console.log('question', question);
 
 				// Check if freeText is 1
 				if (question.freeText === 1) {
@@ -441,10 +440,20 @@ module.exports = {
 
 		// })
 		for (let singleKey of emailObj.body.result) {
-			singleKey.category ? (html += `<b>${singleKey.category}<b/> - `) : '';
-			singleKey.percentage ? (html += `<p >${singleKey.percentage}%</p><br/>`) : '';
-			singleKey.text ? (html += `<p style="font-weight:400">${singleKey.text}<p><br/>`) : '';
+			if (singleKey.category != "No Category") {
+				singleKey.category ? (html += `<b>${singleKey.category}<b/> - `) : '';
+				singleKey.percentage ? (html += `<p >${singleKey.percentage}%</p><br/>`) : '';
+				singleKey.text ? (html += `<p style="font-weight:400">${singleKey.text}<p><br/>`) : '';
+			}
+			else {
+				singleKey.percentage ? (html += `<p >${singleKey.percentage}%</p><br/>`) : '';
+				singleKey.text ? (html += `<p style="font-weight:400">${singleKey.text}<p><br/>`) : '';
+			}
 		}
+
+
+
+
 		const selectedAnswers = [];
 
 		for (const key in emailObj.body.testObj) {

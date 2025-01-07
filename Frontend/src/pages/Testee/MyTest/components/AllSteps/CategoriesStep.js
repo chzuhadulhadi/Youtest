@@ -153,6 +153,8 @@ function CategoriesStep(props) {
         <div hidden={props.obj.tabSelected === "CATEGORIES" ? false : true}>
           <div className="categories-content w-[70%] pb-20 mx-auto flex flex-col md:flex-row sm:w-[80%]">
             <div className="leftHalf w-[80%] mx-auto  lg:w-1/2">
+            <h3 className="ml-4">#2 - Categories</h3>
+
               <Modal
                 show={showEditModal}
                 onHide={handleClose}
@@ -223,7 +225,6 @@ function CategoriesStep(props) {
 
                 {isFormVisible && (
                   <>
-                    <h3 className="ml-4">#2 - Categories</h3>
                     <div className="questionSetter ml-3">
                       <label className="form-label text-xs">
                         Name of Category

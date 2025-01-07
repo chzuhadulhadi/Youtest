@@ -46,9 +46,10 @@ module.exports = {
 	uploadFile: async function (fl) {
 		var ext = fl.name.split(".");
 		ext = ext[ext.length - 1];
-		fileName = "est-" + Date.now() + "." + ext;
+		const fileName = "est-" + Date.now() + "." + ext;
 		const path = "/files/";
-		let temp = await fl.mv("./public/files/" + fileName);
+		let temp = await fl.mv("./public/" + fileName);
 		return path + fileName;
 	},
 };
+

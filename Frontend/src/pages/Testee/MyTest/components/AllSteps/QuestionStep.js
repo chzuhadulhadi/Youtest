@@ -1563,20 +1563,20 @@ function QuestionStep(props) {
                                 props.obj.mainObj.scoringType == 1 ? (
                                   <Typography>
                                     {props.obj.mainObj.questions[answerKey].answer}
-                                <span style={{ marginLeft: "8px" }}>
-                                  Points:{" "}
-                                  {props.obj.mainObj.questions[answerKey].point}
-                                </span>
-                              </Typography>
-                              ) : (
-                                <Typography>
+                                    <span style={{ marginLeft: "8px" }}>
+                                      Points:{" "}
+                                      {props.obj.mainObj.questions[answerKey].point}
+                                    </span>
+                                  </Typography>
+                                ) : (
+                                  <Typography>
                                     {props.obj.mainObj.questions[answerKey].answer}
-                                <span style={{ marginLeft: "8px" }}>
-                                  Points:{" "}
-                                  {props.obj.mainObj.questions[answerKey].point==10 ? "True" : "False"}
-                                </span>
-                              </Typography>
-                              )}  
+                                    <span style={{ marginLeft: "8px" }}>
+                                      Points:{" "}
+                                      {props.obj.mainObj.questions[answerKey].point == 10 ? "True" : "False"}
+                                    </span>
+                                  </Typography>
+                                )}
                             </Box>
                           ))}
                       </Grid>

@@ -156,7 +156,12 @@ function ResultPage() {
             {formObj.result &&
               formObj.result.map(function (categories) {
                 return (
-                  categories.category=='No Category' ? null :
+                  categories.category=='No Category' ? <div style={{ textAlign: formObj?.language=='english' ? 'left' : 'right' }}>
+                  <b> {categories.percentage + '%'}</b>
+                  <br />
+                  {categories.text}
+                  <hr style={{marginBottom:'0px'}}/>
+                </div> :
                   <div style={{ textAlign: formObj?.language=='english' ? 'left' : 'right' }}>
                     <b> {categories.category + '-' + categories.percentage + '%'}</b>
                     <br />

@@ -59,7 +59,7 @@ function AutomaticText(props) {
               className="automatic-text-select-cat"
               onChange={(e) => AutomaticTextAdder(e, "category")}
             >
-              <option style={{ backgroundColor: "yellow " }}>
+              <option style={{ backgroundColor: "yellow " }} value={"No Category"}  >
                 Overall Score
               </option>
               {Object.keys(props.obj.categoryStore).map((ele) => {
@@ -70,6 +70,7 @@ function AutomaticText(props) {
                 );
               })}
             </select>
+            <br/>
             <label className="form-label">Minimum Value</label>
             <input
               id={"condition" + conditionCounter}
@@ -260,6 +261,7 @@ function AutomaticText(props) {
                 ) : (
                   <div key={key}>
                     <div className="questionSetter">
+                    <label className="form-label">Choose Category:</label>
                       <select
                         id={key}
                         className="automatic-text-select-cat"
@@ -270,7 +272,7 @@ function AutomaticText(props) {
                             condition.category === "Overall Score" && "yellow",
                         }}
                       >
-                        <option>Overall Score</option>
+                        <option value={"No Category"}>Overall Score</option>  
                         {Object.keys(props.obj.categoryStore).map((ele) => {
                           return (
                             <option
@@ -282,6 +284,7 @@ function AutomaticText(props) {
                           );
                         })}
                       </select>
+                      <br/>
                       <label className="form-label">Minimum Value</label>
                       <input
                         id={key}
@@ -382,6 +385,7 @@ function AutomaticText(props) {
                             return "Not Selected";
                           })()}
                         </h4>
+                        
                         <select
                           id={key}
                           className="automatic-text-select-cat"
@@ -468,7 +472,7 @@ function AutomaticText(props) {
                         onChange={(e) => AutomaticTextAdder(e, "category")}
                         // value={condition.category}
                       >
-                        <option className="right-0">Overall Score</option>
+                        <option className="right-0" value={"No Category"} >Overall Score</option>
                         {Object.keys(props.obj.categoryStore).map((ele) => {
                           return (
                             <option
@@ -481,6 +485,7 @@ function AutomaticText(props) {
                         })}
                       </select>
                     </div>
+                    <br/>
                     <label className="form-label">Minimum Value</label>
 
                     <input
