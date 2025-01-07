@@ -1419,7 +1419,7 @@ function QuestionStep(props) {
         >
           <div>
             <h3>#3 - Questions</h3>
-            <p className="counterq">{`Questions Created: ${questionCount}`}</p>
+            <p className="counterq">{`Questions Created: ${questionCounter}`}</p>
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
               <label htmlFor="questionDropdown" style={{ fontSize: 'larger', marginBottom: '10px' }}>
