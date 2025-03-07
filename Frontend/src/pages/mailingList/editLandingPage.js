@@ -21,6 +21,8 @@ import { json } from "react-router-dom";
 import { convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import { formToJSON } from "axios";
+import Joyride from 'react-joyride';
+
 function EditLandingPage(params) {
   const [id, setId] = useState(0);
   var queryParameters = new URLSearchParams(window.location.search);
@@ -263,23 +265,60 @@ function EditLandingPage(params) {
       });
   };
 
+  const steps = [
+    {
+      target: '.dashboard',
+      content: 'This is the dashboard where you can manage your sections.',
+    },
+    {
+      target: '.pageSection',
+      content: 'This is the main area where your content will be displayed.',
+    },
+    {
+      target: '#formsubmitbutton',
+      content: 'Click here to submit your form.',
+    },
+  ];
+
+  const [runTour, setRunTour] = useState(false);
+
+  const startTour = () => {
+    setRunTour(true);
+    console.log('startTour');
+  };
+
   return (
     <div className="fullWidth">
+     
       <div className="dashboard">
-        <h2> {namingConvention[selectedDiv]} </h2>
+      <Joyride
+        steps={steps}
+        run={true}
+        continuous
+        showSkipButton
+        callback={(data) => {
+          if (data.status === 'finished' || data.status === 'skipped') {
+            setRunTour(false);
+          }
+        }}
+      />
+      <button onClick={startTour}>Start Tour</button>
+        <h2 data-tooltip="This is the current section"> {namingConvention[selectedDiv]} </h2>
         <h5
           onClick={() => {
             setShowTextEditor(true);
             setShowPicAdder(false);
           }}
+          data-tooltip="Add text to the selected section"
         >
-          {" "}
-          Add text{" "}
+          Add text
         </h5>
+        
         <h5
           onClick={() => {
             adderFunction("img");
           }}
+          data-tooltip="Upload an image to the selected section"
         >
           Add image
         </h5>
@@ -287,11 +326,13 @@ function EditLandingPage(params) {
           onClick={() => {
             setShowChangeColor(true);
           }}
+          data-tooltip="Change the colors of the selected section"
         >
           Change Colors
         </h5>
-
-        <h5 onClick={hideFunctionality}>Close sidear</h5>
+        <h5 onClick={hideFunctionality} data-tooltip="Close the sidebar">Close sidebar</h5>
+        <button onClick={() => {/* Logic for skipping */}} data-tooltip="Skip to the next section">Skip</button>
+        <button onClick={() => {/* Logic for next section */}} data-tooltip="Go to the next section">Next</button>
       </div>
       <div className="pageSection">
         <div className="sectionToGet">
@@ -441,6 +482,7 @@ function EditLandingPage(params) {
             ></div>
           )}
           <section id="appendData"></section>
+          
         </div>
         <button
           className=" flex justify-center"

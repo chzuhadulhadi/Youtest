@@ -13,6 +13,18 @@
   top: 0;
   background-color: #f5f5f5; /* Add your preferred background color */
 }
+.reactour__dot {
+  display: none !important;
+}
+
+.reactour__counter {
+  display: none !important; /* Hides any counter increment property */
+}
+
+button[aria-label^="Go to step "]:nth-child(-n+20) {
+  display: none !important; /* Hides the buttons with counter increment property for steps 1 to 20 */
+}
+
 
 .App-logo {
   height: 40vmin;

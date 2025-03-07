@@ -244,7 +244,7 @@ function Tests() {
                 <td>{index + 1}</td>
                 <td>{test.name}</td>
                 <td>{test.timeLimit}</td>
-                <td>{new Date(test.createdAt).toLocaleDateString()}</td>
+                <td>{new Date(test.createdAt).toLocaleDateString('en-GB')}</td>
                 <td>{test.createdByEmail}</td>
                 <td>
                   <div className="flex w-[80%] mx-auto gap-2 pt-2">

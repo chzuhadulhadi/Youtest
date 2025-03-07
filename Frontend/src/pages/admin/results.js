@@ -155,7 +155,7 @@ function Results() {
                 <td>{test.resultStats.totalQuestion}</td>
                 <td>{test.resultStats.totalAnswer}</td>
                 <td>{test.userEmail}</td>
-                <td>{new Date(test.updatedAt).toLocaleDateString()}</td>
+                <td>{new Date(test.updatedAt).toLocaleDateString('en-GB')}</td>
                 <td>
                   <a href={frontEndPath + "resultpage/" + test.id}>show</a>
                 </td>

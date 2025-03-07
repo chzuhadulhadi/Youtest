@@ -1,40 +1,40 @@
 import axios from 'axios';
-import { getLocalStorage } from './localstorage'
+import { getLocalStorage, deleteLocalStorage } from './localstorage';
 
-export const apiCall = (method, url, body, token) => {
-    attachTokenToHeader(url)
+export const apiCall = async (method, url, body, token) => {
+    attachTokenToHeader(url);
 
-    if (method === 'get') {
-        if (token){
-         attachTokenToHeader(url)
+    try {
+        let response;
+
+        if (method === 'get') {
+            response = await axios.get(url);
+        } else if (method === 'post') {
+            response = await axios.post(url, body);
+        } else if (method === 'put') {
+            response = await axios.put(url, body);
+        } else {
+            response = await axios.delete(url);
         }
-         // attachTokenToHeader(url)
-        return axios.get(url)
+
+        return response;
+    } catch (error) {
+        if (error.response && error.response.status === 405) {
+            console.log('Unauthorized access');
+            // handleUnauthorizedAccess();
+        }
+        throw error;
     }
-    else if (method === 'post') {
-        if (token){
-            attachTokenToHeader(url)
-        }
-        // attachTokenToHeader(url)
-        return axios.post(url, body)
-    }
-    else if (method === 'put') {
-        if(token){
-            attachTokenToHeader(url)
-        }
-        // attachTokenToHeader(url)
-        return axios.put(url, body)
-    }
-    else {
-        if (token){
-            attachTokenToHeader(url)
-        }
-        // attachTokenToHeader(url)
-        return axios.delete(url)
+};
+
+function attachTokenToHeader(url) {
+    const token = getLocalStorage('token');
+    if (token) {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
 }
-function attachTokenToHeader(url) {
-    if ((getLocalStorage('token'))) {
-        axios.defaults.headers.common['Authorization'] = `Bearer ${getLocalStorage('token') || ""}`
-    }
+
+function handleUnauthorizedAccess() {
+    deleteLocalStorage('token'); // Ensure you have this function in your localstorage.js
+    window.location.href = '/'; // Redirect to the main page
 }

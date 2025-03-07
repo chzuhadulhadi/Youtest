@@ -136,13 +136,16 @@ function Users() {
             <TableRow sx={{ position: "sticky" }}>
               <th style={{ textAlign: "center" }}>#</th>
               <th style={{ textAlign: "center" }}>Full Name</th>
+              <th style={{ textAlign: "center" }}>Company</th>
               <th style={{ textAlign: "center" }}>Email</th>
               <th style={{ textAlign: "center" }}>Phone Number</th>
               <th style={{ textAlign: "center" }}>Role</th>
-              <th style={{ textAlign: "center" }}>
-                Agreed to receive commercials
-              </th>
+              <th style={{ textAlign: "center" }}>Agreed to receive promotions</th>
+              <th style={{ textAlign: "center" }}>Agreed to termsAndService</th>
               <th style={{ textAlign: "center" }}>Email Verified</th>
+              <th style={{ textAlign: "center" }}>Tests</th>
+              <th style={{ textAlign: "center" }}>Plan Start Date</th>
+              <th style={{ textAlign: "center" }}>Plan Expiry Date</th>
               <th style={{ textAlign: "center" }}>Actions</th>
             </TableRow>
           </TableHead>
@@ -151,11 +154,25 @@ function Users() {
               <TableRow key={user.id}>
                 <td>{user.id}</td>
                 <td>{user.fullName}</td>
+                <td>{user.lastName}</td>
                 <td>{user.email}</td>
                 <td>{user.phoneNumberCode + "-" + user.phoneNumber}</td>
                 <td>{user.role == 1 ? "Admin" : "User"}</td>
                 <td>{user.termsAndService == 1 ? "Agree" : "Disagree"}</td>
+                <td>{user.promotions == 1 ? "Agree" : "Disagree"}</td>
                 <td>{user.emailVerified ? "Yes" : "No"}</td>
+                <td>
+                  {user.package?.package?.numberOfTests ? (
+                    <>
+                      Sent: {user.package.package.numberOfTests - user.package.payment.RemainingNumberOfTests} <br />
+                      Left: {user.package.payment.RemainingNumberOfTests}
+                    </>
+                  ) : (
+                    "No Package"
+                  )}
+                </td>
+                <td>{user.package?.payment?.createdAt ? new Date(user.package.payment.createdAt).toLocaleDateString('en-GB') : 'N/A'}</td>
+                <td>{user.package?.payment?.expireDate ? new Date(user.package.payment.expireDate).toLocaleDateString('en-GB') : 'N/A'}</td>
                 <td>
                   <div className="flex w-[80%] mx-auto gap-2 pt-2">
                     <button variant="text" onClick={() => handleEditUser(user)}>

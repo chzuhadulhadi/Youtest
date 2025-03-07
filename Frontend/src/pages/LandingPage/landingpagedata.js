@@ -112,7 +112,7 @@ function LandingPageData() {
     const data = new Blob([excelBuffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
     });
-    FileSaver.saveAs(data, `LandingPageData-${date.toLocaleDateString()}.xlsx`);
+    FileSaver.saveAs(data, `LandingPageData-${date.toLocaleDateString('en-GB')}.xlsx`);
   }
 
   // Function to transform data for export
@@ -129,7 +129,7 @@ function LandingPageData() {
         ele.landingPageData.termAndCondition === true ? "Agree" : "Disagree",
       Test: `Test Link: ${frontEndPath}filltest/${ele.id}`,
       "Test Date": new Date(ele.createdAt)
-        .toLocaleDateString()
+        .toLocaleDateString('en-GB')
         .padStart(10, "0"),
       Status: getTestStatus(ele),
       Score: `${resultsWithIds[ele.id]} %`,
@@ -198,7 +198,7 @@ function LandingPageData() {
                     </td>
                     <td style={{ fontSize: "14px" }}>
                       {new Date(ele.createdAt)
-                        .toLocaleDateString()
+                        .toLocaleDateString('en-GB')
                         .padStart(10, "0")}
                     </td>
                     <td style={{ fontSize: "14px" }}>{getTestStatus(ele)}</td>

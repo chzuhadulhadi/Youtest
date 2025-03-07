@@ -14,6 +14,7 @@ function QuestionaireHistory() {
   var [postsPerPage, setPostPerPage] = useState(10);
   const [totalDataLenght, setTotalDataLenght] = useState();
   const [currentRecords, setCurrentRecord] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
   const [dto, seDto] = useState({
     limit: 10,
     page: 1,
@@ -45,9 +46,11 @@ function QuestionaireHistory() {
   }
 
   function getAllHistoryListing() {
+    console.log("dto", dto);
     apiCall("post", getQuestionaireHistoryList, dto, true)
       .then((res) => {
         setTotalDataLenght(res?.data?.data?.count);
+        setTotalPages(Math.ceil(res?.data?.data?.count / postsPerPage));
         setCurrentRecord(res?.data?.data?.rows);
         getResultScore(res?.data?.data?.rows);
       })
@@ -55,10 +58,13 @@ function QuestionaireHistory() {
   }
   useEffect(() => {
     getAllHistoryListing();
-  }, []);
+  }, [dto?.page]);
+
+
 
   const paginate = ({ selected }) => {
     setCurrentPage(selected + 1);
+    seDto({ ...dto, page: selected + 1 });
   };
   function getTestStatus(testObj) {
     var status = "";
@@ -99,7 +105,29 @@ function QuestionaireHistory() {
 
   function downloadExcel() {
     const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.table_to_sheet(document.getElementById("myTable"));
+    const table = document.getElementById("myTable");
+    const ws = XLSX.utils.table_to_sheet(table);
+  
+    // Extract hyperlinks from the table
+    const hyperlinks = [];
+    const rows = table.querySelectorAll("tr");
+  
+    rows.forEach((row, rowIndex) => {
+      row.querySelectorAll("td").forEach((cell, colIndex) => {
+        const anchor = cell.querySelector("a");
+        if (anchor) {
+          hyperlinks.push({
+            ref: XLSX.utils.encode_cell({ r: rowIndex, c: colIndex }), // Cell reference
+            hyperlink: anchor.href, // Link URL
+            tooltip: anchor.innerText || "Link",
+          });
+        }
+      });
+    });
+  
+    // Add hyperlinks to the sheet
+    ws["!hyperlinks"] = hyperlinks;
+  
     XLSX.utils.book_append_sheet(wb, ws, "TestHistory");
     XLSX.writeFile(wb, "TestHistory.xlsx");
   }
@@ -175,7 +203,7 @@ function QuestionaireHistory() {
                   <td style={{ fontSize: "14px" }}>{ele.userEmail}</td>
                   <td style={{ fontSize: "14px" }}>
                     {new Date(ele.createdAt)
-                      .toLocaleDateString()
+                      .toLocaleDateString('en-GB')
                       .padStart(10, "0")}
                   </td>
                   <td style={{ fontSize: "14px" }}>

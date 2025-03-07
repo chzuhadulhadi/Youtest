@@ -20,6 +20,9 @@ import { json } from "react-router-dom";
 import htmlToDraft from "html-to-draftjs";
 import { ContentState } from "draft-js";
 import { formToJSON } from "axios";
+import Joyride from 'react-joyride';
+import { useTour } from '@reactour/tour'
+
 function MailingPageUI(params) {
   const navigate = useNavigate();
   const [showBox, setShowBox] = useState(false);
@@ -35,6 +38,7 @@ function MailingPageUI(params) {
     headingTextContent: "",
     imageUrl: "",
   });
+  const { setIsOpen } = useTour()
 
   const [beforeTextState, setBeforeTextState] = useState(() =>
     EditorState.createEmpty()
@@ -266,10 +270,39 @@ function MailingPageUI(params) {
     addNewElement("mainNav1");
   }, []);
 
+  const [runTour, setRunTour] = useState(true);
+
+ 
+
+  // const startTour = () => {
+  //   setRunTour(true);
+  // };
+
+  useEffect(() => {
+    setIsOpen(true);
+  }, []);
+
   return (
     <div className="fullWidth">
+     {/* <Joyride
+      steps={steps}
+      run={runTour}
+      continuous
+      showSkipButton={false}
+      showProgress={false}
+      disableOverlay={true}
+      disableBeacon={true} 
+      spotlightClicks={true} 
+      callback={(data) => {
+        if (data.status === "finished" || data.status === "skipped") {
+          setRunTour(false);
+        }
+      }}
+    /> */}
+
       <div className="dashboard">
-        <h2> {namingConvention[selectedDiv]} </h2>
+        <div className="das">
+        <h2 >{namingConvention[selectedDiv]}</h2>
         <h5
           onClick={() => {
             setShowTextEditor(true);
@@ -294,7 +327,8 @@ function MailingPageUI(params) {
           Change Colors
         </h5>
 
-        <h5 onClick={hideFunctionality}>Close sidear</h5>
+        <h5 onClick={hideFunctionality}>Close Side Panel</h5>
+        </div>
       </div>
       <div className="pageSection" style={{ width: "100%" }}>
         <div className="sectionToGet">
@@ -674,7 +708,8 @@ function MailingPageUI(params) {
           </button>
         </div>
       </div>
-    </div>
+    
+      </div>
   );
 }
 
