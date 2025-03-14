@@ -74,7 +74,7 @@ module.exports = {
 		return await landingPageService.deleteLandingPage(obj)
 	},
 	updateLandingPage: async function (obj) {
-		console.log(obj.testId);
+		console.log(obj,obj.id);
 		return await landingPageService.updateLandingPage(obj, { where: { id: obj.id } })
 	},
 };

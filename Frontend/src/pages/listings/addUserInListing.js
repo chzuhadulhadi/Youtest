@@ -48,6 +48,7 @@ function AddUserInList() {
     name: "",
   });
   const [showExampleModal, setShowExampleModal] = useState(false);
+  const [totalPages, setTotalPages] = useState(1);
 
   const handleCloseExampleModal = () => setShowExampleModal(false);
   const handleShowExampleModal = () => setShowExampleModal(true);
@@ -104,6 +105,7 @@ function AddUserInList() {
 
   const paginate = ({ selected }) => {
     setCurrentPage(selected + 1);
+    setMailingListData({ ...mailingListData, page: selected + 1 });
   };
 
   const [forceRender, setForceRender] = useState(false);
@@ -122,6 +124,7 @@ function AddUserInList() {
       .then((res) => {
         setMailingList(res?.data?.data?.rows);
         setTotalDataLenght(res?.data?.data?.count);
+        setTotalPages(Math.ceil(res?.data?.data?.count / postsPerPage));
       })
       .catch((err) => {
         showToastMessage(err?.response?.data?.message, "red", 2);
@@ -765,7 +768,7 @@ function AddUserInList() {
             <div className=" paginate">
               <ReactPaginate
                 onPageChange={paginate}
-                pageCount={Math.ceil(totalDataLenght / postsPerPage)}
+                pageCount={totalPages}
                 previousLabel={"<"}
                 nextLabel={">"}
                 containerClassName={"pagination"}

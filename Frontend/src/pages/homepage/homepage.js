@@ -13,10 +13,33 @@ import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
 import { apiCall } from "../../apiCalls/apiCalls";
 import { getPackage } from "../../apiCalls/apiRoutes";
+import { serverUrl } from "../../apiCalls/apiRoutes";
 
-const handleSubmit = (event) => {
+const handleSubmit = async (event) => {
   event.preventDefault();
-  window.location.href = "mailto:Areilbk@gmail.com";
+  
+  const formData = new FormData(event.target);
+  const emailData = {
+    firstName: formData.get('firstName'),
+    lastName: formData.get('lastName'),
+    email: formData.get('email'),
+    message: formData.get('textarea'),
+  };
+
+  try {
+    const response = await fetch(serverUrl+'api/user/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(emailData),
+    });
+    console.log(response.data);
+    // Optionally, handle success (e.g., show a success message)
+  } catch (error) {
+    console.error("Error sending email:", error);
+    // Optionally, handle error (e.g., show an error message)
+  }
 };
 
 function Home({ loginCheck }) {
@@ -233,6 +256,7 @@ function Home({ loginCheck }) {
                     <Grid item xs={12} sm={6}>
                       <TextField
                         fullWidth
+                        name="firstName"
                         label="First Name"
                         variant="outlined"
                         required
@@ -241,6 +265,7 @@ function Home({ loginCheck }) {
                     <Grid item xs={12} sm={6}>
                       <TextField
                         fullWidth
+                        name="lastName"
                         label="Last Name"
                         variant="outlined"
                         required
@@ -249,6 +274,7 @@ function Home({ loginCheck }) {
                     <Grid item xs={12}>
                       <TextField
                         fullWidth
+                        name="email"
                         label="Email"
                         type="email"
                         variant="outlined"
@@ -259,6 +285,7 @@ function Home({ loginCheck }) {
                       <TextField
                         fullWidth
                         id="textarea"
+                        name="textarea"
                         label="Message"
                         multiline
                         rows={4}

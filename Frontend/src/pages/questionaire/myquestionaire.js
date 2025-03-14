@@ -37,6 +37,7 @@ function MyQuestionaire() {
   const [userDataArray, setUserDataArray] = useState([]);
 
   const [data, setData] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
 
   const duplicateTest = (index) => {
     // Get the current row data
@@ -76,6 +77,7 @@ function MyQuestionaire() {
 
   const paginate = ({ selected }) => {
     setCurrentPage(selected + 1);
+    setDto({ ...dto, page: selected + 1 });
   };
 
   const [dto, setDto] = useState({
@@ -89,6 +91,7 @@ function MyQuestionaire() {
           setData(response?.data?.data?.rows);
           setShowTable(true);
           setTotalDataLenght(response?.data?.data?.count);
+          setTotalPages(Math.ceil(response?.data?.data?.count / postsPerPage));
         } else {
           setShowTable(false);
         }
@@ -241,7 +244,7 @@ function MyQuestionaire() {
                   <thead>
                     <tr>
                       <th>Select</th>
-                      <th>Sr No.</th>
+                      <th>Test No.</th>
                       <th>Name</th>
                       <th>No Of Questions</th>
                       <th>Time In Mins</th>
@@ -271,7 +274,7 @@ function MyQuestionaire() {
                                 }}
                               />
                             </td>
-                            <td>{index + 1}</td>
+                            <td>{ ele.id}</td>
                             <td>{ele.name}</td>
                             <td>{questionCount(ele)}</td>
                             <td>{ele.timeLimit}</td>
@@ -353,6 +356,21 @@ function MyQuestionaire() {
                     </div>
                   </div>
                 </table>
+                {totalDataLenght > postsPerPage && (
+                  <ReactPaginate
+                    onPageChange={paginate}
+                    pageCount={totalPages}
+                    nextLabel="next >"
+                    pageRangeDisplayed={3}
+                    previousLabel="< previous"
+                    breakLabel={"..."}
+                    breakClassName={'break-me'}
+                    marginPagesDisplayed={5}
+                    containerClassName={'pagination'}
+                    subContainerClassName={'pages pagination'}
+                    activeClassName={'active'}
+                  />
+                )}
               </div>
             </div>
           </div>

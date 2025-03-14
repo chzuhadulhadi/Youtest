@@ -21,7 +21,6 @@ import { json } from "react-router-dom";
 import { convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import { formToJSON } from "axios";
-import Joyride from 'react-joyride';
 
 function EditLandingPage(params) {
   const [id, setId] = useState(0);
@@ -63,7 +62,7 @@ function EditLandingPage(params) {
   // }, [showTextEditor])
 
   useEffect(() => {
-    apiCall("post", getLandingPage, { limit: 2, page: 1, id: emailToDeal })
+    apiCall("post", getLandingPage, { limit: 1, page: 1, id: emailToDeal })
       .then((res) => {
         document.getElementById("appendData").innerHTML =
           res?.data?.data?.rows[0]?.html;
@@ -247,62 +246,37 @@ function EditLandingPage(params) {
   });
 
   const savePageFunctionality = () => {
-    const fullhtml = document.querySelector(".sectionToGet").innerHTML;
-    console.log(fullhtml);
-    apiCall("post", updateLandingPage, {
-      html: fullhtml,
-      id: emailToDeal,
-      testId: attachedTest,
-    })
-      .then((res) => {
-        if (res.status == 200) {
-          showToastMessage("Landing Page added Successfully ", "green", 1);
-          navigate("/dashboard/landing-pages");
-        }
+    const fullhtml = document.getElementById("appendData").innerHTML;
+
+    if (fullhtml) {
+      const convertedHtml = fullhtml.trim(); 
+      apiCall("post", updateLandingPage, {
+        html: convertedHtml,
+        id: emailToDeal,
+        testId: attachedTest,
       })
-      .catch((err) => {
-        showToastMessage(err?.response?.data?.message, "red", 2);
-      });
+        .then((res) => {
+          if (res.status === 200) {
+            showToastMessage("Landing Page updated Successfully ", "green", 1);
+            setBeforeTextState(EditorState.createEmpty());
+            setBeforeTestTextHtml("");
+            setAttachedTest(null);
+            navigate("/dashboard/my-landing-pages");
+          }
+        })
+        .catch((err) => {
+          showToastMessage(err?.response?.data?.message, "red", 2);
+        });
+    } else {
+      showToastMessage("Element with class 'sectionToGet' not found", "red", 2);
+    }
   };
 
-  const steps = [
-    {
-      target: '.dashboard',
-      content: 'This is the dashboard where you can manage your sections.',
-    },
-    {
-      target: '.pageSection',
-      content: 'This is the main area where your content will be displayed.',
-    },
-    {
-      target: '#formsubmitbutton',
-      content: 'Click here to submit your form.',
-    },
-  ];
-
-  const [runTour, setRunTour] = useState(false);
-
-  const startTour = () => {
-    setRunTour(true);
-    console.log('startTour');
-  };
 
   return (
     <div className="fullWidth">
      
       <div className="dashboard">
-      <Joyride
-        steps={steps}
-        run={true}
-        continuous
-        showSkipButton
-        callback={(data) => {
-          if (data.status === 'finished' || data.status === 'skipped') {
-            setRunTour(false);
-          }
-        }}
-      />
-      <button onClick={startTour}>Start Tour</button>
         <h2 data-tooltip="This is the current section"> {namingConvention[selectedDiv]} </h2>
         <h5
           onClick={() => {
@@ -331,8 +305,6 @@ function EditLandingPage(params) {
           Change Colors
         </h5>
         <h5 onClick={hideFunctionality} data-tooltip="Close the sidebar">Close sidebar</h5>
-        <button onClick={() => {/* Logic for skipping */}} data-tooltip="Skip to the next section">Skip</button>
-        <button onClick={() => {/* Logic for next section */}} data-tooltip="Go to the next section">Next</button>
       </div>
       <div className="pageSection">
         <div className="sectionToGet">

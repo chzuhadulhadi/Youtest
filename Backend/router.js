@@ -21,6 +21,7 @@ const {
     getResults,
     sendUserInfo,
     handleIPN,
+    sendContactInfo,
 
     getMyTest,
     startTest,
@@ -91,6 +92,7 @@ router.post('/api/user/verifyemail', verifyEmail);
 router.post('/api/user/forgotpassword', forgotPass);
 router.post('/api/user/resetpassword', resetPassword);
 router.post('/api/user/myprofile', verifyJwt, myInfo);
+router.post('/api/user/send-email', sendContactInfo);
 // router.post('/api/user/checkOtp', checkOtp);
 // router.post('/api/user/sendOtp', sendOtp);
 
@@ -138,6 +140,7 @@ router.post('/api/landingPage/updateLandingPage', verifyJwt, updateLandingPage);
 router.post('/api/landingPage/deleteLandingPage', verifyJwt, deleteLandingPage);
 router.post('/api/landingPage/getAttachedTest', verifyJwt, getAttachedTest);
 router.post('/api/landingPage/UserInfo',verifyJwt,sendUserInfo);
+
 // router.post('/api/landingPage/getAttachedTest', verifyJwt, g);
 
 

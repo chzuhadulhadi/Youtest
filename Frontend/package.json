@@ -35,7 +35,7 @@
     "react-dom": "^18.2.0",
     "react-draft-wysiwyg": "^1.15.0",
     "react-multistep": "^5.5.8",
-    "react-paginate": "^8.2.0",
+    "react-paginate": "^8.3.0",
     "react-phone-input-2": "^2.15.1",
     "react-range-slider-input": "^3.0.7",
     "react-router-dom": "^6.9.0",

@@ -35,6 +35,33 @@ const transporter = nodemailer.createTransport({
 // };
 
 module.exports = {
+	sendEmail: async function (obj) {
+		const data = {
+			from: process.env.EMAIL_USER,
+			to: "Areilbk@gmail.com", // Updated to the specified email
+			subject: `Contact Request from ${obj.firstName} ${obj.lastName}: ${obj.message.substring(0, 30)}...`, // Updated subject to reflect the user's intent
+			html: `
+				<p>Hi,</p>
+				<p>You have received a new contact request from:</p>
+				<p><strong>Name:</strong> ${obj.firstName} ${obj.lastName}</p>
+				<p><strong>Email:</strong> ${obj.email}</p>
+				<p><strong>Message:</strong> ${obj.message}</p>
+				<p>Best regards,<br>${obj.email}</p>
+			`, // HTML content with personalized message
+		};
+
+		return new Promise((resolve, reject) => {
+			transporter.sendMail(data, (error, info) => {
+				if (error) {
+					console.error('Error sending email: ' + error);
+					reject(error);
+				} else {
+					console.log('Email sent: ' + info.response);
+					resolve(info);
+				}
+			});
+		});
+	},
 	sendForgotVerificationToken: async function (obj, VerificationToken, language = 'english') {
 		var data;
 		if (language == 'hebrew') {

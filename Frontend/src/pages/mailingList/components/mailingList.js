@@ -20,7 +20,6 @@ import { json } from "react-router-dom";
 import htmlToDraft from "html-to-draftjs";
 import { ContentState } from "draft-js";
 import { formToJSON } from "axios";
-import Joyride from 'react-joyride';
 import { useTour } from '@reactour/tour'
 
 function MailingPageUI(params) {
@@ -250,7 +249,7 @@ function MailingPageUI(params) {
         .then((res) => {
           if (res.status === 200) {
             showToastMessage("Landing Page added Successfully", "green", 1);
-            navigate("/dashboard/mytest");
+            navigate("/dashboard/my-landing-pages");
             // You can add code here to navigate to the dashboard if needed.
           }
         })

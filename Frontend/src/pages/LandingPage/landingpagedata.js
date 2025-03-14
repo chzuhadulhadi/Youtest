@@ -13,9 +13,10 @@ function LandingPageData() {
   var [postsPerPage, setPostPerPage] = useState(10);
   const [totalDataLenght, setTotalDataLenght] = useState();
   const [currentRecords, setCurrentRecord] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const [dto, seDto] = useState({
-    limit: 10,
+  const [dto, setDto] = useState({
+    limit: 50,
     page: 1,
   });
   const date = new Date();
@@ -47,10 +48,14 @@ function LandingPageData() {
   function getAllHistoryListing() {
     apiCall("post", getQuestionaireHistoryList, dto, true)
       .then((res) => {
-        console.log("res", res.data.data.rows[0].landingPageData);
-        setTotalDataLenght(res?.data?.data?.count);
-        setCurrentRecord(res?.data?.data?.rows);
-        getResultScore(res?.data?.data?.rows);
+        const filteredData = res.data.data.rows.filter(value => value.landingPageData?.email);
+        console.log(filteredData);
+        console.log("res", filteredData[0]?.landingPageData);
+        
+        setTotalDataLenght(filteredData.length);
+        setTotalPages(Math.ceil(filteredData.length / postsPerPage));
+        setCurrentRecord(filteredData);
+        getResultScore(filteredData);
       })
       .catch((er) => console.log(""));
   }
@@ -60,6 +65,7 @@ function LandingPageData() {
 
   const paginate = ({ selected }) => {
     setCurrentPage(selected + 1);
+    setDto({ ...dto, page: selected + 1 });
   };
   function getTestStatus(testObj) {
     var status = "";
@@ -171,7 +177,7 @@ function LandingPageData() {
                 console.log("ele.landingPageData", ele.landingPageData);
                 return (
                   <tr key={index}>
-                    <td style={{ fontSize: "14px" }}>{index + 1}</td>
+                    <td style={{ fontSize: "14px" }}>{ele.id}</td>
                     <td style={{ fontSize: "14px" }}>
                       {ele.landingPageData.firstName}
                     </td>
@@ -223,14 +229,16 @@ function LandingPageData() {
       {totalDataLenght > postsPerPage && (
         <ReactPaginate
           onPageChange={paginate}
-          pageCount={Math.ceil(totalDataLenght / postsPerPage)}
-          previousLabel={"<"}
-          nextLabel={">"}
-          containerClassName={"pagination"}
-          pageLinkClassName={"page-number"}
-          previousLinkClassName={"page-number"}
-          nextLinkClassName={"page-number"}
-          activeLinkClassName={"active"}
+          pageCount={totalPages}
+          nextLabel="next >"
+          pageRangeDisplayed={3}
+          previousLabel="< previous"
+          breakLabel={"..."}
+          breakClassName={'break-me'}
+          marginPagesDisplayed={5}
+          containerClassName={'pagination'}
+          subContainerClassName={'pages pagination'}
+          activeClassName={'active'}
         />
       )}
     </div>

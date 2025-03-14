@@ -103,31 +103,35 @@ function QuestionaireHistory() {
   }
   console.log(frontEndPath + "filltest/" + "232423");
 
-  function downloadExcel() {
+  async function fetchAllHistory() {
+    const allDto = { limit: totalDataLenght, page: 1 }; // Fetch all records
+    const response = await apiCall("post", getQuestionaireHistoryList, allDto, true);
+    return response?.data?.data?.rows || [];
+  }
+
+  async function downloadExcel() {
+    const allRecords = await fetchAllHistory(); // Fetch all records
     const wb = XLSX.utils.book_new();
-    const table = document.getElementById("myTable");
-    const ws = XLSX.utils.table_to_sheet(table);
-  
-    // Extract hyperlinks from the table
-    const hyperlinks = [];
-    const rows = table.querySelectorAll("tr");
-  
-    rows.forEach((row, rowIndex) => {
-      row.querySelectorAll("td").forEach((cell, colIndex) => {
-        const anchor = cell.querySelector("a");
-        if (anchor) {
-          hyperlinks.push({
-            ref: XLSX.utils.encode_cell({ r: rowIndex, c: colIndex }), // Cell reference
-            hyperlink: anchor.href, // Link URL
-            tooltip: anchor.innerText || "Link",
-          });
-        }
-      });
-    });
-  
-    // Add hyperlinks to the sheet
-    ws["!hyperlinks"] = hyperlinks;
-  
+
+    // Define the columns to display
+    const formattedRecords = allRecords.map((record, index) => ({
+        number: record.number || index + 1, // Use index for numbering if not available
+        name: record.name,
+        userEmail: record.userEmail,
+        createdAt: new Date(record.createdAt).toLocaleDateString('en-GB'), // Format date
+        TestLink: frontEndPath + "filltest/" + record.id, // Actual Test Link URL
+        timeTaken: (
+            Math.abs(new Date(record.testEnd) - new Date(record.testStart)) /
+            1000 /
+            60
+        ).toFixed(2) + " Min", // Calculate time taken
+        status: getTestStatus(record), // Get status
+        score: !isNaN(resultsWithIds[record.id]) ? resultsWithIds[record.id] : "0.0",// Get score
+        ResultLink: frontEndPath + "/resultpage/" + record.id // Actual Results Link URL
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(formattedRecords); // Convert formatted records to a sheet
+
     XLSX.utils.book_append_sheet(wb, ws, "TestHistory");
     XLSX.writeFile(wb, "TestHistory.xlsx");
   }
@@ -244,7 +248,7 @@ function QuestionaireHistory() {
                     <a
                       target="blank"
                       style={{ textDecoration: "underline" }}
-                      href={"/resultpage/" + ele.id}
+                      href={frontEndPath+"/resultpage/" + ele.id}
                     >
                       See Results
                     </a>
@@ -259,13 +263,21 @@ function QuestionaireHistory() {
         <ReactPaginate
           onPageChange={paginate}
           pageCount={Math.ceil(totalDataLenght / postsPerPage)}
-          previousLabel={"<"}
-          nextLabel={">"}
-          containerClassName={"pagination"}
-          pageLinkClassName={"page-number"}
-          previousLinkClassName={"page-number"}
-          nextLinkClassName={"page-number"}
-          activeLinkClassName={"active"}
+          nextLabel="next >"
+          pageRangeDisplayed={3}
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+          // containerClassName={"pagination"}
+          // pageLinkClassName={"page-number"}
+          // previousLinkClassName={"page-number"}
+          // nextLinkClassName={"page-number"}
+          // activeLinkClassName={"active"}
+          breakLabel={"..."}
+          breakClassName={'break-me'}
+          marginPagesDisplayed={5}
+          containerClassName={'pagination'}
+          subContainerClassName={'pages pagination'}
+         activeClassName={'active'}
         />
       )}
     </div>

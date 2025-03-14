@@ -42,6 +42,7 @@ function Paper() {
   const [totalDataLenght, setTotalDataLenght] = useState(10);
   const [currentRecords, setCurrentRecord] = useState([]);
   const [isEdit, setIsEdit] = useState({});
+  const [totalPages, setTotalPages] = useState(1);
   const showToastMessage = (text, color, notify) => {
     if (notify == 1) {
       toast.success(text, {
@@ -58,6 +59,7 @@ function Paper() {
 
   const paginate = ({ selected }) => {
     setCurrentPage(selected + 1);
+    getAllLandingPages();
   };
 
   const getAllLandingPages = () => {
@@ -73,6 +75,7 @@ function Paper() {
       .then((res) => {
         setAllLandingPages(res.data.data.rows);
         setTotalDataLenght(res.data.data.count);
+        setTotalPages(Math.ceil(res.data.data.count / postsPerPage));
       })
       .catch((err) => {
         console.log(err);
@@ -92,7 +95,7 @@ function Paper() {
 
   useEffect(() => {
     getAllLandingPages();
-  }, [rendControl, currentPage]);
+  }, [currentPage]);
 
   useEffect(() => {
     getMailingListData();
@@ -338,7 +341,7 @@ function Paper() {
                   Landing Page Actions
                 </th>
                 <th style={{ textAlign: "center" }} scope="col">
-                  Landing Page Link
+                  Preview Landing Page
                 </th>
                 <th style={{ textAlign: "center" }} scope="col">
                   Landing Page Form
@@ -353,7 +356,7 @@ function Paper() {
                 ?.textContent?.trim();
               return (
                 <tr key={index}>
-                  <td style={{ fontSize: "16px" }}>{index + 1}</td>
+                  <td style={{ fontSize: "16px" }}>{ele.id}</td>
                   <td style={{ fontSize: "16px" }}>{firstText}</td>
                   <td style={{ fontSize: "16px" }}>
                     <span
@@ -457,14 +460,16 @@ function Paper() {
         {totalDataLenght > postsPerPage && (
           <ReactPaginate
             onPageChange={paginate}
-            pageCount={Math.ceil(totalDataLenght / postsPerPage)}
-            previousLabel={"<"}
-            nextLabel={">"}
-            containerClassName={"pagination"}
-            pageLinkClassName={"page-number"}
-            previousLinkClassName={"page-number"}
-            nextLinkClassName={"page-number"}
-            activeLinkClassName={"active"}
+            pageCount={totalPages}
+            nextLabel="next >"
+            pageRangeDisplayed={3}
+            previousLabel="< previous"
+            breakLabel={"..."}
+            breakClassName={'break-me'}
+            marginPagesDisplayed={5}
+            containerClassName={'pagination'}
+            subContainerClassName={'pages pagination'}
+            activeClassName={'active'}
           />
         )}
       </div>
