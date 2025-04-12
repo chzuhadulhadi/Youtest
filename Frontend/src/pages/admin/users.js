@@ -180,11 +180,17 @@ function Users() {
                     </button>
 
                     <button
-                      variant="text"
-                      onClick={() => handleDeleteUser(user.id)}
-                    >
-                      Delete
-                    </button>
+  variant="text"
+  onClick={() => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this user?");
+    if (confirmDelete) {
+      handleDeleteUser(user.id);
+    }
+  }}
+>
+  Delete
+</button>
+
                   </div>
                 </td>
               </TableRow>

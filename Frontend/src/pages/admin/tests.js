@@ -252,11 +252,17 @@ function Tests() {
                       Edit
                     </button>
                     <button
-                      variant="text"
-                      onClick={() => handleDeleteTest(test.id)}
-                    >
-                      Delete
-                    </button>
+  variant="text"
+  onClick={() => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this test?");
+    if (confirmDelete) {
+      handleDeleteTest(test.id);
+    }
+  }}
+>
+  Delete
+</button>
+
                   </div>
                 </td>
               </tr>

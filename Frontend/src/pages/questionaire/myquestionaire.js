@@ -287,17 +287,21 @@ function MyQuestionaire() {
                               </a>
                               |{" "}
                               <a
-                                style={{
-                                  cursor: "pointer",
-                                  color: "blue",
-                                  textDecoration: "underline",
-                                }}
-                                onClick={() => {
-                                  DeleteTest(ele.id);
-                                }}
-                              >
-                                Delete Test
-                              </a>
+  style={{
+    cursor: "pointer",
+    color: "blue",
+    textDecoration: "underline",
+  }}
+  onClick={() => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this test?");
+    if (confirmDelete) {
+      DeleteTest(ele.id);
+    }
+  }}
+>
+  Delete Test
+</a>
+
                               <a
                                 href="#"
                                 style={{ color: "blue" }}
