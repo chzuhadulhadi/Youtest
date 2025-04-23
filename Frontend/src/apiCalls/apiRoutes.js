@@ -7,12 +7,12 @@ export const environment = "C://Users/user/Downloads/";
 
 // export const frontEndPath = "https://test-fact.vercel.app/"
 
-//export const frontEndPath = "http://localhost:3000/";
+export const frontEndPath = "http://localhost:3000/";
 // export const local = "http://localhost:4000/";
 // export const serverUrl = "http://localhost:4000/";
 // export const serverImageUrl = "http://localhost:4000";
 
- export const frontEndPath = "http://3.83.243.222/";
+// export const frontEndPath = "http://3.83.243.222/";
 export const local = "http://3.83.243.222:4000/";
 export const serverUrl = "http://3.83.243.222:4000/";
 export const serverImageUrl = "http://3.83.243.222:4000";
