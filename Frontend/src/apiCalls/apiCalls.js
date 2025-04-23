@@ -21,7 +21,7 @@ export const apiCall = async (method, url, body, token) => {
     } catch (error) {
         if (error.response && error.response.status === 405) {
             console.log('Unauthorized access');
-            // handleUnauthorizedAccess();
+            if(error.response.data.message =='jwt expired') handleUnauthorizedAccess();
         }
         throw error;
     }
